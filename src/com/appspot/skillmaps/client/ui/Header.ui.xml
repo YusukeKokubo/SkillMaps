@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.menu {
+			float: left;
+		}
+		.sign {
+			float: right;
+		}
+		.demiliter {
+			margin: 0px 10px;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:HorizontalPanel styleName="{style.menu}">
+			<g:Anchor href="/">Home</g:Anchor>
+			<g:Label styleName="{style.demiliter}">|</g:Label>
+			<g:Anchor href="/mypage.html">MyPage</g:Anchor>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel styleName="{style.sign}">
+			<g:Label  ui:field="nickname"></g:Label>
+			<g:Label styleName="{style.demiliter}">|</g:Label>
+			<g:Anchor ui:field="signin">signin</g:Anchor>
+			<g:Label styleName="{style.demiliter}">|</g:Label>
+			<g:Anchor ui:field="signout">signout</g:Anchor>
+		</g:HorizontalPanel>
+		<h1>Skill Maps</h1>
+	</g:HTMLPanel>
+</ui:UiBinder>

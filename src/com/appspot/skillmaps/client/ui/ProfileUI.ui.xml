@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.profile {
+			margin: 0 50px 0 5px;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<h2>プロフィール</h2>
+		<g:HorizontalPanel>
+			<g:VerticalPanel styleName="{style.profile}">
+				<g:HTML><h3>自分のこと</h3></g:HTML>
+				<g:Label text="ID (半角英数字とハイフンのみ)" />
+				<g:TextBox ui:field="id" />
+				<g:Label text="なまえ" />
+				<g:TextBox ui:field="name" />
+				<g:Label text="自己紹介" />
+				<g:TextArea ui:field="selfIntroduction" characterWidth="20" visibleLines="4" />
+				<g:Button ui:field="submit" text="submit" />
+			</g:VerticalPanel>
+
+			<g:FormPanel ui:field="form">
+				<g:VerticalPanel>
+					<g:HTML><h3>アイコン</h3></g:HTML>
+					<g:Image ui:field="icon" />
+					<g:FileUpload ui:field="iconUploder" />
+					<g:Button ui:field="iconSubmit" text="submit" />
+				</g:VerticalPanel>
+			</g:FormPanel>
+		</g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>
