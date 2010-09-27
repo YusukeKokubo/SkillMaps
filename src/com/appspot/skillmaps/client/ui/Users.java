@@ -22,7 +22,7 @@ public class Users extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
 
         for (Profile user : users) {
-            usersPanel.add(new User(user));
+            usersPanel.add(new UserThumnail(user));
         }
     }
 

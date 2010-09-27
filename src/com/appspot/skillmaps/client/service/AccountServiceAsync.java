@@ -12,4 +12,6 @@ public interface AccountServiceAsync {
 
     void getUsers(AsyncCallback<Profile[]> callback);
 
+    void getUser(String id, AsyncCallback<Profile> callback);
+
 }

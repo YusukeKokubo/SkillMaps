@@ -53,6 +53,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Profile getUser(String id) {
+        return Datastore.query(pm).filter(pm.id.equal(id)).asSingle();
+    }
+
+    @Override
     public Profile[] getUsers() {
         List<Profile> result = Datastore.query(pm).filter(pm.id.isNotNull()).asList();
         return result.toArray(new Profile[0]);

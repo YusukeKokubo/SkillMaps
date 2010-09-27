@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class User extends Composite {
+public class UserThumnail extends Composite {
 
     private static UserUiBinder uiBinder = GWT.create(UserUiBinder.class);
 
-    interface UserUiBinder extends UiBinder<Widget, User> {
+    interface UserUiBinder extends UiBinder<Widget, UserThumnail> {
     }
 
     @UiField
@@ -38,10 +38,11 @@ public class User extends Composite {
     @UiField
     PopupPanel userDialog;
 
-    public User(Profile user) {
+    public UserThumnail(Profile user) {
         initWidget(uiBinder.createAndBindUi(this));
 
         id.setText(user.getId());
+        id.setHref("/user.html?id=" + user.getId());
         name.setText(user.getName());
         icon.setUrl("/images/icon/" + user.getIconKeyString());
 
