@@ -1,5 +1,7 @@
 package com.appspot.skillmaps.server.service;
 
+import java.util.List;
+
 import org.slim3.datastore.Datastore;
 
 import com.appspot.skillmaps.client.service.SkillService;
@@ -29,6 +31,10 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public Skill[] getSkills(String ownerEmail) {
-        return Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList().toArray(new Skill[0]);
+        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
+        for (Skill s : result) {
+            s.getRelation().getModelList();
+        }
+        return result.toArray(new Skill[0]);
     }
 }

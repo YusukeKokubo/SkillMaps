@@ -5,6 +5,7 @@ import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -74,7 +75,7 @@ public class UserUI extends Composite {
         name.setText(profile.getName());
         icon.setUrl("/images/icon/" + profile.getIconKeyString());
 
-        if (!login.isLoggedIn()) {
+        if (!login.isLoggedIn() || login.getEmailAddress().equals(profile.getUserEmail())) {
             addSkill.setVisible(false);
         }
 
@@ -145,9 +146,14 @@ public class UserUI extends Composite {
         });
     }
 
-    private Button makeAgreedButton(final Skill skill) {
-        if (!login.isLoggedIn()) {
+    private Widget makeAgreedButton(final Skill skill) {
+        if (!login.isLoggedIn() || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
+        }
+        for (SkillRelation rel : skill.getRelation().getModelList()) {
+            if (rel.getUserEmail().equals(login.getEmailAddress())) {
+                return new Label("賛同済み");
+            }
         }
         return new Button("自分も賛同する", new ClickHandler() {
             @Override
