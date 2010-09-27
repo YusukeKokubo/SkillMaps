@@ -62,8 +62,13 @@ public class UserUI extends Composite {
     @UiField
     Button cansel;
 
-    public UserUI(Login login, final Profile profile) {
+    Login login;
+    Profile profile;
+
+    public UserUI(final Login login, final Profile profile) {
         initWidget(uiBinder.createAndBindUi(this));
+        this.login = login;
+        this.profile = profile;
 
         id.setText(profile.getId());
         name.setText(profile.getName());
@@ -93,7 +98,7 @@ public class UserUI extends Composite {
                     @Override
                     public void onSuccess(Void result) {
                         Window.alert("追加しました");
-                        reloadSkills(profile);
+                        reloadSkills();
                     }
 
                     @Override
@@ -111,10 +116,10 @@ public class UserUI extends Composite {
             }
         });
 
-        reloadSkills(profile);
+        reloadSkills();
     }
 
-    private void reloadSkills(final Profile profile) {
+    private void reloadSkills() {
         form.hide();
         skills.clear(true);
         skills.setText(0, 0, "スキル");
@@ -125,34 +130,40 @@ public class UserUI extends Composite {
             @Override
             public void onSuccess(Skill[] result) {
                 for (int i = 0; i < result.length; i ++) {
-                    System.out.println(i);
                     final Skill skill = result[i];
                     skills.setText(i + 1, 0, skill.getName());
                     skills.setText(i + 1, 1, skill.getPoint().toString());
                     skills.setText(i + 1, 2, skill.getDescription());
-                    skills.setWidget(i + 1, 3, new Button("自分も賛同する", new ClickHandler() {
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            service.putSkill(skill, new AsyncCallback<Void>() {
-                                @Override
-                                public void onSuccess(Void result) {
-                                    Window.alert("更新しました");
-                                    reloadSkills(profile);
-                                }
-
-                                @Override
-                                public void onFailure(Throwable caught) {
-                                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-                                }
-                            });
-                        }
-                    }));
+                    skills.setWidget(i + 1, 3, makeAgreedButton(skill));
                 }
             }
 
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+            }
+        });
+    }
+
+    private Button makeAgreedButton(final Skill skill) {
+        if (!login.isLoggedIn()) {
+            return null;
+        }
+        return new Button("自分も賛同する", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                service.putSkill(skill, new AsyncCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        Window.alert("更新しました");
+                        reloadSkills();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                    }
+                });
             }
         });
     }
