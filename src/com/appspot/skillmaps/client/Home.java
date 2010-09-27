@@ -22,12 +22,12 @@ public class Home implements EntryPoint {
         service.login(GWT.getHostPageBaseURL(),
             new AsyncCallback<Login>() {
                 @Override
-                public void onSuccess(Login result) {
-                    RootPanel.get("header").add(new Header(result));
+                public void onSuccess(final Login login) {
+                    RootPanel.get("header").add(new Header(login));
                     service.getUsers(new AsyncCallback<Profile[]>() {
                         @Override
-                        public void onSuccess(Profile[] result) {
-                            RootPanel.get("users").add(new Users(result));
+                        public void onSuccess(Profile[] profile) {
+                            RootPanel.get("users").add(new Users(login, profile));
                         }
 
                         @Override

@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -18,11 +19,11 @@ public class Users extends Composite {
     @UiField
     VerticalPanel usersPanel;
 
-    public Users(Profile[] users) {
+    public Users(Login login, Profile[] users) {
         initWidget(uiBinder.createAndBindUi(this));
 
         for (Profile user : users) {
-            usersPanel.add(new UserThumnail(user));
+            usersPanel.add(new UserThumnail(login, user));
         }
     }
 

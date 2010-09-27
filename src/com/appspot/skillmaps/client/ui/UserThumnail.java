@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -38,7 +39,7 @@ public class UserThumnail extends Composite {
     @UiField
     PopupPanel userDialog;
 
-    public UserThumnail(Profile user) {
+    public UserThumnail(Login login, Profile user) {
         initWidget(uiBinder.createAndBindUi(this));
 
         id.setText(user.getId());
@@ -46,7 +47,7 @@ public class UserThumnail extends Composite {
         name.setText(user.getName());
         icon.setUrl("/images/icon/" + user.getIconKeyString());
 
-        final UserDetail detail = new UserDetail(user);
+        final UserUI detail = new UserUI(login, user);
         panel.addMouseOverHandler(new MouseOverHandler() {
             @Override
             public void onMouseOver(MouseOverEvent event) {
