@@ -22,8 +22,8 @@
 	<g:HTMLPanel>
 		<g:HorizontalPanel>
 				<g:VerticalPanel>
+					<g:Image ui:field="icon" />
 					<g:HorizontalPanel>
-						<g:Image ui:field="icon" />
 						<g:Anchor ui:field="id" />
 						<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 					</g:HorizontalPanel>
