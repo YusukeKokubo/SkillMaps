@@ -1,8 +1,11 @@
 package com.appspot.skillmaps.server.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-27 11:08:01")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-28 14:34:14")
 /** */
 public final class SkillRelationMeta extends org.slim3.datastore.ModelMeta<com.appspot.skillmaps.shared.model.SkillRelation> {
+
+    /** */
+    public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.SkillRelation> comment = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.SkillRelation>(this, "comment", "comment");
 
     /** */
     public final org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.SkillRelation, java.util.Date> createdAt = new org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.SkillRelation, java.util.Date>(this, "createdAt", "createdAt", java.util.Date.class);
@@ -45,6 +48,7 @@ public final class SkillRelationMeta extends org.slim3.datastore.ModelMeta<com.a
     @Override
     public com.appspot.skillmaps.shared.model.SkillRelation entityToModel(com.google.appengine.api.datastore.Entity entity) {
         com.appspot.skillmaps.shared.model.SkillRelation model = new com.appspot.skillmaps.shared.model.SkillRelation();
+        model.setComment((java.lang.String) entity.getProperty("comment"));
         model.setCreatedAt((java.util.Date) entity.getProperty("createdAt"));
         model.setKey(entity.getKey());
         if (model.getSkill() == null) {
@@ -66,6 +70,7 @@ public final class SkillRelationMeta extends org.slim3.datastore.ModelMeta<com.a
         } else {
             entity = new com.google.appengine.api.datastore.Entity(kind);
         }
+        entity.setProperty("comment", m.getComment());
         entity.setProperty("createdAt", m.getCreatedAt());
         if (m.getSkill() == null) {
             throw new NullPointerException("The property(skill) must not be null.");

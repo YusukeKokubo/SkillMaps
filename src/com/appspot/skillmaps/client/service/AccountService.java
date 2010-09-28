@@ -16,4 +16,6 @@ public interface AccountService extends RemoteService {
 
     Profile getUser(String id);
 
+    Profile[] getUsersByEmail(String[] emails);
+
 }

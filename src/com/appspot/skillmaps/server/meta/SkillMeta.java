@@ -1,6 +1,6 @@
 package com.appspot.skillmaps.server.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-27 11:08:01")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-28 14:34:13")
 /** */
 public final class SkillMeta extends org.slim3.datastore.ModelMeta<com.appspot.skillmaps.shared.model.Skill> {
 
@@ -9,6 +9,9 @@ public final class SkillMeta extends org.slim3.datastore.ModelMeta<com.appspot.s
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Skill> description = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Skill>(this, "description", "description");
+
+    /** */
+    public final org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, java.lang.Boolean> enable = new org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, java.lang.Boolean>(this, "enable", "enable", java.lang.Boolean.class);
 
     /** */
     public final org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, com.google.appengine.api.datastore.Key> key = new org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, com.google.appengine.api.datastore.Key>(this, "__key__", "key", com.google.appengine.api.datastore.Key.class);
@@ -27,9 +30,6 @@ public final class SkillMeta extends org.slim3.datastore.ModelMeta<com.appspot.s
 
     /** */
     public final org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, java.lang.Long> version = new org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, java.lang.Long>(this, "version", "version", java.lang.Long.class);
-
-    /** */
-    public final org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, java.lang.Boolean> visible = new org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Skill, java.lang.Boolean>(this, "visible", "visible", java.lang.Boolean.class);
 
     private static final org.slim3.datastore.CreationDate slim3_createdAtAttributeListener = new org.slim3.datastore.CreationDate();
 
@@ -54,13 +54,13 @@ public final class SkillMeta extends org.slim3.datastore.ModelMeta<com.appspot.s
         com.appspot.skillmaps.shared.model.Skill model = new com.appspot.skillmaps.shared.model.Skill();
         model.setCreatedAt((java.util.Date) entity.getProperty("createdAt"));
         model.setDescription((java.lang.String) entity.getProperty("description"));
+        model.setEnable((java.lang.Boolean) entity.getProperty("enable"));
         model.setKey(entity.getKey());
         model.setName((java.lang.String) entity.getProperty("name"));
         model.setOwnerEmail((java.lang.String) entity.getProperty("ownerEmail"));
         model.setPoint((java.lang.Long) entity.getProperty("point"));
         model.setUpdatedAt((java.util.Date) entity.getProperty("updatedAt"));
         model.setVersion((java.lang.Long) entity.getProperty("version"));
-        model.setVisible((java.lang.Boolean) entity.getProperty("visible"));
         return model;
     }
 
@@ -75,12 +75,12 @@ public final class SkillMeta extends org.slim3.datastore.ModelMeta<com.appspot.s
         }
         entity.setProperty("createdAt", m.getCreatedAt());
         entity.setProperty("description", m.getDescription());
+        entity.setProperty("enable", m.getEnable());
         entity.setProperty("name", m.getName());
         entity.setProperty("ownerEmail", m.getOwnerEmail());
         entity.setProperty("point", m.getPoint());
         entity.setProperty("updatedAt", m.getUpdatedAt());
         entity.setProperty("version", m.getVersion());
-        entity.setProperty("visible", m.getVisible());
         entity.setProperty("slim3.schemaVersion", 1);
         return entity;
     }

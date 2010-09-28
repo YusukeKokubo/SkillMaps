@@ -58,6 +58,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Profile[] getUsersByEmail(String[] emails) {
+        return Datastore.query(pm).filter(pm.userEmail.in(emails)).asList().toArray(new Profile[0]);
+    }
+
+    @Override
     public Profile[] getUsers() {
         List<Profile> result = Datastore.query(pm).filter(pm.id.isNotNull()).asList();
         return result.toArray(new Profile[0]);

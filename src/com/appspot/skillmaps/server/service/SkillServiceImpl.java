@@ -16,16 +16,14 @@ public class SkillServiceImpl implements SkillService {
     SkillMeta sm = SkillMeta.get();
 
     @Override
-    public void putSkill(Skill skill) {
+    public void putSkill(Skill skill, SkillRelation rel) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
 
-        SkillRelation rel = new SkillRelation();
         rel.getSkill().setModel(skill);
         skill.getRelation().getModelList().add(rel);
         skill.setPoint((long) skill.getRelation().getModelList().size());
-
         Datastore.put(skill, rel);
     }
 

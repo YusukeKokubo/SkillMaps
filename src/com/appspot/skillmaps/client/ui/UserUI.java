@@ -1,5 +1,7 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.service.AccountService;
+import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
@@ -22,6 +24,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class UserUI extends Composite {
@@ -29,6 +32,8 @@ public class UserUI extends Composite {
     private static UserUiBinder uiBinder = GWT.create(UserUiBinder.class);
 
     private final SkillServiceAsync service = GWT.create(SkillService.class);
+
+    private final AccountServiceAsync aService = GWT.create(AccountService.class);
 
     interface UserUiBinder extends UiBinder<Widget, UserUI> {
     }
@@ -66,6 +71,18 @@ public class UserUI extends Composite {
     Login login;
     Profile profile;
 
+    @UiField
+    DialogBox agreedForm;
+
+    @UiField
+    TextArea comment;
+
+    @UiField
+    Button agreedSubmit;
+
+    @UiField
+    Button agreedCansel;
+
     public UserUI(final Login login, final Profile profile) {
         initWidget(uiBinder.createAndBindUi(this));
         this.login = login;
@@ -95,7 +112,9 @@ public class UserUI extends Composite {
                 skill.setOwnerEmail(profile.getUserEmail());
                 skill.setName(skillName.getText());
                 skill.setDescription(description.getText());
-                service.putSkill(skill, new AsyncCallback<Void>() {
+                SkillRelation rel = new SkillRelation();
+                rel.setComment("");
+                service.putSkill(skill, rel, new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
                         Window.alert("追加しました");
@@ -122,6 +141,7 @@ public class UserUI extends Composite {
 
     private void reloadSkills() {
         form.hide();
+        agreedForm.hide();
         skills.clear(true);
         skills.setText(0, 0, "スキル");
         skills.setText(0, 1, "賛同者");
@@ -136,6 +156,20 @@ public class UserUI extends Composite {
                     skills.setText(i + 1, 1, skill.getPoint().toString());
                     skills.setText(i + 1, 2, skill.getDescription());
                     skills.setWidget(i + 1, 3, makeAgreedButton(skill));
+                    final VerticalPanel commentPanel = new VerticalPanel();
+                    Anchor showComment = new Anchor("詳細");
+                    commentPanel.add(showComment);
+                    showComment.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            if (commentPanel.getWidgetCount() > 1) {
+                                commentPanel.remove(1);
+                            } else {
+                                commentPanel.add(makeAgrees(skill));
+                            }
+                        }
+                    });
+                    skills.setWidget(i + 1, 4, commentPanel);
                 }
             }
 
@@ -146,28 +180,71 @@ public class UserUI extends Composite {
         });
     }
 
+    private FlexTable makeAgrees(final Skill skill) {
+        final FlexTable agrees = new FlexTable();
+        String[] emails = new String[skill.getRelation().getModelList().size()];
+        for (int i = 0; i < skill.getRelation().getModelList().size(); i ++) {
+            emails[i] = skill.getRelation().getModelList().get(i).getUserEmail();
+        }
+        aService.getUsersByEmail(emails, new AsyncCallback<Profile[]>() {
+            @Override
+            public void onSuccess(Profile[] profiles) {
+                for (int i = 0; i < profiles.length; i ++) {
+                    Profile p = profiles[i];
+                    Image icon = new Image("/images/icon/" + p.getIconKeyString());
+                    icon.setHeight("30px");
+                    icon.setWidth("30px");
+                    agrees.setWidget(i, 0, icon);
+                    agrees.setText(i, 1, p.getId());
+                    agrees.setText(i, 2, skill.getRelation().getModelList().get(i).getComment());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+        });
+        return agrees;
+    }
+
     private Widget makeAgreedButton(final Skill skill) {
         if (!login.isLoggedIn() || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
         }
         for (SkillRelation rel : skill.getRelation().getModelList()) {
             if (rel.getUserEmail().equals(login.getEmailAddress())) {
-                return new Label("賛同済み");
+                Label lbl = new Label("賛同済み");
+                return lbl;
             }
         }
         return new Button("自分も賛同する", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                service.putSkill(skill, new AsyncCallback<Void>() {
+                comment.setText("");
+                agreedForm.center();
+                agreedSubmit.addClickHandler(new ClickHandler() {
                     @Override
-                    public void onSuccess(Void result) {
-                        Window.alert("更新しました");
-                        reloadSkills();
-                    }
+                    public void onClick(ClickEvent event) {
+                        SkillRelation rel = new SkillRelation();
+                        rel.setComment(comment.getText());
+                        service.putSkill(skill, rel, new AsyncCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void result) {
+                                Window.alert("更新しました");
+                                reloadSkills();
+                            }
 
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                            }
+                        });
+                    }
+                });
+                agreedCansel.addClickHandler(new ClickHandler() {
                     @Override
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                    public void onClick(ClickEvent event) {
+                        agreedForm.hide();
                     }
                 });
             }

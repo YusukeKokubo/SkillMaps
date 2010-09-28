@@ -14,4 +14,6 @@ public interface AccountServiceAsync {
 
     void getUser(String id, AsyncCallback<Profile> callback);
 
+    void getUsersByEmail(String[] emails, AsyncCallback<Profile[]> callback);
+
 }

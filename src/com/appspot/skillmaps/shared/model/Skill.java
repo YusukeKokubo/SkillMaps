@@ -28,7 +28,7 @@ public class Skill implements Serializable {
 
     private String description;
 
-    private Boolean visible;
+    private Boolean enable;
 
     @Attribute(persistent=false)
     private InverseModelListRef<SkillRelation, Skill> relation = new InverseModelListRef<SkillRelation, Skill>(SkillRelation.class, "skill", this);
@@ -164,11 +164,11 @@ public class Skill implements Serializable {
         return ownerEmail;
     }
 
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
-    public Boolean getVisible() {
-        return visible;
+    public Boolean getEnable() {
+        return enable;
     }
 }
