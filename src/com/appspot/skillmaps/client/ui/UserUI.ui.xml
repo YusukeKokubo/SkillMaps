@@ -27,6 +27,7 @@
 						<g:Anchor ui:field="id" />
 						<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 					</g:HorizontalPanel>
+					<g:Label ui:field="selfIntroduction" />
 					<g:FlexTable ui:field="skills" styleName="{style.grid}" />
 					<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 				</g:VerticalPanel>
@@ -38,7 +39,7 @@
 						<g:TextArea ui:field="description" />
 						<g:HorizontalPanel>
 							<g:Button ui:field="submit" text="submit" />
-							<g:Button ui:field="cansel" text="cansel" />
+							<g:Button ui:field="cancel" text="cancel" />
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:DialogBox>
@@ -48,7 +49,7 @@
 						<g:TextArea ui:field="comment" />
 						<g:HorizontalPanel>
 							<g:Button ui:field="agreedSubmit" text="submit" />
-							<g:Button ui:field="agreedCansel" text="cansel" />
+							<g:Button ui:field="agreedCancel" text="cancel" />
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:DialogBox>

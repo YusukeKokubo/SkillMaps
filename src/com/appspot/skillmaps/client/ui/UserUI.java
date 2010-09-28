@@ -45,6 +45,9 @@ public class UserUI extends Composite {
     Label name;
 
     @UiField
+    Label selfIntroduction;
+
+    @UiField
     Image icon;
 
     @UiField
@@ -66,7 +69,7 @@ public class UserUI extends Composite {
     Button submit;
 
     @UiField
-    Button cansel;
+    Button cancel;
 
     Login login;
     Profile profile;
@@ -81,7 +84,7 @@ public class UserUI extends Composite {
     Button agreedSubmit;
 
     @UiField
-    Button agreedCansel;
+    Button agreedCancel;
 
     public UserUI(final Login login, final Profile profile) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -91,6 +94,7 @@ public class UserUI extends Composite {
         id.setText(profile.getId());
         name.setText(profile.getName());
         icon.setUrl("/images/icon/" + profile.getIconKeyString());
+        selfIntroduction.setText(profile.getSelfIntroduction());
 
         if (!login.isLoggedIn() || login.getEmailAddress().equals(profile.getUserEmail())) {
             addSkill.setVisible(false);
@@ -129,7 +133,7 @@ public class UserUI extends Composite {
             }
         });
 
-        cansel.addClickHandler(new ClickHandler() {
+        cancel.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 form.hide();
@@ -241,7 +245,7 @@ public class UserUI extends Composite {
                         });
                     }
                 });
-                agreedCansel.addClickHandler(new ClickHandler() {
+                agreedCancel.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         agreedForm.hide();
