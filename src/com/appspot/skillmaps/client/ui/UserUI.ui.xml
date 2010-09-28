@@ -18,6 +18,9 @@
 		.grid tr {
 			margin: 0 5px;
 		}
+		.grid {
+			width: 500px;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel>

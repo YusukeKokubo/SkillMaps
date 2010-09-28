@@ -2,25 +2,16 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		.user-dialog {
-			border: 2px solid #ABB8C7;
-			width: 300px;
-			padding: 15px;
-			background-color: #ffffff;
-		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel>
-			<g:FocusPanel ui:field="panel">
-				<g:VerticalPanel>
-					<g:HorizontalPanel>
-						<g:Image ui:field="icon" width="30px" height="30px" />
-						<g:Anchor ui:field="id" />
-						<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
-					</g:HorizontalPanel>
-				</g:VerticalPanel>
-			</g:FocusPanel>
-			<g:PopupPanel ui:field="userDialog" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
+			<g:VerticalPanel>
+				<g:HorizontalPanel>
+					<g:Image ui:field="icon" width="30px" height="30px" />
+					<g:Anchor ui:field="id" />
+					<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
 		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder>
