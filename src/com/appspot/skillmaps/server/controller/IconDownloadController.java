@@ -24,7 +24,14 @@ public class IconDownloadController extends Controller {
             return null;
         }
         if (request.getHeader("If-Modified-Since") != null) {
-            if (Long.valueOf(request.getHeader("If-Modified-Since")) >= i.getUpdatedAt().getTime()) {
+            long v = 0L;
+            try {
+                v = request.getDateHeader("If-Modified-Since");
+            } catch (IllegalArgumentException ex) {
+                v = Long.valueOf(request.getHeader("If-Modified-Since"));
+            }
+
+            if (v >= i.getUpdatedAt().getTime()) {
                 response.setHeader("Last-Modified", String.valueOf(i.getUpdatedAt().getTime()));
                 response.setStatus(304);
                 return null;
