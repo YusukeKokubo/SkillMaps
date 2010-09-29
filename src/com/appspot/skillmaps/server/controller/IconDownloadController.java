@@ -1,6 +1,7 @@
 package com.appspot.skillmaps.server.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 import javax.servlet.ServletOutputStream;
@@ -44,6 +45,8 @@ public class IconDownloadController extends Controller {
                     .getTime();
             if (v / 1000 >= i.getUpdatedAt().getTime() / 1000) {
                 response.setHeader("Last-Modified", rfc1123DateFormat.format(i.getUpdatedAt()));
+                response.setDateHeader("Date", new Date().getTime());
+                response.setDateHeader("Expires", new Date().getTime() + 1000 * 60 * 60);
                 response.setStatus(304);
                 return null;
             }
@@ -54,6 +57,8 @@ public class IconDownloadController extends Controller {
         response.setContentType("image/"
             + image.getFormat().name().toLowerCase());
         response.setHeader("Last-Modified", rfc1123DateFormat.format(i.getUpdatedAt()));
+        response.setDateHeader("Date", new Date().getTime());
+        response.setDateHeader("Expires", new Date().getTime() + 1000 * 60 * 60);
         ServletOutputStream out = response.getOutputStream();
         try {
             out.write(i.getImage());
