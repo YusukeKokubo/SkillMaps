@@ -1,6 +1,6 @@
 package com.appspot.skillmaps.server.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-27 11:08:01")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-29 08:56:16")
 /** */
 public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot.skillmaps.shared.model.Profile> {
 
@@ -21,6 +21,12 @@ public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> name = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "name", "name");
+
+    /** */
+    public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> profileUrl1 = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "profileUrl1", "profileUrl1");
+
+    /** */
+    public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> profileUrl2 = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "profileUrl2", "profileUrl2");
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> selfIntroduction = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "selfIntroduction", "selfIntroduction");
@@ -63,6 +69,8 @@ public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot
         model.setId((java.lang.String) entity.getProperty("id"));
         model.setKey(entity.getKey());
         model.setName((java.lang.String) entity.getProperty("name"));
+        model.setProfileUrl1((java.lang.String) entity.getProperty("profileUrl1"));
+        model.setProfileUrl2((java.lang.String) entity.getProperty("profileUrl2"));
         model.setSelfIntroduction((java.lang.String) entity.getProperty("selfIntroduction"));
         model.setUpdatedAt((java.util.Date) entity.getProperty("updatedAt"));
         model.setUserEmail((java.lang.String) entity.getProperty("userEmail"));
@@ -84,6 +92,8 @@ public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot
         entity.setProperty("iconKeyString", m.getIconKeyString());
         entity.setProperty("id", m.getId());
         entity.setProperty("name", m.getName());
+        entity.setProperty("profileUrl1", m.getProfileUrl1());
+        entity.setProperty("profileUrl2", m.getProfileUrl2());
         entity.setProperty("selfIntroduction", m.getSelfIntroduction());
         entity.setProperty("updatedAt", m.getUpdatedAt());
         entity.setProperty("userEmail", m.getUserEmail());
