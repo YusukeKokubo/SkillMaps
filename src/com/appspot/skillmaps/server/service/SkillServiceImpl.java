@@ -3,6 +3,7 @@ package com.appspot.skillmaps.server.service;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
+import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.server.meta.SkillMeta;
@@ -20,6 +21,8 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
+
+        if (StringUtil.isEmpty(skill.getName())) throw new IllegalArgumentException("skill name is null");
 
         rel.getSkill().setModel(skill);
         skill.getRelation().getModelList().add(rel);
