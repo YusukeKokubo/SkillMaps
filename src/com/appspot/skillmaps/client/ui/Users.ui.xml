@@ -4,7 +4,7 @@
 	<ui:style>
 		.user-dialog {
 			border: 2px solid #ABB8C7;
-			width: 500px;
+			width: 650px;
 			padding: 15px;
 			background-color: #ffffff;
 		}

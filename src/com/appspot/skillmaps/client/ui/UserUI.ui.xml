@@ -4,7 +4,7 @@
 	<ui:style>
 		.form {
 			border: 2px solid #ABB8C7;
-			width: 300px;
+			width: 650px;
 			padding: 15px;
 			background-color: #ffffff;
 		}
@@ -19,7 +19,7 @@
 			margin: 0 5px;
 		}
 		.grid {
-			width: 500px;
+			width: 600px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -31,6 +31,8 @@
 						<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 					</g:HorizontalPanel>
 					<g:Label ui:field="selfIntroduction" />
+					<g:Anchor ui:field="profileUrl1" target="_blank" />
+					<g:Anchor ui:field="profileUrl2" target="_blank" />
 					<g:FlexTable ui:field="skills" styleName="{style.grid}" />
 					<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 				</g:VerticalPanel>

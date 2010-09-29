@@ -46,6 +46,12 @@ public class ProfileUI extends Composite {
     TextArea selfIntroduction;
 
     @UiField
+    TextBox profileUrl1;
+
+    @UiField
+    TextBox profileUrl2;
+
+    @UiField
     Image icon;
 
     @UiField
@@ -70,6 +76,8 @@ public class ProfileUI extends Composite {
         id.setText(p.getId());
         name.setText(p.getName());
         selfIntroduction.setText(p.getSelfIntroduction());
+        profileUrl1.setText(p.getProfileUrl1());
+        profileUrl2.setText(p.getProfileUrl2());
         if (p.getIconKey() != null) icon.setUrl("/images/icon/" + p.getIconKeyString());
         form.setEncoding(FormPanel.ENCODING_MULTIPART);
         form.setMethod(FormPanel.METHOD_POST);
@@ -81,6 +89,8 @@ public class ProfileUI extends Composite {
                 p.setId(id.getText());
                 p.setName(name.getText());
                 p.setSelfIntroduction(selfIntroduction.getText());
+                p.setProfileUrl1(profileUrl1.getText());
+                p.setProfileUrl2(profileUrl2.getText());
                 service.putProfile(p, new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {

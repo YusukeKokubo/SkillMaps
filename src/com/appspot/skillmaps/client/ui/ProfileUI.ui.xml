@@ -17,6 +17,9 @@
 				<g:TextBox ui:field="name" />
 				<g:Label text="自己紹介" />
 				<g:TextArea ui:field="selfIntroduction" characterWidth="20" visibleLines="4" />
+				<g:Label text="プロフィールURL(2つまで)" />
+				<g:TextBox ui:field="profileUrl1" visibleLength="60" />
+				<g:TextBox ui:field="profileUrl2" visibleLength="60" />
 				<g:Button ui:field="submit" text="submit" />
 			</g:VerticalPanel>
 

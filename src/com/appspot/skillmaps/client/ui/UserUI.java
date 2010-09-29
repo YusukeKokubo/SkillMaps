@@ -48,6 +48,12 @@ public class UserUI extends Composite {
     Label selfIntroduction;
 
     @UiField
+    Anchor profileUrl1;
+
+    @UiField
+    Anchor profileUrl2;
+
+    @UiField
     Image icon;
 
     @UiField
@@ -95,8 +101,12 @@ public class UserUI extends Composite {
         name.setText(profile.getName());
         icon.setUrl("/images/icon/" + profile.getIconKeyString());
         selfIntroduction.setText(profile.getSelfIntroduction());
+        profileUrl1.setHref(profile.getProfileUrl1());
+        profileUrl1.setText(profile.getProfileUrl1());
+        profileUrl2.setHref(profile.getProfileUrl2());
+        profileUrl2.setText(profile.getProfileUrl2());
 
-        if (!login.isLoggedIn() || login.getEmailAddress().equals(profile.getUserEmail())) {
+        if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
             addSkill.setVisible(false);
         }
 
@@ -200,7 +210,11 @@ public class UserUI extends Composite {
                     icon.setWidth("30px");
                     agrees.setWidget(i, 0, icon);
                     agrees.setText(i, 1, p.getId());
-                    agrees.setText(i, 2, skill.getRelation().getModelList().get(i).getComment());
+                    for (SkillRelation sr : skill.getRelation().getModelList()) {
+                        if (sr.getUserEmail().equals(p.getUserEmail())) {
+                            agrees.setText(i, 2, sr.getComment());
+                        }
+                    }
                 }
             }
 
@@ -212,7 +226,7 @@ public class UserUI extends Composite {
     }
 
     private Widget makeAgreedButton(final Skill skill) {
-        if (!login.isLoggedIn() || login.getEmailAddress().equals(profile.getUserEmail())) {
+        if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
         }
         for (SkillRelation rel : skill.getRelation().getModelList()) {

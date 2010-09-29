@@ -31,6 +31,10 @@ public class Profile implements Serializable {
     private Key iconKey;
     private String iconKeyString;
 
+    private String profileUrl1;
+
+    private String profileUrl2;
+
     @Attribute(listener=CreationEmail.class)
     private String userEmail;
 
@@ -170,5 +174,22 @@ public class Profile implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+
+    public String getProfileUrl1() {
+        return profileUrl1;
+    }
+
+    public void setProfileUrl1(String profileUrl1) {
+        this.profileUrl1 = profileUrl1;
+    }
+
+    public String getProfileUrl2() {
+        return profileUrl2;
+    }
+
+    public void setProfileUrl2(String profileUrl2) {
+        this.profileUrl2 = profileUrl2;
     }
 }
