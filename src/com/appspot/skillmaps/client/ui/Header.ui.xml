@@ -18,7 +18,7 @@
 			<g:Label styleName="{style.demiliter}">|</g:Label>
 			<g:Anchor href="/mypage.html">MyPage</g:Anchor>
 			<g:Label styleName="{style.demiliter}">|</g:Label>
-			<g:Anchor href="/users.html">Users</g:Anchor>
+			<g:Anchor href="/userlist.html">Users</g:Anchor>
 		</g:HorizontalPanel>
 		<g:HorizontalPanel styleName="{style.sign}">
 			<g:Label  ui:field="nickname"></g:Label>
