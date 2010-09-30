@@ -1,7 +1,5 @@
 package com.appspot.skillmaps.client.ui;
 
-import com.appspot.skillmaps.client.service.AccountService;
-import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
@@ -32,8 +30,6 @@ public class UserUI extends Composite {
     private static UserUiBinder uiBinder = GWT.create(UserUiBinder.class);
 
     private final SkillServiceAsync service = GWT.create(SkillService.class);
-
-    private final AccountServiceAsync aService = GWT.create(AccountService.class);
 
     interface UserUiBinder extends UiBinder<Widget, UserUI> {
     }
@@ -122,6 +118,7 @@ public class UserUI extends Composite {
         submit.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                submit.setEnabled(false);
                 Skill skill = new Skill();
                 skill.setOwnerEmail(profile.getUserEmail());
                 skill.setName(skillName.getText());
@@ -132,12 +129,14 @@ public class UserUI extends Composite {
                     @Override
                     public void onSuccess(Void result) {
                         Window.alert("追加しました");
+                        submit.setEnabled(true);
                         reloadSkills();
                     }
 
                     @Override
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                        submit.setEnabled(true);
                     }
                 });
             }
@@ -196,32 +195,16 @@ public class UserUI extends Composite {
 
     private FlexTable makeAgrees(final Skill skill) {
         final FlexTable agrees = new FlexTable();
-        String[] emails = new String[skill.getRelation().getModelList().size()];
         for (int i = 0; i < skill.getRelation().getModelList().size(); i ++) {
-            emails[i] = skill.getRelation().getModelList().get(i).getUserEmail();
+            SkillRelation sr = skill.getRelation().getModelList().get(i);
+            Profile p = sr.getProfile();
+            Image icon = new Image("/images/icon/" + p.getIconKeyString());
+            icon.setHeight("30px");
+            icon.setWidth("30px");
+            agrees.setWidget(i, 0, icon);
+            agrees.setText(i, 1, p.getId());
+            agrees.setText(i, 2, sr.getComment());
         }
-        aService.getUsersByEmail(emails, new AsyncCallback<Profile[]>() {
-            @Override
-            public void onSuccess(Profile[] profiles) {
-                for (int i = 0; i < profiles.length; i ++) {
-                    Profile p = profiles[i];
-                    Image icon = new Image("/images/icon/" + p.getIconKeyString());
-                    icon.setHeight("30px");
-                    icon.setWidth("30px");
-                    agrees.setWidget(i, 0, icon);
-                    agrees.setText(i, 1, p.getId());
-                    for (SkillRelation sr : skill.getRelation().getModelList()) {
-                        if (sr.getUserEmail().equals(p.getUserEmail())) {
-                            agrees.setText(i, 2, sr.getComment());
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-        });
         return agrees;
     }
 
@@ -243,18 +226,21 @@ public class UserUI extends Composite {
                 agreedSubmit.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
+                        agreedSubmit.setEnabled(false);
                         SkillRelation rel = new SkillRelation();
                         rel.setComment(comment.getText());
                         service.putSkill(skill, rel, new AsyncCallback<Void>() {
                             @Override
                             public void onSuccess(Void result) {
                                 Window.alert("更新しました");
+                                agreedSubmit.setEnabled(true);
                                 reloadSkills();
                             }
 
                             @Override
                             public void onFailure(Throwable caught) {
                                 Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                                agreedSubmit.setEnabled(true);
                             }
                         });
                     }

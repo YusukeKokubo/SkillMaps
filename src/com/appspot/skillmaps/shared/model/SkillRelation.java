@@ -36,6 +36,9 @@ public class SkillRelation implements Serializable {
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
 
+    @Attribute(persistent=false)
+    private Profile profile;
+
     public String getUserEmail() {
         return userEmail;
     }
@@ -139,5 +142,13 @@ public class SkillRelation implements Serializable {
 
     public String getComment() {
         return comment;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
     }
 }

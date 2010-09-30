@@ -9,6 +9,7 @@ import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillAppealMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
+import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -18,6 +19,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class SkillServiceImpl implements SkillService {
     SkillMeta sm = SkillMeta.get();
+    SkillRelationMeta rm = SkillRelationMeta.get();
     SkillAppealMeta am = SkillAppealMeta.get();
     ProfileMeta pm = ProfileMeta.get();
 
@@ -39,7 +41,9 @@ public class SkillServiceImpl implements SkillService {
     public Skill[] getSkills(String ownerEmail) {
         List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
         for (Skill s : result) {
-            s.getRelation().getModelList();
+            for (SkillRelation sr : s.getRelation().getModelList()) {
+                sr.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).asSingle());
+            }
         }
         return result.toArray(new Skill[0]);
     }
