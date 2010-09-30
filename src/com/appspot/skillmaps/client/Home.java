@@ -4,9 +4,9 @@ import com.appspot.skillmaps.client.service.AccountService;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
-import com.appspot.skillmaps.client.ui.UserListUI;
+import com.appspot.skillmaps.client.ui.SkillAppealForm;
+import com.appspot.skillmaps.client.ui.SkillAppealTimeLine;
 import com.appspot.skillmaps.shared.model.Login;
-import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -24,17 +24,8 @@ public class Home implements EntryPoint {
                 @Override
                 public void onSuccess(final Login login) {
                     RootPanel.get("header").add(new Header(login));
-                    service.getUsers(new AsyncCallback<Profile[]>() {
-                        @Override
-                        public void onSuccess(Profile[] profile) {
-//                            RootPanel.get("users").add(new UsersUI(login, profile));
-                        }
-
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-                        }
-                    });
+                    RootPanel.get("add-skillappeal").add(new SkillAppealForm(login));
+                    RootPanel.get("skill-appeals").add(new SkillAppealTimeLine(login));
                     RootPanel.get("footer").add(new Footer());
                 }
 

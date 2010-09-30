@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+
+	</ui:style>
+	<g:HTMLPanel>
+		<g:FormPanel ui:field="form">
+			<g:VerticalPanel>
+				<g:Label text="アピールするスキル名" />
+				<g:TextBox ui:field="appealSkillName" />
+				<g:Label text="アピール文" />
+				<g:TextArea ui:field="description" />
+				<g:Label text="参考URL" />
+				<g:TextBox ui:field="url" />
+				<g:HorizontalPanel>
+					<g:Button ui:field="submit" text="submit" />
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:FormPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

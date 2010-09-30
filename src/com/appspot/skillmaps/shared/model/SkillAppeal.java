@@ -28,6 +28,9 @@ public class SkillAppeal implements Serializable {
 
     private String url;
 
+    @Attribute(persistent=false)
+    private Profile profile;
+
     @Attribute(listener=CreationEmail.class)
     private String userEmail;
 
@@ -151,5 +154,13 @@ public class SkillAppeal implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
     }
 }
