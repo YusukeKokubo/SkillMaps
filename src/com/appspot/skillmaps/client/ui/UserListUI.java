@@ -13,11 +13,11 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Users extends Composite {
+public class UserListUI extends Composite {
 
     private static UsersUiBinder uiBinder = GWT.create(UsersUiBinder.class);
 
-    interface UsersUiBinder extends UiBinder<Widget, Users> {
+    interface UsersUiBinder extends UiBinder<Widget, UserListUI> {
     }
 
     @UiField
@@ -26,7 +26,7 @@ public class Users extends Composite {
     @UiField
     PopupPanel userDialog;
 
-    public Users(Login login, Profile[] users) {
+    public UserListUI(Login login, Profile[] users) {
         initWidget(uiBinder.createAndBindUi(this));
 
         for (Profile user : users) {

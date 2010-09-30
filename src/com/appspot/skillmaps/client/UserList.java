@@ -13,7 +13,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Home implements EntryPoint {
+public class UserList implements EntryPoint {
 
     AccountServiceAsync service = GWT.create(AccountService.class);
 
@@ -27,7 +27,7 @@ public class Home implements EntryPoint {
                     service.getUsers(new AsyncCallback<Profile[]>() {
                         @Override
                         public void onSuccess(Profile[] profile) {
-//                            RootPanel.get("users").add(new UsersUI(login, profile));
+                            RootPanel.get("users").add(new UserListUI(login, profile));
                         }
 
                         @Override
