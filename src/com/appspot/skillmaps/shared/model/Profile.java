@@ -44,6 +44,10 @@ public class Profile implements Serializable {
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
 
+    public boolean isActivate() {
+        return id != null && !id.isEmpty();
+    }
+
     /**
      * Returns the key.
      *

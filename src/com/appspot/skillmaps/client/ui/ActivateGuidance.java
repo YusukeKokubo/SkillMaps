@@ -10,12 +10,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SigninGuidance extends Composite {
+public class ActivateGuidance extends Composite {
 
     private static SigninGuidanceUiBinder uiBinder = GWT
         .create(SigninGuidanceUiBinder.class);
 
-    interface SigninGuidanceUiBinder extends UiBinder<Widget, SigninGuidance> {
+    interface SigninGuidanceUiBinder extends UiBinder<Widget, ActivateGuidance> {
     }
 
     @UiField
@@ -25,10 +25,10 @@ public class SigninGuidance extends Composite {
     Anchor signin;
 
 
-    public SigninGuidance(Login login) {
+    public ActivateGuidance(Login login) {
         initWidget(uiBinder.createAndBindUi(this));
-        guidance.setText("SkillMapsは自分の他人が評価してくれるソーシャル他人評価サービスです.サインインすれば誰でもすぐに使えます!");
-        signin.setHref(login.getLoginUrl());
+        guidance.setText("サービスにサインインしています. プロフィールを入力してアカウントを有効にしてください.");
+        signin.setHref("/mypage.html");
     }
 
 }

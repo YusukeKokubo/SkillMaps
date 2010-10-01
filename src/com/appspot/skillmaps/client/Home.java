@@ -2,8 +2,10 @@ package com.appspot.skillmaps.client;
 
 import com.appspot.skillmaps.client.service.AccountService;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
+import com.appspot.skillmaps.client.ui.ActivateGuidance;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
+import com.appspot.skillmaps.client.ui.SigninGuidance;
 import com.appspot.skillmaps.client.ui.SkillAppealForm;
 import com.appspot.skillmaps.client.ui.SkillAppealTimeLine;
 import com.appspot.skillmaps.shared.model.Login;
@@ -24,7 +26,15 @@ public class Home implements EntryPoint {
                 @Override
                 public void onSuccess(final Login login) {
                     RootPanel.get("header").add(new Header(login));
-                    RootPanel.get("add-skillappeal").add(new SkillAppealForm(login));
+                    if (login.isLoggedIn()) {
+                        if (login.getProfile().isActivate()) {
+                            RootPanel.get("add-skillappeal").add(new SkillAppealForm(login));
+                        } else {
+                            RootPanel.get("add-skillappeal").add(new ActivateGuidance(login));
+                        }
+                    } else {
+                        RootPanel.get("add-skillappeal").add(new SigninGuidance(login));
+                    }
                     RootPanel.get("skill-appeals").add(new SkillAppealTimeLine(login));
                     RootPanel.get("footer").add(new Footer());
                 }

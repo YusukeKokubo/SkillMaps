@@ -2,9 +2,12 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-
+		.guidance {
+			color: #cccccc;
+		}
 	</ui:style>
 	<g:HTMLPanel>
+		<g:Label styleName="{style.guidance}">自分のスキルをアピールして、みんなから評価をもらいましょう。</g:Label>
 		<g:FormPanel ui:field="form">
 			<g:VerticalPanel>
 				<g:Label text="アピールするスキル名" />
