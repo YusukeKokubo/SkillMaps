@@ -26,6 +26,12 @@
         <filter-name>FrontController</filter-name>
         <filter-class>org.slim3.controller.FrontController</filter-class>
     </filter>
+    <!-- 1. filter added for CNMV. start -->
+    <filter>
+        <filter-name>CNFrontController</filter-name>
+        <filter-class>jp.crossnote.slim3.filter.CNFrontController</filter-class>
+    </filter>
+    <!-- 1. filter added for CNMV. end -->
 
     <filter-mapping>
         <filter-name>HotReloadingFilter</filter-name>
@@ -37,6 +43,16 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+    <!-- 2. mapping added for CNMV. start -->
+    <filter-mapping>
+        <filter-name>CNFrontController</filter-name>
+        <url-pattern>/cn/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <!-- 2. mapping added for CNMV. end -->
     <filter-mapping>
         <filter-name>FrontController</filter-name>
         <url-pattern>/*</url-pattern>
@@ -101,6 +117,16 @@
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
+    <!-- 3. security added for CNMV. start -->
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/cn/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <!-- 3. security added for CNMV. end -->
 
     <welcome-file-list>
 	    <welcome-file>index.html</welcome-file>

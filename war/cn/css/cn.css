@@ -1,0 +1,143 @@
+@CHARSET "utf-8";
+
+body {
+    background-color: #fff;
+    text-align: left;
+    color: #333333;
+    font-size: small;
+}
+img {
+    border:0;
+}
+
+/* Default Link Design */
+a:link {
+    color:#0C67AE;
+    text-decoration:underline;
+}
+
+a:visited {
+    color:#666666;
+    text-decoration:underline;
+}
+
+a:hover {
+    color: #479FE3;
+    text-decoration: underline;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    margin-top:0px;
+    margin-bottom:0px;
+    font-size: small;
+}
+
+thead {
+    background-color:lightsteelblue;
+}
+
+thead.ref_head {
+    background-color:lightgreen;
+}
+
+th, td {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    margin:0px;
+    padding:5px;
+    border:1px solid #aaaaaa;
+}
+th.pkey_head {
+    background-color:peachpuff;
+}
+th.version_head {
+    background-color:lightgrey;
+}
+th.modelref_head {
+    background-color:lightgreen;
+}
+
+a.top_title:link {
+    text-decoration: none;
+	color: #333333;
+}
+a.top_title:visited {
+    text-decoration: none;
+	color: #333333;
+}
+a.top_title:hover {
+    text-decoration: none;
+	color: #333333;
+}
+	
+.err {
+    color: red;
+}
+p.success {
+    color: blue;	
+}
+.paging_top {
+    margin-top:10px;
+}
+.paging_bottom {
+    margin-bottom:10px;
+}
+#paginglink {
+    text-decoration: none;
+}
+
+.footer {
+    text-align: right;
+    color: lightsteelblue;
+}
+#footerlink {
+    color: lightsteelblue;
+    text-decoration: none;
+}
+.history_title {
+	margin-bottom: 0px;
+}
+.toomany {
+	color: red;
+}
+.noteditable {
+	color: gray;
+}
+.upload_noteditable {
+	font-style: italic;
+}
+
+/* 入力フォーム */
+input.date {
+    width: 220px;
+}
+input.array {
+    width: 400px;
+}
+input.key {
+    width: 220px;
+}
+input.numeric {
+	width: 220px;
+	text-align: right;
+}
+input.normal {
+	width: 220px;
+}
+input.model {
+	width: 200px;
+}
+textarea.largetext {
+	height: 80px;
+    width: 400px;
+}
+table.struct_prop td {
+	border-style: none;
+    margin-top:0px;
+    margin-bottom:0px;
+}
+table.struct_prop td.struct_prop_label {
+	text-align: right;
+}
