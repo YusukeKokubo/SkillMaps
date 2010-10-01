@@ -198,12 +198,8 @@ public class UserUI extends Composite {
         for (int i = 0; i < skill.getRelation().getModelList().size(); i ++) {
             SkillRelation sr = skill.getRelation().getModelList().get(i);
             Profile p = sr.getProfile();
-            Image icon = new Image("/images/icon/" + p.getIconKeyString());
-            icon.setHeight("30px");
-            icon.setWidth("30px");
-            agrees.setWidget(i, 0, icon);
-            agrees.setText(i, 1, p.getId());
-            agrees.setText(i, 2, sr.getComment());
+            agrees.setWidget(i, 0, new UserThumnail(login, p));
+            agrees.setText(i, 1, sr.getComment());
         }
         return agrees;
     }
