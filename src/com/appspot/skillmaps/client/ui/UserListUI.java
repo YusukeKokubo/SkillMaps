@@ -1,12 +1,17 @@
 package com.appspot.skillmaps.client.ui;
 
+import java.util.HashMap;
+
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -26,19 +31,40 @@ public class UserListUI extends Composite {
     @UiField
     PopupPanel userDialog;
 
-    public UserListUI(Login login, Profile[] users) {
+    HashMap<String, UserUI> usersMap = new HashMap<String, UserUI>();
+
+    public UserListUI(final Login login, Profile[] users) {
         initWidget(uiBinder.createAndBindUi(this));
 
-        for (Profile user : users) {
+        final Anchor close = new Anchor("close");
+        close.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                userDialog.hide();
+            }
+        });
+
+        for (final Profile user : users) {
             FocusPanel panel = new FocusPanel();
             panel.add(new UserThumnail(login, user));
 
-            final UserUI detail = new UserUI(login, user);
             panel.addMouseOverHandler(new MouseOverHandler() {
                 @Override
                 public void onMouseOver(MouseOverEvent event) {
-                    userDialog.setWidget(detail);
                     userDialog.center();
+
+                    UserUI detail = null;
+                    if (usersMap.containsKey(user.getUserEmail())) {
+                        detail = usersMap.get(user.getUserEmail());
+                    } else {
+                        detail = new UserUI(login, user);
+                        usersMap.put(user.getUserEmail(), detail);
+                    }
+                    VerticalPanel p = new VerticalPanel();
+                    p.add(close);
+                    p.add(detail);
+
+                    userDialog.setWidget(p);
                 }
             });
             usersPanel.add(panel);
