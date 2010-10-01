@@ -33,7 +33,7 @@ public class UserPage implements EntryPoint {
 
                         @Override
                         public void onFailure(Throwable caught) {
-                            Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+//                            Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
                         }
                     });
                     RootPanel.get("footer").add(new Footer());
@@ -41,7 +41,7 @@ public class UserPage implements EntryPoint {
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+//                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
                 }
             });
     }

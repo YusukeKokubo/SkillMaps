@@ -8,7 +8,7 @@ import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
+//import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -48,7 +48,7 @@ public class SkillAppealTimeLine extends Composite {
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+//                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
             }
         });
     }

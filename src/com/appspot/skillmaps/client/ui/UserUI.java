@@ -188,7 +188,7 @@ public class UserUI extends Composite {
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+//                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
             }
         });
     }

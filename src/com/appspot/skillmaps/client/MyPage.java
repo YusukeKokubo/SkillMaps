@@ -10,7 +10,7 @@ import com.appspot.skillmaps.client.ui.UserUI;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
+//import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -36,7 +36,7 @@ public class MyPage implements EntryPoint {
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+//                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
                 }
             });
     }
