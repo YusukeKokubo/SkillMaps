@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -21,7 +22,7 @@ public class SkillAppealUI extends Composite {
     Label appealSkillName;
 
     @UiField
-    Label description;
+    HTML description;
 
     @UiField
     Anchor url;
@@ -30,7 +31,7 @@ public class SkillAppealUI extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
 
         appealSkillName.setText(appeal.getAppealSkillName());
-        description.setText(appeal.getDescription());
+        description.setHTML("<pre>" + appeal.getDescription() + "</pre>");
         if (appeal.getUrl() != null && (!appeal.getUrl().isEmpty())) {
             url.setHref(appeal.getUrl());
             url.setText("link");

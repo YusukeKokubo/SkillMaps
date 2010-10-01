@@ -8,7 +8,7 @@
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
 				<g:Label ui:field="appealSkillName" />
-				<g:Label ui:field="description" />
+				<g:HTML ui:field="description" />
 				<g:Anchor ui:field="url" target="_blank" />
 			</g:VerticalPanel>
 		</g:HorizontalPanel>
