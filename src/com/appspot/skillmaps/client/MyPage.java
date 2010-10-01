@@ -23,13 +23,15 @@ public class MyPage implements EntryPoint {
         service.login(GWT.getHostPageBaseURL(),
             new AsyncCallback<Login>() {
                 @Override
-                public void onSuccess(Login result) {
-                    RootPanel.get("header").add(new Header(result));
-                    if (result.isLoggedIn()) {
-                        RootPanel.get("profile").add(new ProfileUI(result));
-                        RootPanel.get("user").add(new UserUI(result, result.getProfile()));
+                public void onSuccess(Login login) {
+                    RootPanel.get("header").add(new Header(login));
+                    if (login.isLoggedIn()) {
+                        RootPanel.get("profile").add(new ProfileUI(login));
+                        if (login.getProfile().isActivate()) {
+                            RootPanel.get("user").add(new UserUI(login, login.getProfile()));
+                        }
                     } else {
-                        RootPanel.get("profile").add(new SigninGuidance(result));
+                        RootPanel.get("profile").add(new SigninGuidance(login));
                     }
                     RootPanel.get("footer").add(new Footer());
                 }
