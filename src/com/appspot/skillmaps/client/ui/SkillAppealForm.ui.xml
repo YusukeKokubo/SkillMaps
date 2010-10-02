@@ -5,6 +5,10 @@
 		.guidance {
 			color: #cccccc;
 		}
+		.description {
+			width: 350px;
+			height: 50px;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:Label styleName="{style.guidance}">自分のスキルをアピールして、みんなから評価をもらいましょう。</g:Label>
@@ -13,9 +17,13 @@
 				<g:Label text="アピールするスキル名" />
 				<g:TextBox ui:field="appealSkillName" />
 				<g:Label text="アピール文" />
-				<g:TextArea ui:field="description" />
+				<g:TextArea ui:field="description" styleName="{style.description}" />
 				<g:Label text="参考URL" />
 				<g:TextBox ui:field="url" />
+				<g:HorizontalPanel ui:field="isTwitterEnabled" visible="false">
+					<g:CheckBox ui:field="sendTwitter" />
+					<g:Label text="Twitterにも送信" />
+				</g:HorizontalPanel>
 				<g:HorizontalPanel>
 					<g:Button ui:field="submit" text="submit" />
 				</g:HorizontalPanel>

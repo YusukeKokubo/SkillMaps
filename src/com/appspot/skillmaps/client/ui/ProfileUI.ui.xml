@@ -20,6 +20,10 @@
 				<g:Label text="プロフィールURL(2つまで)" />
 				<g:TextBox ui:field="profileUrl1" visibleLength="60" />
 				<g:TextBox ui:field="profileUrl2" visibleLength="60" />
+				<g:HorizontalPanel>
+					<g:Anchor href="/twitter/auth" target="_blank" >Twitterと連携する</g:Anchor>
+					<g:Label text="　状態:" /><g:Label ui:field="lblTwitterEnabled" text="無効" />
+				</g:HorizontalPanel>
 				<g:Button ui:field="submit" text="submit" />
 			</g:VerticalPanel>
 

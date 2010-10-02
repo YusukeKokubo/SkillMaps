@@ -1,9 +1,11 @@
 package com.appspot.skillmaps.server.controller;
 
-import org.slim3.tester.ControllerTestCase;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.slim3.tester.ControllerTestCase;
+
 import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
 
 public class IconUploadControllerTest extends ControllerTestCase {
 

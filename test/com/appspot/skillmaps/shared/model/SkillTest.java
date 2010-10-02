@@ -1,9 +1,11 @@
 package com.appspot.skillmaps.shared.model;
 
-import org.slim3.tester.AppEngineTestCase;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.slim3.tester.AppEngineTestCase;
+
 import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
 
 public class SkillTest extends AppEngineTestCase {
 

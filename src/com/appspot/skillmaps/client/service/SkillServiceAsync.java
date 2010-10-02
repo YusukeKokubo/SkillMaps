@@ -11,7 +11,7 @@ public interface SkillServiceAsync {
 
     void putSkill(Skill skill, SkillRelation rel, AsyncCallback<Void> callback);
 
-    void putSkillAppeal(SkillAppeal skillAppeal, AsyncCallback<Void> callback);
+    void putSkillAppeal(SkillAppeal skillAppeal, boolean sendTwitter, AsyncCallback<Void> callback);
 
     void getSkillAppeals(AsyncCallback<SkillAppeal[]> callback);
 

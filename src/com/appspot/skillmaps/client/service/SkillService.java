@@ -13,7 +13,7 @@ public interface SkillService extends RemoteService {
 
     void putSkill(Skill skill, SkillRelation rel);
 
-    void putSkillAppeal(SkillAppeal skillAppeal);
+    void putSkillAppeal(SkillAppeal skillAppeal, boolean sendTwitter);
 
     SkillAppeal[] getSkillAppeals();
 }

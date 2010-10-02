@@ -1,6 +1,6 @@
 package com.appspot.skillmaps.server.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-29 08:56:16")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-10-02 22:17:55")
 /** */
 public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot.skillmaps.shared.model.Profile> {
 
@@ -30,6 +30,12 @@ public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> selfIntroduction = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "selfIntroduction", "selfIntroduction");
+
+    /** */
+    public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> twitterToken = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "twitterToken", "twitterToken");
+
+    /** */
+    public final org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile> twitterTokenSecret = new org.slim3.datastore.StringAttributeMeta<com.appspot.skillmaps.shared.model.Profile>(this, "twitterTokenSecret", "twitterTokenSecret");
 
     /** */
     public final org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Profile, java.util.Date> updatedAt = new org.slim3.datastore.CoreAttributeMeta<com.appspot.skillmaps.shared.model.Profile, java.util.Date>(this, "updatedAt", "updatedAt", java.util.Date.class);
@@ -72,6 +78,8 @@ public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot
         model.setProfileUrl1((java.lang.String) entity.getProperty("profileUrl1"));
         model.setProfileUrl2((java.lang.String) entity.getProperty("profileUrl2"));
         model.setSelfIntroduction((java.lang.String) entity.getProperty("selfIntroduction"));
+        model.setTwitterToken((java.lang.String) entity.getProperty("twitterToken"));
+        model.setTwitterTokenSecret((java.lang.String) entity.getProperty("twitterTokenSecret"));
         model.setUpdatedAt((java.util.Date) entity.getProperty("updatedAt"));
         model.setUserEmail((java.lang.String) entity.getProperty("userEmail"));
         model.setVersion((java.lang.Long) entity.getProperty("version"));
@@ -95,6 +103,8 @@ public final class ProfileMeta extends org.slim3.datastore.ModelMeta<com.appspot
         entity.setProperty("profileUrl1", m.getProfileUrl1());
         entity.setProperty("profileUrl2", m.getProfileUrl2());
         entity.setProperty("selfIntroduction", m.getSelfIntroduction());
+        entity.setProperty("twitterToken", m.getTwitterToken());
+        entity.setProperty("twitterTokenSecret", m.getTwitterTokenSecret());
         entity.setProperty("updatedAt", m.getUpdatedAt());
         entity.setProperty("userEmail", m.getUserEmail());
         entity.setProperty("version", m.getVersion());

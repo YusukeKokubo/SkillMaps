@@ -90,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
         if (StringUtil.isEmpty(act.getName())) {
             throw new IllegalArgumentException("[おなまえ] は必ず入力してください");
         }
-
+        
         Datastore.put(act);
     }
 }

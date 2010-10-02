@@ -10,11 +10,10 @@ import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.datastore.Datastore;
 
-import com.google.appengine.api.images.Image;
-import com.google.appengine.api.images.ImagesServiceFactory;
-
 import com.appspot.skillmaps.server.meta.IconMeta;
 import com.appspot.skillmaps.shared.model.Icon;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesServiceFactory;
 
 public class IconDownloadController extends Controller {
 

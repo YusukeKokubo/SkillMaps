@@ -3,13 +3,13 @@ package com.appspot.skillmaps.shared.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.google.appengine.api.datastore.Key;
-
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
 import org.slim3.datastore.CreationEmail;
 import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
+
+import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
 public class Profile implements Serializable {
@@ -34,6 +34,10 @@ public class Profile implements Serializable {
     private String profileUrl1;
 
     private String profileUrl2;
+    
+    private String twitterToken;
+    
+    private String twitterTokenSecret;
 
     @Attribute(listener=CreationEmail.class)
     private String userEmail;
@@ -46,6 +50,11 @@ public class Profile implements Serializable {
 
     public boolean isActivate() {
         return id != null && !id.isEmpty();
+    }
+    
+    public boolean isEnabledTwitter(){
+        return twitterToken != null && !twitterToken.isEmpty() 
+                    && twitterTokenSecret != null && !twitterTokenSecret.isEmpty();
     }
 
     /**
@@ -196,4 +205,41 @@ public class Profile implements Serializable {
     public void setProfileUrl2(String profileUrl2) {
         this.profileUrl2 = profileUrl2;
     }
+
+    /**
+     * Returns the twitterToken.
+     * 
+     * @return the twitterToken
+     */
+    public String getTwitterToken() {
+        return twitterToken;
+    }
+
+    /**
+     * Sets the twitter
+     *
+     * @param twitterToken
+     */
+    public void setTwitterToken(String twitterToken) {
+        this.twitterToken = twitterToken;
+    }
+
+    /**
+     * Returns the twitterTokenSecret.
+     * 
+     * @return the twitterTokenSecret
+     */
+    public String getTwitterTokenSecret() {
+        return twitterTokenSecret;
+    }
+
+    /**
+     * Sets the twitterTokenSecret
+     *
+     * @param twitterTokenSecret
+     */
+    public void setTwitterTokenSecret(String twitterTokenSecret) {
+        this.twitterTokenSecret = twitterTokenSecret;
+    }
+    
 }

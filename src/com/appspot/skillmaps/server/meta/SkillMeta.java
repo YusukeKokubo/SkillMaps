@@ -1,6 +1,6 @@
 package com.appspot.skillmaps.server.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-09-30 16:58:20")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2010-10-02 16:06:01")
 /** */
 public final class SkillMeta extends org.slim3.datastore.ModelMeta<com.appspot.skillmaps.shared.model.Skill> {
 

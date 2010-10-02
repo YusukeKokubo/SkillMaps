@@ -20,12 +20,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 
 
 public class ProfileUI extends Composite {
@@ -50,7 +51,10 @@ public class ProfileUI extends Composite {
 
     @UiField
     TextBox profileUrl2;
-
+    
+    @UiField
+    Label lblTwitterEnabled;
+    
     @UiField
     Image icon;
 
@@ -65,7 +69,7 @@ public class ProfileUI extends Composite {
 
     private final AccountServiceAsync service = GWT
         .create(AccountService.class);
-
+    
     interface AccountConfigUiBinder extends UiBinder<Widget, ProfileUI> {
     }
 
@@ -78,11 +82,15 @@ public class ProfileUI extends Composite {
         selfIntroduction.setText(p.getSelfIntroduction());
         profileUrl1.setText(p.getProfileUrl1());
         profileUrl2.setText(p.getProfileUrl2());
+        if(p.isEnabledTwitter()){
+            lblTwitterEnabled.setText("有効");
+        }
+        
         if (p.getIconKey() != null) icon.setUrl("/images/icon/" + p.getIconKeyString());
         form.setEncoding(FormPanel.ENCODING_MULTIPART);
         form.setMethod(FormPanel.METHOD_POST);
         iconUploder.setName("uploadFormElement");
-
+        
         submit.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -127,4 +135,5 @@ public class ProfileUI extends Composite {
             }
         });
     }
+    
 }
