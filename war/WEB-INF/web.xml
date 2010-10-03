@@ -127,6 +127,14 @@
         </auth-constraint>
     </security-constraint>
     <!-- 3. security added for CNMV. end -->
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/admin.html</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 
     <welcome-file-list>
 	    <welcome-file>index.html</welcome-file>

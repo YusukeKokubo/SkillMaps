@@ -28,6 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (user != null) {
             login.setLoggedIn(true);
+            login.setAdmin(userService.isUserAdmin());
             login.setEmailAddress(user.getEmail());
             login.setNickname(user.getNickname());
             login.setLogoutUrl(userService.createLogoutURL(requestUri));
@@ -90,7 +91,7 @@ public class AccountServiceImpl implements AccountService {
         if (StringUtil.isEmpty(act.getName())) {
             throw new IllegalArgumentException("[おなまえ] は必ず入力してください");
         }
-        
+
         Datastore.put(act);
     }
 }
