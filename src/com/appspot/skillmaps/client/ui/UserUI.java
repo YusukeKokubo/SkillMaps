@@ -125,7 +125,7 @@ public class UserUI extends Composite {
                 skill.setDescription(description.getText());
                 SkillRelation rel = new SkillRelation();
                 rel.setComment("");
-                service.putSkill(skill, rel, new AsyncCallback<Void>() {
+                service.putSkill(skill, rel, true, new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
                         Window.alert("追加しました");
@@ -225,7 +225,7 @@ public class UserUI extends Composite {
                         agreedSubmit.setEnabled(false);
                         SkillRelation rel = new SkillRelation();
                         rel.setComment(comment.getText());
-                        service.putSkill(skill, rel, new AsyncCallback<Void>() {
+                        service.putSkill(skill, rel, true, new AsyncCallback<Void>() {
                             @Override
                             public void onSuccess(Void result) {
                                 Window.alert("更新しました");
