@@ -20,9 +20,13 @@
 				<g:TextArea ui:field="description" styleName="{style.description}" />
 				<g:Label text="参考URL" />
 				<g:TextBox ui:field="url" />
-				<g:HorizontalPanel ui:field="isTwitterEnabled" visible="false">
+				<g:HorizontalPanel ui:field="twitterPanel" visible="false">
 					<g:CheckBox ui:field="sendTwitter" checked="true" />
 					<g:Label text="Twitterにも送信" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel ui:field="twitterGuidance" visible="false">
+					<g:Label styleName="{style.guidance}">Twitterと連携できます。マイページから設定してください。</g:Label>
+					<g:Anchor text="マイページへ" href="/mypage.html" />
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>
 					<g:Button ui:field="submit" text="submit" />

@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SkillAppealForm extends Composite {
@@ -43,11 +44,14 @@ public class SkillAppealForm extends Composite {
     TextBox url;
 
     @UiField
-    HorizontalPanel isTwitterEnabled;
-    
+    HorizontalPanel twitterPanel;
+
     @UiField
     CheckBox sendTwitter;
-    
+
+    @UiField
+    HorizontalPanel twitterGuidance;
+
     @UiField
     Button submit;
 
@@ -57,10 +61,13 @@ public class SkillAppealForm extends Composite {
         if (!login.isLoggedIn() || login.getProfile().getId() == null) {
             form.setVisible(false);
         }else{
-            isTwitterEnabled.setVisible(login.getProfile().isEnabledTwitter());
+            twitterPanel.setVisible(login.getProfile().isEnabledTwitter());
+            if (!login.getProfile().isEnabledTwitter()) {
+                twitterGuidance.setVisible(true);
+            }
         }
     }
-    
+
     @UiHandler("submit")
     void onClick(ClickEvent e){
         if (appealSkillName.getText().isEmpty()) {
@@ -75,7 +82,7 @@ public class SkillAppealForm extends Composite {
         appeal.setAppealSkillName(appealSkillName.getText());
         appeal.setDescription(description.getText());
         appeal.setUrl(url.getText());
-        
+
         service.putSkillAppeal(appeal, sendTwitter.getValue(), new AsyncCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
