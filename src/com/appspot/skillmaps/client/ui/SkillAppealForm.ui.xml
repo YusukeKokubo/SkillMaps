@@ -21,7 +21,7 @@
 				<g:Label text="参考URL" />
 				<g:TextBox ui:field="url" />
 				<g:HorizontalPanel ui:field="isTwitterEnabled" visible="false">
-					<g:CheckBox ui:field="sendTwitter" />
+					<g:CheckBox ui:field="sendTwitter" checked="true" />
 					<g:Label text="Twitterにも送信" />
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>

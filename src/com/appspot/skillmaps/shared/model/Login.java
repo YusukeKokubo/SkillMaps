@@ -17,7 +17,6 @@ public class Login implements Serializable {
     private String nickname;
     private String receiveEmail;
     private Profile profile;
-    private String twitterAccessToken;
 
     public Key getKey() {
         return key;
