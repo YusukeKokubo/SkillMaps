@@ -36,6 +36,7 @@ public class RegistrationController extends Controller {
         Profile profile = Datastore.query(meta).filter(meta.userEmail.equal(user.getEmail())).asSingle();
         profile.setTwitterToken(accessToken.getToken());
         profile.setTwitterTokenSecret(accessToken.getTokenSecret());
+        profile.setTwitterScreenName(twitter.getScreenName());
         Datastore.put(profile);
 
         return redirect("/mypage.html");

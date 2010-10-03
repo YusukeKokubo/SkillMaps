@@ -34,10 +34,12 @@ public class Profile implements Serializable {
     private String profileUrl1;
 
     private String profileUrl2;
-    
+
     private String twitterToken;
-    
+
     private String twitterTokenSecret;
+
+    private String twitterScreenName;
 
     @Attribute(listener=CreationEmail.class)
     private String userEmail;
@@ -51,9 +53,9 @@ public class Profile implements Serializable {
     public boolean isActivate() {
         return id != null && !id.isEmpty();
     }
-    
+
     public boolean isEnabledTwitter(){
-        return twitterToken != null && !twitterToken.isEmpty() 
+        return twitterToken != null && !twitterToken.isEmpty()
                     && twitterTokenSecret != null && !twitterTokenSecret.isEmpty();
     }
 
@@ -208,7 +210,7 @@ public class Profile implements Serializable {
 
     /**
      * Returns the twitterToken.
-     * 
+     *
      * @return the twitterToken
      */
     public String getTwitterToken() {
@@ -226,7 +228,7 @@ public class Profile implements Serializable {
 
     /**
      * Returns the twitterTokenSecret.
-     * 
+     *
      * @return the twitterTokenSecret
      */
     public String getTwitterTokenSecret() {
@@ -241,5 +243,13 @@ public class Profile implements Serializable {
     public void setTwitterTokenSecret(String twitterTokenSecret) {
         this.twitterTokenSecret = twitterTokenSecret;
     }
-    
+
+    public void setTwitterScreenName(String twitterScreenName) {
+        this.twitterScreenName = twitterScreenName;
+    }
+
+    public String getTwitterScreenName() {
+        return twitterScreenName;
+    }
+
 }

@@ -4,6 +4,7 @@
 package com.appspot.skillmaps.server.util;
 
 import org.slim3.datastore.Datastore;
+import org.slim3.util.StringUtil;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -71,23 +72,17 @@ public class TwitterUtil {
             ProfileMeta meta = ProfileMeta.get();
             Profile skillOwner = Datastore.query(meta).filter(meta.userEmail.equal(skill.getOwnerEmail())).limit(1).asSingle();
             String skillOwnerId = skillOwner.getId();
-            // なぜか取得するときにエラーになる。Twitter4Jの問題？
-//            if (skillOwner.isEnabledTwitter()) {
-//                Twitter skillOwnerTwitter = TwitterUtil.getTwitterInstance();
-//                skillOwnerTwitter.setOAuthAccessToken(skillOwner.getTwitterToken(), skillOwner.getTwitterTokenSecret());
-//                skillOwnerId = "@" + skillOwnerTwitter.getScreenName();
-//            }
+            if (skillOwner.isEnabledTwitter() && !StringUtil.isEmpty(skillOwner.getTwitterScreenName())) {
+                skillOwnerId = "@" + skillOwner.getTwitterScreenName();
+            }
 
             UserService userService = UserServiceFactory.getUserService();
             User user = userService.getCurrentUser();
             Profile skillAppender = Datastore.query(meta).filter(meta.userEmail.equal(user.getEmail())).limit(1).asSingle();
             String skillAppenderId = skillAppender.getId();
-            // なぜか取得するときにエラーになる。Twitter4Jの問題？
-//            if (skillAppender.isEnabledTwitter()) {
-//                Twitter skillAppenderTwitter = TwitterUtil.getTwitterInstance();
-//                skillAppenderTwitter.setOAuthAccessToken(skillAppender.getTwitterToken(), skillAppender.getTwitterTokenSecret());
-//                skillAppenderId = "@" + skillAppenderTwitter.getScreenName();
-//            }
+            if (skillAppender.isEnabledTwitter() && !StringUtil.isEmpty(skillAppender.getTwitterScreenName())) {
+                skillAppenderId = "@" + skillAppender.getTwitterScreenName();
+            }
 
             GlobalSetting gs = Datastore.query(GlobalSettingMeta.get()).limit(1).asSingle();
             Profile notifier = gs.getTwitterNotifier().getModel();
