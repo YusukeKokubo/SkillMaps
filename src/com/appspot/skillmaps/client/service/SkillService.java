@@ -11,7 +11,7 @@ public interface SkillService extends RemoteService {
 
     Skill[] getSkills(String ownerEmail);
 
-    void putSkill(Skill skill, SkillRelation rel);
+    void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter);
 
     void putSkillAppeal(SkillAppeal skillAppeal, boolean sendTwitter);
 

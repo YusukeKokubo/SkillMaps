@@ -9,7 +9,8 @@ public interface SkillServiceAsync {
 
     void getSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
 
-    void putSkill(Skill skill, SkillRelation rel, AsyncCallback<Void> callback);
+    void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter,
+            AsyncCallback<Void> callback);
 
     void putSkillAppeal(SkillAppeal skillAppeal, boolean sendTwitter, AsyncCallback<Void> callback);
 
