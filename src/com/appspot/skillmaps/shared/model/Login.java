@@ -16,6 +16,7 @@ public class Login implements Serializable {
     private String emailAddress;
     private String nickname;
     private String receiveEmail;
+    private boolean admin;
     private Profile profile;
 
     public Key getKey() {
@@ -118,6 +119,14 @@ public class Login implements Serializable {
 
     public Profile getProfile() {
         return profile;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isAdmin() {
+        return admin;
     }
 
 }

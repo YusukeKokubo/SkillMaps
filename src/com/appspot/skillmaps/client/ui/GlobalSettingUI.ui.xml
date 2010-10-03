@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+
+	</ui:style>
+	<g:HTMLPanel>
+		<g:FormPanel>
+			<g:VerticalPanel>
+				<g:Label>ConsumerKey</g:Label>
+				<g:TextBox ui:field="twitterConsumerKey" visibleLength="80" />
+				<g:Label>ConsumerSecret</g:Label>
+				<g:TextBox ui:field="twitterConsumerSecret" visibleLength="80" />
+
+				<g:Label>NotifierId</g:Label>
+				<g:TextBox ui:field="twitterNotifierId" visibleLength="80" />
+				<g:Button ui:field="submit" text="submit" />
+			</g:VerticalPanel>
+		</g:FormPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>
