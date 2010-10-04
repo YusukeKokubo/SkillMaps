@@ -47,6 +47,9 @@ public class TwitterUtil {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         Profile profile = Datastore.query(meta).filter(meta.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        if (!profile.isEnabledTwitter()) {
+            return;
+        }
         Twitter twitter = TwitterUtil.getTwitterInstance();
 
         twitter.setOAuthAccessToken(profile.getTwitterToken(), profile.getTwitterTokenSecret());

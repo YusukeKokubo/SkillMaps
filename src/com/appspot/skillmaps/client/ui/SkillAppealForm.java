@@ -63,6 +63,7 @@ public class SkillAppealForm extends Composite {
             twitterPanel.setVisible(login.getProfile().isEnabledTwitter());
             if (!login.getProfile().isEnabledTwitter()) {
                 twitterGuidance.setVisible(true);
+                sendTwitter.setValue(false);
             }
         }
     }
