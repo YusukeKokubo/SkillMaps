@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -88,12 +89,16 @@ public class UserUI extends Composite {
     @UiField
     Button agreedCancel;
 
+    @UiField
+    PopupPanel userDialog;
+
     public UserUI(final Login login, final Profile profile) {
         initWidget(uiBinder.createAndBindUi(this));
         this.login = login;
         this.profile = profile;
 
         id.setText(profile.getId());
+        id.setHref("/user.html?id=" + profile.getId());
         name.setText(profile.getName());
         icon.setUrl("/images/icon/" + profile.getIconKeyString());
         selfIntroduction.setText(profile.getSelfIntroduction());
@@ -198,7 +203,7 @@ public class UserUI extends Composite {
         for (int i = 0; i < skill.getRelation().getModelList().size(); i ++) {
             SkillRelation sr = skill.getRelation().getModelList().get(i);
             Profile p = sr.getProfile();
-            agrees.setWidget(i, 0, new UserThumnail(login, p));
+            agrees.setWidget(i, 0, new UserThumnail(login, p, userDialog));
             agrees.setText(i, 1, sr.getComment());
         }
         return agrees;

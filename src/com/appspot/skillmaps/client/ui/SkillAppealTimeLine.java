@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,6 +29,9 @@ public class SkillAppealTimeLine extends Composite {
     @UiField
     VerticalPanel appealsPanel;
 
+    @UiField
+    PopupPanel userDialog;
+
     public SkillAppealTimeLine(final Login login) {
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -38,7 +42,7 @@ public class SkillAppealTimeLine extends Composite {
                 for (SkillAppeal appeal : as) {
                     Profile user = appeal.getProfile();
                     HorizontalPanel panel = new HorizontalPanel();
-                    panel.add(new UserThumnail(login, user));
+                    panel.add(new UserThumnail(login, user, userDialog));
                     panel.add(new SkillAppealUI(appeal));
 
                     appealsPanel.add(panel);

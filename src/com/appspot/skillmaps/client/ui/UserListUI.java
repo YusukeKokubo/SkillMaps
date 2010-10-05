@@ -6,14 +6,9 @@ import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -54,18 +49,11 @@ public class UserListUI extends Composite {
         layoutSelect.addItem("2");
         layoutSelect.addItem("3");
         layoutSelect.addItem("4");
-        layoutSelect.setSelectedIndex(0);
+        layoutSelect.setSelectedIndex(3);
         reloadUsersPanel(login, users, layoutSelect.getSelectedIndex() + 1);
     }
 
     protected void reloadUsersPanel(final Login login, Profile[] users, int viewColumn) {
-        final Anchor close = new Anchor("close");
-        close.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                userDialog.hide();
-            }
-        });
 
         HorizontalPanel hPanel = null;
         int column = 0;
@@ -79,27 +67,7 @@ public class UserListUI extends Composite {
 
             FocusPanel panel = new FocusPanel();
             panel.setWidth(thumnailWidth + "px");
-            panel.add(new UserThumnail(login, user));
-
-            panel.addMouseOverHandler(new MouseOverHandler() {
-                @Override
-                public void onMouseOver(MouseOverEvent event) {
-                    userDialog.center();
-
-                    UserUI detail = null;
-                    if (usersMap.containsKey(user.getUserEmail())) {
-                        detail = usersMap.get(user.getUserEmail());
-                    } else {
-                        detail = new UserUI(login, user);
-                        usersMap.put(user.getUserEmail(), detail);
-                    }
-                    VerticalPanel p = new VerticalPanel();
-                    p.add(close);
-                    p.add(detail);
-
-                    userDialog.setWidget(p);
-               }
-            });
+            panel.add(new UserThumnail(login, user, userDialog));
 
             if(column < viewColumn){
                 hPanel.add(panel);
