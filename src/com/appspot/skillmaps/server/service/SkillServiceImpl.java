@@ -32,6 +32,14 @@ public class SkillServiceImpl implements SkillService {
 
         if (StringUtil.isEmpty(skill.getName())) throw new IllegalArgumentException("skill name is null");
 
+        // if return already exist.
+        if (Datastore.query(rm)
+                .filter(rm.userEmail.equal(user.getEmail()))
+                .filter(rm.skill.equal(skill.getKey()))
+                .limit(1).countQuickly() > 0) {
+            return;
+        }
+
         rel.getSkill().setModel(skill);
         skill.getRelation().getModelList().add(rel);
         skill.setPoint((long) skill.getRelation().getModelList().size());
