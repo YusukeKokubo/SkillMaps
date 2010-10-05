@@ -41,6 +41,8 @@ public class Profile implements Serializable {
 
     private String twitterScreenName;
 
+    private Boolean hasIcon;
+
     @Attribute(listener=CreationEmail.class)
     private String userEmail;
 
@@ -250,6 +252,14 @@ public class Profile implements Serializable {
 
     public String getTwitterScreenName() {
         return twitterScreenName;
+    }
+
+    public void setHasIcon(Boolean hasIcon) {
+        this.hasIcon = hasIcon;
+    }
+
+    public Boolean getHasIcon() {
+        return hasIcon;
     }
 
 }

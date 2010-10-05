@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
@@ -100,7 +101,11 @@ public class UserUI extends Composite {
         id.setText(profile.getId());
         id.setHref("/user.html?id=" + profile.getId());
         name.setText(profile.getName());
-        icon.setUrl("/images/icon/" + profile.getIconKeyString());
+        if(profile.getHasIcon() != null && profile.getHasIcon()){
+            icon.setUrl("/images/icon/" + profile.getIconKeyString());
+        } else {
+            icon.setResource(Resources.INSTANCE.noimage150());
+        }
         selfIntroduction.setText(profile.getSelfIntroduction());
         profileUrl1.setHref(profile.getProfileUrl1());
         profileUrl1.setText(profile.getProfileUrl1());
