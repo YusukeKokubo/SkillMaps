@@ -55,7 +55,7 @@ public class SkillServiceImpl implements SkillService {
         List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
         for (Skill s : result) {
             for (SkillRelation sr : s.getRelation().getModelList()) {
-                sr.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).asSingle());
+                sr.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).limit(1).asSingle());
             }
         }
         return result.toArray(new Skill[0]);
@@ -65,7 +65,7 @@ public class SkillServiceImpl implements SkillService {
     public SkillAppeal[] getSkillAppeals() {
         List<SkillAppeal> result = Datastore.query(am).sort(am.createdAt.desc).limit(20).asList();
         for (SkillAppeal appeal : result) {
-            appeal.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(appeal.getUserEmail())).asSingle());
+            appeal.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(appeal.getUserEmail())).limit(1).asSingle());
         }
         return result.toArray(new SkillAppeal[0]);
     }

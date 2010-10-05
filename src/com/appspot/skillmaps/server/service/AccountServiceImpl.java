@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
             login.setEmailAddress(user.getEmail());
             login.setNickname(user.getNickname());
             login.setLogoutUrl(userService.createLogoutURL(requestUri));
-            Profile p = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).asSingle();
+            Profile p = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
             if (p == null) {
                 p = new Profile();
                 Icon i = new Icon();
@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Profile getUser(String id) {
-        return Datastore.query(pm).filter(pm.id.equal(id)).asSingle();
+        return Datastore.query(pm).filter(pm.id.equal(id)).limit(1).asSingle();
     }
 
     @Override
