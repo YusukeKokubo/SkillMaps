@@ -1,5 +1,5 @@
 /**
- * 
+ *
  *
  */
 package com.appspot.skillmaps.server.util;
@@ -37,22 +37,18 @@ public class TwitterUtil {
         twitter.setOAuthConsumer(gs.getTwitterConsumerKey(), gs.getTwitterConsumerSecret());
         return twitter;
     }
-    
+
 
     /**
      * Datastoreに保存してあるトークンからAccessTokenをロードします
      * スキルアピールをツイートします。
      * @return
      */
-    public static AccessToken loadAccessToken(){
     @SuppressWarnings("deprecation")
     public static void tweetSkillAppeal(SkillAppeal skillAppeal){
         ProfileMeta meta = ProfileMeta.get();
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        Profile profile = Datastore.query(meta).filter(meta.userEmail.equal(user.getEmail())).asSingle();
-        if(profile != null){
-            return new AccessToken(profile.getTwitterToken(), profile.getTwitterTokenSecret());
         Profile profile = Datastore.query(meta).filter(meta.userEmail.equal(user.getEmail())).limit(1).asSingle();
         if (!profile.isEnabledTwitter()) {
             return;
