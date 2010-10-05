@@ -57,12 +57,12 @@ public class TwitterUtil {
 
         twitter.setOAuthAccessToken(profile.getTwitterToken(), profile.getTwitterTokenSecret());
         String skillmapsUrl = "http://j.mp/dfQBqk";
-        String description = skillAppeal.getDescription();
+        String body = skillAppeal.getAppealSkillName() + ":" + skillAppeal.getDescription();
         try{
-            if(description != null && description.length() > 108){
-                description = skillAppeal.getDescription().substring(0, 108) + "…";
+            if(body != null && body.length() > 108){
+                body = body.substring(0, 108) + "…";
             }
-            twitter.updateStatus(description + " #skillmaps " + skillmapsUrl);
+            twitter.updateStatus(body + " #skillmaps " + skillmapsUrl);
         }catch(TwitterException te){
             throw new IllegalArgumentException("Oops, there must be something wrong with Twitter.");
         }
