@@ -42,6 +42,9 @@ public class UserUI extends Composite {
     Label name;
 
     @UiField
+    Anchor twitterLink;
+
+    @UiField
     Label selfIntroduction;
 
     @UiField
@@ -106,6 +109,11 @@ public class UserUI extends Composite {
         profileUrl1.setText(profile.getProfileUrl1());
         profileUrl2.setHref(profile.getProfileUrl2());
         profileUrl2.setText(profile.getProfileUrl2());
+
+        if (profile.isEnabledTwitter()) {
+            twitterLink.setText("Twitter : @" + profile.getTwitterScreenName());
+            twitterLink.setHref("http://twitter.com/" + profile.getTwitterScreenName());
+        }
 
         if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
             addSkill.setVisible(false);
