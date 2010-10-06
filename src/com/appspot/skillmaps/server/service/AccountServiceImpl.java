@@ -35,6 +35,7 @@ public class AccountServiceImpl implements AccountService {
             Profile p = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
             if (p == null) {
                 p = new Profile();
+                p.setHasIcon(false);
                 Icon i = new Icon();
                 p = Datastore.get(ProfileMeta.get(), Datastore.put(p));
                 i = Datastore.get(IconMeta.get(), Datastore.put(i));

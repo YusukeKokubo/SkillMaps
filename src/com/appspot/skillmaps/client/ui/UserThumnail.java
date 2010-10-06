@@ -61,7 +61,7 @@ public class UserThumnail extends Composite {
         id.setText(user.getId());
         id.setHref("#");
         name.setText(user.getName());
-        if(user.getHasIcon() != null && user.getHasIcon()){
+        if(user.getHasIcon()){
             icon.setUrl("/images/icon/" + user.getIconKeyString());
         } else {
             icon.setResource(Resources.INSTANCE.noimage());
