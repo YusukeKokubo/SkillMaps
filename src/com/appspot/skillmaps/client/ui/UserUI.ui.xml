@@ -36,6 +36,7 @@
 						<g:Anchor ui:field="id" />
 						<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 					</g:HorizontalPanel>
+					<g:Anchor ui:field="twitterLink" target="_blank" />
 					<g:Label ui:field="selfIntroduction" />
 					<g:Anchor ui:field="profileUrl1" target="_blank" />
 					<g:Anchor ui:field="profileUrl2" target="_blank" />
