@@ -6,7 +6,9 @@ import org.slim3.controller.upload.FileItem;
 import org.slim3.datastore.Datastore;
 
 import com.appspot.skillmaps.server.meta.IconMeta;
+import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.shared.model.Icon;
+import com.appspot.skillmaps.shared.model.Profile;
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
@@ -34,6 +36,11 @@ public class IconUploadController extends Controller {
         Icon i = Datastore.query(m).filter(m.userEmail.equal(user.getEmail())).asSingle();
         i.setImage(image.getImageData());
         Datastore.put(i);
+
+        ProfileMeta pm = ProfileMeta.get();
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        profile.setHasIcon(true);
+
         return null;
     }
 }

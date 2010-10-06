@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
@@ -60,7 +61,11 @@ public class UserThumnail extends Composite {
         id.setText(user.getId());
         id.setHref("#");
         name.setText(user.getName());
-        icon.setUrl("/images/icon/" + user.getIconKeyString());
+        if(user.getHasIcon() != null && user.getHasIcon()){
+            icon.setUrl("/images/icon/" + user.getIconKeyString());
+        } else {
+            icon.setResource(Resources.INSTANCE.noimage());
+        }
     }
 
 }
