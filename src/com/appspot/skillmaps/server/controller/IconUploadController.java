@@ -40,6 +40,7 @@ public class IconUploadController extends Controller {
         ProfileMeta pm = ProfileMeta.get();
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         profile.setHasIcon(true);
+        Datastore.put(profile);
 
         return null;
     }
