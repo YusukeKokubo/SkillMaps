@@ -78,7 +78,9 @@ public class TwitterUtil {
             ProfileMeta meta = ProfileMeta.get();
             Profile skillOwner = Datastore.query(meta).filter(meta.userEmail.equal(skill.getOwnerEmail())).limit(1).asSingle();
             String skillOwnerId = skillOwner.getId();
-            if (skillOwner.isEnabledTwitter() && !StringUtil.isEmpty(skillOwner.getTwitterScreenName())) {
+            if (skillOwner.isEnabledTwitter() &&
+                !StringUtil.isEmpty(skillOwner.getTwitterScreenName()) &&
+                skillOwner.getAllowFromTwitterNotifier()) {
                 skillOwnerId = "@" + skillOwner.getTwitterScreenName();
             }
 
@@ -86,7 +88,9 @@ public class TwitterUtil {
             User user = userService.getCurrentUser();
             Profile skillAppender = Datastore.query(meta).filter(meta.userEmail.equal(user.getEmail())).limit(1).asSingle();
             String skillAppenderId = skillAppender.getId();
-            if (skillAppender.isEnabledTwitter() && !StringUtil.isEmpty(skillAppender.getTwitterScreenName())) {
+            if (skillAppender.isEnabledTwitter() &&
+                !StringUtil.isEmpty(skillAppender.getTwitterScreenName()) &&
+                skillAppender.getAllowFromTwitterNotifier()) {
                 skillAppenderId = "@" + skillAppender.getTwitterScreenName();
             }
 

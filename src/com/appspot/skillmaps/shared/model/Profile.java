@@ -41,6 +41,8 @@ public class Profile implements Serializable {
 
     private String twitterScreenName;
 
+    private Boolean allowFromTwitterNotifier;
+
     private Boolean hasIcon;
 
     @Attribute(listener=CreationEmail.class)
@@ -260,6 +262,14 @@ public class Profile implements Serializable {
 
     public Boolean getHasIcon() {
         return hasIcon;
+    }
+
+    public void setAllowFromTwitterNotifier(Boolean allowFromTwitterNotifier) {
+        this.allowFromTwitterNotifier = allowFromTwitterNotifier;
+    }
+
+    public Boolean getAllowFromTwitterNotifier() {
+        return allowFromTwitterNotifier;
     }
 
 }
