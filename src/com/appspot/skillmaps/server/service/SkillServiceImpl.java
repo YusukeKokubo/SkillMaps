@@ -1,8 +1,10 @@
 package com.appspot.skillmaps.server.service;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.GlobalTransaction;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.SkillService;
@@ -39,11 +41,26 @@ public class SkillServiceImpl implements SkillService {
                 .limit(1).countQuickly() > 0) {
             return;
         }
+        GlobalTransaction gtx = Datastore.beginGlobalTransaction();
+        boolean complete = false;
+        while(!complete){
+            try{
+                Skill putSkill = null;
+                if(skill.getKey() != null){
+                    putSkill = gtx.get(sm , skill.getKey());
+                }else{
+                    putSkill = skill;
+                }
+                rel.getSkill().setModel(putSkill);
+                putSkill.getRelation().getModelList().add(rel);
+                putSkill.setPoint((long) putSkill.getRelation().getModelList().size());
+                gtx.put(putSkill, rel);
+                gtx.commit();
+                complete = true;
+            }catch(ConcurrentModificationException cme){
 
-        rel.getSkill().setModel(skill);
-        skill.getRelation().getModelList().add(rel);
-        skill.setPoint((long) skill.getRelation().getModelList().size());
-        Datastore.put(skill, rel);
+            }
+        }
 
         if (sendTwitter) {
             TwitterUtil.tweetSkillAppended(skill);
