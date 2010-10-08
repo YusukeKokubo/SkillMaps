@@ -45,10 +45,17 @@
 		</g:tab>
 		<g:tab>
 			<g:header>Twitter</g:header>
-			<g:HorizontalPanel>
-				<g:Anchor href="/twitter/auth" target="_blank" >Twitterと連携する</g:Anchor>
-				<g:Label text="　状態:" /><g:Label ui:field="lblTwitterEnabled" text="無効" />
-			</g:HorizontalPanel>
+			<g:VerticalPanel>
+				<g:HorizontalPanel>
+					<g:Anchor href="/twitter/auth" target="_blank" >Twitterと連携する</g:Anchor>
+					<g:Label text="　状態:" /><g:Label ui:field="lblTwitterEnabled" text="無効" />
+				</g:HorizontalPanel>
+				<g:VerticalPanel ui:field="profileTwitter" visible="false">
+					<g:Label>Twitter上でお知らせを受け取る</g:Label>
+					<g:CheckBox ui:field="allowFromTwitterNotifier" />
+					<g:Button ui:field="twitterProfileSubmit" text="submit" />
+				</g:VerticalPanel>
+			</g:VerticalPanel>
 		</g:tab>
 	</g:TabLayoutPanel>
 </ui:UiBinder>

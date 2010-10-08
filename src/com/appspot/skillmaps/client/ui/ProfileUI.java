@@ -18,6 +18,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -72,10 +74,49 @@ public class ProfileUI extends Composite {
     @UiField
     TabLayoutPanel tabPanel;
 
+    @UiField
+    VerticalPanel profileTwitter;
+
+    @UiField
+    CheckBox allowFromTwitterNotifier;
+
+    @UiField
+    Button twitterProfileSubmit;
+
     private Login login;
 
     private final AccountServiceAsync service = GWT
         .create(AccountService.class);
+
+    private final class ProfileSubmit implements ClickHandler {
+        private final Profile p;
+
+        private ProfileSubmit(Profile p) {
+            this.p = p;
+        }
+
+        @Override
+        public void onClick(ClickEvent event) {
+            p.setId(id.getText());
+            p.setName(name.getText());
+            p.setSelfIntroduction(selfIntroduction.getText());
+            p.setProfileUrl1(profileUrl1.getText());
+            p.setProfileUrl2(profileUrl2.getText());
+            p.setAllowFromTwitterNotifier(allowFromTwitterNotifier.getValue());
+            service.putProfile(p, new AsyncCallback<Void>() {
+                @Override
+                public void onSuccess(Void result) {
+                    Window.alert("更新しました!!");
+                    Window.Location.reload();
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage() + "\n" + Arrays.toString(caught.getStackTrace()));
+                }
+            });
+        }
+    }
 
     interface AccountConfigUiBinder extends UiBinder<Widget, ProfileUI> {
     }
@@ -90,11 +131,13 @@ public class ProfileUI extends Composite {
         selfIntroduction.setText(p.getSelfIntroduction());
         profileUrl1.setText(p.getProfileUrl1());
         profileUrl2.setText(p.getProfileUrl2());
+        allowFromTwitterNotifier.setValue(p.getAllowFromTwitterNotifier() != null ? p.getAllowFromTwitterNotifier() : false);
         if (!p.isActivate()) {
             tabPanel.remove(0);
         }
         if (p.isEnabledTwitter()){
             lblTwitterEnabled.setText("有効");
+            profileTwitter.setVisible(true);
         }
 
         if (p.getIconKey() != null) icon.setUrl("/images/icon/" + p.getIconKeyString());
@@ -102,28 +145,8 @@ public class ProfileUI extends Composite {
         form.setMethod(FormPanel.METHOD_POST);
         iconUploder.setName("uploadFormElement");
 
-        submit.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                p.setId(id.getText());
-                p.setName(name.getText());
-                p.setSelfIntroduction(selfIntroduction.getText());
-                p.setProfileUrl1(profileUrl1.getText());
-                p.setProfileUrl2(profileUrl2.getText());
-                service.putProfile(p, new AsyncCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void result) {
-                        Window.alert("更新しました!!");
-                        Window.Location.reload();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage() + "\n" + Arrays.toString(caught.getStackTrace()));
-                    }
-                });
-            }
-        });
+        submit.addClickHandler(new ProfileSubmit(p));
+        twitterProfileSubmit.addClickHandler(new ProfileSubmit(p));
 
         iconUploder.addChangeHandler(new ChangeHandler() {
             @Override
