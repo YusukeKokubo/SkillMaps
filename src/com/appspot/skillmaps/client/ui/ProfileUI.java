@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,10 +53,10 @@ public class ProfileUI extends Composite {
 
     @UiField
     TextBox profileUrl2;
-    
+
     @UiField
     Label lblTwitterEnabled;
-    
+
     @UiField
     Image icon;
 
@@ -67,13 +69,19 @@ public class ProfileUI extends Composite {
     @UiField
     FormPanel form;
 
+    @UiField
+    TabLayoutPanel tabPanel;
+
+    private Login login;
+
     private final AccountServiceAsync service = GWT
         .create(AccountService.class);
-    
+
     interface AccountConfigUiBinder extends UiBinder<Widget, ProfileUI> {
     }
 
     public ProfileUI(final Login login) {
+        this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
         final Profile p = login.getProfile();
         id.setReadOnly(p.getId() == null ? false : true);
@@ -82,15 +90,18 @@ public class ProfileUI extends Composite {
         selfIntroduction.setText(p.getSelfIntroduction());
         profileUrl1.setText(p.getProfileUrl1());
         profileUrl2.setText(p.getProfileUrl2());
-        if(p.isEnabledTwitter()){
+        if (!p.isActivate()) {
+            tabPanel.remove(0);
+        }
+        if (p.isEnabledTwitter()){
             lblTwitterEnabled.setText("有効");
         }
-        
+
         if (p.getIconKey() != null) icon.setUrl("/images/icon/" + p.getIconKeyString());
         form.setEncoding(FormPanel.ENCODING_MULTIPART);
         form.setMethod(FormPanel.METHOD_POST);
         iconUploder.setName("uploadFormElement");
-        
+
         submit.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -103,6 +114,7 @@ public class ProfileUI extends Composite {
                     @Override
                     public void onSuccess(Void result) {
                         Window.alert("更新しました!!");
+                        Window.Location.reload();
                     }
 
                     @Override
@@ -135,5 +147,10 @@ public class ProfileUI extends Composite {
             }
         });
     }
-    
+
+    @UiFactory
+    UserUI makeUserUI() {
+        return new UserUI(login, login.getProfile());
+    }
+
 }
