@@ -10,6 +10,7 @@ import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -222,6 +223,8 @@ public class UserUI extends Composite {
         return agrees;
     }
 
+    HandlerRegistration agreedRegistration;
+
     private Widget makeAgreedButton(final Skill skill) {
         if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
@@ -232,12 +235,12 @@ public class UserUI extends Composite {
                 return lbl;
             }
         }
-        return new Button("自分も賛同する", new ClickHandler() {
+        Button result = new Button("自分も賛同する", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 comment.setText("");
                 agreedForm.center();
-                agreedSubmit.addClickHandler(new ClickHandler() {
+                agreedRegistration = agreedSubmit.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         agreedSubmit.setEnabled(false);
@@ -267,5 +270,9 @@ public class UserUI extends Composite {
                 });
             }
         });
+        if (agreedRegistration != null) {
+            agreedRegistration.removeHandler();
+        }
+        return result;
     }
 }
