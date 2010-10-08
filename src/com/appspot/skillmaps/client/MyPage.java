@@ -6,7 +6,6 @@ import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
 import com.appspot.skillmaps.client.ui.ProfileUI;
 import com.appspot.skillmaps.client.ui.SigninGuidance;
-import com.appspot.skillmaps.client.ui.UserUI;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -26,9 +25,6 @@ public class MyPage implements EntryPoint {
                     RootPanel.get("header").add(new Header(login));
                     if (login.isLoggedIn()) {
                         RootPanel.get("profile").add(new ProfileUI(login));
-                        if (login.getProfile().isActivate()) {
-                            RootPanel.get("user").add(new UserUI(login, login.getProfile()));
-                        }
                     } else {
                         RootPanel.get("profile").add(new SigninGuidance(login));
                     }

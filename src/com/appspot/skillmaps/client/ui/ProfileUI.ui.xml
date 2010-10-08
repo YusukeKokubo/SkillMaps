@@ -1,14 +1,23 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
 		.profile {
 			margin: 0 50px 0 5px;
 		}
+        .tabPanelExample1
+        {
+            margin: 10px;
+        }
 	</ui:style>
-	<g:HTMLPanel>
-		<h2>プロフィール</h2>
-		<g:HorizontalPanel>
+    <g:TabLayoutPanel ui:field="tabPanel" barUnit="PX" barHeight="60" width="800px" height="550px">
+    	<g:tab>
+    		<g:header>プロフィール</g:header>
+    		<my:UserUI ui:field="userUI" />
+    	</g:tab>
+		<g:tab>
+			<g:header>編集</g:header>
 			<g:VerticalPanel styleName="{style.profile}">
 				<g:HTML><h3>自分のこと</h3></g:HTML>
 				<g:Label text="ID (半角英数字とハイフンのみ)" />
@@ -20,13 +29,11 @@
 				<g:Label text="プロフィールURL(2つまで)" />
 				<g:TextBox ui:field="profileUrl1" visibleLength="60" />
 				<g:TextBox ui:field="profileUrl2" visibleLength="60" />
-				<g:HorizontalPanel>
-					<g:Anchor href="/twitter/auth" target="_blank" >Twitterと連携する</g:Anchor>
-					<g:Label text="　状態:" /><g:Label ui:field="lblTwitterEnabled" text="無効" />
-				</g:HorizontalPanel>
 				<g:Button ui:field="submit" text="submit" />
 			</g:VerticalPanel>
-
+		</g:tab>
+		<g:tab>
+			<g:header>アイコン</g:header>
 			<g:FormPanel ui:field="form">
 				<g:VerticalPanel>
 					<g:HTML><h3>アイコン</h3></g:HTML>
@@ -35,6 +42,13 @@
 					<g:Button ui:field="iconSubmit" text="submit" />
 				</g:VerticalPanel>
 			</g:FormPanel>
-		</g:HorizontalPanel>
-	</g:HTMLPanel>
+		</g:tab>
+		<g:tab>
+			<g:header>Twitter</g:header>
+			<g:HorizontalPanel>
+				<g:Anchor href="/twitter/auth" target="_blank" >Twitterと連携する</g:Anchor>
+				<g:Label text="　状態:" /><g:Label ui:field="lblTwitterEnabled" text="無効" />
+			</g:HorizontalPanel>
+		</g:tab>
+	</g:TabLayoutPanel>
 </ui:UiBinder>
