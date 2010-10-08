@@ -57,13 +57,13 @@ public class SkillServiceImpl implements SkillService {
                 gtx.put(putSkill, rel);
                 gtx.commit();
                 complete = true;
+
+                if (sendTwitter) {
+                    TwitterUtil.tweetSkillAppended(putSkill);
+                }
             }catch(ConcurrentModificationException cme){
 
             }
-        }
-
-        if (sendTwitter) {
-            TwitterUtil.tweetSkillAppended(skill);
         }
     }
 
