@@ -70,12 +70,15 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public Skill[] getSkills(String ownerEmail) {
         List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
-        for (Skill s : result) {
-            for (SkillRelation sr : s.getRelation().getModelList()) {
-                sr.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).limit(1).asSingle());
-            }
-        }
         return result.toArray(new Skill[0]);
+    }
+
+    @Override
+    public SkillRelation[] getSkillRelations(Skill skill) {
+        for (SkillRelation sr : skill.getRelation().getModelList()) {
+            sr.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).limit(1).asSingle());
+        }
+        return skill.getRelation().getModelList().toArray(new SkillRelation[0]);
     }
 
     @Override
