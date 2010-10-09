@@ -10,7 +10,6 @@ import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -80,14 +79,17 @@ public class UserUI extends Composite {
     @UiField
     Button cancel;
 
-    Login login;
-    Profile profile;
-
     @UiField
     PopupPanel userDialog;
 
     @UiField
+    PopupPanel appealDialog;
+
+    @UiField
     DialogBox agreedForm;
+
+    Login login;
+    Profile profile;
 
     public UserUI(final Login login, final Profile profile) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -174,40 +176,79 @@ public class UserUI extends Composite {
         service.getSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
             @Override
             public void onSuccess(Skill[] result) {
-                for (int i = 0; i < result.length; i ++) {
-                    final Skill skill = result[i];
-                    skills.setText(i + 1, 0, skill.getName());
-                    skills.setText(i + 1, 1, skill.getPoint().toString());
-                    skills.setText(i + 1, 2, skill.getDescription());
-                    skills.setWidget(i + 1, 3, makeAgreedButton(skill));
-                    final VerticalPanel commentPanel = new VerticalPanel();
-                    Anchor showComment = new Anchor("詳細");
-                    commentPanel.add(showComment);
-                    showComment.addClickHandler(new ClickHandler() {
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            if (commentPanel.getWidgetCount() > 1) {
-                                commentPanel.remove(1);
-                            } else {
-                                commentPanel.add(makeAgrees(skill));
+                if (result.length <= 0) {
+                    skills.clear(true);
+                    skills.setText(0, 0, "スキルはまだありません.");
+                    if (login.getProfile().getUserEmail().equals(profile.getUserEmail())) {
+                        Anchor link = new Anchor("アピールする");
+                        link.addClickHandler(new ClickHandler() {
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                VerticalPanel panel = new VerticalPanel();
+                                Anchor close = new Anchor("close");
+                                close.addClickHandler(new ClickHandler() {
+                                    @Override
+                                    public void onClick(ClickEvent event) {
+                                        appealDialog.hide();
+                                    }
+                                });
+                                panel.add(close);
+                                panel.add(new SkillAppealForm(login));
+                                appealDialog.setWidget(panel);
+                                appealDialog.center();
                             }
+                        });
+                        skills.setWidget(0, 1, link);
+                        skills.setText(0, 2, "");
+                    }
+                    return;
+                }
+                for (int i = 0; i < result.length; i ++) {
+                    final int j = i + 1;
+                    final Skill skill = result[i];
+                    skills.setText(j, 0, skill.getName());
+                    skills.setText(j, 1, skill.getPoint().toString());
+                    skills.setText(j, 2, skill.getDescription());
+
+                    service.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
+                        @Override
+                        public void onSuccess(final SkillRelation[] rs) {
+                            skills.setWidget(j, 3, makeAgreedButton(skill, rs));
+                            final VerticalPanel commentPanel = new VerticalPanel();
+                            Anchor showComment = new Anchor("詳細");
+                            commentPanel.add(showComment);
+                            showComment.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    if (commentPanel.getWidgetCount() > 1) {
+                                        commentPanel.remove(1);
+                                    } else {
+                                        commentPanel.add(makeAgrees(skill, rs));
+                                    }
+                                }
+                            });
+                            skills.setWidget(j, 4, commentPanel);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            skills.setText(j, 3, "データを取得できませんでした");
                         }
                     });
-                    skills.setWidget(i + 1, 4, commentPanel);
                 }
             }
 
             @Override
             public void onFailure(Throwable caught) {
-//                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                skills.setText(1, 0, "データを取得できませんでした");
             }
         });
     }
 
-    private FlexTable makeAgrees(final Skill skill) {
+    private FlexTable makeAgrees(final Skill skill, SkillRelation[] rs) {
         final FlexTable agrees = new FlexTable();
-        for (int i = 0; i < skill.getRelation().getModelList().size(); i ++) {
-            SkillRelation sr = skill.getRelation().getModelList().get(i);
+        for (int i = 0; i < rs.length; i ++) {
+            SkillRelation sr = rs[i];
             Profile p = sr.getProfile();
             agrees.setWidget(i, 0, new UserThumnail(login, p, userDialog));
             agrees.setText(i, 1, sr.getComment());
@@ -215,13 +256,11 @@ public class UserUI extends Composite {
         return agrees;
     }
 
-    HandlerRegistration agreedRegistration;
-
-    private Widget makeAgreedButton(final Skill skill) {
+    private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
         if (!login.isLoggedIn() || !login.getProfile().isActivate() || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
         }
-        for (SkillRelation rel : skill.getRelation().getModelList()) {
+        for (SkillRelation rel : rs) {
             if (rel.getUserEmail().equals(login.getEmailAddress())) {
                 Label lbl = new Label("賛同済み");
                 return lbl;

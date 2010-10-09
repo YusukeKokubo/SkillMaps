@@ -16,4 +16,6 @@ public interface SkillServiceAsync {
 
     void getSkillAppeals(AsyncCallback<SkillAppeal[]> callback);
 
+    void getSkillRelations(Skill skill, AsyncCallback<SkillRelation[]> callback);
+
 }
