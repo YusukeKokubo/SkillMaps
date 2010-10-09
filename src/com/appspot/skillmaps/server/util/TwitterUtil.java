@@ -80,6 +80,7 @@ public class TwitterUtil {
             String skillOwnerId = skillOwner.getId();
             if (skillOwner.isEnabledTwitter() &&
                 !StringUtil.isEmpty(skillOwner.getTwitterScreenName()) &&
+                skillOwner.getAllowFromTwitterNotifier() != null &&
                 skillOwner.getAllowFromTwitterNotifier()) {
                 skillOwnerId = "@" + skillOwner.getTwitterScreenName();
             }
@@ -90,6 +91,7 @@ public class TwitterUtil {
             String skillAppenderId = skillAppender.getId();
             if (skillAppender.isEnabledTwitter() &&
                 !StringUtil.isEmpty(skillAppender.getTwitterScreenName()) &&
+                skillAppender.getAllowFromTwitterNotifier() != null &&
                 skillAppender.getAllowFromTwitterNotifier()) {
                 skillAppenderId = "@" + skillAppender.getTwitterScreenName();
             }
