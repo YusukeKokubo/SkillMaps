@@ -55,16 +55,7 @@
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:DialogBox>
-				<g:DialogBox ui:field="agreedForm" visible="false" animationEnabled="true" styleName="{style.form}">
-					<g:VerticalPanel>
-						<g:Label text="コメント" />
-						<g:TextArea ui:field="comment" />
-						<g:HorizontalPanel>
-							<g:Button ui:field="agreedSubmit" text="submit" />
-							<g:Button ui:field="agreedCancel" text="cancel" />
-						</g:HorizontalPanel>
-					</g:VerticalPanel>
-				</g:DialogBox>
+				<g:DialogBox ui:field="agreedForm" visible="false" animationEnabled="true" styleName="{style.form}" />
 		</g:HorizontalPanel>
 		<g:PopupPanel ui:field="userDialog" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
 	</g:HTMLPanel>

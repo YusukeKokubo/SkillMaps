@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -83,19 +84,10 @@ public class UserUI extends Composite {
     Profile profile;
 
     @UiField
-    DialogBox agreedForm;
-
-    @UiField
-    TextArea comment;
-
-    @UiField
-    Button agreedSubmit;
-
-    @UiField
-    Button agreedCancel;
-
-    @UiField
     PopupPanel userDialog;
+
+    @UiField
+    DialogBox agreedForm;
 
     public UserUI(final Login login, final Profile profile) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -226,7 +218,7 @@ public class UserUI extends Composite {
     HandlerRegistration agreedRegistration;
 
     private Widget makeAgreedButton(final Skill skill) {
-        if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
+        if (!login.isLoggedIn() || !login.getProfile().isActivate() || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
         }
         for (SkillRelation rel : skill.getRelation().getModelList()) {
@@ -235,44 +227,60 @@ public class UserUI extends Composite {
                 return lbl;
             }
         }
-        Button result = new Button("自分も賛同する", new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                comment.setText("");
-                agreedForm.center();
-                agreedRegistration = agreedSubmit.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        agreedSubmit.setEnabled(false);
-                        SkillRelation rel = new SkillRelation();
-                        rel.setComment(comment.getText());
-                        service.putSkill(skill, rel, true, new AsyncCallback<Void>() {
-                            @Override
-                            public void onSuccess(Void result) {
-                                Window.alert("更新しました");
-                                agreedSubmit.setEnabled(true);
-                                reloadSkills();
-                            }
+        return new Button("自分も賛同する", new AgreedForm(skill));
+    }
 
-                            @Override
-                            public void onFailure(Throwable caught) {
-                                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-                                agreedSubmit.setEnabled(true);
-                            }
-                        });
-                    }
-                });
-                agreedCancel.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        agreedForm.hide();
-                    }
-                });
-            }
-        });
-        if (agreedRegistration != null) {
-            agreedRegistration.removeHandler();
+    private final class AgreedForm implements ClickHandler {
+        private final Skill skill;
+        VerticalPanel panel = new VerticalPanel();
+        TextArea comment = new TextArea();
+        Button agreedSubmit = new Button("submit");
+        Button agreedCancel = new Button("cansel");
+
+        private AgreedForm(Skill skill) {
+            this.skill = skill;
+            HorizontalPanel buttonPanel = new HorizontalPanel();
+            buttonPanel.add(agreedSubmit);
+            buttonPanel.add(agreedCancel);
+            panel.add(new Label("コメント"));
+            panel.add(comment);
+            panel.add(buttonPanel);
         }
-        return result;
+
+        @Override
+        public void onClick(ClickEvent event) {
+            agreedForm.clear();
+            agreedForm.add(panel);
+            agreedForm.center();
+            comment.setText("");
+            agreedSubmit.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    agreedSubmit.setEnabled(false);
+                    SkillRelation rel = new SkillRelation();
+                    rel.setComment(comment.getText());
+                    service.putSkill(skill, rel, true, new AsyncCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void result) {
+                            Window.alert("更新しました");
+                            agreedSubmit.setEnabled(true);
+                            reloadSkills();
+                        }
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                            agreedSubmit.setEnabled(true);
+                        }
+                    });
+                }
+            });
+            agreedCancel.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    agreedForm.hide();
+                }
+            });
+        }
     }
 }
