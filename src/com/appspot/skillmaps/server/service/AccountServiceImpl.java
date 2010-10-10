@@ -3,11 +3,14 @@ package com.appspot.skillmaps.server.service;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.ModelQuery;
+import org.slim3.datastore.S3QueryResultList;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.AccountService;
 import com.appspot.skillmaps.server.meta.IconMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
+import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Icon;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
@@ -18,6 +21,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 
 public class AccountServiceImpl implements AccountService {
+    private static final int USER_LISE_SIZE = 80;
     ProfileMeta pm = ProfileMeta.get();
 
     @Override
@@ -68,6 +72,63 @@ public class AccountServiceImpl implements AccountService {
     public Profile[] getUsers() {
         List<Profile> result = Datastore.query(pm).filter(pm.id.isNotNull()).asList();
         return result.toArray(new Profile[0]);
+    }
+
+    @Override
+    public UserListResultDto getUserList(){
+        return getUsers(0, null, null, null);
+    }
+
+    @Override
+    public UserListResultDto getUsers(int pageNum,
+                                        String encodedCursor,
+                                        String encodedFilter,
+                                        String encodedSorts){
+        if(StringUtil.isEmpty(encodedCursor)
+                || StringUtil.isEmpty(encodedFilter)
+                || StringUtil.isEmpty(encodedSorts)){
+            //空は初回
+            S3QueryResultList<Profile> result = Datastore.query(pm)
+                                                            .filter(pm.id.isNotNull())
+                                                            .prefetchSize(USER_LISE_SIZE)
+                                                            .limit(USER_LISE_SIZE)
+                                                            .asQueryResultList();
+            UserListResultDto resultDto = createUserListResultDto(result);
+            return resultDto;
+        }
+
+        ModelQuery<Profile> mq = Datastore.query(pm).prefetchSize(USER_LISE_SIZE);
+
+        if(pageNum < 0){
+            mq = mq.encodedEndCursor(encodedCursor)
+                    .encodedFilters(encodedFilter)
+                    .encodedSorts(encodedSorts);
+        }else{
+            mq = mq.encodedStartCursor(encodedCursor)
+                    .encodedFilters(encodedFilter)
+                    .encodedSorts(encodedSorts);
+        }
+
+        if(pageNum >= 1){
+            mq = mq.offset(USER_LISE_SIZE * pageNum);
+        }else if(pageNum < 0){
+            mq = mq.offset(USER_LISE_SIZE * pageNum * -1);
+        }
+
+        S3QueryResultList<Profile> result = mq.limit(USER_LISE_SIZE).asQueryResultList();
+        UserListResultDto resultDto = createUserListResultDto(result);
+        return resultDto;
+    }
+
+    private UserListResultDto createUserListResultDto(
+            S3QueryResultList<Profile> result) {
+        UserListResultDto resultDto = new UserListResultDto();
+        resultDto.setUsers(result.toArray(new Profile[0]));
+        resultDto.setEncodedCursor(result.getEncodedCursor());
+        resultDto.setEncodedFilter(result.getEncodedFilters());
+        resultDto.setEncodedSorts(result.getEncodedSorts());
+        resultDto.setHasNext(result.hasNext());
+        return resultDto;
     }
 
     @Override

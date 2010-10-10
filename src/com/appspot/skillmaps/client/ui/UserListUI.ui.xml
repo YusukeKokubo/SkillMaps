@@ -8,17 +8,34 @@
 			padding: 15px;
 			background-color: #ffffff;
 		}
-		.tool-bar{
-			width:100%;
+		.tool-bar {
+			height:24px;
 			background-color: #E5ECF9;
 			margin: 0 0 8px;
-			text-align: right;
 		}
-
+		.tool-bar-right{
+			margin: 0 0 8px;
+			padding-top:4px;
+			text-align: right;
+			float: right;
+		}
+		.tool-bar-left{
+			margin: 0 0 8px;
+			text-align: left;
+			float: left;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div id="usersToolBar" class="{style.tool-bar}">
-			<g:ListBox ui:field="layoutSelect"/>列で表示
+			<div id="usersToolBar-left" class="{style.tool-bar-left}">
+				<g:ListBox ui:field="layoutSelect"/>列で表示
+			</div>
+			<div id="usersToolBar-right" class="{style.tool-bar-right}">
+				<g:InlineLabel ui:field="page">1</g:InlineLabel>ページ目
+				|<g:Anchor ui:field="prevAnchor"  href="#" addStyleNames="link" visible="false">&nbsp;前へ</g:Anchor>&nbsp;
+				&nbsp;<g:Anchor ui:field="nextAnchor" href="#"  addStyleNames="link" >次へ</g:Anchor>
+			</div>
+
 		</div>
 		<g:VerticalPanel ui:field="usersPanel" width="100%">
 		</g:VerticalPanel>
