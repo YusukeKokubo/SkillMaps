@@ -179,7 +179,7 @@ public class UserUI extends Composite {
                 if (result.length <= 0) {
                     skills.clear(true);
                     skills.setText(0, 0, "スキルはまだありません.");
-                    if (login.getProfile().getUserEmail().equals(profile.getUserEmail())) {
+                    if (login.isLoggedIn() && login.getProfile().getUserEmail().equals(profile.getUserEmail())) {
                         Anchor link = new Anchor("アピールする");
                         link.addClickHandler(new ClickHandler() {
                             @Override
