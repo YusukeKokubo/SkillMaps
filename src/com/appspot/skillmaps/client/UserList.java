@@ -5,8 +5,8 @@ import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
 import com.appspot.skillmaps.client.ui.UserListUI;
+import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Login;
-import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,10 +23,11 @@ public class UserList implements EntryPoint {
                 @Override
                 public void onSuccess(final Login login) {
                     RootPanel.get("header").add(new Header(login));
-                    service.getUsers(new AsyncCallback<Profile[]>() {
+                    service.getUserList(new AsyncCallback<UserListResultDto>() {
+
                         @Override
-                        public void onSuccess(Profile[] profile) {
-                            RootPanel.get("users").add(new UserListUI(login, profile));
+                        public void onSuccess(UserListResultDto result) {
+                            RootPanel.get("users").add(new UserListUI(login, result));
                         }
 
                         @Override
