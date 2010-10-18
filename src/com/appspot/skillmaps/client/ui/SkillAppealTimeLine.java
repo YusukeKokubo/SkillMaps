@@ -3,14 +3,13 @@ package com.appspot.skillmaps.client.ui;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
-import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -32,7 +31,10 @@ public class SkillAppealTimeLine extends Composite {
     @UiField
     PopupPanel userDialog;
 
+    private Login login;
+
     public SkillAppealTimeLine(final Login login) {
+        this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
 
         service.getSkillAppeals(new AsyncCallback<SkillAppeal[]>() {
@@ -40,12 +42,9 @@ public class SkillAppealTimeLine extends Composite {
             @Override
             public void onSuccess(SkillAppeal[] as) {
                 for (SkillAppeal appeal : as) {
-                    Profile user = appeal.getProfile();
-                    HorizontalPanel panel = new HorizontalPanel();
-                    panel.add(new UserThumnail(login, user, userDialog));
-                    panel.add(new SkillAppealUI(appeal));
-
-                    appealsPanel.add(panel);
+                    SkillAppealUI w = new SkillAppealUI(login, appeal, userDialog);
+                    appealsPanel.add(w);
+                    appealsPanel.setCellWidth(w, "400px");
                 }
             }
 
@@ -54,6 +53,11 @@ public class SkillAppealTimeLine extends Composite {
 //                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
             }
         });
+    }
+
+    @UiFactory
+    Skills makeSkills() {
+        return new Skills(login);
     }
 
 }

@@ -1,12 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
 
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
+				<sm:UserThumnail ui:field="userThumnail" />
 				<g:Label ui:field="appealSkillName" />
 				<g:HTML ui:field="description" />
 				<g:Anchor ui:field="url" target="_blank" />
