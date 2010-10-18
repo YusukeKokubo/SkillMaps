@@ -8,3 +8,4 @@ war/userlist
 war/admin
 src/com/appspot/skillmaps/server/meta
 war/WEB-INF/appengine-generated
+war/skill

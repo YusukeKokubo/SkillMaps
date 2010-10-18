@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
+import org.slim3.datastore.CreationEmail;
 import org.slim3.datastore.InverseModelListRef;
 import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
@@ -34,6 +35,9 @@ public class Skill implements Serializable {
     private InverseModelListRef<SkillRelation, Skill> relation = new InverseModelListRef<SkillRelation, Skill>(SkillRelation.class, "skill", this);
 
     private String ownerEmail;
+    
+    @Attribute(listener=CreationEmail.class)
+    private String createdUserEmail;
 
     @Attribute(listener=CreationDate.class)
     private Date createdAt;
@@ -41,6 +45,8 @@ public class Skill implements Serializable {
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
 
+    @Attribute(persistent=false)
+    private Profile profile;
 
 
 
@@ -170,5 +176,21 @@ public class Skill implements Serializable {
 
     public Boolean getEnable() {
         return enable;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setCreatedUserEmail(String createdUserEmail) {
+        this.createdUserEmail = createdUserEmail;
+    }
+
+    public String getCreatedUserEmail() {
+        return createdUserEmail;
     }
 }

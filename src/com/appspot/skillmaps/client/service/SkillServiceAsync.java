@@ -1,5 +1,8 @@
 package com.appspot.skillmaps.client.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -17,5 +20,12 @@ public interface SkillServiceAsync {
     void getSkillAppeals(AsyncCallback<SkillAppeal[]> callback);
 
     void getSkillRelations(Skill skill, AsyncCallback<SkillRelation[]> callback);
+
+    void getPopularSkills(
+            AsyncCallback<HashMap<String, ArrayList<Skill>>> callback);
+
+    void getSkillOwners(Skill skill, AsyncCallback<Skill[]> callback);
+
+    void getSkillOwners(String skillName, AsyncCallback<Skill[]> callback);
 
 }

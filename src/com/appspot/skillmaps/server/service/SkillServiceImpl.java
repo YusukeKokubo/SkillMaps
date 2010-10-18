@@ -1,6 +1,8 @@
 package com.appspot.skillmaps.server.service;
 
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
@@ -13,6 +15,7 @@ import com.appspot.skillmaps.server.meta.SkillAppealMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.server.util.TwitterUtil;
+import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -68,15 +71,49 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
+    public Skill[] getSkillOwners(Skill skill) {
+        List<Skill> skills = Datastore.query(sm).filter(sm.name.equal(skill.getName())).asList();
+        for (Skill s : skills) {
+            s.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(s.getOwnerEmail())).limit(1).asSingle());
+        }
+        return skills.toArray(new Skill[0]);
+    }
+
+    @Override
+    public Skill[] getSkillOwners(String skillName) {
+        Skill aSkill = Datastore.query(sm).filter(sm.name.equal(skillName)).limit(1).asSingle();
+        if (aSkill == null) return null;
+        return this.getSkillOwners(aSkill);
+    }
+
+    @Override
     public Skill[] getSkills(String ownerEmail) {
         List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
         return result.toArray(new Skill[0]);
     }
 
     @Override
+    public HashMap<String,ArrayList<Skill>> getPopularSkills() {
+        // とりあえず生データをそのままもってきてるけど将来的にはCronで専用のEntityを作ったのを読むようにしたい
+        List<Skill> skills = Datastore.query(sm).sort(sm.point.desc).asList();
+        HashMap<String, ArrayList<Skill>> skillmap = new HashMap<String, ArrayList<Skill>>();
+        for (Skill skill : skills) {
+            ArrayList<Skill> map = skillmap.get(skill.getName().toLowerCase());
+            if (map == null) {
+                map = new ArrayList<Skill>();
+                skillmap.put(skill.getName().toLowerCase(), map);
+            }
+            skill.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(skill.getOwnerEmail())).limit(1).asSingle());
+            map.add(skill);
+        }
+        return skillmap;
+    }
+
+    @Override
     public SkillRelation[] getSkillRelations(Skill skill) {
         for (SkillRelation sr : skill.getRelation().getModelList()) {
-            sr.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).limit(1).asSingle());
+            Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).limit(1).asSingle();
+            sr.setProfile(profile);
         }
         return skill.getRelation().getModelList().toArray(new SkillRelation[0]);
     }
@@ -85,7 +122,8 @@ public class SkillServiceImpl implements SkillService {
     public SkillAppeal[] getSkillAppeals() {
         List<SkillAppeal> result = Datastore.query(am).sort(am.createdAt.desc).limit(20).asList();
         for (SkillAppeal appeal : result) {
-            appeal.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(appeal.getUserEmail())).limit(1).asSingle());
+            Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(appeal.getUserEmail())).limit(1).asSingle();
+            appeal.setProfile(profile);
         }
         return result.toArray(new SkillAppeal[0]);
     }

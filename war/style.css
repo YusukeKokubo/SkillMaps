@@ -69,3 +69,8 @@ h1 {
 .tags-grid td {
 	margin: 0px 5px;
 }
+
+.anchor {
+	color: #03f;
+	text-decoration: underline;
+}

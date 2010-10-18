@@ -206,7 +206,48 @@ public class UserUI extends Composite {
                 for (int i = 0; i < result.length; i ++) {
                     final int j = i + 1;
                     final Skill skill = result[i];
-                    skills.setText(j, 0, skill.getName());
+                    Anchor name = new Anchor(skill.getName());
+                    name.setStyleName("class='anchor'");
+                    name.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            final Anchor close = new Anchor("close");
+                            close.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    userDialog.hide();
+                                }
+                            });
+                            service.getSkillOwners(skill, new AsyncCallback<Skill[]>() {
+                                @Override
+                                public void onSuccess(Skill[] result) {
+                                    VerticalPanel panel = new VerticalPanel();
+                                    panel.add(close);
+
+                                    FlexTable table = new FlexTable();
+                                    table.setText(0, 0, "スキル");
+                                    table.setText(0, 1, "賛同者");
+                                    table.setText(0, 2, "ユーザー");
+                                    table.getRowFormatter().addStyleName(0, "grid-columns");
+                                    for (int i = 0; i < result.length; i ++) {
+                                        Skill s = result[i];
+                                        table.setText(i + 1, 0, s.getName());
+                                        table.setText(i + 1, 1, String.valueOf(s.getPoint()));
+                                        table.setWidget(i + 1, 2, new UserThumnail(login, s.getProfile(), userDialog));
+                                    }
+                                    panel.add(table);
+                                    panel.add(new Anchor("permalink", "/skill.html?name=" + skill.getName()));
+                                    userDialog.setWidget(panel);
+                                    userDialog.center();
+                                }
+
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                }
+                            });
+                        }
+                    });
+                    skills.setWidget(j, 0, name);
                     skills.setText(j, 1, skill.getPoint().toString());
                     skills.setText(j, 2, skill.getDescription());
 
