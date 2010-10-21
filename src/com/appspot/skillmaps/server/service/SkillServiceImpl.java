@@ -1,7 +1,9 @@
 package com.appspot.skillmaps.server.service;
 
 import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.GlobalTransaction;
@@ -90,6 +92,18 @@ public class SkillServiceImpl implements SkillService {
         return result.toArray(new Skill[0]);
     }
 
+    @Override
+    public String[] getSkillNames() {
+        List<Skill> list = Datastore.query(sm).sortInMemory(sm.name.asc).asList();
+
+        Set<String> skillNames = new HashSet<String>();
+        for (Skill skill : list) {
+            skillNames.add(skill.getName());
+        }
+
+        return skillNames.toArray(new String[skillNames.size()]);
+    }
+    
     @Override
     public SkillRelation[] getSkillRelations(Skill skill) {
         for (SkillRelation sr : skill.getRelation().getModelList()) {

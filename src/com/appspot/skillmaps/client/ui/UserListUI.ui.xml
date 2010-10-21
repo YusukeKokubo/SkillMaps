@@ -35,7 +35,6 @@
 				|<g:Anchor ui:field="prevAnchor"  href="#" addStyleNames="link" visible="false">&nbsp;前へ</g:Anchor>&nbsp;
 				&nbsp;<g:Anchor ui:field="nextAnchor" href="#"  addStyleNames="link" >次へ</g:Anchor>
 			</div>
-
 		</div>
 		<g:VerticalPanel ui:field="usersPanel" width="100%">
 		</g:VerticalPanel>

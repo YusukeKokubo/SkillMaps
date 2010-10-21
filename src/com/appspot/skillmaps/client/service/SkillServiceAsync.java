@@ -22,4 +22,6 @@ public interface SkillServiceAsync {
 
     void getSkillOwners(String skillName, AsyncCallback<Skill[]> callback);
 
+    void getSkillNames(AsyncCallback<String[]> callback);
+
 }
