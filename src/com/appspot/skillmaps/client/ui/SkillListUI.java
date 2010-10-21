@@ -6,6 +6,7 @@ import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -53,6 +54,7 @@ public class SkillListUI extends Composite {
                             VerticalPanel panel = new VerticalPanel();
                             panel.add(close);
                             panel.add(new SkillOwners(login, name));
+                            panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(name)));
                             skillOwners.setWidget(panel);
                             skillOwners.center();
                         }
