@@ -1,8 +1,6 @@
 package com.appspot.skillmaps.server.service;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
@@ -90,23 +88,6 @@ public class SkillServiceImpl implements SkillService {
     public Skill[] getSkills(String ownerEmail) {
         List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
         return result.toArray(new Skill[0]);
-    }
-
-    @Override
-    public HashMap<String,ArrayList<Skill>> getPopularSkills() {
-        // とりあえず生データをそのままもってきてるけど将来的にはCronで専用のEntityを作ったのを読むようにしたい
-        List<Skill> skills = Datastore.query(sm).sort(sm.point.desc).asList();
-        HashMap<String, ArrayList<Skill>> skillmap = new HashMap<String, ArrayList<Skill>>();
-        for (Skill skill : skills) {
-            ArrayList<Skill> map = skillmap.get(skill.getName().toLowerCase());
-            if (map == null) {
-                map = new ArrayList<Skill>();
-                skillmap.put(skill.getName().toLowerCase(), map);
-            }
-            skill.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(skill.getOwnerEmail())).limit(1).asSingle());
-            map.add(skill);
-        }
-        return skillmap;
     }
 
     @Override

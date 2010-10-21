@@ -1,8 +1,5 @@
 package com.appspot.skillmaps.client.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -21,8 +18,6 @@ public interface SkillService extends RemoteService {
     SkillAppeal[] getSkillAppeals();
 
     SkillRelation[] getSkillRelations(Skill skill);
-
-    HashMap<String, ArrayList<Skill>> getPopularSkills();
 
     Skill[] getSkillOwners(Skill skill);
 

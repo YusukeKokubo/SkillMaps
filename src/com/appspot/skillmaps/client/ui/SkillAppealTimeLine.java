@@ -6,7 +6,6 @@ import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -31,7 +30,7 @@ public class SkillAppealTimeLine extends Composite {
     @UiField
     PopupPanel userDialog;
 
-    private Login login;
+    Login login;
 
     public SkillAppealTimeLine(final Login login) {
         this.login = login;
@@ -54,10 +53,4 @@ public class SkillAppealTimeLine extends Composite {
             }
         });
     }
-
-    @UiFactory
-    Skills makeSkills() {
-        return new Skills(login);
-    }
-
 }

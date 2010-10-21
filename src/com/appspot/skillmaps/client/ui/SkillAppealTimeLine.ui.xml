@@ -11,10 +11,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel>
-			<g:VerticalPanel ui:field="appealsPanel" spacing="5" />
-			<sm:Skills ui:field="skills" />
-		</g:HorizontalPanel>
+		<g:VerticalPanel ui:field="appealsPanel" spacing="5" />
 		<g:PopupPanel ui:field="userDialog" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
 	</g:HTMLPanel>
 </ui:UiBinder>
