@@ -1,9 +1,8 @@
 package com.appspot.skillmaps.server.service;
 
 import java.util.ConcurrentModificationException;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.GlobalTransaction;
@@ -18,6 +17,7 @@ import com.appspot.skillmaps.server.util.TwitterUtil;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -93,15 +93,24 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public String[] getSkillNames() {
+    public SkillMap[] getSkillNames() {
         List<Skill> list = Datastore.query(sm).sortInMemory(sm.name.asc).asList();
 
-        Set<String> skillNames = new HashSet<String>();
+        HashMap<String, SkillMap> skillNames = new HashMap<String, SkillMap>();
         for (Skill skill : list) {
-            skillNames.add(skill.getName());
+            SkillMap sm = null;
+            if (skillNames.containsKey(skill.getName())) {
+                sm = skillNames.get(skill.getName());
+                sm.setPoint(sm.getPoint() + skill.getPoint());
+            } else {
+                sm = new SkillMap();
+                sm.setSkillName(skill.getName());
+                sm.setPoint(skill.getPoint());
+            }
+            skillNames.put(skill.getName(), sm);
         }
 
-        return skillNames.toArray(new String[skillNames.size()]);
+        return skillNames.values().toArray(new SkillMap[skillNames.size()]);
     }
     
     @Override

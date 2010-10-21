@@ -78,3 +78,23 @@ h1 {
 .skill a {
 	margin: 10px;
 }
+
+.skill a.mega {
+	font-size: 24px;
+	color: #cc0000;
+}
+
+.skill a.big {
+	font-size: 22px;
+	color: #cc6600;
+}
+
+.skill a.middle {
+	font-size: 18px;
+	color: #000000;
+}
+
+.skill a.small {
+	color: #000000;
+}
+

@@ -2,6 +2,7 @@ package com.appspot.skillmaps.client.service;
 
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -22,6 +23,6 @@ public interface SkillServiceAsync {
 
     void getSkillOwners(String skillName, AsyncCallback<Skill[]> callback);
 
-    void getSkillNames(AsyncCallback<String[]> callback);
+    void getSkillNames(AsyncCallback<SkillMap[]> callback);
 
 }

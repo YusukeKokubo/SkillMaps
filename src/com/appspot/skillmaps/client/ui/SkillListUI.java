@@ -3,6 +3,7 @@ package com.appspot.skillmaps.client.ui;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
+import com.appspot.skillmaps.shared.model.SkillMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -43,18 +44,19 @@ public class SkillListUI extends Composite {
             }
         });
         
-        service.getSkillNames(new AsyncCallback<String[]>() {
+        service.getSkillNames(new AsyncCallback<SkillMap[]>() {
             @Override
-            public void onSuccess(String[] skillNames) {
-                for (final String name : skillNames) {
-                    Anchor skill = new Anchor(name);
+            public void onSuccess(SkillMap[] skillMaps) {
+                for (final SkillMap sm : skillMaps) {
+                    Anchor skill = new Anchor(sm.getSkillName() + "(" + sm.getPoint() + ")");
+                    skill.addStyleName(makeStyleForSkillName(sm.getPoint()));
                     skill.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
                             VerticalPanel panel = new VerticalPanel();
                             panel.add(close);
-                            panel.add(new SkillOwners(login, name));
-                            panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(name)));
+                            panel.add(new SkillOwners(login, sm.getSkillName()));
+                            panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(sm.getSkillName())));
                             skillOwners.setWidget(panel);
                             skillOwners.center();
                         }
@@ -69,4 +71,10 @@ public class SkillListUI extends Composite {
         });
     }
 
+    private String makeStyleForSkillName(long point) {
+        if (point > 40) return "mega";
+        if (point > 20) return "big";
+        if (point > 10) return "middle";
+        return "small";
+    }
 }
