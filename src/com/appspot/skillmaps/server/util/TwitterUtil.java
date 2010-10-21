@@ -97,6 +97,10 @@ public class TwitterUtil {
             }
 
             GlobalSetting gs = Datastore.query(GlobalSettingMeta.get()).limit(1).asSingle();
+            if (gs == null) {
+                System.err.println("GlobalSetting not configured.");
+                return;
+            }
             Profile notifier = gs.getTwitterNotifier().getModel();
             if (!notifier.isEnabledTwitter()) {
                 System.err.println("Twitter notifier not configured.");
