@@ -3,6 +3,7 @@
 <module rename-to="admin">
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="org.slim3.gwt.emul.S3Emulation" />
+	<inherits name="com.google.gwt.http.HTTP"/>
 
 	<source path="client"/>
 	<source path="shared" />

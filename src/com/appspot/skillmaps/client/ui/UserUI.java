@@ -10,6 +10,7 @@ import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -236,7 +237,7 @@ public class UserUI extends Composite {
                                         table.setWidget(i + 1, 2, new UserThumnail(login, s.getProfile(), userDialog));
                                     }
                                     panel.add(table);
-                                    panel.add(new Anchor("permalink", "/skill.html?name=" + skill.getName()));
+                                    panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(skill.getName())));
                                     userDialog.setWidget(panel);
                                     userDialog.center();
                                 }
