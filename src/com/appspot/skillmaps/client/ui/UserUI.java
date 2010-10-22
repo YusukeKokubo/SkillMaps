@@ -177,6 +177,11 @@ public class UserUI extends Composite {
         skills.setText(0, 0, "スキル");
         skills.setText(0, 1, "賛同者");
         skills.setText(0, 2, "説明");
+        skills.getCellFormatter().addStyleName(0, 0, "skill-name");
+        skills.getCellFormatter().addStyleName(0, 1, "skill-point");
+        skills.getCellFormatter().addStyleName(0, 2, "skill-description");
+        skills.getCellFormatter().addStyleName(0, 3, "skill-agree-link");
+        skills.getCellFormatter().addStyleName(0, 4, "skill-detail");
         skills.getRowFormatter().addStyleName(0, "grid-columns");
         service.getSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
             @Override

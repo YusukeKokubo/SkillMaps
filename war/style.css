@@ -98,3 +98,30 @@ h1 {
 	color: #000000;
 }
 
+.skill-grid {
+	width: 760px;
+}
+
+.skill-grid tr {
+	margin: 0 5px;
+}
+
+.skill-grid td.skill-name {
+	width: 100px;
+}
+
+.skill-grid td.skill-point {
+	width: 50px;
+}
+
+.skill-grid td.skill-description {
+	width: 300px;
+}
+
+.skill-grid td.skill-agree-link {
+	width: 110px;
+}
+
+.skill-grid td.skill-agree-detail {
+	width: 200px;
+}
