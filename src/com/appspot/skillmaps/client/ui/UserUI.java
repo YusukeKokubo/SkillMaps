@@ -73,6 +73,9 @@ public class UserUI extends Composite {
 
     @UiField
     TextArea description;
+    
+    @UiField
+    TextArea comment;
 
     @UiField
     Button submit;
@@ -125,6 +128,7 @@ public class UserUI extends Composite {
             public void onClick(ClickEvent event) {
                 skillName.setText("");
                 description.setText("");
+                comment.setText("");
                 form.center();
             }
         });
@@ -138,7 +142,7 @@ public class UserUI extends Composite {
                 skill.setName(skillName.getText());
                 skill.setDescription(description.getText());
                 SkillRelation rel = new SkillRelation();
-                rel.setComment("");
+                rel.setComment(comment.getText());
                 service.putSkill(skill, rel, true, new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
