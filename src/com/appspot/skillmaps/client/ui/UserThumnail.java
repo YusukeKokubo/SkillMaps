@@ -32,7 +32,6 @@ public class UserThumnail extends Composite {
     @UiField
     Image icon;
 
-
     public UserThumnail(final Login login, final Profile user, final PopupPanel userDialog) {
         initWidget(uiBinder.createAndBindUi(this));
         final Anchor close = new Anchor("close");

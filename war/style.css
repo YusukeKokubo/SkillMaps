@@ -27,7 +27,7 @@ h1 {
 }
 
 .gwt-DialogBox {
-  width: 400px;
+  width: 760px;
 }
 
 .dialogVPanel {
@@ -122,6 +122,11 @@ h1 {
 	width: 110px;
 }
 
-.skill-grid td.skill-agree-detail {
+.skill-grid td.skill-detail {
 	width: 200px;
+}
+
+.agree-comment {
+	width: 200px;
+	overflow: auto;
 }

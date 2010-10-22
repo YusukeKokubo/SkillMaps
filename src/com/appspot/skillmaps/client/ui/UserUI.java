@@ -265,20 +265,15 @@ public class UserUI extends Composite {
                         @Override
                         public void onSuccess(final SkillRelation[] rs) {
                             skills.setWidget(j, 3, makeAgreedButton(skill, rs));
-                            final VerticalPanel commentPanel = new VerticalPanel();
-                            Anchor showComment = new Anchor("詳細");
-                            commentPanel.add(showComment);
+                            final Anchor showComment = new Anchor("詳細");
+                            skills.setWidget(j, 4, showComment);
                             showComment.addClickHandler(new ClickHandler() {
                                 @Override
                                 public void onClick(ClickEvent event) {
-                                    if (commentPanel.getWidgetCount() > 1) {
-                                        commentPanel.remove(1);
-                                    } else {
-                                        commentPanel.add(makeAgrees(skill, rs));
-                                    }
+                                     makeAgrees(skill, rs, j);
+                                     showComment.setVisible(false);
                                 }
                             });
-                            skills.setWidget(j, 4, commentPanel);
                         }
 
                         @Override
@@ -296,15 +291,17 @@ public class UserUI extends Composite {
         });
     }
 
-    private FlexTable makeAgrees(final Skill skill, SkillRelation[] rs) {
-        final FlexTable agrees = new FlexTable();
+    private void makeAgrees(final Skill skill, SkillRelation[] rs, int j) {
+        VerticalPanel panel = new VerticalPanel();
         for (int i = 0; i < rs.length; i ++) {
             SkillRelation sr = rs[i];
             Profile p = sr.getProfile();
-            agrees.setWidget(i, 0, new UserThumnail(login, p, userDialog));
-            agrees.setText(i, 1, sr.getComment());
+            panel.add(new UserThumnail(login, p, userDialog));
+            Label agreeComment = new Label(sr.getComment());
+            agreeComment.addStyleName("agree-comment");
+            panel.add(agreeComment);
         }
-        return agrees;
+        skills.setWidget(j, 4, panel);
     }
 
     private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
