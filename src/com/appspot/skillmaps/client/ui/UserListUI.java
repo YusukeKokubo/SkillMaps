@@ -94,7 +94,7 @@ public class UserListUI extends Composite {
         prevAnchor.setVisible(true);
         usersPanel.clear();
         pageIndex++;
-        page.setText(String.valueOf(pageIndex));
+        page.setText(String.valueOf(pageIndex + 1));
         if(!pageMap.containsKey(pageIndex)){
             service.getUsers(0,
                         userListResultDto.getEncodedCursor(),
@@ -146,7 +146,7 @@ public class UserListUI extends Composite {
         if(pageIndex <= 0){
             prevAnchor.setVisible(false);
         }
-        page.setText(String.valueOf(pageIndex));
+        page.setText(String.valueOf(pageIndex + 1));
         if(!pageMap.containsKey(pageIndex)){
             service.getUsers(pageIndex * -1,
                 userListResultDto.getEncodedCursor(),
