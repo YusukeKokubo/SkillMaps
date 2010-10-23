@@ -6,6 +6,7 @@ import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,9 +24,10 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -68,12 +70,14 @@ public class UserUI extends Composite {
     @UiField
     DialogBox form;
 
-    @UiField
-    TextBox skillName;
+    @UiField(provided=true)
+    SuggestBox skillName;
+
+    MultiWordSuggestOracle skillNames = new MultiWordSuggestOracle();
 
     @UiField
     TextArea description;
-    
+
     @UiField
     TextArea comment;
 
@@ -96,6 +100,7 @@ public class UserUI extends Composite {
     Profile profile;
 
     public UserUI(final Login login, final Profile profile) {
+        this.skillName = new SuggestBox(skillNames);
         initWidget(uiBinder.createAndBindUi(this));
         this.login = login;
         this.profile = profile;
@@ -126,6 +131,24 @@ public class UserUI extends Composite {
         addSkill.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                service.getSkillNames(new AsyncCallback<SkillMap[]>() {
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(SkillMap[] result) {
+                        if(result == null || result.length == 0){
+                            return;
+                        }
+                        skillNames.clear();
+                        for (SkillMap skillMap : result) {
+                            skillNames.add(skillMap.getSkillName());
+                        }
+                    }
+                });
                 skillName.setText("");
                 description.setText("");
                 comment.setText("");
