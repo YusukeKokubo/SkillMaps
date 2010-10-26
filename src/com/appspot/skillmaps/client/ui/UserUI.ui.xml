@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
 		.form {
 			border: 2px solid #ABB8C7;
@@ -14,12 +15,6 @@
 			padding: 5px;
 			border: 1px solid #A2BBDD;
 			color: #333333;
-		}
-		.user-dialog {
-			border: 2px solid #ABB8C7;
-			width: 760px;
-			padding: 15px;
-			background-color: #ffffff;
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -54,6 +49,6 @@
 				<g:DialogBox ui:field="appealDialog" visible="false" animationEnabled="true" styleName="{style.form}" />
 				<g:DialogBox ui:field="agreedForm" visible="false" animationEnabled="true" styleName="{style.form}" />
 		</g:HorizontalPanel>
-		<g:PopupPanel ui:field="userDialog" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
+		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>

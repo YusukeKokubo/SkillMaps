@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,7 +41,7 @@ public class UserListUI extends Composite {
     VerticalPanel usersPanel;
 
     @UiField
-    PopupPanel userDialog;
+    UserDialog userDialog;
 
     @UiField
     ListBox layoutSelect;

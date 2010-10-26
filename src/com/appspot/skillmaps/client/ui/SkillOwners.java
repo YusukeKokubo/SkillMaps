@@ -10,7 +10,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SkillOwners extends Composite {
@@ -24,7 +23,7 @@ public class SkillOwners extends Composite {
     FlexTable table;
 
     @UiField
-    PopupPanel userDialog;
+    UserDialog userDialog;
 
     interface SkillOwnersUiBinder extends UiBinder<Widget, SkillOwners> {
     }

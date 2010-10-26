@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,7 +31,7 @@ public class UserThumnail extends Composite {
     @UiField
     Image icon;
 
-    public UserThumnail(final Login login, final Profile user, final PopupPanel userDialog) {
+    public UserThumnail(final Login login, final Profile user, final UserDialog userDialog) {
         initWidget(uiBinder.createAndBindUi(this));
         final Anchor close = new Anchor("close");
         close.addClickHandler(new ClickHandler() {

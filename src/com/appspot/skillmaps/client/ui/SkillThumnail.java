@@ -11,7 +11,6 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,9 +23,6 @@ public class SkillThumnail extends Composite {
     }
 
     @UiField
-    PopupPanel skillOwners;
-
-    @UiField
     Anchor skillName;
     
     @UiField
@@ -36,9 +32,12 @@ public class SkillThumnail extends Composite {
     
     Login login;
     
-    public SkillThumnail(final Login login, final Skill skill) {
+    UserDialog skillOwners;
+    
+    public SkillThumnail(final Login login, final Skill skill, final UserDialog skillOwners) {
         this.login = login;
         this.skill = skill;
+        this.skillOwners = skillOwners;
         initWidget(uiBinder.createAndBindUi(this));
         final Anchor close = new Anchor("close");
         close.addClickHandler(new ClickHandler() {

@@ -9,7 +9,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,7 +27,7 @@ public class SkillAppealTimeLine extends Composite {
     VerticalPanel appealsPanel;
 
     @UiField
-    PopupPanel userDialog;
+    UserDialog userDialog;
 
     Login login;
 

@@ -1,17 +1,12 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
-		.user-dialog {
-			border: 2px solid #ABB8C7;
-			width: 760px;
-			padding: 15px;
-			background-color: #ffffff;
-		}
 	</ui:style>
 	<g:HTMLPanel>
 		<h2>最近追加されたスキル</h2>
 		<g:VerticalPanel ui:field="skills" />
-		<g:PopupPanel ui:field="userDialog" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
+		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>

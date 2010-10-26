@@ -9,7 +9,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,7 +27,7 @@ public class RecentAddedSkills extends Composite {
     VerticalPanel skills;
     
     @UiField
-    PopupPanel userDialog;
+    UserDialog userDialog;
 
     public RecentAddedSkills(final Login login) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -37,7 +36,7 @@ public class RecentAddedSkills extends Composite {
             @Override
             public void onSuccess(Skill[] result) {
                 for (Skill skill : result) {
-                    skills.add(new SkillThumnail(login, skill));
+                    skills.add(new SkillThumnail(login, skill, userDialog));
                 }
             }
             

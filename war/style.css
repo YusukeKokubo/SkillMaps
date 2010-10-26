@@ -20,14 +20,9 @@ h1 {
   text-align: center;
 }
 
-
 .sendButton {
   display: block;
   font-size: 16pt;
-}
-
-.gwt-DialogBox {
-  width: 760px;
 }
 
 .dialogVPanel {
@@ -218,4 +213,12 @@ h1 {
   width: 8px;
   height: 8px;
   overflow: hidden;
+}
+
+.user-dialog {
+	border: 2px solid #ABB8C7;
+	width: 760px;
+	padding: 15px;
+	background-color: #ffffff;
+	overflow: auto;
 }

@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SkillAppealUI extends Composite {
@@ -36,9 +35,9 @@ public class SkillAppealUI extends Composite {
 
     Login login;
     Profile profile;
-    PopupPanel userDialog;
+    UserDialog userDialog;
 
-    public SkillAppealUI(Login login, SkillAppeal appeal, PopupPanel userDialog) {
+    public SkillAppealUI(Login login, SkillAppeal appeal, UserDialog userDialog) {
         this.login = login;
         this.profile = appeal.getProfile();
         this.userDialog = userDialog;

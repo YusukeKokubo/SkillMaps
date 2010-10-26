@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:my="urn:import:com.appspot.skillmaps.client.ui">
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
 		.profile {
 			margin: 0 50px 0 5px;
@@ -14,7 +14,7 @@
     <g:TabLayoutPanel ui:field="tabPanel" barUnit="PX" barHeight="60" width="800px" height="550px">
     	<g:tab>
     		<g:header>プロフィール</g:header>
-    		<my:UserUI ui:field="userUI" />
+    		<sm:UserUI ui:field="userUI" />
     	</g:tab>
 		<g:tab>
 			<g:header>編集</g:header>

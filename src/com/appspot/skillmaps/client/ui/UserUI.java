@@ -88,7 +88,7 @@ public class UserUI extends Composite {
     Button cancel;
 
     @UiField
-    PopupPanel userDialog;
+    UserDialog userDialog;
 
     @UiField
     PopupPanel appealDialog;
