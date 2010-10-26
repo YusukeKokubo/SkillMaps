@@ -25,4 +25,6 @@ public interface SkillServiceAsync {
 
     void getSkillNames(AsyncCallback<SkillMap[]> callback);
 
+    void getRecentAddedSkills(AsyncCallback<Skill[]> callback);
+
 }

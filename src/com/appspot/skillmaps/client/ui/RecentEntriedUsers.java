@@ -13,15 +13,15 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RecentAddedSkill extends Composite {
+public class RecentEntriedUsers extends Composite {
 
-    private static RecentAddedSkillUiBinder uiBinder = GWT
-        .create(RecentAddedSkillUiBinder.class);
+    private static RecentEntriedUsersUiBinder uiBinder = GWT
+        .create(RecentEntriedUsersUiBinder.class);
 
     AccountServiceAsync service = GWT.create(AccountService.class);
     
-    interface RecentAddedSkillUiBinder extends
-            UiBinder<Widget, RecentAddedSkill> {
+    interface RecentEntriedUsersUiBinder extends
+            UiBinder<Widget, RecentEntriedUsers> {
     }
     
     @UiField
@@ -30,7 +30,7 @@ public class RecentAddedSkill extends Composite {
     @UiField
     PopupPanel userDialog;
 
-    public RecentAddedSkill(final Login login) {
+    public RecentEntriedUsers(final Login login) {
         initWidget(uiBinder.createAndBindUi(this));
         
         service.getRecentEntriedUsers(new AsyncCallback<Profile[]>() {

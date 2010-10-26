@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:style>
+		.user-dialog {
+			border: 2px solid #ABB8C7;
+			width: 760px;
+			padding: 15px;
+			background-color: #ffffff;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:HorizontalPanel>
+			<g:Anchor ui:field="skillName" styleName="skill" />
+			<g:HTMLPanel> -> </g:HTMLPanel>
+			<sm:UserThumnail ui:field="profile" />
+		</g:HorizontalPanel>
+		<g:PopupPanel ui:field="skillOwners" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
+	</g:HTMLPanel>
+</ui:UiBinder>

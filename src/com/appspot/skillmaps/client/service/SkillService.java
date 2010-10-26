@@ -25,4 +25,6 @@ public interface SkillService extends RemoteService {
     Skill[] getSkillOwners(String skillName);
 
     SkillMap[] getSkillNames();
+
+    Skill[] getRecentAddedSkills();
 }

@@ -5,7 +5,8 @@ import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.ui.ActivateGuidance;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
-import com.appspot.skillmaps.client.ui.RecentAddedSkill;
+import com.appspot.skillmaps.client.ui.RecentAddedSkills;
+import com.appspot.skillmaps.client.ui.RecentEntriedUsers;
 import com.appspot.skillmaps.client.ui.SigninGuidance;
 import com.appspot.skillmaps.client.ui.SkillAppealForm;
 import com.appspot.skillmaps.client.ui.SkillAppealTimeLine;
@@ -38,7 +39,8 @@ public class Home implements EntryPoint {
                     }
                     HorizontalPanel p = new HorizontalPanel();
                     p.add(new SkillAppealTimeLine(login));
-                    p.add(new RecentAddedSkill(login));
+                    p.add(new RecentEntriedUsers(login));
+                    p.add(new RecentAddedSkills(login));
                     RootPanel.get("skill-appeals").add(p);
                     RootPanel.get("footer").add(new Footer());
                 }

@@ -91,6 +91,15 @@ public class SkillServiceImpl implements SkillService {
         List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
         return result.toArray(new Skill[0]);
     }
+    
+    @Override
+    public Skill[] getRecentAddedSkills() {
+        List<Skill> result = Datastore.query(sm).sort(sm.createdAt.desc).limit(20).asList();
+        for (Skill s : result) {
+            s.setProfile(Datastore.query(pm).filter(pm.userEmail.equal(s.getOwnerEmail())).limit(1).asSingle());
+        }
+        return result.toArray(new Skill[0]);
+    }
 
     @Override
     public SkillMap[] getSkillNames() {
