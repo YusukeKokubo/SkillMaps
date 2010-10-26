@@ -27,7 +27,7 @@ public class SigninGuidance extends Composite {
 
     public SigninGuidance(Login login) {
         initWidget(uiBinder.createAndBindUi(this));
-        guidance.setText("SkillMapsは自分の他人が評価してくれるソーシャル他人評価サービスです.サインインすれば誰でもすぐに使えます!");
+        guidance.setText("SkillMapsは自分のスキルを他人が評価してくれるソーシャル他人評価サービスです.サインインすれば誰でもすぐに使えます!");
         signin.setHref(login.getLoginUrl());
     }
 
