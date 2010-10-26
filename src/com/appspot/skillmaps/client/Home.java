@@ -5,6 +5,7 @@ import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.ui.ActivateGuidance;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
+import com.appspot.skillmaps.client.ui.RecentAddedSkill;
 import com.appspot.skillmaps.client.ui.SigninGuidance;
 import com.appspot.skillmaps.client.ui.SkillAppealForm;
 import com.appspot.skillmaps.client.ui.SkillAppealTimeLine;
@@ -12,6 +13,7 @@ import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Home implements EntryPoint {
@@ -34,7 +36,10 @@ public class Home implements EntryPoint {
                     } else {
                         RootPanel.get("add-skillappeal").add(new SigninGuidance(login));
                     }
-                    RootPanel.get("skill-appeals").add(new SkillAppealTimeLine(login));
+                    HorizontalPanel p = new HorizontalPanel();
+                    p.add(new SkillAppealTimeLine(login));
+                    p.add(new RecentAddedSkill(login));
+                    RootPanel.get("skill-appeals").add(p);
                     RootPanel.get("footer").add(new Footer());
                 }
 

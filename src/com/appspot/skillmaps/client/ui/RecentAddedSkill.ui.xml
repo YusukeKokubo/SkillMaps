@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.user-dialog {
+			border: 2px solid #ABB8C7;
+			width: 760px;
+			padding: 15px;
+			background-color: #ffffff;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<h2>最近登録した人たち</h2>
+		<g:VerticalPanel ui:field="users" />
+		<g:PopupPanel ui:field="userDialog" visible="false" animationEnabled="true" styleName="{style.user-dialog}" />
+	</g:HTMLPanel>
+</ui:UiBinder>

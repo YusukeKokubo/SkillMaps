@@ -73,6 +73,12 @@ public class AccountServiceImpl implements AccountService {
         List<Profile> result = Datastore.query(pm).filter(pm.id.isNotNull()).asList();
         return result.toArray(new Profile[0]);
     }
+    
+    @Override
+    public Profile[] getRecentEntriedUsers() {
+        List<Profile> result = Datastore.query(pm).sort(pm.createdAt.desc).filterInMemory(pm.id.isNotNull()).limit(25).asList();
+        return result.toArray(new Profile[0]);
+    }
 
     @Override
     public UserListResultDto getUserList(){

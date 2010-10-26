@@ -26,4 +26,6 @@ public interface AccountService extends RemoteService {
 
     UserListResultDto getUserList();
 
+    Profile[] getRecentEntriedUsers();
+
 }

@@ -22,4 +22,6 @@ public interface AccountServiceAsync {
 
     void getUserList(AsyncCallback<UserListResultDto> callback);
 
+    void getRecentEntriedUsers(AsyncCallback<Profile[]> callback);
+
 }
