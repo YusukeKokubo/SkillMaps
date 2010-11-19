@@ -1,0 +1,14 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.panel{
+		width:100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 999;
+	}
+	</ui:style>
+	<g:AbsolutePanel ui:field="panel" addStyleNames="{style.panel}"/>
+</ui:UiBinder>

@@ -1,0 +1,13 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<g:HTMLPanel>
+		<g:SimplePanel ui:field="homeHeaderPanel"/>
+		<g:HorizontalPanel ui:field="contentsPanel">
+			<g:SimplePanel ui:field="skillAppealTimeLine"/>
+			<g:SimplePanel ui:field="recentEntriedUsers"/>
+			<g:SimplePanel ui:field="recentAddedSkills"/>
+		</g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

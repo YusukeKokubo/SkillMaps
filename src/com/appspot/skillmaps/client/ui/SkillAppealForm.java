@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.display.SkillAppealFormDisplay;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
@@ -19,8 +20,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
-public class SkillAppealForm extends Composite {
+public class SkillAppealForm extends Composite implements SkillAppealFormDisplay{
 
     private static SkillAppealFormUiBinder uiBinder = GWT
         .create(SkillAppealFormUiBinder.class);
@@ -54,6 +56,9 @@ public class SkillAppealForm extends Composite {
     @UiField
     Button submit;
 
+    private Presenter presenter;
+
+    @Inject
     public SkillAppealForm(Login login) {
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -94,6 +99,12 @@ public class SkillAppealForm extends Composite {
                 Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
             }
         });
+    }
+
+    @Override
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+
     }
 
 }

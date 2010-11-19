@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.message {
+			overflow: hidden;
+			z-index: 999;
+			width: 100%;
+			text-align: center;
+			top: 0;
+			left: 0;
+			background-color: #fff;
+			height: 0;
+			color: #000;
+			font: 20px/40px arial, sans-serif;
+			opacity: .9;
+		}
+	</ui:style>
+	<g:SimplePanel ui:field="panel" addStyleNames="{style.message}"/>
+</ui:UiBinder>

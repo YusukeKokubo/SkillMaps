@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.display.SkillAppealTimeLineDisplay;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
@@ -11,8 +12,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
-public class SkillAppealTimeLine extends Composite {
+public class SkillAppealTimeLine extends Composite implements SkillAppealTimeLineDisplay{
 
     private static SkillAppealTimeLineUiBinder uiBinder = GWT
         .create(SkillAppealTimeLineUiBinder.class);
@@ -31,6 +33,9 @@ public class SkillAppealTimeLine extends Composite {
 
     Login login;
 
+    private Presenter presenter;
+
+    @Inject
     public SkillAppealTimeLine(final Login login) {
         this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
@@ -51,5 +56,11 @@ public class SkillAppealTimeLine extends Composite {
 //                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
             }
         });
+    }
+
+    @Override
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+
     }
 }
