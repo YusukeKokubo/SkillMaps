@@ -8,7 +8,6 @@ import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,28 +32,25 @@ public class RecentEntriedUsers extends Composite implements RecentEntriedUsersD
 
     private Presenter presenter;
 
+    private final Login login;
+
     @Inject
     public RecentEntriedUsers(final Login login) {
+        this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
+    }
 
-        service.getRecentEntriedUsers(new AsyncCallback<Profile[]>() {
-            @Override
-            public void onSuccess(Profile[] result) {
-                for (Profile user : result) {
-                    users.add(new UserThumnail(login, user, userDialog));
-                }
-            }
+    @Override
+    public void setRecentEntriedUsers(Profile[] profiles){
+        for (Profile user : profiles) {
+            users.add(new UserThumnail(login, user));
+        }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-        });
     }
 
     @Override
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
     }
 
 }

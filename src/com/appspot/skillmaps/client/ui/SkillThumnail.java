@@ -24,20 +24,20 @@ public class SkillThumnail extends Composite {
 
     @UiField
     Anchor skillName;
-    
+
     @UiField
     UserThumnail profile;
 
     Skill skill;
-    
+
     Login login;
-    
+
     UserDialog skillOwners;
-    
-    public SkillThumnail(final Login login, final Skill skill, final UserDialog skillOwners) {
+
+    public SkillThumnail(final Login login, final Skill skill) {
         this.login = login;
         this.skill = skill;
-        this.skillOwners = skillOwners;
+        this.skillOwners = new UserDialog();
         initWidget(uiBinder.createAndBindUi(this));
         final Anchor close = new Anchor("close");
         close.addClickHandler(new ClickHandler() {
@@ -61,9 +61,9 @@ public class SkillThumnail extends Composite {
             }
         });
     }
-    
+
     @UiFactory
     UserThumnail makeProfile() {
-        return new UserThumnail(login, skill.getProfile(), skillOwners);
+        return new UserThumnail(login, skill.getProfile());
     }
 }

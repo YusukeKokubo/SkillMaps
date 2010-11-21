@@ -43,7 +43,7 @@ public class SkillOwners extends Composite {
                     Skill s = result[i];
                     table.setText(i + 1, 0, s.getName());
                     table.setText(i + 1, 1, String.valueOf(s.getPoint()));
-                    table.setWidget(i + 1, 2, new UserThumnail(login, s.getProfile(), userDialog));
+                    table.setWidget(i + 1, 2, new UserThumnail(login, s.getProfile()));
                     table.setText(i + 1, 3, s.getDescription());
                 }
             }

@@ -7,7 +7,7 @@ public interface ActivateGuidanceDisplay extends IsWidget {
 
     void setPresenter(Presenter presenter);
 
-    public static interface Presenter extends DisplayPresenter<ActivateGuidanceDisplay>{
+    public static interface Presenter extends DisplayPresenter{
 
     }
 

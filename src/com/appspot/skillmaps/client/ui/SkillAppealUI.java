@@ -53,6 +53,6 @@ public class SkillAppealUI extends Composite {
 
     @UiFactory
     UserThumnail makeUserThumnail() {
-        return new UserThumnail(this.login, this.profile, this.userDialog);
+        return new UserThumnail(this.login, this.profile);
     }
 }
