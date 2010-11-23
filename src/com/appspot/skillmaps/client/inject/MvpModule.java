@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 public class MvpModule extends AbstractGinModule {
 
@@ -23,8 +24,15 @@ public class MvpModule extends AbstractGinModule {
 
     @Provides
     @Singleton
-    public EventBus eventBus(){
+    public EventBus eventBus() {
         return new SimpleEventBus();
+    }
+
+    @Provides
+    @Singleton
+    @Named("contents")
+    public SimplePanel contentsPanel() {
+        return new SimplePanel();
     }
 
     @Provides
@@ -35,15 +43,15 @@ public class MvpModule extends AbstractGinModule {
 
     @Provides
     @Singleton
-    public ActivityMapper activityMapper(){
+    public ActivityMapper activityMapper() {
         return new AppActivityMapper();
     }
 
     @Provides
     @Singleton
-    public ActivityManager activityManager(ActivityMapper mapper,EventBus eventBus){
+    public ActivityManager activityManager(ActivityMapper mapper,
+            EventBus eventBus, @Named("contents") SimplePanel contentsPanel) {
         ActivityManager activityManager = new ActivityManager(mapper, eventBus);
-        SimplePanel contentsPanel = new SimplePanel();
         activityManager.setDisplay(contentsPanel);
         RootPanel.get("contents").add(contentsPanel);
         return activityManager;

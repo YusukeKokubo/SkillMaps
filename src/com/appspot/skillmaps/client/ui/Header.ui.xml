@@ -14,9 +14,9 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel styleName="{style.menu}">
-			<g:Anchor href="/">Home</g:Anchor>
+			<g:Hyperlink targetHistoryToken="!home:">Home</g:Hyperlink>
 			<g:Label styleName="{style.demiliter}">|</g:Label>
-			<g:Anchor href="/mypage.html">MyPage</g:Anchor>
+			<g:Hyperlink targetHistoryToken="!myPage:">MyPage</g:Hyperlink>
 			<g:Label styleName="{style.demiliter}">|</g:Label>
 			<g:Anchor href="/userlist.html">Users</g:Anchor>
 			<g:Label styleName="{style.demiliter}">|</g:Label>

@@ -12,4 +12,6 @@ public interface Resources extends ClientBundle {
 
     ImageResource noimage150();
 
+    ImageResource loader();
+
 }
