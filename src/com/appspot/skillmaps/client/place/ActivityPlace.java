@@ -18,7 +18,7 @@ public abstract class ActivityPlace<T extends Activity> extends Place {
     }
 
     public String getToken() {
-        return this.token;
+        return this.token != null ? token : "";
     }
 
     public T getActivity() {
