@@ -53,7 +53,7 @@ public class MvpModule extends AbstractGinModule {
     @Singleton
     public PlaceHistoryHandler placeHistoryHandler(
             AppPlaceHistoryMapper mapper, PlaceController placeController,
-            EventBus eventBus, HomePlace defaultPlace, TokenizerFactory injector) {
+            EventBus eventBus, HomePlace defaultPlace, Injector injector) {
 
         mapper.setFactory(injector);
         PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(mapper);

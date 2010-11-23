@@ -12,5 +12,5 @@
 	<source path="client" />
 	<source path="shared" />
 
-	<entry-point class="com.appspot.skillmaps.client.Skillmapps" />
+	<entry-point class="com.appspot.skillmaps.client.Skillmaps" />
 </module>

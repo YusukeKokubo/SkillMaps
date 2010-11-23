@@ -14,10 +14,10 @@ public abstract class ActivityPlace<T extends Activity> extends Place {
     protected String token;
 
     public void init(String token) {
-        this.token = token;
+        this.token = token != null ? token : "";
     }
 
-    public String getToken(){
+    public String getToken() {
         return this.token;
     }
 
@@ -25,7 +25,8 @@ public abstract class ActivityPlace<T extends Activity> extends Place {
         return provider.get();
     }
 
-    abstract public static class Tokenizer<E extends ActivityPlace<?>> implements PlaceTokenizer<E> {
+    abstract public static class Tokenizer<E extends ActivityPlace<?>>
+            implements PlaceTokenizer<E> {
 
         @Inject
         Provider<E> provider;

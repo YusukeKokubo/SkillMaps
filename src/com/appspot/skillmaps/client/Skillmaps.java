@@ -10,7 +10,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Skillmapps implements EntryPoint {
+public class Skillmaps implements EntryPoint {
 
     @Override
     public void onModuleLoad() {

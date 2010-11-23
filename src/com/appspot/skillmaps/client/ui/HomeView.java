@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.Skillmaps;
 import com.appspot.skillmaps.client.display.HomeDisplay;
 import com.appspot.skillmaps.client.presenter.ActivateGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.RecentAddedSkillsActivity;
@@ -40,13 +41,17 @@ public class HomeView extends Composite implements HomeDisplay {
 
     private Presenter presenter;
 
+    public final Login login;
+
     @Inject
     public HomeView(ContentsPanelProvider contentsPanelProvider,
                     EventBus eventBus,
                     SkillAppealTimeLineActivity skillAppealTimeLineActivity,
                     RecentEntriedUsersActivity recentEntriedUsersActivity,
-                    RecentAddedSkillsActivity recentAddedSkillsActivity) {
+                    RecentAddedSkillsActivity recentAddedSkillsActivity,
+                    Login login) {
 
+        this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
         contentsPanelProvider.get().start(homeHeaderPanel, eventBus);
         skillAppealTimeLineActivity.start(skillAppealTimeLine, eventBus);
@@ -57,11 +62,10 @@ public class HomeView extends Composite implements HomeDisplay {
 
     public static class ContentsPanelProvider implements Provider<AbstractActivity>{
 
-        private final Login login;
         private final SkillAppealFormActivity skillAppealFormActivity;
         private final SigninGuidanceActivity signinGuidanceActivity;
         private final ActivateGuidanceActivity activateGuidanceActivity;
-
+        private final Login login;
         @Inject
         public ContentsPanelProvider(Login login,
                                     SkillAppealFormActivity skillAppealFormActivity,
@@ -76,6 +80,7 @@ public class HomeView extends Composite implements HomeDisplay {
 
         @Override
         public AbstractActivity get() {
+
             if(!login.isLoggedIn()){
                 return signinGuidanceActivity;
             }
@@ -83,6 +88,7 @@ public class HomeView extends Composite implements HomeDisplay {
             if(!login.getProfile().isActivate()){
                 return activateGuidanceActivity;
             }
+
             return skillAppealFormActivity;
         }
 

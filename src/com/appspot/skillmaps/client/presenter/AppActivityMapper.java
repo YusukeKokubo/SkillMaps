@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 public class AppActivityMapper implements ActivityMapper {
 
-	@Inject
+    @Inject
 	public AppActivityMapper() {
 		super();
 	}

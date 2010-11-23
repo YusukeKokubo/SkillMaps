@@ -1,6 +1,8 @@
 package com.appspot.skillmaps.client.presenter;
 
 import com.appspot.skillmaps.client.display.SkillAppealFormDisplay;
+import com.appspot.skillmaps.client.inject.Injector;
+import com.appspot.skillmaps.client.place.HomePlace;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.SkillAppealForm;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
@@ -9,7 +11,6 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
@@ -22,6 +23,8 @@ public class SkillAppealFormActivity extends AbstractActivity implements
     private final Provider<SkillServiceAsync> serviceProvier;
     private final Driver driver;
     private SkillAppealFormDisplay display;
+    private final Injector injector;
+    private final HomePlace homePlace;
 
     interface Driver extends
             SimpleBeanEditorDriver<SkillAppeal, SkillAppealForm> {
@@ -30,9 +33,13 @@ public class SkillAppealFormActivity extends AbstractActivity implements
     @Inject
     public SkillAppealFormActivity(
             Provider<SkillAppealFormDisplay> displayProvider,
-            Provider<SkillServiceAsync> serviceProvier) {
+            Provider<SkillServiceAsync> serviceProvier,
+            Injector injector,
+            HomePlace homePlace) {
         this.displayProvider = displayProvider;
         this.serviceProvier = serviceProvier;
+        this.injector = injector;
+        this.homePlace = homePlace;
         this.driver = GWT.create(Driver.class);
     }
 
@@ -60,7 +67,7 @@ public class SkillAppealFormActivity extends AbstractActivity implements
                 @Override
                 public void onSuccess(Void result) {
                     UiMessage.info("アピールしました!");
-                    Window.Location.reload();
+                    injector.getPlaceController().goTo(homePlace);
                 }
 
                 @Override

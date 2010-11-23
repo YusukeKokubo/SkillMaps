@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.inject;
 
+import com.appspot.skillmaps.client.place.HomePlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.activity.shared.ActivityManager;
@@ -20,5 +21,7 @@ public interface Injector extends Ginjector {
     ActivityManager getActivityManager();
 
     Login getLogin();
+
+    HomePlace.Tokenizer getHomePlaceTokenizer();
 
 }
