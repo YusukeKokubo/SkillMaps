@@ -21,6 +21,7 @@ public class DisplayModule extends AbstractGinModule {
     @Override
     protected void configure() {
 
+        //bind display modules
         bind(HomeDisplay.class).to(HomeView.class);
         bind(ActivateGuidanceDisplay.class).to(ActivateGuidance.class);
         bind(RecentAddedSkillsDisplay.class).to(RecentAddedSkills.class);
