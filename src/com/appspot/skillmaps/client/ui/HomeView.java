@@ -1,6 +1,5 @@
 package com.appspot.skillmaps.client.ui;
 
-import com.appspot.skillmaps.client.Skillmaps;
 import com.appspot.skillmaps.client.display.HomeDisplay;
 import com.appspot.skillmaps.client.presenter.ActivateGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.RecentAddedSkillsActivity;
