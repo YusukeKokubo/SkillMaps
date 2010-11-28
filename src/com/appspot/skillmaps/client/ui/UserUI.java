@@ -266,7 +266,9 @@ public class UserUI extends Composite {
                                         Skill s = result[i];
                                         table.setText(i + 1, 0, s.getName());
                                         table.setText(i + 1, 1, String.valueOf(s.getPoint()));
-                                        table.setWidget(i + 1, 2, new UserThumnail(login, s.getProfile()));
+                                        UserThumnail u = new UserThumnail(login);
+                                        u.setUser(s.getProfile());
+                                        table.setWidget(i + 1, 2, u);
                                     }
                                     panel.add(table);
                                     panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(skill.getName())));
@@ -319,7 +321,9 @@ public class UserUI extends Composite {
         for (int i = 0; i < rs.length; i ++) {
             SkillRelation sr = rs[i];
             Profile p = sr.getProfile();
-            panel.add(new UserThumnail(login, p));
+            UserThumnail userThumnail = new UserThumnail(login);
+            userThumnail.setUser(p);
+            panel.add(userThumnail);;
             Label agreeComment = new Label(sr.getComment());
             agreeComment.addStyleName("agree-comment");
             panel.add(agreeComment);

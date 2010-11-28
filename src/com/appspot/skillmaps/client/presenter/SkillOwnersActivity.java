@@ -1,32 +1,37 @@
 package com.appspot.skillmaps.client.presenter;
 
-import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
+import com.appspot.skillmaps.client.bundle.Resources;
+import com.appspot.skillmaps.client.display.SkillOwnersDisplay;
+import com.appspot.skillmaps.client.place.SkillOwnersPlace;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
-import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class RecentAddedSkillsActivity extends SkillMapActivity implements RecentAddedSkillsDisplay.Presenter {
+public class SkillOwnersActivity extends SkillMapActivity implements SkillOwnersDisplay.Presenter {
 
-
-    private final Provider<RecentAddedSkillsDisplay> displayProvider;
+    private String skillName;
+    private final Provider<SkillOwnersDisplay> displayProvider;
+    private SkillOwnersDisplay display;
     private final Provider<SkillServiceAsync> serviceProvider;
 
     @Inject
-    public RecentAddedSkillsActivity(Provider<RecentAddedSkillsDisplay> displayProvider,
-                                     Provider<SkillServiceAsync> serviceProvider) {
+    public SkillOwnersActivity(Provider<SkillOwnersDisplay> displayProvider,
+                               Provider<SkillServiceAsync> serviceProvider) {
         this.displayProvider = displayProvider;
         this.serviceProvider = serviceProvider;
     }
 
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
+        panel.setWidget(new Image(Resources.INSTANCE.loader()));
         GWT.runAsync(new RunAsyncCallback() {
 
             @Override
@@ -36,30 +41,48 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
 
             @Override
             public void onFailure(Throwable reason) {
-                UiMessage.info("画面表示に失敗しました。");
+                // TODO 自動生成されたメソッド・スタブ
+
+            }
+        });
+    }
+
+    @Override
+    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+        display = displayProvider.get();
+
+        display.setPresenter(this);
+
+        panel.setWidget(display);
+
+        serviceProvider.get().getSkillOwners(skillName, new AsyncCallback<Skill[]>() {
+
+            @Override
+            public void onSuccess(Skill[] result) {
+                display.setSkills(result);
+
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+
             }
         });
 
     }
 
     @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        final RecentAddedSkillsDisplay display = displayProvider.get();
+    public void setPlace(Place place) {
+        if(place instanceof SkillOwnersPlace){
+            SkillOwnersPlace sop = (SkillOwnersPlace)place;
+            setSkillName(sop.getSkillName());
+            super.setPlace(sop);
+        }
+    }
 
-        display.setPresenter(this);
-
-        serviceProvider.get().getRecentAddedSkills(new AsyncCallback<Skill[]>() {
-            @Override
-            public void onSuccess(Skill[] result) {
-                display.setRecentAddedSkills(result);
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                UiMessage.info("データの取得に失敗しました。");
-            }
-        });
-        panel.setWidget(displayProvider.get());
+    @Override
+    public void setSkillName(String skillName){
+        this.skillName = skillName;
     }
 
 }

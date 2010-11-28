@@ -9,7 +9,6 @@ import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.ui.ProfileUI;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -22,7 +21,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class MyPageActivity extends AbstractActivity implements
+public class MyPageActivity extends SkillMapActivity implements
         MyPageDisplay.Presenter {
 
     interface Driver extends SimpleBeanEditorDriver<Profile, ProfileUI>{}

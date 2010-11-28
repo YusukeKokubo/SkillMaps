@@ -12,8 +12,8 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 public class UserThumnail extends Composite {
 
@@ -31,33 +31,15 @@ public class UserThumnail extends Composite {
     @UiField
     Image icon;
 
-    public UserThumnail(final Login login, final Profile user) {
+    private final Login login;
+
+    @Inject
+    public UserThumnail(Login login) {
+        this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
-        final UserDialog userDialog = new UserDialog();
-        userDialog.setAutoHideEnabled(true);
-        final Anchor close = new Anchor("close");
-        close.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                userDialog.hide();
-            }
-        });
+    }
 
-        id.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                userDialog.center();
-
-                UserUI detail = null;
-                detail = new UserUI(login, user);
-                VerticalPanel p = new VerticalPanel();
-                p.add(close);
-                p.add(detail);
-
-                userDialog.setWidget(p);
-            }
-        });
-
+    public void setUser(final Profile user){
         id.setText(user.getId());
         name.setText(user.getName());
         if(user.getHasIcon() != null && user.getHasIcon()){
@@ -65,6 +47,17 @@ public class UserThumnail extends Composite {
         } else {
             icon.setResource(Resources.INSTANCE.noimage());
         }
+
+        id.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                SkillMapPopupPanel userDialog = new SkillMapPopupPanel();
+                userDialog.setAutoHideEnabled(true);
+                UserUI detail = new UserUI(login, user);
+                userDialog.setContents(detail);
+                userDialog.center();
+            }
+        });
     }
 
 }

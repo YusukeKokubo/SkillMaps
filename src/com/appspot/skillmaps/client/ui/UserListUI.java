@@ -191,7 +191,9 @@ public class UserListUI extends Composite {
 
             FocusPanel panel = new FocusPanel();
             panel.setWidth(thumnailWidth + "px");
-            panel.add(new UserThumnail(login, user));
+            UserThumnail userThumnail = new UserThumnail(login);
+            userThumnail.setUser(user);
+            panel.add(userThumnail);
 
             if(column < viewColumn){
                 hPanel.add(panel);

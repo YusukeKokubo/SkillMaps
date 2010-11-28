@@ -1,0 +1,7 @@
+.user-dialog {
+	border: 2px solid #ABB8C7;
+	width: 760px;
+	padding: 15px;
+	background-color: #ffffff;
+	overflow: auto;
+}

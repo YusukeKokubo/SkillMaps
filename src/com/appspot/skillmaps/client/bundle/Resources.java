@@ -14,4 +14,6 @@ public interface Resources extends ClientBundle {
 
     ImageResource loader();
 
+    Style style();
+
 }

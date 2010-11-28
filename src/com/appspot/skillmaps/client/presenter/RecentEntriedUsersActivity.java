@@ -3,7 +3,6 @@ package com.appspot.skillmaps.client.presenter;
 import com.appspot.skillmaps.client.display.RecentEntriedUsersDisplay;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.shared.EventBus;
@@ -12,7 +11,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class RecentEntriedUsersActivity extends AbstractActivity implements RecentEntriedUsersDisplay.Presenter {
+public class RecentEntriedUsersActivity extends SkillMapActivity implements RecentEntriedUsersDisplay.Presenter {
 
     private final Provider<RecentEntriedUsersDisplay> displayProvider;
     private final Provider<AccountServiceAsync> serviceProvider;

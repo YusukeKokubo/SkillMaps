@@ -4,14 +4,13 @@ import com.appspot.skillmaps.client.display.SkillAppealTimeLineDisplay;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class SkillAppealTimeLineActivity extends AbstractActivity implements
+public class SkillAppealTimeLineActivity extends SkillMapActivity implements
         SkillAppealTimeLineDisplay.Presenter {
 
     private final Provider<SkillAppealTimeLineDisplay> displayProvider;

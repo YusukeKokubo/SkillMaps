@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class RecentEntriedUsers extends Composite implements RecentEntriedUsersDisplay{
 
@@ -27,23 +28,22 @@ public class RecentEntriedUsers extends Composite implements RecentEntriedUsersD
     @UiField
     VerticalPanel users;
 
-    @UiField
-    UserDialog userDialog;
-
     private Presenter presenter;
 
-    private final Login login;
+    private final Provider<UserThumnail> utProvider;
 
     @Inject
-    public RecentEntriedUsers(final Login login) {
-        this.login = login;
+    public RecentEntriedUsers(Provider<UserThumnail> utProvider) {
+        this.utProvider = utProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     @Override
     public void setRecentEntriedUsers(Profile[] profiles){
         for (Profile user : profiles) {
-            users.add(new UserThumnail(login, user));
+            UserThumnail userThumnail = utProvider.get();
+            userThumnail.setUser(user);
+            users.add(userThumnail);
         }
 
     }

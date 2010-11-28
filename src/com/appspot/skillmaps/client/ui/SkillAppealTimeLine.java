@@ -1,7 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.display.SkillAppealTimeLineDisplay;
-import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -10,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class SkillAppealTimeLine extends Composite implements
         SkillAppealTimeLineDisplay {
@@ -27,13 +27,13 @@ public class SkillAppealTimeLine extends Composite implements
     @UiField
     UserDialog userDialog;
 
-    Login login;
-
     private Presenter presenter;
 
+    private final Provider<SkillAppealUI> skillAppealProvider;
+
     @Inject
-    public SkillAppealTimeLine(final Login login) {
-        this.login = login;
+    public SkillAppealTimeLine(Provider<SkillAppealUI> skillAppealProvider) {
+        this.skillAppealProvider = skillAppealProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
@@ -45,7 +45,8 @@ public class SkillAppealTimeLine extends Composite implements
     @Override
     public void setSkillAppeals(SkillAppeal[] as) {
         for (SkillAppeal appeal : as) {
-            SkillAppealUI w = new SkillAppealUI(login, appeal, userDialog);
+            SkillAppealUI w = skillAppealProvider.get();
+            w.setAppeal(appeal);
             appealsPanel.add(w);
             appealsPanel.setCellWidth(w, "400px");
         }

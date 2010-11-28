@@ -1,12 +1,12 @@
 package com.appspot.skillmaps.client.place;
 
-import com.google.gwt.activity.shared.Activity;
+import com.appspot.skillmaps.client.presenter.SkillMapActivity;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public abstract class ActivityPlace<T extends Activity> extends Place {
+public abstract class ActivityPlace<T extends SkillMapActivity> extends Place {
 
     @Inject
     protected Provider<T> provider;
@@ -22,7 +22,9 @@ public abstract class ActivityPlace<T extends Activity> extends Place {
     }
 
     public T getActivity() {
-        return provider.get();
+        T t = provider.get();
+        t.setPlace(this);
+        return t;
     }
 
     abstract public static class Tokenizer<E extends ActivityPlace<?>>

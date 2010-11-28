@@ -7,7 +7,6 @@ import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.SkillAppealForm;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.shared.EventBus;
@@ -16,7 +15,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class SkillAppealFormActivity extends AbstractActivity implements
+public class SkillAppealFormActivity extends SkillMapActivity implements
         SkillAppealFormDisplay.Presenter {
 
     private final Provider<SkillAppealFormDisplay> displayProvider;

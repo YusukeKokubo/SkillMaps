@@ -1,13 +1,12 @@
 package com.appspot.skillmaps.client.presenter;
 
 import com.appspot.skillmaps.client.display.SigninGuidanceDisplay;
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class SigninGuidanceActivity extends AbstractActivity implements SigninGuidanceDisplay.Presenter{
+public class SigninGuidanceActivity extends SkillMapActivity implements SigninGuidanceDisplay.Presenter{
 
     private final Provider<SigninGuidanceDisplay> displayProvider;
 

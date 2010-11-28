@@ -1,17 +1,15 @@
 package com.appspot.skillmaps.client.ui;
 
-import com.appspot.skillmaps.shared.model.Login;
-import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Provider;
 
 public class SkillAppealUI extends Composite {
 
@@ -30,19 +28,16 @@ public class SkillAppealUI extends Composite {
     @UiField
     Anchor url;
 
-    @UiField
+    @UiField(provided=true)
     UserThumnail userThumnail;
 
-    Login login;
-    Profile profile;
-    UserDialog userDialog;
-
-    public SkillAppealUI(Login login, SkillAppeal appeal, UserDialog userDialog) {
-        this.login = login;
-        this.profile = appeal.getProfile();
-        this.userDialog = userDialog;
+    public SkillAppealUI(Provider<UserThumnail> utProvider) {
+        userThumnail = utProvider.get();
         initWidget(uiBinder.createAndBindUi(this));
+    }
 
+    public void setAppeal(SkillAppeal appeal){
+        userThumnail.setUser(appeal.getProfile());
         appealSkillName.setText(appeal.getAppealSkillName());
         description.setHTML("<p>" + appeal.getDescription().replaceAll("\\n", "<br />") + "</p>");
         if (appeal.getUrl() != null && (!appeal.getUrl().isEmpty())) {
@@ -51,8 +46,4 @@ public class SkillAppealUI extends Composite {
         }
     }
 
-    @UiFactory
-    UserThumnail makeUserThumnail() {
-        return new UserThumnail(this.login, this.profile);
-    }
 }

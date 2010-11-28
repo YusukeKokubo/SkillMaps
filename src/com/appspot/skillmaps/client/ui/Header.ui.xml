@@ -20,7 +20,7 @@
 			<g:Label styleName="{style.demiliter}">|</g:Label>
 			<g:Anchor href="/userlist.html">Users</g:Anchor>
 			<g:Label styleName="{style.demiliter}">|</g:Label>
-			<g:Anchor href="/skilllist.html">Skills</g:Anchor>
+			<g:Hyperlink targetHistoryToken="!skillList:">Skills</g:Hyperlink>
 		</g:HorizontalPanel>
 		<g:HorizontalPanel styleName="{style.sign}">
 			<g:Label  ui:field="nickname"></g:Label>

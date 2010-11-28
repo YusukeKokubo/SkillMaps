@@ -1,7 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
-import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -10,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class RecentAddedSkills extends Composite implements RecentAddedSkillsDisplay{
 
@@ -23,24 +23,22 @@ public class RecentAddedSkills extends Composite implements RecentAddedSkillsDis
     @UiField
     VerticalPanel skills;
 
-    @UiField
-    UserDialog userDialog;
-
     private Presenter presenter;
 
-    private final Login login;
+    private final Provider<SkillThumnail> skillThumnailProvider;
 
     @Inject
-    public RecentAddedSkills(Login login) {
-        this.login = login;
+    public RecentAddedSkills(Provider<SkillThumnail> skillThumnailProvider) {
+        this.skillThumnailProvider = skillThumnailProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     @Override
     public void setRecentAddedSkills(Skill[] result){
         for (Skill skill : result) {
-            //TODO SkillThumnailにもPresenterを作成してPresenterをセット、初期化させる。
-            skills.add(new SkillThumnail(login, skill));
+            SkillThumnail skillThumnail = skillThumnailProvider.get();
+            skillThumnail.setSkill(skill);
+            skills.add(skillThumnail);
         }
     }
 
