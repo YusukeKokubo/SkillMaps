@@ -1,19 +1,21 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.bundle.Resources;
+import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
-import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -24,14 +26,13 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
-public class UserUI extends Composite {
+public class UserUI extends Composite implements Editor<Profile> , UserUIDisplay{
 
     private static UserUiBinder uiBinder = GWT.create(UserUiBinder.class);
 
@@ -67,25 +68,7 @@ public class UserUI extends Composite {
     @UiField
     Anchor addSkill;
 
-    @UiField
     DialogBox form;
-
-    @UiField(provided=true)
-    SuggestBox skillName;
-
-    MultiWordSuggestOracle skillNames = new MultiWordSuggestOracle();
-
-    @UiField
-    TextArea description;
-
-    @UiField
-    TextArea comment;
-
-    @UiField
-    Button submit;
-
-    @UiField
-    Button cancel;
 
     @UiField
     UserDialog userDialog;
@@ -97,12 +80,13 @@ public class UserUI extends Composite {
     DialogBox agreedForm;
 
     Login login;
+
     Profile profile;
 
-    public UserUI(final Login login, final Profile profile) {
-        this.skillName = new SuggestBox(skillNames);
-        initWidget(uiBinder.createAndBindUi(this));
-        this.login = login;
+    private Presenter presenter;
+
+    @Override
+    public void setProfile(Profile profile){
         this.profile = profile;
 
         id.setText(profile.getId());
@@ -118,7 +102,6 @@ public class UserUI extends Composite {
         profileUrl1.setText(profile.getProfileUrl1());
         profileUrl2.setHref(profile.getProfileUrl2());
         profileUrl2.setText(profile.getProfileUrl2());
-
         if (profile.isEnabledTwitter()) {
             twitterLink.setText("Twitter : @" + profile.getTwitterScreenName());
             twitterLink.setHref("http://twitter.com/" + profile.getTwitterScreenName());
@@ -128,73 +111,22 @@ public class UserUI extends Composite {
             addSkill.setVisible(false);
         }
 
-        addSkill.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                service.getSkillNames(new AsyncCallback<SkillMap[]>() {
 
-                    @Override
-                    public void onFailure(Throwable caught) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(SkillMap[] result) {
-                        if(result == null || result.length == 0){
-                            return;
-                        }
-                        skillNames.clear();
-                        for (SkillMap skillMap : result) {
-                            skillNames.add(skillMap.getSkillName());
-                        }
-                    }
-                });
-                skillName.setText("");
-                description.setText("");
-                comment.setText("");
-                form.center();
-            }
-        });
-
-        submit.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                submit.setEnabled(false);
-                Skill skill = new Skill();
-                skill.setOwnerEmail(profile.getUserEmail());
-                skill.setName(skillName.getText());
-                skill.setDescription(description.getText());
-                SkillRelation rel = new SkillRelation();
-                rel.setComment(comment.getText());
-                service.putSkill(skill, rel, true, new AsyncCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void result) {
-                        Window.alert("追加しました");
-                        submit.setEnabled(true);
-                        reloadSkills();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-                        submit.setEnabled(true);
-                    }
-                });
-            }
-        });
-
-        cancel.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                form.hide();
-            }
-        });
-
-        reloadSkills();
     }
 
-    private void reloadSkills() {
-        form.hide();
+    @UiHandler("addSkill")
+    public void clickAddSkill(ClickEvent e){
+        presenter.showSkillAddDialog();
+    }
+
+    @Inject
+    public UserUI(Login login) {
+        this.login = login;
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    @Override
+    public void reloadSkills(Skill[] skillList) {
         agreedForm.hide();
         skills.clear(true);
         skills.setText(0, 0, "スキル");
@@ -206,114 +138,106 @@ public class UserUI extends Composite {
         skills.getCellFormatter().addStyleName(0, 3, "skill-agree-link");
         skills.getCellFormatter().addStyleName(0, 4, "skill-detail");
         skills.getRowFormatter().addStyleName(0, "grid-columns");
-        service.getSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
-            @Override
-            public void onSuccess(Skill[] result) {
-                if (result.length <= 0) {
-                    skills.clear(true);
-                    skills.setText(0, 0, "スキルはまだありません.");
-                    if (login.isLoggedIn() && login.getProfile().getUserEmail().equals(profile.getUserEmail())) {
-                        Anchor link = new Anchor("アピールする");
-                        link.addClickHandler(new ClickHandler() {
+        if (skillList.length <= 0) {
+            skills.clear(true);
+            skills.setText(0, 0, "スキルはまだありません.");
+            if (login.isLoggedIn() && login.getProfile().getUserEmail().equals(profile.getUserEmail())) {
+                Anchor link = new Anchor("アピールする");
+                link.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        VerticalPanel panel = new VerticalPanel();
+                        Anchor close = new Anchor("close");
+                        close.addClickHandler(new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
-                                VerticalPanel panel = new VerticalPanel();
-                                Anchor close = new Anchor("close");
-                                close.addClickHandler(new ClickHandler() {
-                                    @Override
-                                    public void onClick(ClickEvent event) {
-                                        appealDialog.hide();
-                                    }
-                                });
-                                panel.add(close);
-                                panel.add(new SkillAppealForm(login));
-                                appealDialog.setWidget(panel);
-                                appealDialog.center();
+                                appealDialog.hide();
                             }
                         });
-                        skills.setWidget(0, 1, link);
-                        skills.setText(0, 2, "");
+                        panel.add(close);
+                        panel.add(new SkillAppealForm(login));
+                        appealDialog.setWidget(panel);
+                        appealDialog.center();
                     }
-                    return;
-                }
-                for (int i = 0; i < result.length; i ++) {
-                    final int j = i + 1;
-                    final Skill skill = result[i];
-                    Anchor name = new Anchor(skill.getName());
-                    name.setStyleName("class='anchor'");
-                    name.addClickHandler(new ClickHandler() {
+                });
+                skills.setWidget(0, 1, link);
+                skills.setText(0, 2, "");
+            }
+            return;
+        }
+        for (int i = 0; i < skillList.length; i ++) {
+            final int j = i + 1;
+            final Skill skill = skillList[i];
+            Anchor name = new Anchor(skill.getName());
+            name.setStyleName("class='anchor'");
+            name.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    final Anchor close = new Anchor("close");
+                    close.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
-                            final Anchor close = new Anchor("close");
-                            close.addClickHandler(new ClickHandler() {
-                                @Override
-                                public void onClick(ClickEvent event) {
-                                    userDialog.hide();
-                                }
-                            });
-                            service.getSkillOwners(skill, new AsyncCallback<Skill[]>() {
-                                @Override
-                                public void onSuccess(Skill[] result) {
-                                    VerticalPanel panel = new VerticalPanel();
-                                    panel.add(close);
-
-                                    FlexTable table = new FlexTable();
-                                    table.setText(0, 0, "スキル");
-                                    table.setText(0, 1, "賛同者");
-                                    table.setText(0, 2, "ユーザー");
-                                    table.getRowFormatter().addStyleName(0, "grid-columns");
-                                    for (int i = 0; i < result.length; i ++) {
-                                        Skill s = result[i];
-                                        table.setText(i + 1, 0, s.getName());
-                                        table.setText(i + 1, 1, String.valueOf(s.getPoint()));
-                                        UserThumnail u = new UserThumnail(login);
-                                        u.setUser(s.getProfile());
-                                        table.setWidget(i + 1, 2, u);
-                                    }
-                                    panel.add(table);
-                                    panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(skill.getName())));
-                                    userDialog.setWidget(panel);
-                                    userDialog.center();
-                                }
-
-                                @Override
-                                public void onFailure(Throwable caught) {
-                                }
-                            });
+                            userDialog.hide();
                         }
                     });
-                    skills.setWidget(j, 0, name);
-                    skills.setText(j, 1, skill.getPoint().toString());
-                    skills.setText(j, 2, skill.getDescription());
-
-                    service.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
+                    service.getSkillOwners(skill, new AsyncCallback<Skill[]>() {
                         @Override
-                        public void onSuccess(final SkillRelation[] rs) {
-                            skills.setWidget(j, 3, makeAgreedButton(skill, rs));
-                            final Anchor showComment = new Anchor("詳細");
-                            skills.setWidget(j, 4, showComment);
-                            showComment.addClickHandler(new ClickHandler() {
-                                @Override
-                                public void onClick(ClickEvent event) {
-                                     makeAgrees(skill, rs, j);
-                                     showComment.setVisible(false);
-                                }
-                            });
+                        public void onSuccess(Skill[] result) {
+                            VerticalPanel panel = new VerticalPanel();
+                            panel.add(close);
+
+                            FlexTable table = new FlexTable();
+                            table.setText(0, 0, "スキル");
+                            table.setText(0, 1, "賛同者");
+                            table.setText(0, 2, "ユーザー");
+                            table.getRowFormatter().addStyleName(0, "grid-columns");
+                            for (int i = 0; i < result.length; i ++) {
+                                Skill s = result[i];
+                                table.setText(i + 1, 0, s.getName());
+                                table.setText(i + 1, 1, String.valueOf(s.getPoint()));
+                                //TODO
+                                UserThumnail u = null;
+                                //new UserThumnail(login);
+                                u.setUser(s.getProfile());
+                                table.setWidget(i + 1, 2, u);
+                            }
+                            panel.add(table);
+                            panel.add(new Anchor("permalink", "/skill.html?name=" + URL.encodeComponent(skill.getName())));
+                            userDialog.setWidget(panel);
+                            userDialog.center();
                         }
 
                         @Override
                         public void onFailure(Throwable caught) {
-                            skills.setText(j, 3, "データを取得できませんでした");
                         }
                     });
                 }
-            }
+            });
+            skills.setWidget(j, 0, name);
+            skills.setText(j, 1, skill.getPoint().toString());
+            skills.setText(j, 2, skill.getDescription());
 
-            @Override
-            public void onFailure(Throwable caught) {
-                skills.setText(1, 0, "データを取得できませんでした");
-            }
-        });
+            service.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
+                @Override
+                public void onSuccess(final SkillRelation[] rs) {
+                    skills.setWidget(j, 3, makeAgreedButton(skill, rs));
+                    final Anchor showComment = new Anchor("詳細");
+                    skills.setWidget(j, 4, showComment);
+                    showComment.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            makeAgrees(skill, rs, j);
+                            showComment.setVisible(false);
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    skills.setText(j, 3, "データを取得できませんでした");
+                }
+            });
+        }
     }
 
     private void makeAgrees(final Skill skill, SkillRelation[] rs, int j) {
@@ -321,7 +245,8 @@ public class UserUI extends Composite {
         for (int i = 0; i < rs.length; i ++) {
             SkillRelation sr = rs[i];
             Profile p = sr.getProfile();
-            UserThumnail userThumnail = new UserThumnail(login);
+            //TODO
+            UserThumnail userThumnail = null;//new UserThumnail(login);
             userThumnail.setUser(p);
             panel.add(userThumnail);;
             Label agreeComment = new Label(sr.getComment());
@@ -378,7 +303,7 @@ public class UserUI extends Composite {
                         public void onSuccess(Void result) {
                             Window.alert("更新しました");
                             agreedSubmit.setEnabled(true);
-                            reloadSkills();
+                            presenter.reloadSkills();
                         }
 
                         @Override
@@ -396,5 +321,12 @@ public class UserUI extends Composite {
                 }
             });
         }
+    }
+
+    @Override
+    @Inject
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+
     }
 }

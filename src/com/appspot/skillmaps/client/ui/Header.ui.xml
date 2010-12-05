@@ -18,7 +18,7 @@
 			<g:Label styleName="{style.demiliter}">|</g:Label>
 			<g:Hyperlink targetHistoryToken="!myPage:">MyPage</g:Hyperlink>
 			<g:Label styleName="{style.demiliter}">|</g:Label>
-			<g:Hyperlink targetHistoryToken="!userList:0">MyPage</g:Hyperlink>
+			<g:Hyperlink targetHistoryToken="!userList:0">Users</g:Hyperlink>
 			<g:Label styleName="{style.demiliter}">|</g:Label>
 			<g:Hyperlink targetHistoryToken="!skillList:">Skills</g:Hyperlink>
 		</g:HorizontalPanel>

@@ -23,6 +23,7 @@ import com.appspot.skillmaps.client.ui.SkillListUI;
 import com.appspot.skillmaps.client.ui.SkillOwners;
 import com.appspot.skillmaps.client.ui.UserListUI;
 import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.inject.Singleton;
 
 public class DisplayModule extends AbstractGinModule {
 
@@ -34,7 +35,7 @@ public class DisplayModule extends AbstractGinModule {
         bind(MyPageDisplay.class).to(ProfileUI.class);
         bind(SkillListDisplay.class).to(SkillListUI.class);
         bind(SkillOwnersDisplay.class).to(SkillOwners.class);
-        bind(UserListDisplay.class).to(UserListUI.class);
+        bind(UserListDisplay.class).to(UserListUI.class).in(Singleton.class);
         bind(ActivateGuidanceDisplay.class).to(ActivateGuidance.class);
         bind(RecentAddedSkillsDisplay.class).to(RecentAddedSkills.class);
         bind(RecentEntriedUsersDisplay.class).to(RecentEntriedUsers.class);

@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 
 public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profile>{
@@ -85,12 +86,16 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
 
     private Presenter presenter;
 
+    private final Provider<UserUI> userUiProvider;
+
     interface AccountConfigUiBinder extends UiBinder<Widget, ProfileUI> {
     }
 
     @Inject
-    public ProfileUI(final Login login) {
+    public ProfileUI(final Login login,
+                     Provider<UserUI> userUiProvider) {
         this.login = login;
+        this.userUiProvider = userUiProvider;
         initWidget(uiBinder.createAndBindUi(this));
         final Profile p = login.getProfile();
         if (!p.isActivate()) {
@@ -131,7 +136,9 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
 
     @UiFactory
     UserUI makeUserUI() {
-        return new UserUI(login, login.getProfile());
+        UserUI userUIDisplay = userUiProvider.get();
+        userUIDisplay.setProfile(login.getProfile());
+        return userUIDisplay;
     }
 
     @Override
