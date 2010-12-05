@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class SkillAppealUI extends Composite {
@@ -31,6 +32,7 @@ public class SkillAppealUI extends Composite {
     @UiField(provided=true)
     UserThumnail userThumnail;
 
+    @Inject
     public SkillAppealUI(Provider<UserThumnail> utProvider) {
         userThumnail = utProvider.get();
         initWidget(uiBinder.createAndBindUi(this));

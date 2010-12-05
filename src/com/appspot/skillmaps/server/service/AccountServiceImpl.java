@@ -21,7 +21,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 
 public class AccountServiceImpl implements AccountService {
-    private static final int USER_LISE_SIZE = 60;
+    private static final int USER_LISE_SIZE = 1;
     ProfileMeta pm = ProfileMeta.get();
 
     @Override
@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
         List<Profile> result = Datastore.query(pm).filter(pm.id.isNotNull()).asList();
         return result.toArray(new Profile[0]);
     }
-    
+
     @Override
     public Profile[] getRecentEntriedUsers() {
         List<Profile> result = Datastore.query(pm).sort(pm.createdAt.desc).filterInMemory(pm.id.isNotNull()).limit(25).asList();
@@ -97,6 +97,7 @@ public class AccountServiceImpl implements AccountService {
             S3QueryResultList<Profile> result = Datastore.query(pm)
                                                             .filter(pm.id.isNotNull())
                                                             .prefetchSize(USER_LISE_SIZE)
+                                                            .offset(USER_LISE_SIZE * pageNum)
                                                             .limit(USER_LISE_SIZE)
                                                             .asQueryResultList();
             UserListResultDto resultDto = createUserListResultDto(result);
