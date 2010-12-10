@@ -29,26 +29,9 @@
 					<g:Label ui:field="selfIntroduction" />
 					<g:Anchor ui:field="profileUrl1" target="_blank" />
 					<g:Anchor ui:field="profileUrl2" target="_blank" />
-					<g:FlexTable ui:field="skills" styleName="skill-grid" />
+					<g:SimplePanel ui:field="skillsPanel"/>
 					<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 				</g:VerticalPanel>
-				<g:DialogBox ui:field="form" visible="false" animationEnabled="true" styleName="{style.form}">
-					<g:VerticalPanel>
-						<g:Label text="スキルの名前" />
-						<g:SuggestBox ui:field="skillName" />
-						<g:Label text="この人が持っているスキルの説明" />
-						<g:TextArea ui:field="description" />
-						<g:Label text="個人的なコメント" />
-						<g:TextArea ui:field="comment" />
-						<g:HorizontalPanel>
-							<g:Button ui:field="submit" text="submit" />
-							<g:Button ui:field="cancel" text="cancel" />
-						</g:HorizontalPanel>
-					</g:VerticalPanel>
-				</g:DialogBox>
-				<g:DialogBox ui:field="appealDialog" visible="false" animationEnabled="true" styleName="{style.form}" />
-				<g:DialogBox ui:field="agreedForm" visible="false" animationEnabled="true" styleName="{style.form}" />
 		</g:HorizontalPanel>
-		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>

@@ -5,6 +5,7 @@ import com.appspot.skillmaps.client.place.MyPagePlace;
 import com.appspot.skillmaps.client.place.SkillListPlace;
 import com.appspot.skillmaps.client.place.SkillOwnersPlace;
 import com.appspot.skillmaps.client.place.UserListPlace;
+import com.appspot.skillmaps.client.place.UserPlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.activity.shared.ActivityManager;
@@ -35,5 +36,7 @@ public interface Injector extends Ginjector {
     UserListPlace.Tokenizer getUserListPlaceTokenizer();
 
     SkillOwnersPlace.Tokenizer getSkillOwnersPlaceTokenizer();
+
+    UserPlace.Tokenizer getUserPlaceTokenizer();
 
 }

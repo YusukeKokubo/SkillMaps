@@ -77,6 +77,7 @@ public class SkillAppealForm extends Composite implements
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
 
@@ -85,6 +86,11 @@ public class SkillAppealForm extends Composite implements
     @Override
     public HasValue<Boolean> getSendTwitter() {
         return sendTwitter;
+    }
+
+    @Override
+    public void initPresenter() {
+        presenter.setupDisplay(this);
     }
 
 }

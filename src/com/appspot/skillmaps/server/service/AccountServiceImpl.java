@@ -21,7 +21,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 
 public class AccountServiceImpl implements AccountService {
-    private static final int USER_LISE_SIZE = 1;
+    private static final int USER_LISE_SIZE = 80;
     ProfileMeta pm = ProfileMeta.get();
 
     @Override

@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client;
 
+import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.inject.Injector;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
@@ -14,7 +15,7 @@ public class Skillmaps implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-
+        Resources.INSTANCE.style().ensureInjected();
         final Injector injector = GWT.create(Injector.class);
 
         injector.getActivityManager();

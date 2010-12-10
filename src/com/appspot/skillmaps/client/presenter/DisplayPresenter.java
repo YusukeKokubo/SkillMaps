@@ -6,4 +6,5 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 public interface DisplayPresenter {
 
     public void initDisplay(AcceptsOneWidget panel , EventBus eventBus);
+
 }

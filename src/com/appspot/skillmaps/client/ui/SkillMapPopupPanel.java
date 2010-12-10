@@ -2,7 +2,6 @@ package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -40,7 +39,6 @@ public class SkillMapPopupPanel extends PopupPanel {
     }
 
     public SkillMapPopupPanel() {
-        StyleInjector.inject(Resources.INSTANCE.style().userDialog());
         addStyleName(Resources.INSTANCE.style().userDialog());
         add(uiBinder.createAndBindUi(this));
     }

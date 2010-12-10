@@ -5,7 +5,6 @@ import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillMap;
-import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,10 +12,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -26,6 +25,7 @@ import com.google.inject.Provider;
 
 public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     @UiField(provided=true)
+    @Editor.Path("name")
     SuggestBox skillName;
 
     MultiWordSuggestOracle skillNames = new MultiWordSuggestOracle();
@@ -34,6 +34,7 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     TextArea description;
 
     @UiField
+    @Editor.Ignore
     TextArea comment;
 
     @UiField
@@ -59,6 +60,7 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
                           EventBus eventBus) {
         this.serviceProvider = serviceProvider;
         this.eventBus = eventBus;
+        skillName = new SuggestBox(skillNames);
         add(uiBinder.createAndBindUi(this));
     }
 
@@ -87,9 +89,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
                 }
             }
         });
-        skillName.setText("");
-        description.setText("");
-        comment.setText("");
         center();
     }
 
@@ -124,5 +123,8 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
         hide();
     }
 
+    public HasValue<String> getComment(){
+        return comment;
+    }
 
 }

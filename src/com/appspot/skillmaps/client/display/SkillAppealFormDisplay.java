@@ -8,9 +8,13 @@ public interface SkillAppealFormDisplay extends IsWidget{
 
     void setPresenter(Presenter presenter);
 
+    void initPresenter();
+
     public static interface Presenter extends DisplayPresenter{
 
         void registSkillAppeal();
+
+        void setupDisplay(SkillAppealFormDisplay display);
 
     }
 
