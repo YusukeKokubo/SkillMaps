@@ -17,6 +17,7 @@ import com.appspot.skillmaps.client.ui.UserThumnail;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -46,6 +47,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     SkillRelDriver skillRelDriver = GWT.create(SkillRelDriver.class);
 
     private final Provider<UserUIDisplay> displayProvider;
+
     private final Provider<SkillAddDialog> skillAddDialogProvider;
 
     private Profile profile;
@@ -173,6 +175,19 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     }
                 });
 
+
+            }
+        });
+
+        serviceProvider.get().getSkillNames(new AsyncCallback<SkillMap[]>() {
+
+            @Override
+            public void onSuccess(SkillMap[] result) {
+                skillAddDialog.setSkillNames(result);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
 
             }
         });

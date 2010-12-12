@@ -122,7 +122,7 @@ public class UserUI extends Composite implements UserUIDisplay{
 
     @Override
     public void reloadSkills(Skill[] skillList) {
-        if(skills == null){
+        if(skills == null || skills.getRowCount() <= 1){
             initSkillTable();
         }else {
 

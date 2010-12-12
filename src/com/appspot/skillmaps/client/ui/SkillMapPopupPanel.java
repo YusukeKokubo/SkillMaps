@@ -39,6 +39,9 @@ public class SkillMapPopupPanel extends PopupPanel {
     }
 
     public SkillMapPopupPanel() {
+        setAnimationEnabled(true);
+        setAutoHideEnabled(true);
+        setAutoHideOnHistoryEventsEnabled(true);
         addStyleName(Resources.INSTANCE.style().userDialog());
         add(uiBinder.createAndBindUi(this));
     }

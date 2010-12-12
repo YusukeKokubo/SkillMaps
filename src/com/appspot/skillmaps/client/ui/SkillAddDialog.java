@@ -1,17 +1,16 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.event.SkillAddSubmitEvent;
-import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasValue;
@@ -20,9 +19,15 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class SkillAddDialog extends DialogBox implements Editor<Skill> {
+
+    interface SkillAddStyle extends CssResource{
+        String form();
+    }
+
+    @UiField SkillAddStyle style;
+
     @UiField(provided=true)
     @Editor.Path("name")
     SuggestBox skillName;
@@ -45,7 +50,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     private static SkillAddDialogUiBinder uiBinder =
         GWT.create(SkillAddDialogUiBinder.class);
 
-    private final Provider<SkillServiceAsync> serviceProvider;
 
     private final EventBus eventBus;
 
@@ -53,38 +57,24 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     }
 
     @Inject
-    public SkillAddDialog(Provider<SkillServiceAsync> serviceProvider,
-                          EventBus eventBus) {
-        this.serviceProvider = serviceProvider;
+    public SkillAddDialog(EventBus eventBus) {
         this.eventBus = eventBus;
         skillName = new SuggestBox(skillNames);
-        add(uiBinder.createAndBindUi(this));
         setAutoHideEnabled(true);
         setAutoHideOnHistoryEventsEnabled(true);
+        add(uiBinder.createAndBindUi(this));
+//        this.addStyleName(style.form());
     }
 
-    @Override
-    public void center(){
+    public void setSkillNames(SkillMap[] result){
+        if(result == null || result.length == 0){
+            return;
+        }
+        skillNames.clear();
+        for (SkillMap skillMap : result) {
+            skillNames.add(skillMap.getSkillName());
+        }
 
-        serviceProvider.get().getSkillNames(new AsyncCallback<SkillMap[]>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-
-            }
-
-            @Override
-            public void onSuccess(SkillMap[] result) {
-                if(result == null || result.length == 0){
-                    return;
-                }
-                skillNames.clear();
-                for (SkillMap skillMap : result) {
-                    skillNames.add(skillMap.getSkillName());
-                }
-            }
-        });
-        center();
     }
 
     @UiHandler("submit")

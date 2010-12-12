@@ -10,11 +10,15 @@
 			background-color: #ffffff;
 		}
 		.button {
-			margin-top: 15px;
+			margin-top: 20px;
 			background-color: #DDDDDD;
 			padding: 5px;
 			border: 1px solid #A2BBDD;
 			color: #333333;
+		}
+
+		.skills{
+			margin-bottom: 20px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -29,7 +33,7 @@
 					<g:Label ui:field="selfIntroduction" />
 					<g:Anchor ui:field="profileUrl1" target="_blank" />
 					<g:Anchor ui:field="profileUrl2" target="_blank" />
-					<g:SimplePanel ui:field="skillsPanel"/>
+					<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}"/>
 					<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 				</g:VerticalPanel>
 		</g:HorizontalPanel>

@@ -110,6 +110,11 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
 
         UserListPlace userListPlace = (UserListPlace)place;
         int pageIndex = userListPlace.getPageNumber();
+
+        if(pageIndex == 0){
+            pageMap.clear();
+        }
+
         if(pageMap.containsKey(pageIndex)){
             display.setUserList(pageIndex, pageMap.get(pageIndex));
         } else {

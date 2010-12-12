@@ -110,6 +110,7 @@ public class UserListUI extends Composite implements UserListDisplay{
     private void reloadUsersPanel(Profile[] users, int viewColumn) {
 
         HorizontalPanel hPanel = null;
+        usersPanel.clear();
         int column = 0;
         int thumnailWidth = usersPanel.getOffsetWidth() / viewColumn;
         for (final Profile user : users) {
@@ -135,7 +136,6 @@ public class UserListUI extends Composite implements UserListDisplay{
             }
         }
 
-        usersPanel.clear();
         if(hPanel != null){
             usersPanel.add(hPanel);
         }
