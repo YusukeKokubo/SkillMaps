@@ -2,7 +2,6 @@ package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
-import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

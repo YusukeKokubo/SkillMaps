@@ -142,9 +142,10 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
+        this.presenter.setDisplay(this);
     }
 
 }

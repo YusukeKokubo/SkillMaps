@@ -2,7 +2,6 @@ package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.event.SkillAddSubmitEvent;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
-import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.google.gwt.core.client.GWT;
@@ -48,8 +47,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
 
     private final Provider<SkillServiceAsync> serviceProvider;
 
-    private Profile profile;
-
     private final EventBus eventBus;
 
     interface SkillAddDialogUiBinder extends UiBinder<Widget, SkillAddDialog> {
@@ -62,10 +59,8 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
         this.eventBus = eventBus;
         skillName = new SuggestBox(skillNames);
         add(uiBinder.createAndBindUi(this));
-    }
-
-    public void setProfile(Profile profile){
-        this.profile = profile;
+        setAutoHideEnabled(true);
+        setAutoHideOnHistoryEventsEnabled(true);
     }
 
     @Override
@@ -96,27 +91,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     public void clickSubmit(ClickEvent e){
         submit.setEnabled(false);
         eventBus.fireEvent(new SkillAddSubmitEvent());
-//        Skill skill = new Skill();
-//        skill.setOwnerEmail(profile.getUserEmail());
-//        skill.setName(skillName.getText());
-//        skill.setDescription(description.getText());
-//        SkillRelation rel = new SkillRelation();
-//        rel.setComment(comment.getText());
-//        serviceProvider.get().putSkill(skill, rel, true, new AsyncCallback<Void>() {
-//            @Override
-//            public void onSuccess(Void result) {
-//                Window.alert("追加しました");
-//                submit.setEnabled(true);
-////                reloadSkills();
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-//                submit.setEnabled(true);
-//            }
-//        });
-////        reloadSkills();
     }
 
     public void clickCancel(ClickEvent e){

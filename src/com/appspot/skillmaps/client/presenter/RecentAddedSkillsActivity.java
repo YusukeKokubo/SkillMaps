@@ -14,9 +14,9 @@ import com.google.inject.Provider;
 
 public class RecentAddedSkillsActivity extends SkillMapActivity implements RecentAddedSkillsDisplay.Presenter {
 
-
     private final Provider<RecentAddedSkillsDisplay> displayProvider;
     private final Provider<SkillServiceAsync> serviceProvider;
+    private RecentAddedSkillsDisplay display;
 
     @Inject
     public RecentAddedSkillsActivity(Provider<RecentAddedSkillsDisplay> displayProvider,
@@ -42,9 +42,8 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
 
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        final RecentAddedSkillsDisplay display = displayProvider.get();
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+        setDisplay(displayProvider.get());
 
         display.setPresenter(this);
 
@@ -59,7 +58,13 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
                 UiMessage.info("データの取得に失敗しました。");
             }
         });
-        panel.setWidget(displayProvider.get());
+        panel.setWidget(display);
+    }
+
+    @Override
+    public void setDisplay(RecentAddedSkillsDisplay display) {
+        this.display = display;
+
     }
 
 }

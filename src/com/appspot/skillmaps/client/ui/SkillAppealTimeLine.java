@@ -40,6 +40,7 @@ public class SkillAppealTimeLine extends Composite implements
     @Override
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+        this.presenter.setDisplay(this);
     }
 
     @Override

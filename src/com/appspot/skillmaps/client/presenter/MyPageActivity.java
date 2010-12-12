@@ -40,6 +40,8 @@ public class MyPageActivity extends SkillMapActivity implements
 
     private AcceptsOneWidget panel;
 
+    private MyPageDisplay display;
+
     @Inject
     public MyPageActivity(Login login,
             Provider<MyPageDisplay> displayProvier,
@@ -74,11 +76,10 @@ public class MyPageActivity extends SkillMapActivity implements
 
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         this.panel = panel;
         if (login.isLoggedIn()) {
-            MyPageDisplay display = displayProvier.get();
+            setDisplay(displayProvier.get());
 
             display.setPresenter(this);
 
@@ -88,7 +89,7 @@ public class MyPageActivity extends SkillMapActivity implements
 
             panel.setWidget(display);
         } else {
-            signinGuidanceProvider.get().initDisplay(panel, eventBus);
+            signinGuidanceProvider.get().start(panel, eventBus);
         }
 
     }
@@ -111,6 +112,12 @@ public class MyPageActivity extends SkillMapActivity implements
                 Window.alert(caught.getMessage() + "\n" + Arrays.toString(caught.getStackTrace()));
             }
         });
+
+    }
+
+    @Override
+    public void setDisplay(MyPageDisplay display) {
+        this.display = display;
 
     }
 

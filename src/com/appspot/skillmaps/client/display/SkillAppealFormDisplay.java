@@ -10,7 +10,7 @@ public interface SkillAppealFormDisplay extends IsWidget{
 
     void initPresenter();
 
-    public static interface Presenter extends DisplayPresenter{
+    public static interface Presenter extends DisplayPresenter<SkillAppealFormDisplay>{
 
         void registSkillAppeal();
 

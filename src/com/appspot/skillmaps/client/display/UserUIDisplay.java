@@ -12,7 +12,7 @@ public interface UserUIDisplay extends IsWidget {
 
     void setPresenter(Presenter presenter);
 
-    public static interface Presenter extends DisplayPresenter{
+    public static interface Presenter extends DisplayPresenter<UserUIDisplay>{
 
         void showSkillAddDialog();
 

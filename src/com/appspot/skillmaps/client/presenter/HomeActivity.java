@@ -14,11 +14,13 @@ public class HomeActivity extends SkillMapActivity implements
         HomeDisplay.Presenter {
 
     private final Provider<HomeDisplay> displayProvider;
+    private HomeDisplay display;
 
     @Inject
     public HomeActivity(Provider<HomeDisplay> displayProvider) {
         this.displayProvider = displayProvider;
     }
+
 
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
@@ -37,11 +39,16 @@ public class HomeActivity extends SkillMapActivity implements
         });
     }
 
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+        setDisplay(displayProvider.get());
+        display.setPresenter(this);
+        panel.setWidget(display);
+    }
+
     @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        HomeDisplay homeDisplay = displayProvider.get();
-        homeDisplay.setPresenter(this);
-        panel.setWidget(homeDisplay);
+    public void setDisplay(HomeDisplay display) {
+        this.display = display;
+
     }
 
 }

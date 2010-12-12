@@ -80,7 +80,7 @@ public class SkillAppealForm extends Composite implements
     @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
+        this.presenter.setDisplay(this);
     }
 
     @Override

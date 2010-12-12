@@ -15,6 +15,7 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
 
     private final Provider<RecentEntriedUsersDisplay> displayProvider;
     private final Provider<AccountServiceAsync> serviceProvider;
+    private RecentEntriedUsersDisplay display;
 
     @Inject
     public RecentEntriedUsersActivity(Provider<RecentEntriedUsersDisplay> displayProvider,
@@ -40,11 +41,9 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
         });
     }
 
-    @Override
     public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        final RecentEntriedUsersDisplay display = displayProvider.get();
+        setDisplay(displayProvider.get());
         display.setPresenter(this);
-        panel.setWidget(display);
         serviceProvider.get().getRecentEntriedUsers(new AsyncCallback<Profile[]>() {
 
             @Override
@@ -57,6 +56,12 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
 
             }
         });
+        panel.setWidget(display);
+    }
+
+    @Override
+    public void setDisplay(RecentEntriedUsersDisplay display) {
+        this.display = display;
     }
 
 }

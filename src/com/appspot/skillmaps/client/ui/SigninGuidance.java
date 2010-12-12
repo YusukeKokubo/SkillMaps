@@ -37,9 +37,10 @@ public class SigninGuidance extends Composite implements SigninGuidanceDisplay{
 
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
+        this.presenter.setDisplay(this);
     }
 
 }

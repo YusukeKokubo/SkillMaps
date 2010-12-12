@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 public interface SkillListDisplay extends IsWidget {
     void setPresenter(Presenter presenter);
 
-    public static interface Presenter extends DisplayPresenter{
+    public static interface Presenter extends DisplayPresenter<SkillListDisplay>{
 
     }
 

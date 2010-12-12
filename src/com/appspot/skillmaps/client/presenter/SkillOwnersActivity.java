@@ -47,13 +47,11 @@ public class SkillOwnersActivity extends SkillMapActivity implements SkillOwners
         });
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        display = displayProvider.get();
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+        setDisplay(displayProvider.get());
 
         display.setPresenter(this);
 
-        panel.setWidget(display);
 
         serviceProvider.get().getSkillOwners(skillName, new AsyncCallback<Skill[]>() {
 
@@ -68,6 +66,7 @@ public class SkillOwnersActivity extends SkillMapActivity implements SkillOwners
 
             }
         });
+        panel.setWidget(display);
 
     }
 
@@ -83,6 +82,12 @@ public class SkillOwnersActivity extends SkillMapActivity implements SkillOwners
     @Override
     public void setSkillName(String skillName){
         this.skillName = skillName;
+    }
+
+    @Override
+    public void setDisplay(SkillOwnersDisplay display) {
+        this.display = display;
+
     }
 
 }

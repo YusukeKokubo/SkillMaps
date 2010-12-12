@@ -12,6 +12,7 @@ public class ActivateGuidanceActivity extends SkillMapActivity implements Activa
 
 
     private final Provider<ActivateGuidanceDisplay> displayProvider;
+    private ActivateGuidanceDisplay display;
 
     @Inject
     public ActivateGuidanceActivity(Provider<ActivateGuidanceDisplay> displayProvider) {
@@ -35,11 +36,15 @@ public class ActivateGuidanceActivity extends SkillMapActivity implements Activa
         });
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        ActivateGuidanceDisplay display = displayProvider.get();
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+        setDisplay(displayProvider.get());
         display.setPresenter(this);
         panel.setWidget(display);
+    }
+
+    @Override
+    public void setDisplay(ActivateGuidanceDisplay display) {
+        this.display = display;
     }
 
 }

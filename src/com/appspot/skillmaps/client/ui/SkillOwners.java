@@ -1,7 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.display.SkillOwnersDisplay;
-import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -25,17 +24,13 @@ public class SkillOwners extends Composite implements SkillOwnersDisplay{
 
     private Presenter presenter;
 
-    private final Login login;
-
     private final Provider<UserThumnail> utProvider;
 
     interface SkillOwnersUiBinder extends UiBinder<Widget, SkillOwners> {
     }
 
     @Inject
-    public SkillOwners(Login login,
-                       Provider<UserThumnail> utProvider) {
-        this.login = login;
+    public SkillOwners(Provider<UserThumnail> utProvider) {
         this.utProvider = utProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }
@@ -64,8 +59,9 @@ public class SkillOwners extends Composite implements SkillOwnersDisplay{
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
+        this.presenter.setDisplay(this);
     }
 }

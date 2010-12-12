@@ -4,6 +4,8 @@ import com.appspot.skillmaps.client.display.SkillAppealTimeLineDisplay;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -15,6 +17,7 @@ public class SkillAppealTimeLineActivity extends SkillMapActivity implements
 
     private final Provider<SkillAppealTimeLineDisplay> displayProvider;
     private final Provider<SkillServiceAsync> serviceProvider;
+    private SkillAppealTimeLineDisplay display;
 
     @Inject
     public SkillAppealTimeLineActivity(
@@ -26,13 +29,25 @@ public class SkillAppealTimeLineActivity extends SkillMapActivity implements
     }
 
     @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        initDisplay(panel, eventBus);
+    public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
+        GWT.runAsync(new RunAsyncCallback() {
+
+            @Override
+            public void onSuccess() {
+                initDisplay(panel, eventBus);
+
+            }
+
+            @Override
+            public void onFailure(Throwable reason) {
+                // TODO 自動生成されたメソッド・スタブ
+
+            }
+        });
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
-        final SkillAppealTimeLineDisplay display = displayProvider.get();
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+        setDisplay(displayProvider.get());
         display.setPresenter(this);
         panel.setWidget(display);
         serviceProvider.get().getSkillAppeals(
@@ -50,6 +65,12 @@ public class SkillAppealTimeLineActivity extends SkillMapActivity implements
                     // caught.getStackTrace());
                 }
             });
+    }
+
+    @Override
+    public void setDisplay(SkillAppealTimeLineDisplay display) {
+        this.display = display;
+
     }
 
 }

@@ -148,8 +148,10 @@ public class UserListUI extends Composite implements UserListDisplay{
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+        this.presenter.setDisplay(this);
     }
 
     @Override

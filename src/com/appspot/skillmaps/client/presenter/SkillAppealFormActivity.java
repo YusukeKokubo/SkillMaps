@@ -77,19 +77,21 @@ public class SkillAppealFormActivity extends SkillMapActivity implements
 
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         setupDisplay(displayProvider.get());
         panel.setWidget(display);
     }
 
     @Override
     public void setupDisplay(SkillAppealFormDisplay display) {
-        this.display = display;
+        setDisplay(display);
         driver.initialize((SkillAppealForm)display);
         driver.edit(new SkillAppeal());
-        display.setPresenter(this);
+    }
 
+    @Override
+    public void setDisplay(SkillAppealFormDisplay display) {
+        this.display = display;
     }
 
 }

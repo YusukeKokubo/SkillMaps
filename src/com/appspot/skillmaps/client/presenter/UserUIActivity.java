@@ -101,8 +101,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         this.profile = profile;
     }
 
-    @Override
-    public void initDisplay(final AcceptsOneWidget panel, EventBus eventBus) {
+    private void initDisplay(final AcceptsOneWidget panel, EventBus eventBus) {
         this.eventBus = eventBus;
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
         accountServiceProvider.get().getUser(((UserPlace)place).getUserId(), new AsyncCallback<Profile>() {

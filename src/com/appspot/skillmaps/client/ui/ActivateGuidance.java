@@ -37,8 +37,9 @@ public class ActivateGuidance extends Composite implements ActivateGuidanceDispl
 
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
+        this.presenter.setDisplay(this);
     }
 }

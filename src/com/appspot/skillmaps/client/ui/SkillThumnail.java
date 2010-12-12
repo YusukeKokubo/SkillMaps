@@ -66,7 +66,7 @@ public class SkillThumnail extends Composite {
             public void onClick(ClickEvent event) {
                 SkillOwnersActivity skillOwnersActivity = skillOwnersProvider.get();
                 skillOwnersActivity.setSkillName(skill.getName());
-                skillOwnersActivity.initDisplay(skillOwners.getContents(), eventBus);
+                skillOwnersActivity.start(skillOwners.getContents(), eventBus);
                 Anchor permalink = permalinkProvider.get();
                 permalink.setName(skill.getName());
                 skillOwners.setFooter(permalink);

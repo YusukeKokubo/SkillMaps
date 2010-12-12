@@ -8,7 +8,7 @@ public interface SkillAppealTimeLineDisplay extends IsWidget {
 
     void setPresenter(Presenter presenter);
 
-    public static interface Presenter extends DisplayPresenter{
+    public static interface Presenter extends DisplayPresenter<SkillAppealTimeLineDisplay>{
 
     }
 

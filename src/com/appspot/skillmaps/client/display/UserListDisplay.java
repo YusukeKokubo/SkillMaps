@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 public interface UserListDisplay extends IsWidget {
     void setPresenter(Presenter presenter);
 
-    public static interface Presenter extends DisplayPresenter{
+    public static interface Presenter extends DisplayPresenter<UserListDisplay>{
 
         void loadNextUsers(int pageIndex, UserListResultDto userListResultDto);
 

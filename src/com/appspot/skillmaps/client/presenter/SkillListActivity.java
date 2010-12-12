@@ -27,8 +27,7 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
         this.serviceProvider = serviceProvider;
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         display = displayProvider.get();
         display.setPresenter(this);
         panel.setWidget(display);
@@ -62,6 +61,12 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
 
             }
         });
+    }
+
+    @Override
+    public void setDisplay(SkillListDisplay display) {
+        // TODO 自動生成されたメソッド・スタブ
+
     }
 
 }

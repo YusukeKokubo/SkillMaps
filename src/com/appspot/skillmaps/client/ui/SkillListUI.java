@@ -61,7 +61,7 @@ public class SkillListUI extends Composite implements SkillListDisplay{
                     SkillMapPopupPanel skillOwners = new SkillMapPopupPanel();
                     SkillOwnersActivity skillOwnersActivity = skillOwnersProvider.get();
                     skillOwnersActivity.setSkillName(sm.getSkillName());
-                    skillOwnersActivity.initDisplay(skillOwners.getContents(), eventBus);
+                    skillOwnersActivity.start(skillOwners.getContents(), eventBus);
                     Anchor permalink = permalinkProvider.get();
                     permalink.setName(sm.getSkillName());
                     skillOwners.setFooter(permalink);
@@ -82,8 +82,9 @@ public class SkillListUI extends Composite implements SkillListDisplay{
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
-
+        this.presenter.setDisplay(this);
     }
 }

@@ -102,10 +102,9 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
         }
     }
 
-    @Override
-    public void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
+    private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         if(display == null){
-            display = displayProvider.get();
+            setDisplay(displayProvider.get());
             display.setPresenter(this);
         }
 
@@ -122,6 +121,12 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
     @Override
     public void loadPrevUsers(int pageIndex, UserListResultDto userListResultDto) {
         loadUsers(pageIndex ,-1 * pageIndex, userListResultDto , true);
+    }
+
+    @Override
+    public void setDisplay(UserListDisplay display) {
+        this.display = display;
+
     }
 
 }

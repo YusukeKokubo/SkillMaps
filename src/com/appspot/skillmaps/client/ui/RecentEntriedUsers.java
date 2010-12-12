@@ -3,7 +3,6 @@ package com.appspot.skillmaps.client.ui;
 import com.appspot.skillmaps.client.display.RecentEntriedUsersDisplay;
 import com.appspot.skillmaps.client.service.AccountService;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
-import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -49,8 +48,10 @@ public class RecentEntriedUsers extends Composite implements RecentEntriedUsersD
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+        this.presenter.setDisplay(this);
     }
 
 }

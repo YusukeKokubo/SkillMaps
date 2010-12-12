@@ -94,7 +94,9 @@ public class HomeView extends Composite implements HomeDisplay {
     }
 
     @Override
+    @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+        this.presenter.setDisplay(this);
     }
 }
