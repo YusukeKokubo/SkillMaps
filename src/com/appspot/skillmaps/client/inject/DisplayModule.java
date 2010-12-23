@@ -43,10 +43,10 @@ public class DisplayModule extends AbstractGinModule {
         bind(ActivateGuidanceDisplay.class).to(ActivateGuidance.class);
         bind(RecentAddedSkillsDisplay.class).to(RecentAddedSkills.class);
         bind(RecentEntriedUsersDisplay.class).to(RecentEntriedUsers.class);
-        bind(SkillAppealFormDisplay.class).to(SkillAppealForm.class);
+        bind(SkillAppealFormDisplay.class).to(SkillAppealForm.class).in(Singleton.class);
         bind(SkillAppealTimeLineDisplay.class).to(SkillAppealTimeLine.class);
         bind(SigninGuidanceDisplay.class).to(SigninGuidance.class);
-        
+
     }
 
 }

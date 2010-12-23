@@ -10,6 +10,7 @@ import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
@@ -50,11 +51,12 @@ public class SkillAppealFormActivity extends SkillMapActivity implements
     @Override
     public void registSkillAppeal() {
         SkillAppeal skillAppeal = driver.flush();
-        if (skillAppeal.getAppealSkillName().isEmpty()) {
+
+        if (skillAppeal.getAppealSkillName() == null || skillAppeal.getAppealSkillName().isEmpty()) {
             UiMessage.info("アピールするスキルを入力してください");
             return;
         }
-        if (skillAppeal.getDescription().isEmpty()) {
+        if (skillAppeal.getDescription() == null || skillAppeal.getDescription().isEmpty()) {
             UiMessage.info("アピール文を入力してください");
             return;
         }

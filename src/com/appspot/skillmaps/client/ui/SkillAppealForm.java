@@ -81,6 +81,7 @@ public class SkillAppealForm extends Composite implements
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
         this.presenter.setDisplay(this);
+        this.initPresenter();
     }
 
     @Override
