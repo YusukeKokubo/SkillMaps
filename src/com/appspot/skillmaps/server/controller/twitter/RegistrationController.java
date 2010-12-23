@@ -39,6 +39,6 @@ public class RegistrationController extends Controller {
         profile.setTwitterScreenName(twitter.getScreenName());
         Datastore.put(profile);
 
-        return redirect("/mypage.html");
+        return redirect("/#!myPage:");
     }
 }

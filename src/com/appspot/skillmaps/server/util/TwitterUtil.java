@@ -109,7 +109,7 @@ public class TwitterUtil {
             Twitter notifierTwitter = TwitterUtil.getTwitterInstance();
             notifierTwitter.setOAuthAccessToken(notifier.getTwitterToken(), notifier.getTwitterTokenSecret());
 
-            String skillmapsUrl = "http://skillmaps.appspot.com/user.html?id=" + skillOwner.getId();
+            String skillmapsUrl = "http://skillmaps.appspot.com/index.html#!user:" + skillOwner.getId();
             String body = String.format("%s さんが %s さんのスキル[%s]に賛同しました.ポイント[%d] #skillmaps %s"
                 , skillAppenderId
                 , skillOwnerId

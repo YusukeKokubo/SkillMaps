@@ -14,9 +14,9 @@ import com.appspot.skillmaps.server.meta.IconMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.shared.model.Icon;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.google.appengine.api.labs.taskqueue.Queue;
-import com.google.appengine.api.labs.taskqueue.QueueFactory;
-import com.google.appengine.api.labs.taskqueue.TaskOptions.Builder;
+import com.google.appengine.api.taskqueue.TaskOptions.Builder;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
 
 public class CheckUserImageController extends Controller {
 
@@ -80,7 +80,7 @@ public class CheckUserImageController extends Controller {
 
                 Queue queue = QueueFactory.getDefaultQueue();
 
-                queue.add(Builder.param("createdAt", lastSee).url("/sys/checkUserImage"));
+                queue.add(Builder.withParam("createdAt", lastSee).url("/sys/checkUserImage"));
 
                 logger.info("処理を終了します。");
                 return null;
