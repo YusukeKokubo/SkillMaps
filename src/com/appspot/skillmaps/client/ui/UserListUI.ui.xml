@@ -21,7 +21,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<div id="usersToolBar" class="{style.tool-bar}">
+		<div ui:field="usersToolBar" class="{style.tool-bar}">
 			<div id="usersToolBar-left" class="{style.tool-bar-left}">
 				<g:ListBox ui:field="layoutSelect">
 					<g:item value="1">1</g:item>

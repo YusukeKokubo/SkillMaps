@@ -5,6 +5,7 @@ import com.appspot.skillmaps.client.display.UserListDisplay;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -44,6 +46,9 @@ public class UserListUI extends Composite implements UserListDisplay{
 
     @UiField
     InlineLabel page;
+
+    @UiField
+    DivElement usersToolBar;
 
     private int pageIndex = 0;
 
@@ -113,6 +118,20 @@ public class UserListUI extends Composite implements UserListDisplay{
         usersPanel.clear();
         int column = 0;
         int thumnailWidth = usersPanel.getOffsetWidth() / viewColumn;
+        if(thumnailWidth == 0){
+
+            thumnailWidth = usersToolBar.getOffsetWidth() / viewColumn;
+
+            if(thumnailWidth == 0){
+
+                thumnailWidth = RootPanel.get("contents").getOffsetWidth() / viewColumn;
+
+                if(thumnailWidth == 0){
+                    thumnailWidth = 1100 / viewColumn;
+                }
+            }
+
+        }
         for (final Profile user : users) {
 
             if(column == 0){
