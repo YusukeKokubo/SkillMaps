@@ -43,7 +43,7 @@ public class MessageController extends Composite implements HasWidgets {
         Open openAnimetion = new Open(messageWidget);
         panel.add(messageWidget);
         setVisible(true);
-        openAnimetion.run(2000);
+        openAnimetion.run(500);
     }
 
     @Override
