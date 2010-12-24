@@ -6,6 +6,7 @@ import java.util.Date;
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
 import org.slim3.datastore.CreationEmail;
+import org.slim3.datastore.InverseModelListRef;
 import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
 
@@ -46,6 +47,10 @@ public class Profile implements Serializable {
     private Boolean allowFromMailNotifier;
 
     private Boolean hasIcon;
+    
+    @Attribute(persistent=false)
+    private InverseModelListRef<AtndEventUser, Profile> atndEvents = new 
+            InverseModelListRef<AtndEventUser, Profile>(AtndEventUser.class, "profile", this);
 
     @Attribute(listener=CreationEmail.class)
     private String userEmail;
@@ -280,6 +285,10 @@ public class Profile implements Serializable {
 
     public Boolean getAllowFromMailNotifier() {
         return allowFromMailNotifier;
+    }
+
+    public InverseModelListRef<AtndEventUser, Profile> getAtndEvents() {
+        return atndEvents;
     }
 
 }

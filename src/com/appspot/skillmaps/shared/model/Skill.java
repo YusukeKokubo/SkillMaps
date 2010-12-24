@@ -34,7 +34,8 @@ public class Skill implements Serializable {
     private Boolean enable;
 
     @Attribute(persistent=false)
-    private InverseModelListRef<SkillRelation, Skill> relation = new InverseModelListRef<SkillRelation, Skill>(SkillRelation.class, "skill", this);
+    private InverseModelListRef<SkillRelation, Skill> relation = 
+        new InverseModelListRef<SkillRelation, Skill>(SkillRelation.class, "skill", this);
 
     private String ownerEmail;
     
