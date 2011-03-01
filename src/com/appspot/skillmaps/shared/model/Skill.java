@@ -26,6 +26,8 @@ public class Skill implements Serializable {
     private String name;
 
     private Long point;
+    
+    private Long agreedCount;
 
     private String description;
 
@@ -192,5 +194,13 @@ public class Skill implements Serializable {
 
     public String getCreatedUserEmail() {
         return createdUserEmail;
+    }
+
+    public void setAgreedCount(Long agreedCount) {
+        this.agreedCount = agreedCount;
+    }
+
+    public Long getAgreedCount() {
+        return agreedCount;
     }
 }

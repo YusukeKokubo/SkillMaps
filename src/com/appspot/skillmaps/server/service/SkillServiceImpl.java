@@ -56,7 +56,12 @@ public class SkillServiceImpl implements SkillService {
                 }
                 rel.getSkill().setModel(putSkill);
                 putSkill.getRelation().getModelList().add(rel);
-                putSkill.setPoint((long) putSkill.getRelation().getModelList().size());
+                Long point = 0L;
+                for (SkillRelation srel : putSkill.getRelation().getModelList()) {
+                    point += srel.getPoint();
+                }
+                putSkill.setPoint(point);
+                putSkill.setAgreedCount((long) putSkill.getRelation().getModelList().size());
                 gtx.put(putSkill, rel);
                 gtx.commit();
                 complete = true;
