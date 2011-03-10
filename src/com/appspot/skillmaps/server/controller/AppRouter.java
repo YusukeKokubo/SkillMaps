@@ -6,5 +6,6 @@ public class AppRouter extends RouterImpl {
 
 	public AppRouter() {
         addRouting("/images/icon/{key}", "/IconDownload?key={key}");
+        addRouting("/cron/pointdown",    "/Pointdown");
 	}
 }
