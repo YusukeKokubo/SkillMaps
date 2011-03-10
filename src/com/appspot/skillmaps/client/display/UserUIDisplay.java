@@ -23,7 +23,7 @@ public interface UserUIDisplay extends IsWidget {
         void getSkillRelations(Skill skill,
                 AsyncCallback<SkillRelation[]> asyncCallback);
 
-        void showAgreedDialog(Skill skill);
+        void showAgreedDialog(Skill skill, SkillRelation rel);
 
         void setDisplay(UserUIDisplay display);
 

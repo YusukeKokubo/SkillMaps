@@ -261,13 +261,12 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     }
 
     @Override
-    public void showAgreedDialog(final Skill skill) {
+    public void showAgreedDialog(final Skill skill, final SkillRelation rel) {
         final AgreedForm agreedForm = agreedFromProvider.get();
         skillRelDriver.initialize(agreedForm);
-        skillRelDriver.edit(new SkillRelation());
+        skillRelDriver.edit(rel);
         removeEventHandler(agreedHr);
         agreedHr = eventBus.addHandler(AgreedSubmitEvent.TYPE, new AgreedSubmitHandler() {
-
             @Override
             public void onSubmit(AgreedSubmitEvent e) {
                 SkillRelation rel = skillRelDriver.flush();
@@ -286,7 +285,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                         agreedForm.center();
                     }
                 });
-
             }
         });
         agreedForm.center();

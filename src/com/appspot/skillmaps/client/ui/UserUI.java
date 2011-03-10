@@ -221,27 +221,31 @@ public class UserUI extends Composite implements UserUIDisplay{
     }
 
     private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
-
         if (!login.isLoggedIn()
                 || !login.getProfile().isActivate()
                 || login.getEmailAddress().equals(profile.getUserEmail())) {
             return null;
         }
 
-        for (SkillRelation rel : rs) {
-
+        for (final SkillRelation rel : rs) {
             if (rel.getUserEmail().equals(login.getEmailAddress())) {
-                Label lbl = new Label("賛同済み");
-
-                return lbl;
+                if (rel.getPoint() >= 10L) {         // ここはアドホックにマジックリテラルしてるけど本当はもっとやり方を考えたい
+                    return new Label("賛同済み");
+                }
+                return new Button("ポイントを加算する", new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        rel.setPoint(10L);
+                        presenter.showAgreedDialog(skill, rel);
+                    }
+                });
             }
         }
 
         return new Button("自分も賛同する", new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
-                presenter.showAgreedDialog(skill);
+                presenter.showAgreedDialog(skill, new SkillRelation());
             }
         });
     }

@@ -143,6 +143,14 @@ public class Skill implements Serializable {
         }
         return true;
     }
+    
+    public void calcPoint() {
+        long point = 0L;
+        for (SkillRelation srel : this.getRelation().getModelList()) {
+            point += srel.getPoint();
+        }
+        this.point = point;
+    }
 
     public void setPoint(Long point) {
         this.point = point;

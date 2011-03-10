@@ -37,13 +37,6 @@ public class SkillServiceImpl implements SkillService {
 
         if (StringUtil.isEmpty(skill.getName())) throw new IllegalArgumentException("skill name is null");
 
-        // if return already exist.
-        if (Datastore.query(rm)
-                .filter(rm.userEmail.equal(user.getEmail()))
-                .filter(rm.skill.equal(skill.getKey()))
-                .limit(1).countQuickly() > 0) {
-            return;
-        }
         GlobalTransaction gtx = Datastore.beginGlobalTransaction();
         boolean complete = false;
         while(!complete){
@@ -54,13 +47,14 @@ public class SkillServiceImpl implements SkillService {
                 }else{
                     putSkill = skill;
                 }
-                rel.getSkill().setModel(putSkill);
-                putSkill.getRelation().getModelList().add(rel);
-                Long point = 0L;
-                for (SkillRelation srel : putSkill.getRelation().getModelList()) {
-                    point += srel.getPoint();
+                if (rel.getKey() == null) {
+                    rel.getSkill().setModel(putSkill);
+                    putSkill.getRelation().getModelList().add(rel);
+                } else {
+                    putSkill.getRelation().getModelList().remove(rel);
+                    putSkill.getRelation().getModelList().add(rel);
                 }
-                putSkill.setPoint(point);
+                putSkill.calcPoint();
                 putSkill.setAgreedCount((long) putSkill.getRelation().getModelList().size());
                 gtx.put(putSkill, rel);
                 gtx.commit();
@@ -70,7 +64,6 @@ public class SkillServiceImpl implements SkillService {
                     TwitterUtil.tweetSkillAppended(putSkill);
                 }
             }catch(ConcurrentModificationException cme){
-
             }
         }
     }
