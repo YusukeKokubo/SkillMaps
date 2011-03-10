@@ -159,7 +159,7 @@ public class UserUI extends Composite implements UserUIDisplay{
             });
 
             skills.setWidget(j, 0, name);
-            skills.setText(j, 1, skill.getAgreedCount().toString());
+            skills.setText(j, 1, String.valueOf(skill.getAgreedCount()));
             skills.setText(j, 2, skill.getPoint().toString());
             skills.setText(j, 3, skill.getDescription());
 
@@ -229,7 +229,7 @@ public class UserUI extends Composite implements UserUIDisplay{
 
         for (final SkillRelation rel : rs) {
             if (rel.getUserEmail().equals(login.getEmailAddress())) {
-                if (rel.getPoint() >= 10L) {         // ここはアドホックにマジックリテラルしてるけど本当はもっとやり方を考えたい
+                if (rel.getPoint() != null && rel.getPoint() >= 10L) {         // ここはアドホックにマジックリテラルしてるけど本当はもっとやり方を考えたい
                     return new Label("賛同済み");
                 }
                 return new Button("ポイントを加算する", new ClickHandler() {

@@ -21,6 +21,7 @@ public class PointdownController extends Controller {
         List<SkillRelation> rels = Datastore.query(m).filter(m.updatedAt.lessThan(now)).asList();
         
         for (SkillRelation rel : rels) {
+            if (rel.getPoint() == null) continue;
             rel.setPoint(rel.getPoint() - 1L);
             rel.getSkill().getModel().calcPoint();
             Datastore.put(rel, rel.getSkill().getModel());
