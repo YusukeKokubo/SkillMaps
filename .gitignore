@@ -7,3 +7,5 @@ war/WEB-INF/appengine-generated
 war/skillmaps
 build/
 .gwt/
+war/WEB-INF/appengine-generated/datastore-indexes-auto.xml
+war/WEB-INF/appengine-generated/local_db.bin
