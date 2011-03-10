@@ -42,18 +42,20 @@ public class SkillOwners extends Composite implements SkillOwnersDisplay{
 
         table.setText(0, 0, "スキル");
         table.setText(0, 1, "賛同者");
-        table.setText(0, 2, "ユーザー");
-        table.setText(0, 3, "説明");
+        table.setText(0, 2, "ポイント");
+        table.setText(0, 3, "ユーザー");
+        table.setText(0, 4, "説明");
         table.getRowFormatter().addStyleName(0, "grid-columns");
 
         for (int i = 0; i < result.length; i ++) {
             Skill s = result[i];
             table.setText(i + 1, 0, s.getName());
-            table.setText(i + 1, 1, String.valueOf(s.getPoint()));
+            table.setText(i + 1, 1, String.valueOf(s.getAgreedCount()));
+            table.setText(i + 1, 2, String.valueOf(s.getPoint()));
             UserThumnail uT = utProvider.get();
             uT.setUser(s.getProfile());
-            table.setWidget(i + 1, 2, uT);
-            table.setText(i + 1, 3, s.getDescription());
+            table.setWidget(i + 1, 3, uT);
+            table.setText(i + 1, 4, s.getDescription());
         }
 
     }

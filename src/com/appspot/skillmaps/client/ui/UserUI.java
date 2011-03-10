@@ -159,19 +159,18 @@ public class UserUI extends Composite implements UserUIDisplay{
             });
 
             skills.setWidget(j, 0, name);
-
-            skills.setText(j, 1, skill.getPoint().toString());
-
-            skills.setText(j, 2, skill.getDescription());
+            skills.setText(j, 1, skill.getAgreedCount().toString());
+            skills.setText(j, 2, skill.getPoint().toString());
+            skills.setText(j, 3, skill.getDescription());
 
             presenter.getSkillRelations(skill , new AsyncCallback<SkillRelation[]>() {
                 @Override
                 public void onSuccess(final SkillRelation[] rs) {
 
-                    skills.setWidget(j, 3, makeAgreedButton(skill, rs));
+                    skills.setWidget(j, 4, makeAgreedButton(skill, rs));
 
                     final Anchor showComment = new Anchor("詳細");
-                    skills.setWidget(j, 4, showComment);
+                    skills.setWidget(j, 5, showComment);
                     showComment.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
@@ -183,7 +182,7 @@ public class UserUI extends Composite implements UserUIDisplay{
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    skills.setText(j, 3, "データを取得できませんでした");
+                    skills.setText(j, 4, "データを取得できませんでした");
                 }
             });
         }
@@ -195,12 +194,14 @@ public class UserUI extends Composite implements UserUIDisplay{
         skills.addStyleName("skill-grid");
         skills.setText(0, 0, "スキル");
         skills.setText(0, 1, "賛同者");
-        skills.setText(0, 2, "説明");
+        skills.setText(0, 2, "ポイント");
+        skills.setText(0, 3, "説明");
         skills.getCellFormatter().addStyleName(0, 0, "skill-name");
-        skills.getCellFormatter().addStyleName(0, 1, "skill-point");
-        skills.getCellFormatter().addStyleName(0, 2, "skill-description");
-        skills.getCellFormatter().addStyleName(0, 3, "skill-agree-link");
-        skills.getCellFormatter().addStyleName(0, 4, "skill-detail");
+        skills.getCellFormatter().addStyleName(0, 1, "skill-agreed");
+        skills.getCellFormatter().addStyleName(0, 2, "skill-point");
+        skills.getCellFormatter().addStyleName(0, 3, "skill-description");
+        skills.getCellFormatter().addStyleName(0, 4, "skill-agree-link");
+        skills.getCellFormatter().addStyleName(0, 5, "skill-detail");
         skills.getRowFormatter().addStyleName(0, "grid-columns");
     }
 
@@ -211,12 +212,12 @@ public class UserUI extends Composite implements UserUIDisplay{
             Profile p = sr.getProfile();
             UserThumnail userThumnail = utProvider.get();
             userThumnail.setUser(p);
-            panel.add(userThumnail);;
+            panel.add(userThumnail);
             Label agreeComment = new Label(sr.getComment());
             agreeComment.addStyleName("agree-comment");
             panel.add(agreeComment);
         }
-        skills.setWidget(j, 4, panel);
+        skills.setWidget(j, 5, panel);
     }
 
     private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
