@@ -1,4 +1,4 @@
 <factorypath>
     <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="false" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/skillmaps/lib/slim3-gen-1.0.5.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/skillmaps/lib/slim3-gen-1.0.9.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
