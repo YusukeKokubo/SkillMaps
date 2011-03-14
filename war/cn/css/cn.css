@@ -48,6 +48,7 @@ th, td {
     margin:0px;
     padding:5px;
     border:1px solid #aaaaaa;
+    white-space: nowrap;
 }
 th.pkey_head {
     background-color:peachpuff;
@@ -59,15 +60,15 @@ th.modelref_head {
     background-color:lightgreen;
 }
 
-a.top_title:link {
+a.nolink_view:link {
     text-decoration: none;
 	color: #333333;
 }
-a.top_title:visited {
+a.nolink_view:visited {
     text-decoration: none;
 	color: #333333;
 }
-a.top_title:hover {
+a.nolink_view:hover {
     text-decoration: none;
 	color: #333333;
 }
@@ -96,7 +97,7 @@ p.success {
     color: lightsteelblue;
     text-decoration: none;
 }
-.history_title {
+.models_title {
 	margin-bottom: 0px;
 }
 .toomany {

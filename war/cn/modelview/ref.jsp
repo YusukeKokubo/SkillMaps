@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${f:url('/cn/css/cn.css')}" />
 </head>
 <body>
-<a class="top_title" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
+<a class="nolink_view" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
 <hr />
 <c:forEach var="e" items="${f:errors()}">
 <p>${f:h(e)}</p>
@@ -28,8 +28,7 @@ Relationship : ${f:h(_refModelName_)} on ${_key_}.
       <c:forEach var="p" items="${_propertyList_}" varStatus="ps" >
         <c:choose>
         <c:when test="${p.primaryKey}">
-          <th class="pkey_ref_head">${f:h(p.name)}</th>
-          <th class="pkey_ref_head">ID/NAME</th>
+          <th colspan="2" class="pkey_ref_head">${f:h(p.name)}</th>
         </c:when>
         <c:when test="${p.version}">
           <th class="version_ref_head">${f:h(p.name)}</th>
@@ -51,11 +50,11 @@ Relationship : ${f:h(_refModelName_)} on ${_key_}.
       <c:forEach var="p" items="${_propertyList_}" varStatus="ps" >
         <c:choose>
           <c:when test="${p.primaryKey}">
-            <td>${xf:h(xf:vi(ms.index, p.name))}</td>
             <c:set var="editUrl" value="edit?_key_=${f:key(xf:vi(ms.index, p.name))}&${f:h(currentPageQuery)}&_owner_model_=${f:h(_modelname_)}&_owner_key_=${f:h(_key_)}&_owner_param_=${f:h(_ref_)}"/>
             <c:set var="refUrl" value="refView?_key_=${f:key(xf:vi(ms.index, p.name))}&${f:h(currentPageQuery)}"/>
             <c:set var="keyProp" value="${xf:vi(ms.index, p.name)}"/>
-            <td>${f:h(keyProp.id)}/${f:h(keyProp.name)}</td>
+            <td><div title="kind=${xf:key(keyProp).kind}, namespace=${xf:key(keyProp).namespace}, id=${xf:key(keyProp).id}, name=${xf:key(keyProp).name}, parent=${xf:key(keyProp).parent}">${xf:key(keyProp)}</div></td>
+            <td><div title="kind=${xf:key(keyProp).kind}, namespace=${xf:key(keyProp).namespace}, id=${xf:key(keyProp).id}, name=${xf:key(keyProp).name}, parent=${xf:key(keyProp).parent}">${xf:h(xf:vi(ms.index, p.name))}</div></td>
           </c:when>
           <c:when test="${p.modelRef}">
             <td><a href="${f:url(refUrl)}&_ref_=${f:h(p.name)}">Relationship to ${f:h(p.genericType.simpleName)}(${xf:vi(ms.index, p.name).key}).</a></td>
@@ -66,8 +65,44 @@ Relationship : ${f:h(_refModelName_)} on ${_key_}.
           <c:when test="${(p.array || p.collection) && (elmLimit < xf:sizei(ms.index, p.name))}">
             <td><div class="toomany">* too many elements *</div></td>
           </c:when>
-          <c:otherwise>
+          <c:when test="${p.user}">
+            <c:set var="user" value="${xf:vi(ms.index, p.name)}"/>
+            <c:choose>
+              <c:when test="${xf:isEmpty(user)}">
+                <td></td>
+              </c:when>
+              <c:otherwise>
+                <td>
+                <div>email&nbsp;:&nbsp;${xf:h(user.email)}</div>
+                <div>authDomain&nbsp;:&nbsp;${xf:h(user.authDomain)}</div>
+                <div>userId&nbsp;:&nbsp;${xf:h(user.userId)}</div>
+                <div>federatedIdentity&nbsp;:&nbsp;${xf:h(user.federatedIdentity)}</div>
+                </td>
+              </c:otherwise>
+            </c:choose>
+          </c:when>
+          <c:when test="${p.geoPt}">
+            <c:set var="geoPt" value="${xf:vi(ms.index, p.name)}"/>
+            <c:choose>
+              <c:when test="${xf:isEmpty(geoPt)}">
+                <td></td>
+              </c:when>
+              <c:otherwise>
+                <td>
+                <div>latitude&nbsp;:&nbsp;${xf:h(geoPt.latitude)}</div>
+                <div>longitude&nbsp;:&nbsp;${xf:h(geoPt.longitude)}</div>
+                </td>
+              </c:otherwise>
+            </c:choose>
+          </c:when>
+          <c:when test="${p.string || p.text}">
+            <td>${f:br(xf:h(xf:vi(ms.index, p.name)))}</td>
+          </c:when>
+          <c:when test="${p.viewable}">
             <td>${xf:h(xf:vi(ms.index, p.name))}</td>
+          </c:when>
+          <c:otherwise>
+            <td>${f:h(xf:toString(xf:vi(ms.index, p.name)))}</td>
           </c:otherwise>
         </c:choose>
       </c:forEach>

@@ -14,32 +14,28 @@
 <link rel="stylesheet" type="text/css" href="${f:url('/cn/css/cn.css')}" />
 </head>
 <body>
-<a class="top_title" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
+<a class="nolink_view" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
 <hr />
 <c:forEach var="e" items="${f:errors()}">
-<p>${f:h(e)}</p>
+<div class="err">${f:h(e)}</div>
 </c:forEach>
 <c:forEach var="m" items="${xf:msgs()}">
 <p class="success">${f:h(m)}</p>
 </c:forEach>
-<form method="post" action="index">
-<input type="hidden" ${f:hidden("_limit_")} />
-<div class="modelName">
-Model : <input type="text" ${f:text("_modelname_")} class="model"/>
-<input type="submit" value="OK" />
-</div>
-</form>
-<c:if test="${xf:isEmpty(_propertyList_) && !xf:isEmpty(viewHistoryList)}">
-<p class="history_title">View history</p>
-  <c:forEach var="vh" items="${viewHistoryList}" varStatus="s" >
-    <c:set var="historyUrl" value="index?_modelname_=${f:h(vh.modelClass.name)}&_limit_=${_limit_}"/>
-    <li class="history"><a href="${f:url(historyUrl)}">${f:h(vh.modelClass.name)}</a></li>
+<c:if test="${xf:isEmpty(_propertyList_) && !xf:isEmpty(modelClassList)}">
+<p class="models_title"><a class="nolink_view" href="${f:url('index?reload=true&')}${f:h(currentPageQuery)}">Models</a></p>
+  <c:forEach var="mc" items="${modelClassList}" varStatus="s" >
+    <c:set var="modelUrl" value="index?_modelname_=${f:h(mc.name)}&_limit_=${_limit_}"/>
+    <li class="model_link"><a href="${f:url(modelUrl)}">${f:h(mc.name)}</a></li>
   </c:forEach>
 </c:if>
 <c:if test="${isDev && xf:isEmpty(_propertyList_)}">
     <p><a href="${f:url('/_ah/admin/datastore')}">&gt;&gt; view on appengine dev console.</a></p>
 </c:if>
 <c:if test="${!xf:isEmpty(_propertyList_)}">
+<div class="modelName">
+Model : ${f:h(_modelname_)}
+</div>
 <div class="paging_top">
 <c:if test="${backPage}">
   <a id="paginglink" href="${f:url(firstPageUrl)}">${f:h("|<")}</a>&nbsp;

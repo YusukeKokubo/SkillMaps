@@ -45,7 +45,7 @@ function switchPKInputTextClass() {
 </script>
 </head>
 <body>
-<a class="top_title" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
+<a class="nolink_view" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
 <hr />
 <c:forEach var="e" items="${f:errors()}">
 <div class="err">${f:h(e)}</div><br/>

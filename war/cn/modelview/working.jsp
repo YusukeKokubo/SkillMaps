@@ -18,7 +18,7 @@ function checkTaskState(modelName) {
 	    data: {"_modelname_":modelName},
 	    dataType: 'json',
 	    success: function(data, status){
-		    if (typeof data != "undefined") {
+		    if (data && data.state) {
 		    	$(".taskform").hide();
 		         // 処理中の場合
 		         if (data.state == "WORKING" && data.stopFlg != "true") {
@@ -55,7 +55,7 @@ function checkTaskState(modelName) {
                 $("#msg").empty().append('<p class="err"> the task is invalid. please check the model('+modelName+').</p>');
 		    }
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function() {
             setTimeout('checkTaskState(\''+modelName+'\')',5000);
         }
 	});
@@ -64,15 +64,11 @@ function checkTaskState(modelName) {
 </script>
 </head>
 <body>
-<a class="top_title" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
+<a class="nolink_view" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
 <hr />
-<form method="post" action="index">
-<input type="hidden" ${f:hidden("_limit_")}>
 <div class="modelName">
-Model : <input type="text" ${f:text("_modelname_")} class="model">
-<input type="submit" value="OK" />
+Model : ${f:h(_modelname_)}
 </div>
-</form>
 <div id="msg">
 <p><img src="/cn/img/working.gif" alt="working..."> please wating... </p>
 </div>

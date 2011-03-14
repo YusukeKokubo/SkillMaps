@@ -8,17 +8,13 @@
 <link rel="stylesheet" type="text/css" href="${f:url('/cn/css/cn.css')}" />
 </head>
 <body>
-<a class="top_title" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
+<a class="nolink_view" href="${f:url('index?')}_limit_=${f:h(_limit_)}">CNMV - slim3 model viewer -</a>
 <hr />
-<form method="post" action="upload">
-<input type="hidden" ${f:hidden("_limit_")} />
 <div class="modelName">
-Model : <input type="text" ${f:text("_modelname_")} class="model"/>
-<input type="submit" value="OK" />
+Model : ${f:h(_modelname_)}
 </div>
-</form>
 <c:if test="${!xf:isEmpty(_propertyList_)}">
-<p>the properties on <i>${f:h(_modelname_)}</i>.</p>
+<p>the properties on ${f:h(_modelname_)}.</p>
 <table class="upload">
   <thead>
     <tr>
@@ -76,8 +72,8 @@ Model : <input type="text" ${f:text("_modelname_")} class="model"/>
 <input type="hidden" ${f:hidden("_limit_")} />
 <p>Choose policy of uploading.</p>
  <input type="radio" ${f:radio("policy", "C")}/> Insert only. (If the key overlaps, it throws error.)<br/> 
- <input type="radio" ${f:radio("policy", "CS")}/> Insert and Skip. (the overlaps key is skipped.)<br/> 
- <input type="radio" ${f:radio("policy", "CU")}/> Insert and Update.<br/>
+ <input type="radio" ${f:radio("policy", "CS")}/> Insert or Skip. (the overlaps key is skipped.)<br/> 
+ <input type="radio" ${f:radio("policy", "CU")}/> Insert or Update.<br/>
  <br/>
 <p>Select upload file.</p>
 <input type="file" name="csvFile"/><br/>
