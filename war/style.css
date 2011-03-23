@@ -1,53 +1,68 @@
 @CHARSET "utf8";
+
 * {
-	font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif !important;
+	font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo,
+		'ＭＳ Ｐゴシック', sans-serif !important;
+}
+
+* html body {
+	overflow: hidden;
 }
 
 body {
-  font-size: small;
+	padding: 60px 0 0 0 !important;
+	font-size: small;
+}
+
+div#contents {
+	height: 100%;
+	overflow: auto;
+	margin: 0 100px;
 }
 
 #header {
-  margin: 0px 100px;
+	position: fixed !important;
+	_position: relative;
+	top: 0;
+	left: 0;
+	right:0px;
+	width:100%;
+	height: 50px;
 }
 
 #footer {
-  color: #C0C0C0;
-  margin: 50px 0 0;
-  text-align: center;
+	color: #C0C0C0;
+	margin: 50px 0 0;
+	text-align: center;
 }
 
 h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  padding: 40px 0px 5px;
-  text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	padding: 40px 0px 5px;
+	text-align: center;
 }
 
 .sendButton {
-  display: block;
-  font-size: 16pt;
+	display: block;
+	font-size: 16pt;
 }
 
 .dialogVPanel {
-  margin: 5px;
+	margin: 5px;
 }
 
 .serverResponseLabelError {
-  color: red;
+	color: red;
 }
 
 #closeButton {
-  margin: 15px 6px 6px;
+	margin: 15px 6px 6px;
 }
 
 #loading {
-  text-align: center;
-}
-
-.body {
-  margin: 5px 80px 0px 95px;
+	text-align: center;
 }
 
 .grid-columns {
@@ -131,93 +146,124 @@ h1 {
 	overflow: auto;
 }
 
-
 .gwt-SuggestBox {
-  padding: 2px;
+	padding: 2px;
 }
+
 .gwt-SuggestBoxPopup {
-  margin-left: 3px;
+	margin-left: 3px;
 }
+
 .gwt-SuggestBoxPopup .item {
-  padding: 2px 6px;
-  color: #424242;
-  cursor: default;
+	padding: 2px 6px;
+	color: #424242;
+	cursor: default;
 }
+
 .gwt-SuggestBoxPopup .item-selected {
-  background: #b7d6f6;
+	background: #b7d6f6;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupContent {
-  background: white;
+	background: white;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupTopCenter {
-  background: url(mypage/gwt/standard/images/hborder.png) repeat-x;
+	background: url(mypage/gwt/standard/images/hborder.png) repeat-x;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupBottomCenter {
-  background: url(mypage/gwt/standard/images/hborder.png) repeat-x 0px -4px;
-  -background: url(mypage/gwt/standard/images/hborder_ie6.png) repeat-x 0px -4px;
+	background: url(mypage/gwt/standard/images/hborder.png) repeat-x 0px
+		-4px;
+	-background: url(mypage/gwt/standard/images/hborder_ie6.png) repeat-x
+		0px -4px;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupMiddleLeft {
-  background: url(mypage/gwt/standard/images/vborder.png) repeat-y;
+	background: url(mypage/gwt/standard/images/vborder.png) repeat-y;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupMiddleRight {
-  background: url(mypage/gwt/standard/images/vborder.png) repeat-y -4px 0px;
-  -background: url(mypage/gwt/standard/images/vborder_ie6.png) repeat-y -4px 0px;
+	background: url(mypage/gwt/standard/images/vborder.png) repeat-y -4px
+		0px;
+	-background: url(mypage/gwt/standard/images/vborder_ie6.png) repeat-y
+		-4px 0px;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
-  width: 5px;
-  height: 5px;
-  zoom: 1;
+	width: 5px;
+	height: 5px;
+	zoom: 1;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
-  width: 8px;
-  height: 5px;
-  zoom: 1;
+	width: 8px;
+	height: 5px;
+	zoom: 1;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
-  width: 5px;
-  height: 8px;
-  zoom: 1;
+	width: 5px;
+	height: 8px;
+	zoom: 1;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
-  width: 8px;
-  height: 8px;
-  zoom: 1;
+	width: 8px;
+	height: 8px;
+	zoom: 1;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupTopLeft {
-  background: url(mypage/gwt/standard/images/corner.png) no-repeat 0px -23px;
-  -background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat 0px -23px;
+	background: url(mypage/gwt/standard/images/corner.png) no-repeat 0px
+		-23px;
+	-background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat
+		0px -23px;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupTopRight {
-  background: url(mypage/gwt/standard/images/corner.png) no-repeat -5px -23px;
-  -background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat -5px -23px;
+	background: url(mypage/gwt/standard/images/corner.png) no-repeat -5px
+		-23px;
+	-background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat
+		-5px -23px;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupBottomLeft {
-  background: url(mypage/gwt/standard/images/corner.png) no-repeat 0px -28px;
-  -background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat 0px -28px;
+	background: url(mypage/gwt/standard/images/corner.png) no-repeat 0px
+		-28px;
+	-background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat
+		0px -28px;
 }
+
 .gwt-SuggestBoxPopup .suggestPopupBottomRight {
-  background: url(mypage/gwt/standard/images/corner.png) no-repeat -5px -28px;
-  -background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat -5px -28px;
+	background: url(mypage/gwt/standard/images/corner.png) no-repeat -5px
+		-28px;
+	-background: url(mypage/gwt/standard/images/corner_ie6.png) no-repeat
+		-5px -28px;
 }
+
 * html .gwt-SuggestBoxPopup .suggestPopupTopLeftInner {
-  width: 5px;
-  height: 5px;
-  overflow: hidden;
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
 }
+
 * html .gwt-SuggestBoxPopup .suggestPopupTopRightInner {
-  width: 8px;
-  height: 5px;
-  overflow: hidden;
+	width: 8px;
+	height: 5px;
+	overflow: hidden;
 }
+
 * html .gwt-SuggestBoxPopup .suggestPopupBottomLeftInner {
-  width: 5px;
-  height: 8px;
-  overflow: hidden;
+	width: 5px;
+	height: 8px;
+	overflow: hidden;
 }
+
 * html .gwt-SuggestBoxPopup .suggestPopupBottomRightInner {
-  width: 8px;
-  height: 8px;
-  overflow: hidden;
+	width: 8px;
+	height: 8px;
+	overflow: hidden;
 }
 
 .user-dialog {
