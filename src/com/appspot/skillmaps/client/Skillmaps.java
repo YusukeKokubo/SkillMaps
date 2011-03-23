@@ -20,7 +20,7 @@ public class Skillmaps implements EntryPoint {
 
         injector.getActivityManager();
 
-        injector.getAccountService().login(GWT.getHostPageBaseURL(),
+        injector.getAccountService().login(GWT.getHostPageBaseURL() + Window.Location.getQueryString(),
             new AsyncCallback<Login>() {
 
                 @Override
