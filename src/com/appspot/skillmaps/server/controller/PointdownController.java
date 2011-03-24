@@ -8,6 +8,7 @@ import org.slim3.controller.Navigation;
 import org.slim3.datastore.Datastore;
 
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
+import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 
 public class PointdownController extends Controller {
@@ -23,8 +24,12 @@ public class PointdownController extends Controller {
         for (SkillRelation rel : rels) {
             if (rel.getPoint() == null) continue;
             rel.setPoint(rel.getPoint() - 1L);
-            rel.getSkill().getModel().calcPoint();
-            Datastore.put(rel, rel.getSkill().getModel());
+            Skill skill = rel.getSkill().getModel();
+            skill.calcPoint();
+            if (skill.getPoint() <= 0) {
+                skill.setEnable(false);
+            }
+            Datastore.put(rel, skill);
         }
         return null;
     }

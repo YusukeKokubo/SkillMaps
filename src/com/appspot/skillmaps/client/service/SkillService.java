@@ -1,5 +1,7 @@
 package com.appspot.skillmaps.client.service;
 
+import java.util.ArrayList;
+
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillMap;
@@ -9,8 +11,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("service.s3gwt")
 public interface SkillService extends RemoteService {
-
-    Skill[] getSkills(String ownerEmail);
 
     void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter);
 
@@ -27,4 +27,6 @@ public interface SkillService extends RemoteService {
     SkillMap[] getSkillNames();
 
     Skill[] getRecentAddedSkills();
+
+    ArrayList<Skill> getSkills(String ownerEmail);
 }

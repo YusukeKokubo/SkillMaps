@@ -1,5 +1,7 @@
 package com.appspot.skillmaps.client.ui;
 
+import java.util.ArrayList;
+
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.shared.model.Login;
@@ -121,16 +123,15 @@ public class UserUI extends Composite implements UserUIDisplay{
     }
 
     @Override
-    public void reloadSkills(Skill[] skillList) {
+    public void reloadSkills(ArrayList<Skill> skillList) {
         if(skills == null || skills.getRowCount() <= 1){
             initSkillTable();
         }else {
-
             for(int i = 1; i < skills.getRowCount();i++){
                 skills.removeRow(i);
             }
         }
-        if (skillList.length <= 0) {
+        if (skillList == null || skillList.isEmpty()) {
             skills.clear(true);
             skills.setText(0, 0, "スキルはまだありません.");
             if (login.isLoggedIn()
@@ -138,31 +139,25 @@ public class UserUI extends Composite implements UserUIDisplay{
                 skills.setWidget(0, 1, appealAnchor);
                 skills.setText(0, 2, "");
             }
-
             skillsPanel.setWidget(skills);
-
             return;
         }
 
-        for (int i = 0; i < skillList.length; i++) {
+        for (int i = 0; i < skillList.size(); i++) {
             final int j = i + 1;
-            final Skill skill = skillList[i];
+            final Skill skill = skillList.get(i);
             Anchor name = new Anchor(skill.getName());
-
             name.setStyleName("class='anchor'");
-
             name.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
                     presenter.showSkillOwnersPopup(skill);
                 }
             });
-
             skills.setWidget(j, 0, name);
             skills.setText(j, 1, String.valueOf(skill.getAgreedCount()));
             skills.setText(j, 2, skill.getPoint().toString());
             skills.setText(j, 3, skill.getDescription());
-
             presenter.getSkillRelations(skill , new AsyncCallback<SkillRelation[]>() {
                 @Override
                 public void onSuccess(final SkillRelation[] rs) {
