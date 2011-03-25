@@ -1,0 +1,44 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.contentsPanel{
+
+			padding:10px 8px;
+			min-height: 600px;
+			border-radius: 5px;
+			-webkit-border-radius:5px;
+			-moz-border-radius: 5px;
+			background-color: whiteSmoke;
+			box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
+			-moz-box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
+			-webkit-box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
+			margin:0 10px 10px 0;
+
+		}
+
+		.dashboard{
+				position: fixed !important;
+				_position: relative;
+				z-index: 50;
+		}
+
+		.layout{
+			width:100%;
+			padding:2px;
+			min-height: 500px;
+			border-radius: 10px 10px 0 0;
+			-webkit-border-radius: 10px 10px 0 0;
+			-moz-border-radius: 10px 10px 0 0;
+		}
+
+	</ui:style>
+	<g:HorizontalPanel addStyleNames="{style.layout}">
+		<g:cell>
+			<g:SimplePanel addStyleNames="{style.contentsPanel}" ui:field="mainPanel"/>
+		</g:cell>
+		<g:cell width="500px">
+			<g:SimplePanel addStyleNames="{style.dashboard}" ui:field="dashboard"/>
+		</g:cell>
+	</g:HorizontalPanel>
+</ui:UiBinder>
