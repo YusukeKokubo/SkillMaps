@@ -53,7 +53,6 @@ public class UserThumnail extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 SkillMapPopupPanel userDialog = new SkillMapPopupPanel();
-                userDialog.setAutoHideEnabled(true);
                 UserUIDisplay uiDisplay = userUiProvider.get();
                 userDialog.setContents(uiDisplay);
                 uiDisplay.setProfile(user);

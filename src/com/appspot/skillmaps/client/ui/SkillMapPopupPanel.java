@@ -7,13 +7,14 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SkillMapPopupPanel extends PopupPanel {
+public class SkillMapPopupPanel extends Composite {
 
     @UiField
     protected VerticalPanel panel;
@@ -39,11 +40,7 @@ public class SkillMapPopupPanel extends PopupPanel {
     }
 
     public SkillMapPopupPanel() {
-        setAnimationEnabled(true);
-        setAutoHideEnabled(true);
-        setAutoHideOnHistoryEventsEnabled(true);
-        addStyleName(Resources.INSTANCE.style().userDialog());
-        add(uiBinder.createAndBindUi(this));
+        initWidget(uiBinder.createAndBindUi(this));
     }
 
     public SimplePanel getHeader(){
@@ -82,9 +79,18 @@ public class SkillMapPopupPanel extends PopupPanel {
         footerPanel.setWidget(w);
     }
 
+    public void center(){
+        RootPanel.get("dashboard").clear();
+        RootPanel.get("dashboard").add(this);
+    }
+
+    public void show(){
+        center();
+    }
+
     @UiHandler("close")
     public void onCloseAnchorClick(ClickEvent e){
-        this.hide();
+        RootPanel.get("dashboard").clear();
     }
 
 

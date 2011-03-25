@@ -10,7 +10,6 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -37,6 +36,13 @@ public class MvpModule extends AbstractGinModule {
 
     @Provides
     @Singleton
+    @Named("dashboard")
+    public SimplePanel dashboardPanel() {
+        return new SimplePanel();
+    }
+
+    @Provides
+    @Singleton
     public PlaceController placeController(EventBus eventBus) {
         return new PlaceController(eventBus);
     }
@@ -53,7 +59,6 @@ public class MvpModule extends AbstractGinModule {
             EventBus eventBus, @Named("contents") SimplePanel contentsPanel) {
         ActivityManager activityManager = new ActivityManager(mapper, eventBus);
         activityManager.setDisplay(contentsPanel);
-        RootPanel.get("contents").add(contentsPanel);
         return activityManager;
     }
 

@@ -2,6 +2,7 @@ package com.appspot.skillmaps.client;
 
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.inject.Injector;
+import com.appspot.skillmaps.client.ui.ContentsPanel;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
 import com.appspot.skillmaps.shared.model.Login;
@@ -41,7 +42,9 @@ public class Skillmaps implements EntryPoint {
                     RootPanel.get("header").add(new Header(login));
 
                     RootPanel.get("footer").add(new Footer());
-
+                    ContentsPanel contentsPanel = injector.getContentsPanel();
+                    contentsPanel.init();
+                    RootPanel.get("contents").add(contentsPanel);
                     injector.getHistoryHandler().handleCurrentHistory();
 
                 }
