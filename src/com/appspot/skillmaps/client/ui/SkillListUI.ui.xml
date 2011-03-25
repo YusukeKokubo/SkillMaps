@@ -1,9 +1,80 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
-	<ui:with type="com.appspot.skillmaps.client.bundle.Resources" field="res"/>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:with type="com.appspot.skillmaps.client.bundle.Resources"
+		field="res" />
+	<ui:style type="com.appspot.skillmaps.client.ui.SkillListUI.Style">
+		div.tagCloud {
+			margin: 0;
+			padding: 0.5em 10px;
+			line-height: 1;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 13px;
+		}
+
+		div.tagCloud div {
+			margin: 0;
+			padding: 0;
+			display: inline;
+			font-size: 100%; /* ここで相対的に文字サイズを変更 */
+			outline-color: white;
+		}
+
+		div.tagCloud div a {
+			padding: 0 5px;
+			position: relative;
+			text-decoration: none;
+			background-color: #fff;
+			border: 1px solid #eee;
+		}
+
+		div.tagCloud div.level1 a {
+			z-index: 6;
+			font-size: 167%;
+			color: #424242;
+		}
+
+		div.tagCloud div.level2 a {
+			top: 5px;
+			z-index: 5;
+			font-size: 136%;
+			color: #5e5e5e;
+		}
+
+		div.tagCloud div.level3 a {
+			font-size: 114%;
+			color: #7a7a7a;
+			z-index: 4;
+		}
+
+		div.tagCloud div.level4 a {
+			top: 5px;
+			z-index: 3;
+			font-size: 100%;
+			color: #979797;
+		}
+
+		div.tagCloud div.level5 a {
+			font-size: 85%;
+			color: #b3b3b3;
+			z-index: 2;
+		}
+
+		div.tagCloud div.level6 a {
+			z-index: 1;
+			font-size: 70%;
+			color: #cfcfcf;
+		}
+
+		/* オンマウス */
+		div.tagCloud div a:hover {
+			border-color: #666;
+			z-index: 10;
+			color: #000;
+			background-color: #eee;
+		}
+	</ui:style>
 	<g:HTMLPanel>
-		<g:FlowPanel ui:field="skillsPanel" styleName="skill" />
+		<g:FlowPanel ui:field="skillsPanel" addStyleNames="{style.tagCloud}"/>
 	</g:HTMLPanel>
 </ui:UiBinder>
