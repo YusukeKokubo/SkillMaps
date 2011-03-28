@@ -1,7 +1,5 @@
 package com.appspot.skillmaps.client.presenter;
 
-import java.util.ArrayList;
-
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay.Presenter;
@@ -206,19 +204,16 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void reloadSkills() {
         SimplePanel panel = display.getSkillsPanel();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-        serviceProvider.get().getSkills(profile.getUserEmail(), new AsyncCallback<ArrayList<Skill>>() {
+        serviceProvider.get().getSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
+
             @Override
-            public void onSuccess(ArrayList<Skill> result) {
-                ArrayList<Skill> skills = new ArrayList<Skill>();
-                for (Skill skill : result) {
-                    if (skill.getEnable() == false) continue;
-                    skills.add(skill);
-                }
-                display.reloadSkills(skills);
+            public void onSuccess(Skill[] result) {
+                display.reloadSkills(result);
             }
 
             @Override
             public void onFailure(Throwable caught) {
+                //TODO
                 UiMessage.severe(caught.getMessage(), caught);
             }
         });

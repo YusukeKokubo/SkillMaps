@@ -1,13 +1,11 @@
 package com.appspot.skillmaps.server.service;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.GlobalTransaction;
-import org.slim3.datastore.ModelQuery;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.SkillService;
@@ -36,6 +34,7 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
+
         if (StringUtil.isEmpty(skill.getName())) throw new IllegalArgumentException("skill name is null");
 
         GlobalTransaction gtx = Datastore.beginGlobalTransaction();
@@ -48,12 +47,10 @@ public class SkillServiceImpl implements SkillService {
                 }else{
                     putSkill = skill;
                 }
-                putSkill.setEnable(true);
                 if (rel.getKey() == null) {
                     rel.getSkill().setModel(putSkill);
                     putSkill.getRelation().getModelList().add(rel);
                 } else {
-                    // ポイントの計算をうまくやるためにここで小細工してる
                     putSkill.getRelation().getModelList().remove(rel);
                     putSkill.getRelation().getModelList().add(rel);
                 }
@@ -88,10 +85,9 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public ArrayList<Skill> getSkills(String ownerEmail) {
-        ModelQuery<Skill> query = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail));
-        ArrayList<Skill> result =  (ArrayList<Skill>) query.asList();
-        return result;
+    public Skill[] getSkills(String ownerEmail) {
+        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
+        return result.toArray(new Skill[0]);
     }
     
     @Override

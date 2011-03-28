@@ -1,7 +1,5 @@
 package com.appspot.skillmaps.client.display;
 
-import java.util.ArrayList;
-
 import com.appspot.skillmaps.client.presenter.DisplayPresenter;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
@@ -36,7 +34,7 @@ public interface UserUIDisplay extends IsWidget {
 
     void setProfile(Profile profile);
 
-    SimplePanel getSkillsPanel();
+    void reloadSkills(Skill[] skills);
 
-    void reloadSkills(ArrayList<Skill> skills);
+    SimplePanel getSkillsPanel();
 }
