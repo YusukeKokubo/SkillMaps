@@ -204,7 +204,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void reloadSkills() {
         SimplePanel panel = display.getSkillsPanel();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-        serviceProvider.get().getSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
+        serviceProvider.get().getEnabledSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
 
             @Override
             public void onSuccess(Skill[] result) {

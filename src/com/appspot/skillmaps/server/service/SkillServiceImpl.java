@@ -47,10 +47,12 @@ public class SkillServiceImpl implements SkillService {
                 }else{
                     putSkill = skill;
                 }
+                putSkill.setEnable(true);
                 if (rel.getKey() == null) {
                     rel.getSkill().setModel(putSkill);
                     putSkill.getRelation().getModelList().add(rel);
                 } else {
+                    // ポイントの計算をうまくやるためにここで小細工してる
                     putSkill.getRelation().getModelList().remove(rel);
                     putSkill.getRelation().getModelList().add(rel);
                 }
@@ -85,8 +87,14 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Skill[] getSkills(String ownerEmail) {
-        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).asList();
+    public Skill[] getEnabledSkills(String ownerEmail) {
+        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).filter(sm.enable.equal(true)).asList();
+        return result.toArray(new Skill[0]);
+    }
+
+    @Override
+    public Skill[] getDisabledSkills(String ownerEmail) {
+        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).filter(sm.enable.equal(false)).asList();
         return result.toArray(new Skill[0]);
     }
     

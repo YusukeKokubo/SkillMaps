@@ -8,7 +8,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface SkillServiceAsync {
 
-    void getSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
+    void getEnabledSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
+
+    void getDisabledSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
 
     void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter,
             AsyncCallback<Void> callback);

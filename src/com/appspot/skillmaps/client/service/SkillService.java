@@ -10,7 +10,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("service.s3gwt")
 public interface SkillService extends RemoteService {
 
-    Skill[] getSkills(String ownerEmail);
+    Skill[] getEnabledSkills(String ownerEmail);
+
+    Skill[] getDisabledSkills(String ownerEmail);
 
     void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter);
 
