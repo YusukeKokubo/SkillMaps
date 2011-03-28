@@ -40,6 +40,7 @@ public class AccountServiceImpl implements AccountService {
             if (p == null) {
                 p = new Profile();
                 p.setHasIcon(false);
+                p.setAllowFromMailNotifier(true);
                 Icon i = new Icon();
                 p = Datastore.get(ProfileMeta.get(), Datastore.put(p));
                 i = Datastore.get(IconMeta.get(), Datastore.put(i));

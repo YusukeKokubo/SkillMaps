@@ -80,8 +80,9 @@ public class SkillNotificationController extends Controller {
             Message msg = new Message();
             msg.setSubject(String.format("[skillmaps]%s(%s)さんのスキルレポート", profile.getName(), profile.getId()));
             msg.setTextBody(body.toString());
-            msg.setTo("yusuke.kokubo@gmail.com"); // TODO: 本当はユーザーのアドレス
+            msg.setTo(profile.getUserEmail());
             msg.setSender("yusuke.kokubo@gmail.com");
+            msg.setBcc("yusuke.in.action@gmail.com");
             MailService ms = MailServiceFactory.getMailService();
             ms.send(msg);
         }
