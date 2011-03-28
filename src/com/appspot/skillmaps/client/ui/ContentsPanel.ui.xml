@@ -3,7 +3,6 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.contentsPanel{
-
 			padding:10px 8px;
 			min-height: 600px;
 			border-radius: 5px;
@@ -13,28 +12,31 @@
 			box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
 			-moz-box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
 			-webkit-box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
-			margin:0 10px 10px 0;
-
+			margin:0 10px 5px 0;
+			overflow: hidden;
+			width: 540px;
 		}
 
 		.dashboard{
-				position: fixed !important;
-				_position: relative;
-				z-index: 50;
+			position: fixed !important;
+			_position: relative;
+			z-index: 50;
+			overflow: hidden;
+			width: 500px;
 		}
 
 		.layout{
 			width:100%;
-			padding:2px;
 			min-height: 500px;
-			border-radius: 10px 10px 0 0;
-			-webkit-border-radius: 10px 10px 0 0;
-			-moz-border-radius: 10px 10px 0 0;
+			border-radius: 10px 10px 10px 10px;
+			-webkit-border-radius: 10px 10px 10px 10px;
+			-moz-border-radius: 10px 10px 10px 10px;
+			background-color: #FFFFFF;
 		}
 
 	</ui:style>
 	<g:HorizontalPanel addStyleNames="{style.layout}">
-		<g:cell>
+		<g:cell width="540px">
 			<g:SimplePanel addStyleNames="{style.contentsPanel}" ui:field="mainPanel"/>
 		</g:cell>
 		<g:cell width="500px">

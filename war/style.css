@@ -10,10 +10,13 @@
 }
 
 body {
+	min-height:650px;
 	padding: 60px 0 0 0 !important;
 	font-size: small;
+	background: -webkit-gradient(linear, left top,left bottom, from(#7FB2E3), color-stop(90% ,#ECF5FE)) !important;
+	background:-moz-linear-gradient(center top , #7FB2E3, #ECF5FE 90%) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7FB2E3',endColorstr='#ECF5FE');
 }
-
 div#contents {
 	height: 100%;
 	overflow: auto;

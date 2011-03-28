@@ -17,64 +17,72 @@
 			padding: 0;
 			display: inline;
 			font-size: 100%; /* ここで相対的に文字サイズを変更 */
-			outline-color: white;
 		}
 
 		div.tagCloud div a {
 			padding: 0 5px;
+			border-width: 1px;
+			border-style: solid;
 			position: relative;
 			text-decoration: none;
 			background-color: #fff;
-			border: 1px solid #eee;
 		}
 
 		div.tagCloud div.level1 a {
+			border-color: #df28ac;
 			z-index: 6;
 			font-size: 167%;
-			color: #424242;
+			font-weight: bold;
+			color: #df28ac;
 		}
 
 		div.tagCloud div.level2 a {
+			border-color: #eb79b5;
 			top: 5px;
 			z-index: 5;
 			font-size: 136%;
-			color: #5e5e5e;
+			font-weight: bold;
+			color: #eb79b5;
 		}
 
 		div.tagCloud div.level3 a {
-			font-size: 114%;
-			color: #7a7a7a;
+			border-color: #c27fb7;
 			z-index: 4;
+			font-size: 114%;
+			color: #c27fb7;
 		}
 
 		div.tagCloud div.level4 a {
+			border-color: #a77f9f;
 			top: 5px;
 			z-index: 3;
 			font-size: 100%;
-			color: #979797;
+			color: #a77f9f;
 		}
 
 		div.tagCloud div.level5 a {
-			font-size: 85%;
-			color: #b3b3b3;
+			border-color: #8a7f9f;
 			z-index: 2;
+			font-size: 85%;
+			color: #8a7f9f;
 		}
 
 		div.tagCloud div.level6 a {
+			border-color: #507f9f;
 			z-index: 1;
 			font-size: 70%;
-			color: #cfcfcf;
+			color: #507f9f;
 		}
 
 		/* オンマウス */
 		div.tagCloud div a:hover {
-			border-color: #666;
+			border-color: #fff;
 			z-index: 10;
-			color: #000;
-			background-color: #eee;
+			color: #fff;
+			background-color: #cc0063;
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:FlowPanel ui:field="skillsPanel" addStyleNames="{style.tagCloud}"/>
+		<g:FlowPanel ui:field="skillsPanel" addStyleNames="{style.tagCloud}" />
 	</g:HTMLPanel>
 </ui:UiBinder>
