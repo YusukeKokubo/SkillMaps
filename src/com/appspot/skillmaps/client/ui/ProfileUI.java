@@ -82,6 +82,12 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
     @UiField
     Button twitterProfileSubmit;
 
+    @UiField
+    CheckBox allowFromMailNotifier;
+
+    @UiField
+    Button mailNotifierSubmit;
+
     private Login login;
 
     private Presenter presenter;
@@ -131,6 +137,11 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
 
     @UiHandler({"submit" , "twitterProfileSubmit"})
     public void onProfileSubmit(ClickEvent e){
+        presenter.registProfile();
+    }
+    
+    @UiHandler({"submit" , "mailNotifierSubmit"})
+    public void onMailNotifierSubmit(ClickEvent e){
         presenter.registProfile();
     }
 

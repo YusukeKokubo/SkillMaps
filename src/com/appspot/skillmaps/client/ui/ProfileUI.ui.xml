@@ -57,5 +57,15 @@
 				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:tab>
+		<g:tab>
+			<g:header>メール通知</g:header>
+			<g:VerticalPanel>
+				<g:VerticalPanel>
+					<g:Label>メールでスキルレポートを受け取る</g:Label>
+					<g:CheckBox ui:field="allowFromMailNotifier" />
+					<g:Button ui:field="mailNotifierSubmit" text="submit" />
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+		</g:tab>
 	</g:TabLayoutPanel>
 </ui:UiBinder>

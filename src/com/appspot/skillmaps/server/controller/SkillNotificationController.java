@@ -51,6 +51,9 @@ public class SkillNotificationController extends Controller {
         // メール送付
         for (String user : notifMap.keySet()) {
             Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user)).limit(1).asSingle();
+            if (profile.getAllowFromMailNotifier() == null || profile.getAllowFromMailNotifier() == false) {
+                continue;
+            }
             List<Skill> updatedSkills = notifMap.get(user);
             StringBuilder body = new StringBuilder();
             body.append(String.format("%s(%s)さんの今日のスキルレポートです。\n\n", profile.getName(), profile.getId()));

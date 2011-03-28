@@ -42,6 +42,8 @@ public class Profile implements Serializable {
     private String twitterScreenName;
 
     private Boolean allowFromTwitterNotifier;
+    
+    private Boolean allowFromMailNotifier;
 
     private Boolean hasIcon;
 
@@ -270,6 +272,14 @@ public class Profile implements Serializable {
 
     public Boolean getAllowFromTwitterNotifier() {
         return allowFromTwitterNotifier;
+    }
+
+    public void setAllowFromMailNotifier(Boolean allowFromMailNotifier) {
+        this.allowFromMailNotifier = allowFromMailNotifier;
+    }
+
+    public Boolean getAllowFromMailNotifier() {
+        return allowFromMailNotifier;
     }
 
 }
