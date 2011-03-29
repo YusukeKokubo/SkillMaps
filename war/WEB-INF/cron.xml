@@ -5,4 +5,9 @@
     <description>point down</description>
     <schedule>every day 18:00</schedule>
   </cron>
+  <cron>
+    <url>/cron/skillNotification</url>
+    <description>mail notification</description>
+    <schedule>every day 00:00</schedule>
+  </cron>
 </cronentries>
