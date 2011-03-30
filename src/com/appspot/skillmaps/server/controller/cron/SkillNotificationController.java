@@ -16,6 +16,9 @@ import com.appspot.skillmaps.shared.model.Skill;
 import com.google.appengine.api.mail.MailService;
 import com.google.appengine.api.mail.MailService.Message;
 import com.google.appengine.api.mail.MailServiceFactory;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions.Builder;
+import com.google.apphosting.api.ApiProxy.OverQuotaException;
 
 /**
  * その日更新のあったスキルをユーザーにメールで通知します。
@@ -46,8 +49,6 @@ public class SkillNotificationController extends Controller {
             }
         }
 
-        // TODO: データが膨大だと、ここでタスクキューにためて実行する必要がある
-        
         // メール送付
         for (String user : notifMap.keySet()) {
             Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user)).limit(1).asSingle();
@@ -83,8 +84,15 @@ public class SkillNotificationController extends Controller {
             msg.setTo(profile.getUserEmail());
             msg.setSender("yusuke.kokubo@gmail.com");
             msg.setBcc("yusuke.in.action@gmail.com");
-            MailService ms = MailServiceFactory.getMailService();
-            ms.send(msg);
+
+            try {
+                MailService ms = MailServiceFactory.getMailService();
+                ms.send(msg);
+            } catch (OverQuotaException ex) {
+                // 制限にひっかかった場合はキューに入れて実行する
+                System.out.println(ex.getStackTrace());
+                QueueFactory.getDefaultQueue().add(Builder.withUrl("/cron/skillNotification").countdownMillis(1000 * 60));
+            }
         }
 
         return null;
