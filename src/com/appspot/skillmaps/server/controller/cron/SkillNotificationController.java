@@ -11,14 +11,12 @@ import org.slim3.datastore.Datastore;
 
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
+import com.appspot.skillmaps.shared.model.MailQueue;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
-import com.google.appengine.api.mail.MailService;
 import com.google.appengine.api.mail.MailService.Message;
-import com.google.appengine.api.mail.MailServiceFactory;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions.Builder;
-import com.google.apphosting.api.ApiProxy.OverQuotaException;
 
 /**
  * その日更新のあったスキルをユーザーにメールで通知します。
@@ -32,7 +30,7 @@ public class SkillNotificationController extends Controller {
 
     @Override
     public Navigation run() throws Exception {
-        // 24時間前移行に更新されているスキルを取得する
+        // 24時間前以降に更新されているスキルを取得する
         Date h24ago = new Date(new Date().getTime() - day);
         List<Skill> skills = Datastore.query(m).filter(m.updatedAt.greaterThanOrEqual(h24ago)).asList();
         
@@ -49,18 +47,19 @@ public class SkillNotificationController extends Controller {
             }
         }
 
-        // メール送付
+        // キューを作成
+        List<MailQueue> queues = new ArrayList<MailQueue>();
         for (String user : notifMap.keySet()) {
             Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user)).limit(1).asSingle();
             if (profile.getAllowFromMailNotifier() == null || profile.getAllowFromMailNotifier() == false) {
                 continue;
             }
-            List<Skill> updatedSkills = notifMap.get(user);
             StringBuilder body = new StringBuilder();
             body.append(String.format("%s(%s)さんの今日のスキルレポートです。\n\n", profile.getName(), profile.getId()));
+            List<Skill> updatedSkills = notifMap.get(user);
             for (Skill skill : updatedSkills) {
-                if (skill.getCreatedAt().after(h24ago)) {
-                    body.append("追加されました。 ");
+                if (!skill.getEnable()) {
+                    body.append("消失しました。 ");
                 } else {
                     body.append("更新されました。 ");
                 }
@@ -81,19 +80,15 @@ public class SkillNotificationController extends Controller {
             Message msg = new Message();
             msg.setSubject(String.format("[skillmaps]%s(%s)さんのスキルレポート", profile.getName(), profile.getId()));
             msg.setTextBody(body.toString());
-            msg.setTo(profile.getUserEmail());
+            msg.setTo("yusuke.in.action@gmail.com");  // TODO: テスト
             msg.setSender("yusuke.kokubo@gmail.com");
-            msg.setBcc("yusuke.in.action@gmail.com");
-
-            try {
-                MailService ms = MailServiceFactory.getMailService();
-                ms.send(msg);
-            } catch (OverQuotaException ex) {
-                // 制限にひっかかった場合はキューに入れて実行する
-                System.out.println(ex.getStackTrace());
-                QueueFactory.getDefaultQueue().add(Builder.withUrl("/cron/skillNotification").countdownMillis(1000 * 60));
-            }
+            
+            MailQueue q = new MailQueue();
+            q.setMessage(msg);
+            queues.add(q);
         }
+        Datastore.put(queues);
+        QueueFactory.getDefaultQueue().add(Builder.withUrl("/sys/mailSend"));
 
         return null;
     }
