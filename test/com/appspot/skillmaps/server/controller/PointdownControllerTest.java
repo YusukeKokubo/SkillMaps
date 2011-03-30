@@ -2,6 +2,9 @@ package com.appspot.skillmaps.server.controller;
 
 import org.slim3.tester.ControllerTestCase;
 import org.junit.Test;
+
+import com.appspot.skillmaps.server.controller.cron.PointdownController;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 

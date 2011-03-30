@@ -1,4 +1,4 @@
-package com.appspot.skillmaps.server.controller;
+package com.appspot.skillmaps.server.controller.cron;
 
 import java.util.ArrayList;
 import java.util.Date;
