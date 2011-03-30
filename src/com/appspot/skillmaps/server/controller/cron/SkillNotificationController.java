@@ -60,6 +60,8 @@ public class SkillNotificationController extends Controller {
             for (Skill skill : updatedSkills) {
                 if (!skill.getEnable()) {
                     body.append("消失しました。 ");
+                } else if (skill.getCreatedAt().after(h24ago)) {
+                    body.append("追加されました。 ");
                 } else {
                     body.append("更新されました。 ");
                 }

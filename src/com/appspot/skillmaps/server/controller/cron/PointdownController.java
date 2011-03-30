@@ -22,7 +22,7 @@ public class PointdownController extends Controller {
         List<SkillRelation> rels = Datastore.query(m).filter(m.updatedAt.lessThan(now)).asList();
         
         for (SkillRelation rel : rels) {
-            if (rel.getPoint() == null) continue;
+            if (rel.getPoint() == null || rel.getPoint() <= 0) continue;
             rel.setPoint(rel.getPoint() - 1L);
             Skill skill = rel.getSkill().getModel();
             skill.calcPoint();
