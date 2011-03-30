@@ -9,7 +9,6 @@ import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.mail.MailService.Message;
 
 @Model(schemaVersion = 1)
 public class MailQueue implements Serializable {
@@ -28,8 +27,16 @@ public class MailQueue implements Serializable {
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
 
+    private String subject = "";
+    
     @Attribute(lob=true)
-    private Message message;
+    private String textBody = "";
+    
+    private String sender = "";
+    
+    private String to = "";
+    
+    private String bcc = "";
 
     public Date getCreatedAt() {
         return createdAt;
@@ -115,11 +122,43 @@ public class MailQueue implements Serializable {
         return true;
     }
 
-    public void setMessage(Message message) {
-        this.message = message;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    public Message getMessage() {
-        return message;
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setTextBody(String textBody) {
+        this.textBody = textBody;
+    }
+
+    public String getTextBody() {
+        return textBody;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setBcc(String bcc) {
+        this.bcc = bcc;
+    }
+
+    public String getBcc() {
+        return bcc;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public String getTo() {
+        return to;
     }
 }

@@ -14,7 +14,6 @@ import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.shared.model.MailQueue;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
-import com.google.appengine.api.mail.MailService.Message;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions.Builder;
 
@@ -79,14 +78,12 @@ public class SkillNotificationController extends Controller {
             body.append("--\n");
             body.append("何かありましたらyusuke.kokubo@gmail.comもしくはhttp://twitter.com/yusuke_kokubo/ までお知らせください\n");
             
-            Message msg = new Message();
-            msg.setSubject(String.format("[skillmaps]%s(%s)さんのスキルレポート", profile.getName(), profile.getId()));
-            msg.setTextBody(body.toString());
-            msg.setTo("yusuke.in.action@gmail.com");  // TODO: テスト
-            msg.setSender("yusuke.kokubo@gmail.com");
-            
             MailQueue q = new MailQueue();
-            q.setMessage(msg);
+            q.setSubject(String.format("[skillmaps]%s(%s)さんのスキルレポート", profile.getName(), profile.getId()));
+            q.setTextBody(body.toString());
+            q.setTo(profile.getUserEmail());
+            q.setSender("yusuke.kokubo@gmail.com");
+            q.setBcc("yusuke.in.action@gmail.com");
             queues.add(q);
         }
         Datastore.put(queues);

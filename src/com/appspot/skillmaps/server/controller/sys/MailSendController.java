@@ -29,7 +29,12 @@ public class MailSendController extends Controller {
 
         // メール送付
         for (MailQueue queue : queues) {
-            Message msg = queue.getMessage();
+            Message msg = new Message();
+            msg.setSubject(queue.getSubject());
+            msg.setTextBody(queue.getTextBody());
+            msg.setTo(queue.getTo());
+            msg.setSender(queue.getSender());
+            msg.setBcc(queue.getBcc());
             try {
                 MailService ms = MailServiceFactory.getMailService();
                 ms.send(msg);
