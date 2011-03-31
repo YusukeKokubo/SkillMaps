@@ -1,10 +1,12 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.google.gwt.benchmarks.client.Setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -33,6 +35,8 @@ public class SkillMapPopupPanel extends Composite {
 
     private static SkillMapPopupPanelUiBinder uiBinder =
         GWT.create(SkillMapPopupPanelUiBinder.class);
+
+    private Timer timer;
 
     interface SkillMapPopupPanelUiBinder extends
             UiBinder<Widget, SkillMapPopupPanel> {
@@ -79,8 +83,23 @@ public class SkillMapPopupPanel extends Composite {
     }
 
     public void center(){
-        RootPanel.get("dashboard").clear();
+        try{
+            RootPanel.get("dashboard").clear();
+        }catch(Exception e){
+
+        }
         RootPanel.get("dashboard").add(this);
+        setScrollbar();
+        timer = new Timer() {
+
+            @Override
+            public void run() {
+                setScrollbar();
+            }
+        };
+
+        //TODO あまりいい方法じゃない
+        timer.scheduleRepeating(1000);
     }
 
     public void show(){
@@ -92,5 +111,14 @@ public class SkillMapPopupPanel extends Composite {
         RootPanel.get("dashboard").clear();
     }
 
+    public native void setScrollbar()/*-{
+        $wnd.$("#mcs_container").mCustomScrollbar("vertical",0,"easeOutCirc",1.05,"fixed","yes","no",0);
+    }-*/;
+
+    @Override
+    protected void onDetach() {
+        timer.cancel();
+        super.onDetach();
+    }
 
 }

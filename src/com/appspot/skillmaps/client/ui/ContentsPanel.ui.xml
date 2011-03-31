@@ -18,6 +18,8 @@
 		}
 
 		.dashboard{
+			padding:10px 8px;
+			margin:0 10px 5px 0;
 			position: fixed !important;
 			_position: relative;
 			z-index: 50;

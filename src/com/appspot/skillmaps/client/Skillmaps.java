@@ -45,6 +45,7 @@ public class Skillmaps implements EntryPoint {
                     ContentsPanel contentsPanel = injector.getContentsPanel();
                     contentsPanel.init();
                     RootPanel.get("contents").add(contentsPanel);
+
                     injector.getHistoryHandler().handleCurrentHistory();
 
                 }

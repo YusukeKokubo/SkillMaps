@@ -1,0 +1,78 @@
+@charset "utf-8";
+
+/* CSS Document */ /* some custom fonts via google font api */
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+
+@import
+	url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:extralight)
+	;
+
+/* content block 1 */ /* content block 2 */
+#mcs_container {
+	margin: 0;
+	width: 489px;
+	height: 500px;
+}
+
+#mcs_container .customScrollBox {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+}
+
+#mcs_container .customScrollBox .in-container {
+	position: relative;
+	width: 480px;
+	top: 0;
+	float: left;
+}
+
+#mcs_container .customScrollBox .in-content {
+	clear: both;
+}
+
+#mcs_container .dragger_container {
+	position: relative;
+	top:10px;
+	width: 6px;
+	height: 480px;
+	float: right;
+	cursor: pointer;
+	box-shadow: inset 0 0 2px #000;
+	-moz-box-shadow: inset 0 0 2px #000;
+	-webkit-box-shadow: inset 0 0 2px #000;
+	border-radius: 3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius: 3px;
+}
+
+#mcs_container .dragger {
+	position: absolute;
+	top:0;
+	width: 6px;
+	height: 60px;
+	background: #555;
+	text-align: center;
+	line-height: 60px;
+	color: #666;
+	overflow: hidden;
+	cursor: pointer;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+}
+
+#mcs_container .dragger_pressed {
+	position: absolute;
+	width: 6px;
+	height: 60px;
+	background: #888;
+	text-align: center;
+	line-height: 60px;
+	color: #777;
+	overflow: hidden;
+	cursor: pointer;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+}

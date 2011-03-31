@@ -1,18 +1,24 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-
-	</ui:style>
-	<g:VerticalPanel ui:field="panel">
-		<g:SimplePanel ui:field="headerPanel">
-			<g:Anchor ui:field="close">close</g:Anchor>
-		</g:SimplePanel>
-		<g:SimplePanel ui:field="contentsPanel">
-
-		</g:SimplePanel>
-
-		<g:SimplePanel ui:field="footerPanel">
-		</g:SimplePanel>
-	</g:VerticalPanel>
+	<g:HTMLPanel>
+		<div id="mcs_container">
+			<div class="customScrollBox">
+				<div class="in-container">
+					<div class="in-content">
+						<g:VerticalPanel ui:field="panel">
+							<g:SimplePanel ui:field="headerPanel">
+								<g:Anchor ui:field="close">close</g:Anchor>
+							</g:SimplePanel>
+							<g:SimplePanel ui:field="contentsPanel" />
+							<g:SimplePanel ui:field="footerPanel" />
+						</g:VerticalPanel>
+					</div>
+				</div>
+				<div class="dragger_container">
+					<div class="dragger"></div>
+				</div>
+			</div>
+		</div>
+	</g:HTMLPanel>
 </ui:UiBinder>
