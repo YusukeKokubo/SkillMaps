@@ -20,7 +20,14 @@ public class Skillmaps implements EntryPoint {
         final Injector injector = GWT.create(Injector.class);
 
         injector.getActivityManager();
+        RootPanel.get("loader").setVisible(false);
+        RootPanel.get("header").add(new Header(null));
 
+        ContentsPanel contentsPanel = injector.getContentsPanel();
+        contentsPanel.init();
+        RootPanel.get("contents").add(contentsPanel);
+
+        RootPanel.get("footer").add(new Footer());
         injector.getAccountService().login(GWT.getHostPageBaseURL() + Window.Location.getQueryString(),
             new AsyncCallback<Login>() {
 
@@ -39,12 +46,8 @@ public class Skillmaps implements EntryPoint {
                     login.setVersion(result.getVersion());
 
                     //TODO headerもdisplay化？
+                    RootPanel.get("header").clear();
                     RootPanel.get("header").add(new Header(login));
-
-                    RootPanel.get("footer").add(new Footer());
-                    ContentsPanel contentsPanel = injector.getContentsPanel();
-                    contentsPanel.init();
-                    RootPanel.get("contents").add(contentsPanel);
 
                     injector.getHistoryHandler().handleCurrentHistory();
 

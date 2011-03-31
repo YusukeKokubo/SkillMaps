@@ -2,12 +2,14 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:style>
+		.homeHeader{
+			margin-bottom: 10px;
+		}
+	</ui:style>
 	<g:HTMLPanel>
-		<g:SimplePanel ui:field="homeHeaderPanel"/>
-		<g:HorizontalPanel ui:field="contentsPanel">
-			<g:SimplePanel ui:field="skillAppealTimeLine"/>
-			<g:SimplePanel ui:field="recentEntriedUsers"/>
-			<g:SimplePanel ui:field="recentAddedSkills"/>
-		</g:HorizontalPanel>
+		<g:SimplePanel addStyleNames="{style.homeHeader}" ui:field="homeHeaderPanel"/>
+		<g:DecoratedTabBar ui:field="menuBar"/>
+		<g:SimplePanel ui:field="contentsPanel"/>
 	</g:HTMLPanel>
 </ui:UiBinder>

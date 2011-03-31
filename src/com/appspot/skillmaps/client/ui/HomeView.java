@@ -10,11 +10,17 @@ import com.appspot.skillmaps.client.presenter.SkillAppealTimeLineActivity;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratedTabBar;
+import com.google.gwt.user.client.ui.DecoratedTabPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,16 +33,19 @@ public class HomeView extends Composite implements HomeDisplay {
     }
 
     @UiField
+    DecoratedTabBar menuBar;
+
+    @UiField
+    SimplePanel contentsPanel;
+
+    @UiField
     AcceptsOneWidget homeHeaderPanel;
 
-    @UiField
-    AcceptsOneWidget skillAppealTimeLine;
+    SimplePanel skillAppealTimeLine = new SimplePanel();
 
-    @UiField
-    AcceptsOneWidget recentEntriedUsers;
+    SimplePanel recentEntriedUsers = new SimplePanel();
 
-    @UiField
-    AcceptsOneWidget recentAddedSkills;
+    SimplePanel recentAddedSkills = new SimplePanel();
 
     private Presenter presenter;
 
@@ -52,6 +61,33 @@ public class HomeView extends Composite implements HomeDisplay {
 
         this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
+
+        menuBar.addTab("Appeal");
+        menuBar.addTab("New Users");
+        menuBar.addTab("New Skils");
+
+        menuBar.addSelectionHandler(new SelectionHandler<Integer>() {
+
+            @Override
+            public void onSelection(SelectionEvent<Integer> event) {
+                contentsPanel.clear();
+                switch (event.getSelectedItem()) {
+                case 0:
+                    contentsPanel.setWidget(skillAppealTimeLine);
+                    break;
+                case 1:
+                    contentsPanel.setWidget(recentEntriedUsers);
+                    break;
+                case 2:
+                    contentsPanel.setWidget(recentAddedSkills);
+                    break;
+                }
+            }
+        });
+        contentsPanel.add(skillAppealTimeLine);
+//        contentsPanel.add(recentEntriedUsers);
+//        contentsPanel.add(recentAddedSkills);
+
         contentsPanelProvider.get().start(homeHeaderPanel, eventBus);
         skillAppealTimeLineActivity.start(skillAppealTimeLine, eventBus);
         recentEntriedUsersActivity.start(recentEntriedUsers, eventBus);

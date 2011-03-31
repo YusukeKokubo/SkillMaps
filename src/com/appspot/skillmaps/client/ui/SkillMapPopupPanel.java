@@ -1,6 +1,5 @@
 package com.appspot.skillmaps.client.ui;
 
-import com.google.gwt.benchmarks.client.Setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;

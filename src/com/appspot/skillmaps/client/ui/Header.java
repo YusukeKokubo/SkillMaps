@@ -31,9 +31,9 @@ public class Header extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
 
         if (login == null) {
-            nickname.setText("未ログイン");
             signin.setEnabled(false);
             signout.setEnabled(false);
+            nickname.setText("ログイン中...");
             return;
         }
 

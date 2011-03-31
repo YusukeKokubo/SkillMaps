@@ -11,7 +11,7 @@
             margin: 10px;
         }
 	</ui:style>
-    <g:TabLayoutPanel ui:field="tabPanel" barUnit="PX" barHeight="60" width="800px" height="550px">
+    <g:TabLayoutPanel ui:field="tabPanel" barUnit="PX" barHeight="60" width="540px" height="700px">
     	<g:tab>
     		<g:header>プロフィール</g:header>
     		<sm:UserUI ui:field="userUI" />
@@ -27,8 +27,8 @@
 				<g:Label text="自己紹介" />
 				<g:TextArea ui:field="selfIntroduction" characterWidth="20" visibleLines="4" />
 				<g:Label text="プロフィールURL(2つまで)" />
-				<g:TextBox ui:field="profileUrl1" visibleLength="60" />
-				<g:TextBox ui:field="profileUrl2" visibleLength="60" />
+				<g:TextBox ui:field="profileUrl1" visibleLength="40" />
+				<g:TextBox ui:field="profileUrl2" visibleLength="40" />
 				<g:Button ui:field="submit" text="submit" />
 			</g:VerticalPanel>
 		</g:tab>
