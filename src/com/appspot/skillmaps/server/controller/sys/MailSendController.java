@@ -16,7 +16,8 @@ import com.google.appengine.api.taskqueue.TaskOptions.Builder;
 import com.google.apphosting.api.ApiProxy.OverQuotaException;
 
 /**
- * その日更新のあったスキルをユーザーにメールで通知します。
+ * MailQueueをDatastoreから取得してメール送信します。
+ * この処理はタスクキューによって実行されます。
  * @author y.kokubo
  *
  */
