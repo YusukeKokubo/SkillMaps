@@ -26,8 +26,6 @@
 				<g:ListBox ui:field="layoutSelect">
 					<g:item value="1">1</g:item>
 					<g:item value="2">2</g:item>
-					<g:item value="3">3</g:item>
-					<g:item value="4">4</g:item>
 				</g:ListBox>列で表示
 			</div>
 			<div id="usersToolBar-right" class="{style.tool-bar-right}">

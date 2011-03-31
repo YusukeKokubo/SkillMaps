@@ -18,9 +18,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedTabBar;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,7 +63,6 @@ public class HomeView extends Composite implements HomeDisplay {
         menuBar.addTab("Appeal");
         menuBar.addTab("New Users");
         menuBar.addTab("New Skils");
-
         menuBar.addSelectionHandler(new SelectionHandler<Integer>() {
 
             @Override
@@ -84,6 +81,7 @@ public class HomeView extends Composite implements HomeDisplay {
                 }
             }
         });
+        menuBar.selectTab(0, false);
         contentsPanel.add(skillAppealTimeLine);
 //        contentsPanel.add(recentEntriedUsers);
 //        contentsPanel.add(recentAddedSkills);
