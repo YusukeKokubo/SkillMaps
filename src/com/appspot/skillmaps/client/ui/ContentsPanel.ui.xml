@@ -14,7 +14,7 @@
 			-webkit-box-shadow:2px 4px 4px rgba(0, 0, 0, 0.5);
 			margin:0 10px 5px 0;
 			overflow: hidden;
-			width: 540px;
+			width: 700px;
 		}
 
 		.dashboard{
