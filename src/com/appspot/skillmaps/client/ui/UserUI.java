@@ -34,11 +34,14 @@ public class UserUI extends Composite implements UserUIDisplay{
     }
 
     @UiField
-    Anchor id;
+    Label id;
 
     @UiField
     Label name;
 
+    @UiField
+    Anchor profileLink;
+    
     @UiField
     Anchor twitterLink;
 
@@ -99,7 +102,7 @@ public class UserUI extends Composite implements UserUIDisplay{
         presenter.reloadSkills();
     }
 
-    @UiHandler("id")
+    @UiHandler("profileLink")
     public void clickId(ClickEvent e){
         presenter.gotoUser(profile.getId());
     }

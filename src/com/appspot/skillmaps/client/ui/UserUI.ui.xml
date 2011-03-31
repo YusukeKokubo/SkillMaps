@@ -26,9 +26,12 @@
 				<g:VerticalPanel>
 					<g:Image ui:field="icon" />
 					<g:HorizontalPanel>
-						<g:Anchor ui:field="id" />
-						<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
+						<g:HTMLPanel>
+							<g:Label ui:field="id" />
+						</g:HTMLPanel>
+						<g:HTML>(</g:HTML><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 					</g:HorizontalPanel>
+					<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
 					<g:Anchor ui:field="twitterLink" target="_blank" />
 					<g:Label ui:field="selfIntroduction" />
 					<g:Anchor ui:field="profileUrl1" target="_blank" />
