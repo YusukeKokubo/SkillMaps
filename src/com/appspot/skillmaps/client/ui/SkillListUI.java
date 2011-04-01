@@ -92,10 +92,10 @@ public class SkillListUI extends Composite implements SkillListDisplay{
     }
 
     private String makeStyleForSkillName(long point) {
-        if (point > 40) return style.level1();
-        if (point > 30) return style.level2();
-        if (point > 20) return style.level3();
-        if (point > 10) return style.level4();
+        if (point > 400) return style.level1();
+        if (point > 250) return style.level2();
+        if (point > 150) return style.level3();
+        if (point > 30) return style.level4();
         return style.level5();
     }
 
