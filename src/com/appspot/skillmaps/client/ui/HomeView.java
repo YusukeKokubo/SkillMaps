@@ -83,8 +83,6 @@ public class HomeView extends Composite implements HomeDisplay {
         });
         menuBar.selectTab(0, false);
         contentsPanel.add(skillAppealTimeLine);
-//        contentsPanel.add(recentEntriedUsers);
-//        contentsPanel.add(recentAddedSkills);
 
         contentsPanelProvider.get().start(homeHeaderPanel, eventBus);
         skillAppealTimeLineActivity.start(skillAppealTimeLine, eventBus);

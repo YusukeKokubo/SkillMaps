@@ -19,6 +19,12 @@
 			text-align: left;
 			float: left;
 		}
+
+		.delimita{
+			margin-left: 2px;
+			margin-right: 2px;
+			display: inline;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div ui:field="usersToolBar" class="{style.tool-bar}">
@@ -29,8 +35,10 @@
 				</g:ListBox>列で表示
 			</div>
 			<div id="usersToolBar-right" class="{style.tool-bar-right}">
-				<g:InlineLabel ui:field="page">1</g:InlineLabel>ページ目|<g:Anchor ui:field="prevAnchor"  href="javascript:void(0)" addStyleNames="link" visible="false">&nbsp;前へ</g:Anchor>&nbsp;
-				&nbsp;<g:Anchor ui:field="nextAnchor" href="javascript:void(0)"  addStyleNames="link" >次へ</g:Anchor>
+				<g:InlineLabel ui:field="page">1</g:InlineLabel>ページ目
+				<div class="{style.delimita}">|</div>
+				<g:Anchor ui:field="prevAnchor"  href="javascript:void(0)" addStyleNames="link" visible="false">前へ</g:Anchor>
+				<g:Anchor ui:field="nextAnchor" href="javascript:void(0)"  addStyleNames="link" >次へ</g:Anchor>
 			</div>
 		</div>
 		<g:VerticalPanel ui:field="usersPanel" width="100%">

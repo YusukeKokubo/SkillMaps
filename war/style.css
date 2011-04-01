@@ -278,3 +278,17 @@ h1 {
 	background-color: #ffffff;
 	overflow: auto;
 }
+
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+    border-collapse: collapse;
+    margin-left: 0px !important;
+    margin-right: 1px !important;
+}
+
+.gwt-TabBarFirst-wrapper{
+	display: none !important;
+}
+
+.tabMiddleRight{
+	border-right:thin 1px black !important;
+}

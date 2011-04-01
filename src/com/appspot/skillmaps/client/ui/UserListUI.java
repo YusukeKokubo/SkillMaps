@@ -65,7 +65,7 @@ public class UserListUI extends Composite implements UserListDisplay{
         this.utProvier = utProvier;
         this.injector = injector;
         initWidget(uiBinder.createAndBindUi(this));
-        layoutSelect.setSelectedIndex(3);
+        layoutSelect.setSelectedIndex(0);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class UserListUI extends Composite implements UserListDisplay{
 
             if(thumnailWidth == 0){
 
-                thumnailWidth = injector.getContentsPanel().getOffsetWidth() / viewColumn;
+                thumnailWidth = injector.getContentPanel().getOffsetWidth() / viewColumn;
 
                 if(thumnailWidth == 0){
                     thumnailWidth = 500 / viewColumn;

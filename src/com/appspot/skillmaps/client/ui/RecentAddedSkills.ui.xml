@@ -3,9 +3,16 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
+		.title{
+			margin-top: 0px !important;
+			margin-bottom: 16px !important;
+		}
+		.panel{
+			padding-top: 4px;
+		}
 	</ui:style>
-	<g:HTMLPanel>
-		<h2>最近追加されたスキル</h2>
+	<g:HTMLPanel addStyleNames="{style.panel}">
+		<h2 class="{style.title}">最近追加されたスキル</h2>
 		<g:VerticalPanel ui:field="skills" />
 		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
