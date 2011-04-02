@@ -292,3 +292,7 @@ h1 {
 .tabMiddleRight{
 	border-right:thin 1px black !important;
 }
+
+.gwt-DialogBox{
+	z-index:100;
+}
