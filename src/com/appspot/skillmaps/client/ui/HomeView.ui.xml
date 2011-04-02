@@ -19,7 +19,6 @@
 
 		.contentsPanel{
 			background-color: white;
-			height: 700px;
 			padding: 3px;
 			border-radius: 0 5px 5px 5px;
 			-webkit-border-radius: 0 5px 5px 5px;

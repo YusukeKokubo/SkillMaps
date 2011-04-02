@@ -9,6 +9,7 @@
 		}
 		.panel{
 			padding-top: 4px;
+
 		}
 	</ui:style>
 	<g:HTMLPanel addStyleNames="{style.panel}">
