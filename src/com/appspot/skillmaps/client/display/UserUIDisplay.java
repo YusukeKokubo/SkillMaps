@@ -30,11 +30,13 @@ public interface UserUIDisplay extends IsWidget {
         void setProfile(Profile profile);
 
         void gotoUser(String id);
+
+        void reloadDisableSkills();
     }
 
     void setProfile(Profile profile);
 
-    void reloadSkills(Skill[] skills);
+    void reloadSkills(Skill[] skills, boolean disableSkill);
 
     SimplePanel getSkillsPanel();
 }

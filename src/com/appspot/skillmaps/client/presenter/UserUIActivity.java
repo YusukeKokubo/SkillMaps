@@ -208,16 +208,34 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
             @Override
             public void onSuccess(Skill[] result) {
-                display.reloadSkills(result);
+                display.reloadSkills(result , false);
             }
 
             @Override
             public void onFailure(Throwable caught) {
-                //TODO
                 UiMessage.severe(caught.getMessage(), caught);
             }
         });
     }
+
+    @Override
+    public void reloadDisableSkills() {
+        serviceProvider.get().getDisabledSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
+
+            @Override
+            public void onSuccess(Skill[] result) {
+                display.reloadSkills(result , true);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                UiMessage.severe(caught.getMessage(), caught);
+            }
+        });
+
+    }
+
+
 
     @Override
     public void showSkillOwnersPopup(final Skill skill) {
@@ -277,6 +295,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                         agreedForm.hide();
                         removeEventHandler(agreedHr);
                         reloadSkills();
+                        reloadDisableSkills();
                     }
 
                     @Override

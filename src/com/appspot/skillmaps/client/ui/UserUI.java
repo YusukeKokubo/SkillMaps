@@ -2,6 +2,7 @@ package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
+import com.appspot.skillmaps.client.inject.Injector;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
@@ -9,14 +10,17 @@ import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -24,7 +28,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
 
 public class UserUI extends Composite implements UserUIDisplay{
 
@@ -41,7 +44,7 @@ public class UserUI extends Composite implements UserUIDisplay{
 
     @UiField
     Anchor profileLink;
-    
+
     @UiField
     Anchor twitterLink;
 
@@ -59,8 +62,16 @@ public class UserUI extends Composite implements UserUIDisplay{
 
     FlexTable skills;
 
+    FlexTable disableSkills;
+
     @UiField
     Anchor addSkill;
+
+    @UiField
+    DisclosurePanel disableSkillPanel;
+
+    @UiField
+    HTMLPanel disableSkillsBox;
 
     Login login;
 
@@ -71,9 +82,21 @@ public class UserUI extends Composite implements UserUIDisplay{
     @UiField
     SimplePanel skillsPanel;
 
-    private final Anchor appealAnchor;
-
     private final Provider<UserThumnail> utProvider;
+
+    private final Injector injector;
+
+    @Inject
+    public UserUI(Login login ,
+                  Provider<UserThumnail> utProvider,
+                  Injector injector) {
+        this.login = login;
+        this.utProvider = utProvider;
+        this.injector = injector;
+        skills = new FlexTable();
+        initSkillTable(skills);
+        initWidget(uiBinder.createAndBindUi(this));
+    }
 
     @Override
     public void setProfile(Profile profile){
@@ -112,37 +135,44 @@ public class UserUI extends Composite implements UserUIDisplay{
         presenter.showSkillAddDialog();
     }
 
-    @Inject
-    public UserUI(Login login ,
-                  Provider<UserThumnail> utProvider,
-                  @Named("appealAnchor") Anchor appealAnchor) {
-        this.login = login;
-        this.utProvider = utProvider;
-        this.appealAnchor = appealAnchor;
-        initSkillTable();
-        initWidget(uiBinder.createAndBindUi(this));
+    @Override
+    public void reloadSkills(Skill[] skillList , boolean disableSkill) {
+        if(disableSkill){
+            if(disableSkills == null){
+                disableSkills = new FlexTable();
+            }
+            reloadSkillTable(skillList, disableSkills);
+            disableSkillPanel.clear();
+            disableSkillPanel.add(disableSkills);
+            disableSkillsBox = null;
+        } else {
+            if(skills == null){
+                skills = new FlexTable();
+            }
+            reloadSkillTable(skillList, skills);
+            skillsPanel.setWidget(skills);
+        }
+
     }
 
-    @Override
-    public void reloadSkills(Skill[] skillList) {
-        if(skills == null || skills.getRowCount() <= 1){
-            initSkillTable();
+    private void reloadSkillTable(Skill[] skillList ,final FlexTable skillTable){
+        if(skillTable.getRowCount() <= 1){
+            initSkillTable(skillTable);
         }else {
-
-            for(int i = 1; i < skills.getRowCount();i++){
-                skills.removeRow(i);
+            for(int i = 1; i < skillTable.getRowCount();i++){
+                skillTable.removeRow(i);
             }
         }
         if (skillList.length <= 0) {
-            skills.clear(true);
-            skills.setText(0, 0, "スキルはまだありません.");
+            skillTable.setText(1, 0, "スキルはまだありません.");
+            skillTable.getFlexCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
+            skillTable.getFlexCellFormatter().setColSpan(1, 0, skillTable.getCellCount(0));
             if (login.isLoggedIn()
                     && login.getProfile().getUserEmail().equals(profile.getUserEmail())) {
-                skills.setWidget(0, 1, appealAnchor);
-                skills.setText(0, 2, "");
+                skillTable.setWidget(2, 0, injector.getAppealAnchor());
+                skillTable.getFlexCellFormatter().setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+                skillTable.getFlexCellFormatter().setColSpan(2, 0, skillTable.getCellCount(0));
             }
-
-            skillsPanel.setWidget(skills);
 
             return;
         }
@@ -161,23 +191,23 @@ public class UserUI extends Composite implements UserUIDisplay{
                 }
             });
 
-            skills.setWidget(j, 0, name);
-            skills.setText(j, 1, String.valueOf(skill.getAgreedCount()));
-            skills.setText(j, 2, skill.getPoint().toString());
-            skills.setText(j, 3, skill.getDescription());
+            skillTable.setWidget(j, 0, name);
+            skillTable.setText(j, 1, String.valueOf(skill.getAgreedCount()));
+            skillTable.setText(j, 2, skill.getPoint().toString());
+            skillTable.setText(j, 3, skill.getDescription());
 
             presenter.getSkillRelations(skill , new AsyncCallback<SkillRelation[]>() {
                 @Override
                 public void onSuccess(final SkillRelation[] rs) {
 
-                    skills.setWidget(j, 4, makeAgreedButton(skill, rs));
+                    skillTable.setWidget(j, 4, makeAgreedButton(skill, rs));
 
                     final Anchor showComment = new Anchor("詳細");
-                    skills.setWidget(j, 5, showComment);
+                    skillTable.setWidget(j, 5, showComment);
                     showComment.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
-                            makeAgrees(skill, rs, j);
+                            makeAgrees(skill,skillTable, rs, j);
                             showComment.setVisible(false);
                         }
                     });
@@ -185,30 +215,40 @@ public class UserUI extends Composite implements UserUIDisplay{
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    skills.setText(j, 4, "データを取得できませんでした");
+                    skillTable.setText(j, 4, "データを取得できませんでした");
                 }
             });
         }
-        skillsPanel.setWidget(skills);
     }
 
-    private void initSkillTable() {
-        skills = new FlexTable();
-        skills.addStyleName("skill-grid");
-        skills.setText(0, 0, "スキル");
-        skills.setText(0, 1, "賛同者");
-        skills.setText(0, 2, "ポイント");
-        skills.setText(0, 3, "説明");
-        skills.getCellFormatter().addStyleName(0, 0, "skill-name");
-        skills.getCellFormatter().addStyleName(0, 1, "skill-agreed");
-        skills.getCellFormatter().addStyleName(0, 2, "skill-point");
-        skills.getCellFormatter().addStyleName(0, 3, "skill-description");
-        skills.getCellFormatter().addStyleName(0, 4, "skill-agree-link");
-        skills.getCellFormatter().addStyleName(0, 5, "skill-detail");
-        skills.getRowFormatter().addStyleName(0, "grid-columns");
+    private void initSkillTable(FlexTable skillTable) {
+        skillTable.addStyleName("skill-grid");
+        skillTable.setText(0, 0, "スキル");
+        skillTable.setText(0, 1, "賛同者");
+        skillTable.setText(0, 2, "ポイント");
+        skillTable.setText(0, 3, "説明");
+        skillTable.getCellFormatter().addStyleName(0, 0, "skill-name");
+        skillTable.getCellFormatter().addStyleName(0, 1, "skill-agreed");
+        skillTable.getCellFormatter().addStyleName(0, 2, "skill-point");
+        skillTable.getCellFormatter().addStyleName(0, 3, "skill-description");
+        skillTable.getCellFormatter().addStyleName(0, 4, "skill-agree-link");
+        skillTable.getCellFormatter().addStyleName(0, 5, "skill-detail");
+        skillTable.getRowFormatter().addStyleName(0, "grid-columns");
     }
 
-    private void makeAgrees(final Skill skill, SkillRelation[] rs, int j) {
+    @UiHandler("disableSkillPanel")
+    public void onDisableSkillPanelOpen(OpenEvent<DisclosurePanel> event){
+        event.getTarget().setOpen(true);
+
+        if(disableSkillsBox == null){
+            return;
+        }
+
+        presenter.reloadDisableSkills();
+
+    }
+
+    private void makeAgrees(final Skill skill , FlexTable skillTable, SkillRelation[] rs, int j) {
         VerticalPanel panel = new VerticalPanel();
         for (int i = 0; i < rs.length; i ++) {
             SkillRelation sr = rs[i];
@@ -220,7 +260,7 @@ public class UserUI extends Composite implements UserUIDisplay{
             agreeComment.addStyleName("agree-comment");
             panel.add(agreeComment);
         }
-        skills.setWidget(j, 5, panel);
+        skillTable.setWidget(j, 5, panel);
     }
 
     private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
@@ -235,22 +275,30 @@ public class UserUI extends Composite implements UserUIDisplay{
                 if (rel.getPoint() != null && rel.getPoint() >= 10L) {         // ここはアドホックにマジックリテラルしてるけど本当はもっとやり方を考えたい
                     return new Label("賛同済み");
                 }
-                return new Button("ポイントを加算する", new ClickHandler() {
+                Anchor anchor = new Anchor("ポイント加算");
+                anchor.setTitle("このスキルにポイントを加算します");
+                anchor.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         rel.setPoint(10L);
                         presenter.showAgreedDialog(skill, rel);
                     }
                 });
+
+                return anchor;
             }
         }
 
-        return new Button("自分も賛同する", new ClickHandler() {
+        Anchor anchor = new Anchor("賛同する");
+        anchor.setTitle("このスキルに賛同します");
+        anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 presenter.showAgreedDialog(skill, new SkillRelation());
             }
         });
+
+        return anchor;
     }
 
     @Override

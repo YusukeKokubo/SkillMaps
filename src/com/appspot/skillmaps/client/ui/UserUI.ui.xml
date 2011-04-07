@@ -2,6 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:with type="com.appspot.skillmaps.client.bundle.Resources" field="res"/>
 	<ui:style>
 		.form {
 			border: 2px solid #ABB8C7;
@@ -37,8 +38,18 @@
 					<g:Anchor ui:field="profileUrl1" target="_blank" />
 					<g:Anchor ui:field="profileUrl2" target="_blank" />
 					<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}"/>
-					<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 				</g:VerticalPanel>
 		</g:HorizontalPanel>
+		<hr/>
+		<g:DisclosurePanel ui:field="disableSkillPanel">
+			<g:header>無効となったスキル</g:header>
+			<g:HTMLPanel ui:field="disableSkillsBox">
+				<center>
+					<g:Image resource="{res.loader}"/>
+				</center>
+			</g:HTMLPanel>
+		</g:DisclosurePanel>
+		<hr/>
+		<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 	</g:HTMLPanel>
 </ui:UiBinder>
