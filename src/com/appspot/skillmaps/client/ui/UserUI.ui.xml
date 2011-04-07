@@ -1,8 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
-	<ui:with type="com.appspot.skillmaps.client.bundle.Resources" field="res"/>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:with type="com.appspot.skillmaps.client.bundle.Resources"
+		field="res" />
 	<ui:style>
 		.form {
 			border: 2px solid #ABB8C7;
@@ -10,6 +10,7 @@
 			padding: 15px;
 			background-color: #ffffff;
 		}
+
 		.button {
 			margin-top: 20px;
 			background-color: #DDDDDD;
@@ -18,38 +19,52 @@
 			color: #333333;
 		}
 
-		.skills{
+		.skills {
 			margin-bottom: 20px;
+		}
+
+		.profile-detail {
+			float: right;
+			text-align: left;
+			width: 100%;
+		}
+
+		.profile-detail table {
+			float: left;
+			text-align: left;
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel>
+		<g:VerticalPanel>
+			<g:HorizontalPanel>
+				<g:Image ui:field="icon" />
 				<g:VerticalPanel>
-					<g:Image ui:field="icon" />
-					<g:HorizontalPanel>
 						<g:HTMLPanel>
-							<g:Label ui:field="id" />
+							<g:InlineLabel ui:field="id" />
+							(
+							<g:InlineLabel ui:field="name" />
+							)
 						</g:HTMLPanel>
-						<g:HTML>(</g:HTML><g:Label ui:field="name" /><g:HTML>)</g:HTML>
-					</g:HorizontalPanel>
-					<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
-					<g:Anchor ui:field="twitterLink" target="_blank" />
-					<g:Label ui:field="selfIntroduction" />
-					<g:Anchor ui:field="profileUrl1" target="_blank" />
-					<g:Anchor ui:field="profileUrl2" target="_blank" />
-					<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}"/>
+						<g:Label></g:Label>
+						<g:Anchor ui:field="twitterLink" target="_blank" />
+						<g:Label ui:field="selfIntroduction" />
+						<g:Anchor ui:field="profileUrl1" target="_blank" />
+						<g:Anchor ui:field="profileUrl2" target="_blank" />
 				</g:VerticalPanel>
-		</g:HorizontalPanel>
-		<hr/>
+			</g:HorizontalPanel>
+			<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
+			<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}" />
+		</g:VerticalPanel>
+		<hr />
 		<g:DisclosurePanel ui:field="disableSkillPanel">
 			<g:header>無効となったスキル</g:header>
 			<g:HTMLPanel ui:field="disableSkillsBox">
 				<center>
-					<g:Image resource="{res.loader}"/>
+					<g:Image resource="{res.loader}" />
 				</center>
 			</g:HTMLPanel>
 		</g:DisclosurePanel>
-		<hr/>
+		<hr />
 		<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 	</g:HTMLPanel>
 </ui:UiBinder>

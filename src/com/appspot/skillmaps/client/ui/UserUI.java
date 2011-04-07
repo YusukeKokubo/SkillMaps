@@ -109,6 +109,7 @@ public class UserUI extends Composite implements UserUIDisplay{
         } else {
             icon.setResource(Resources.INSTANCE.noimage150());
         }
+        icon.getElement().setAttribute("align", "top");
         selfIntroduction.setText(profile.getSelfIntroduction());
         profileUrl1.setHref(profile.getProfileUrl1());
         profileUrl1.setText(profile.getProfileUrl1());
