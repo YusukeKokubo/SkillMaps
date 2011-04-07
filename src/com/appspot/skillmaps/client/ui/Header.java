@@ -19,35 +19,15 @@ public class Header extends Composite {
     public interface Style extends CssResource {
         @ClassName("sign-in")
         String signIn();
+
+        @ClassName("sign-out")
+        String signOut();
+
+        String loading();
     }
 
     @UiField
     Style style;
-
-    interface HeaderUiBinder extends UiBinder<Widget, Header> {
-    }
-
-    public Header(Login login) {
-        initWidget(uiBinder.createAndBindUi(this));
-
-        if (login == null) {
-            signin.setEnabled(false);
-            signout.setEnabled(false);
-            nickname.setText("ログイン中...");
-            return;
-        }
-
-        if (login.isLoggedIn()) {
-            nickname.setText(login.getNickname());
-            signin.setEnabled(false);
-            signout.setHref(login.getLogoutUrl());
-            signPanel.addStyleName(style.signIn());
-        } else {
-            nickname.setText("");
-            signin.setHref(login.getLoginUrl());
-            signout.setHref(login.getLogoutUrl());
-        }
-    }
 
     @UiField
     Label nickname;
@@ -60,5 +40,31 @@ public class Header extends Composite {
 
     @UiField
     Panel signPanel;
+
+    interface HeaderUiBinder extends UiBinder<Widget, Header> {
+    }
+
+    public Header(Login login) {
+        initWidget(uiBinder.createAndBindUi(this));
+
+        if (login == null) {
+            nickname.setText("ロード中...");
+            signPanel.addStyleName(style.loading());
+            return;
+        }
+
+        if (login.isLoggedIn()) {
+            nickname.setText(login.getNickname());
+            signout.setHref(login.getLogoutUrl());
+            signPanel.removeStyleName(style.loading());
+            signPanel.addStyleName(style.signIn());
+        } else {
+            nickname.setText("");
+            signin.setHref(login.getLoginUrl());
+            signout.setHref(login.getLogoutUrl());
+            signPanel.removeStyleName(style.loading());
+            signPanel.addStyleName(style.signOut());
+        }
+    }
 
 }

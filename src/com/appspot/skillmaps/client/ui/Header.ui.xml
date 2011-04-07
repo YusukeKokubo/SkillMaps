@@ -12,20 +12,49 @@
 			margin-top: 10px;
 		}
 
-		.nickname {
-			display: none;
-		}
-
-		.sign-in .nickname {
+		 .demiliter {
 			display: inline;
-		}
-
-		.demiliter {
 			margin: 0px 10px;
 		}
 
-		.sign .demiliter {
+		/* sign-out */
+		.sign.sign-out .demiliter {
 			display: none;
+		}
+
+		.sign.sign-out .nickname {
+			display: none;
+		}
+
+		.sign.sign-out .signinlink {
+			display: inline;
+		}
+
+		.sign.sign-out .signoutlink {
+			display: none;
+		}
+
+		/* loading */
+		.sign.loading .demiliter{
+			display: none;
+		}
+
+		.sign.loading .nickname{
+			display: inline;
+		}
+
+		.sign.loading .signinlink {
+			display: none;
+		}
+
+		.sign.loading .signoutlink{
+			display: none;
+		}
+
+
+		/* sign-in */
+		.sign.sign-in .nickname {
+			display: inline;
 		}
 
 		.sign.sign-in .demiliter {
@@ -33,19 +62,11 @@
 			margin: 0px 10px;
 		}
 
-		.signinlink {
-			display: inline;
-		}
-
-		.sign-in .signinlink {
+		.sign.sign-in .signinlink {
 			display: none;
 		}
 
-		.signoutlink {
-			display: none;
-		}
-
-		.sign-in .signoutlink {
+		.sign.sign-in .signoutlink {
 			display: inline;
 		}
 
