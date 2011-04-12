@@ -12,7 +12,7 @@ public interface SkillServiceAsync {
 
     void getDisabledSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
 
-    void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter,
+    void putSkill(Skill skill, SkillRelation rel, String comment, boolean sendTwitter,
             AsyncCallback<Void> callback);
 
     void putSkillAppeal(SkillAppeal skillAppeal, boolean sendTwitter, AsyncCallback<Void> callback);
@@ -28,5 +28,7 @@ public interface SkillServiceAsync {
     void getSkillNames(AsyncCallback<SkillMap[]> callback);
 
     void getRecentAddedSkills(AsyncCallback<Skill[]> callback);
+
+    void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter, AsyncCallback<Void> asyncCallback);
 
 }

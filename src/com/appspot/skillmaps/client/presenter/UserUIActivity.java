@@ -157,9 +157,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 Skill skill = skillDriver.flush();
                 skill.setOwnerEmail(profile.getUserEmail());
                 SkillRelation skillRelation = new SkillRelation();
-                skillRelation.setComment(skillAddDialog.getComment().getValue());
-
-                serviceProvider.get().putSkill(skill, skillRelation, true, new AsyncCallback<Void>() {
+                serviceProvider.get().putSkill(skill, skillRelation ,skillAddDialog.getComment().getValue() , true, new AsyncCallback<Void>() {
 
                     @Override
                     public void onSuccess(Void arg0) {
@@ -288,7 +286,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             @Override
             public void onSubmit(AgreedSubmitEvent e) {
                 SkillRelation rel = skillRelDriver.flush();
-                serviceProvider.get().putSkill(skill, rel, true, new AsyncCallback<Void>() {
+                serviceProvider.get().putSkill(skill, rel, agreedForm.getComment().getText(), true, new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
                         UiMessage.info("更新しました");

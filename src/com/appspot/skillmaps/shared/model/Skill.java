@@ -26,7 +26,7 @@ public class Skill implements Serializable {
     private String name;
 
     private Long point;
-    
+
     private Long agreedCount;
 
     private String description;
@@ -36,8 +36,11 @@ public class Skill implements Serializable {
     @Attribute(persistent=false)
     private InverseModelListRef<SkillRelation, Skill> relation = new InverseModelListRef<SkillRelation, Skill>(SkillRelation.class, "skill", this);
 
+    @Attribute(persistent=false)
+    private InverseModelListRef<SkillComment, Skill> commentRel = new InverseModelListRef<SkillComment, Skill>(SkillComment.class, "skill", this);
+
     private String ownerEmail;
-    
+
     @Attribute(listener=CreationEmail.class)
     private String createdUserEmail;
 
@@ -143,7 +146,7 @@ public class Skill implements Serializable {
         }
         return true;
     }
-    
+
     public void calcPoint() {
         long point = 0L;
         for (SkillRelation srel : this.getRelation().getModelList()) {
@@ -211,5 +214,9 @@ public class Skill implements Serializable {
 
     public Long getAgreedCount() {
         return agreedCount;
+    }
+
+    public InverseModelListRef<SkillComment, Skill> getCommentRel() {
+        return commentRel;
     }
 }

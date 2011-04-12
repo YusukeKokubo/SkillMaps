@@ -257,9 +257,9 @@ public class UserUI extends Composite implements UserUIDisplay{
             UserThumnail userThumnail = utProvider.get();
             userThumnail.setUser(p);
             panel.add(userThumnail);
-            Label agreeComment = new Label(sr.getComment());
-            agreeComment.addStyleName("agree-comment");
-            panel.add(agreeComment);
+////            Label agreeComment = new Label(sr.getComment());
+//            agreeComment.addStyleName("agree-comment");
+//            panel.add(agreeComment);
         }
         skillTable.setWidget(j, 5, panel);
     }
