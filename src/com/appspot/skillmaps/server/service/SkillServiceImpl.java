@@ -184,6 +184,14 @@ public class SkillServiceImpl implements SkillService {
             return;
         }
 
+        if(skillKey == null){
+            return;
+        }
+
+        if(!UserServiceFactory.getUserService().isUserLoggedIn()){
+            return;
+        }
+
         SkillComment skillComment = new SkillComment();
         skillComment.setComment(comment);
         skillComment.getSkill().setKey(skillKey);

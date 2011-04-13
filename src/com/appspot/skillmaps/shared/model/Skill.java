@@ -9,8 +9,11 @@ import org.slim3.datastore.CreationEmail;
 import org.slim3.datastore.InverseModelListRef;
 import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
+import org.slim3.datastore.Sort;
 
+import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 @Model(schemaVersion = 1)
 public class Skill implements Serializable {
@@ -37,7 +40,7 @@ public class Skill implements Serializable {
     private InverseModelListRef<SkillRelation, Skill> relation = new InverseModelListRef<SkillRelation, Skill>(SkillRelation.class, "skill", this);
 
     @Attribute(persistent=false)
-    private InverseModelListRef<SkillComment, Skill> commentRel = new InverseModelListRef<SkillComment, Skill>(SkillComment.class, "skill", this);
+    private InverseModelListRef<SkillComment, Skill> commentRel = new InverseModelListRef<SkillComment, Skill>(SkillComment.class, "skill", this , new Sort(SkillCommentMeta.get().createdAt, SortDirection.DESCENDING));
 
     private String ownerEmail;
 

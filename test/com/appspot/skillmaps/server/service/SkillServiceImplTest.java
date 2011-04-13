@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.slim3.datastore.Datastore;
 import org.slim3.tester.ServletTestCase;
 
+import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -46,7 +47,7 @@ public class SkillServiceImplTest extends ServletTestCase {
 
     @Test
     public void putSkill_コメントあり(){
-        tester.environment.setEmail("keisuke.oohashi@gmail.com");
+        tester.environment.setEmail("test@gmail.com");
 
         Skill skill = new Skill();
         skill.setName("test");
@@ -70,4 +71,43 @@ public class SkillServiceImplTest extends ServletTestCase {
 
         assertThat(commentList.get(0).getSkill().getModel(), is(equalTo(skill)));
     }
+
+    @Test
+    public void putComment(){
+        tester.environment.setEmail("test@gmail.com");
+
+        Skill skill = new Skill();
+        skill.setName("test");
+        skill.setDescription("test2");
+        skill.setOwnerEmail("test@admin.com");
+        SkillRelation skillRelation = new SkillRelation();
+
+        service.putSkill(skill, skillRelation , "コメント", false);
+
+        service.putComment(skill.getKey(), "コメント2");
+
+        service.putComment(null, "コメント3");
+
+        service.putComment(skill.getKey(), "");
+
+        service.putComment(skill.getKey(), null);
+
+        tester.environment.setEmail("");
+
+        service.putComment(skill.getKey(), "コメント4");
+
+
+        List<SkillComment> modelList = skill.getCommentRel().getModelList();
+
+        assertThat(modelList , notNullValue());
+        assertThat(modelList.size(), is(2));
+        assertThat(modelList.get(0).getComment(), is("コメント2"));
+        assertThat(modelList.get(0).getSkill().getModel(), equalTo(skill));
+        assertThat(modelList.get(1).getComment(), is("コメント"));
+        assertThat(modelList.get(1).getSkill().getModel(), equalTo(skill));
+        assertThat(Datastore.query(SkillCommentMeta.get()).asList().size(), is(2));
+    }
+    
+
+
 }
