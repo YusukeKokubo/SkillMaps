@@ -8,8 +8,8 @@ import org.slim3.datastore.Datastore;
 import org.slim3.util.RequestLocator;
 
 import twitter4j.Twitter;
-import twitter4j.http.AccessToken;
-import twitter4j.http.RequestToken;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.util.TwitterUtil;

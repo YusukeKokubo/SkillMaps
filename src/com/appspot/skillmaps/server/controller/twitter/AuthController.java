@@ -5,7 +5,7 @@ import org.slim3.controller.Navigation;
 import org.slim3.util.AppEngineUtil;
 
 import twitter4j.Twitter;
-import twitter4j.http.RequestToken;
+import twitter4j.auth.RequestToken;
 
 import com.appspot.skillmaps.server.util.TwitterUtil;
 
