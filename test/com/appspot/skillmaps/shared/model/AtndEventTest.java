@@ -2,12 +2,9 @@ package com.appspot.skillmaps.shared.model;
 
 import org.slim3.tester.AppEngineTestCase;
 
-public class AtndEventTest extends AppEngineTestCase {
-
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
-import org.slim3.tester.AppEngineTestCase;
 import org.slim3.util.StringUtil;
 import org.hkzo.atnd4j.Atnd;
 import org.hkzo.atnd4j.Event;
