@@ -10,6 +10,7 @@ import org.slim3.util.StringUtil;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
 
 import com.appspot.skillmaps.server.meta.GlobalSettingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
@@ -44,7 +45,6 @@ public class TwitterUtil {
      * スキルアピールをツイートします。
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static void tweetSkillAppeal(SkillAppeal skillAppeal){
         ProfileMeta meta = ProfileMeta.get();
         UserService userService = UserServiceFactory.getUserService();
@@ -55,7 +55,7 @@ public class TwitterUtil {
         }
         Twitter twitter = TwitterUtil.getTwitterInstance();
 
-        twitter.setOAuthAccessToken(profile.getTwitterToken(), profile.getTwitterTokenSecret());
+        twitter.setOAuthAccessToken(new AccessToken(profile.getTwitterToken(), profile.getTwitterTokenSecret()));
         String skillmapsUrl = "http://j.mp/dfQBqk";
         String body = skillAppeal.getAppealSkillName() + ":" + skillAppeal.getDescription();
         try{
@@ -72,7 +72,6 @@ public class TwitterUtil {
      * スキルがついたことをツイートします。
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static void tweetSkillAppended(Skill skill){
         try{
             ProfileMeta meta = ProfileMeta.get();
@@ -107,7 +106,7 @@ public class TwitterUtil {
                 return;
             }
             Twitter notifierTwitter = TwitterUtil.getTwitterInstance();
-            notifierTwitter.setOAuthAccessToken(notifier.getTwitterToken(), notifier.getTwitterTokenSecret());
+            notifierTwitter.setOAuthAccessToken(new AccessToken(notifier.getTwitterToken(), notifier.getTwitterTokenSecret()));
 
             String skillmapsUrl = "http://skillmaps.appspot.com/index.html#!user:" + skillOwner.getId();
             String body = String.format("RT %s: %s は[%s]のスキル持ってるよね.賛同者[%d] ポイント[%d] #skillmaps %s"
