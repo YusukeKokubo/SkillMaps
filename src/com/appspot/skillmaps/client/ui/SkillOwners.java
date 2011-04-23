@@ -19,9 +19,6 @@ public class SkillOwners extends Composite implements SkillOwnersDisplay{
     @UiField
     FlexTable table;
 
-    @UiField
-    UserDialog userDialog;
-
     private Presenter presenter;
 
     private final Provider<UserThumnail> utProvider;

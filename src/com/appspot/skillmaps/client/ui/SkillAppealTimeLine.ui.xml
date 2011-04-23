@@ -14,6 +14,5 @@
 	<g:HTMLPanel addStyleNames="{style.panel}">
 		<h2 class="{style.title}">スキルアピール</h2>
 		<g:VerticalPanel ui:field="appealsPanel" spacing="5" />
-		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>

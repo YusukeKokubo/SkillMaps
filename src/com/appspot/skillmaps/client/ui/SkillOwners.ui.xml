@@ -6,6 +6,5 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:FlexTable ui:field="table" />
-		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>

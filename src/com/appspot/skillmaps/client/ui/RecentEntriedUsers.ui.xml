@@ -14,6 +14,5 @@
 	<g:HTMLPanel addStyleNames="{style.panel}">
 		<h2 class="{style.title}">最近登録した人たち</h2>
 		<g:VerticalPanel ui:field="users" />
-		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>

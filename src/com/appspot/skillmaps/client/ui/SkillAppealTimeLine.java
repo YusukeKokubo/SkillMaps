@@ -24,9 +24,6 @@ public class SkillAppealTimeLine extends Composite implements
     @UiField
     VerticalPanel appealsPanel;
 
-    @UiField
-    UserDialog userDialog;
-
     private Presenter presenter;
 
     private final Provider<SkillAppealUI> skillAppealProvider;

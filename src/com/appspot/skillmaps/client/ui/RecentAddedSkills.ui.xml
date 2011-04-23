@@ -15,6 +15,5 @@
 	<g:HTMLPanel addStyleNames="{style.panel}">
 		<h2 class="{style.title}">最近追加されたスキル</h2>
 		<g:VerticalPanel ui:field="skills" />
-		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>
