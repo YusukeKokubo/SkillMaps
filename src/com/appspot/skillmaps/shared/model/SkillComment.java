@@ -37,6 +37,9 @@ public class SkillComment implements Serializable {
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
 
+    @Attribute(persistent = false)
+    private Profile profile;
+
     /**
      * Returns the key.
      *
@@ -166,6 +169,20 @@ public class SkillComment implements Serializable {
      */
     public String getComment() {
         return comment;
+    }
+
+    /**
+     * @param profile セットする profile
+     */
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    /**
+     * @return profile
+     */
+    public Profile getProfile() {
+        return profile;
     }
 
 }

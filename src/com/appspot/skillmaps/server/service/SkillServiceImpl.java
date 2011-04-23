@@ -11,6 +11,7 @@ import org.slim3.util.StringUtil;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillAppealMeta;
+import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.server.util.TwitterUtil;
@@ -110,6 +111,24 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
+    public SkillComment[] getSkillComments(Key skillKey){
+
+        SkillCommentMeta scm = SkillCommentMeta.get();
+
+        List<SkillComment> list = Datastore.query(scm).filter(scm.skill.equal(skillKey)).sort(scm.createdAt.desc).asList();
+
+        AccountServiceImpl accountService = new AccountServiceImpl();
+
+        for (SkillComment skillComment : list) {
+            Profile profile = accountService.getUserByEmail(skillComment.getCreatedUserEmail());
+
+            skillComment.setProfile(profile);
+        }
+
+        return list.toArray(new SkillComment[0]);
+    }
+
+    @Override
     public void putSkillAppeal(SkillAppeal skillAppeal, boolean sendTwitter) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
@@ -179,17 +198,18 @@ public class SkillServiceImpl implements SkillService {
 
     }
 
-    public void putComment(Key skillKey , String comment){
+    public SkillComment putComment(Key skillKey , String comment){
         if(Strings.isNullOrEmpty(comment)){
-            return;
+            throw new IllegalArgumentException("コメントがカラです。");
         }
 
         if(skillKey == null){
-            return;
+            throw new IllegalArgumentException("不明な例外です。");
         }
 
-        if(!UserServiceFactory.getUserService().isUserLoggedIn()){
-            return;
+        UserService userService = UserServiceFactory.getUserService();
+        if(!userService.isUserLoggedIn()){
+            throw new IllegalArgumentException("ログインしていません。");
         }
 
         SkillComment skillComment = new SkillComment();
@@ -197,5 +217,9 @@ public class SkillServiceImpl implements SkillService {
         skillComment.getSkill().setKey(skillKey);
 
         Datastore.put(skillComment);
+
+        skillComment.setProfile(new AccountServiceImpl().getUserByEmail(userService.getCurrentUser().getEmail()));
+
+        return skillComment;
     }
 }

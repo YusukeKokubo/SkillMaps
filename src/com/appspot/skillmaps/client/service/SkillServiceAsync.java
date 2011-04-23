@@ -2,8 +2,10 @@ package com.appspot.skillmaps.client.service;
 
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
+import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface SkillServiceAsync {
@@ -30,5 +32,9 @@ public interface SkillServiceAsync {
     void getRecentAddedSkills(AsyncCallback<Skill[]> callback);
 
     void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter, AsyncCallback<Void> asyncCallback);
+
+    void putComment(Key skillKey, String comment, AsyncCallback<SkillComment> callback);
+
+    void getSkillComments(Key skillKey, AsyncCallback<SkillComment[]> callback);
 
 }
