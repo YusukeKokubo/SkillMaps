@@ -5,6 +5,7 @@ import java.util.List;
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.ModelQuery;
 import org.slim3.datastore.S3QueryResultList;
+import org.slim3.memcache.Memcache;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.AccountService;
@@ -18,6 +19,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.common.collect.Lists;
 
 
 public class AccountServiceImpl implements AccountService {
@@ -64,9 +66,47 @@ public class AccountServiceImpl implements AccountService {
         return Datastore.query(pm).filter(pm.id.equal(id)).limit(1).asSingle();
     }
 
+    public Profile getUserByEmail(String email){
+
+        Profile p = Memcache.get(email);
+
+        if(p != null){
+            return p;
+        }
+
+        p = Datastore.query(pm).filter(pm.userEmail.equal(email)).limit(1).asSingle();
+        if(p != null){
+
+            putMemcache(email, p);
+        }
+
+        return p;
+    }
+
     @Override
     public Profile[] getUsersByEmail(String[] emails) {
-        return Datastore.query(pm).filter(pm.userEmail.in(emails)).asList().toArray(new Profile[0]);
+
+        List<String> nonMemcached = Lists.newArrayListWithCapacity(emails.length);
+        List<Profile> profiles = Lists.newArrayListWithCapacity(emails.length);
+        for (String email : nonMemcached) {
+            Profile p = Memcache.get(email);
+
+            if(p != null){
+                profiles.add(p);
+            } else {
+                nonMemcached.add(email);
+            }
+        }
+
+        List<Profile> list = Datastore.query(pm).filter(pm.userEmail.in(emails)).asList();
+
+        for (Profile profile : list) {
+            putMemcache(profile.getUserEmail(), profile);
+        }
+
+        profiles.addAll(list);
+
+        return profiles.toArray(new Profile[0]);
     }
 
     @Override
@@ -78,6 +118,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Profile[] getRecentEntriedUsers() {
         List<Profile> result = Datastore.query(pm).sort(pm.createdAt.desc).filterInMemory(pm.id.isNotNull()).limit(25).asList();
+
+        for (Profile profile : result) {
+            putMemcache(profile.getUserEmail(), profile);
+        }
+
         return result.toArray(new Profile[0]);
     }
 
@@ -161,7 +206,21 @@ public class AccountServiceImpl implements AccountService {
         if (StringUtil.isEmpty(act.getName())) {
             throw new IllegalArgumentException("[おなまえ] は必ず入力してください");
         }
+        putMemcache(act.getUserEmail(), act);
 
         Datastore.put(act);
     }
+
+    private void putMemcache(String email, Profile p) {
+        try{
+
+            Memcache.put(email, p);
+
+        } catch(Exception e){
+
+        }
+    }
+
+
+
 }
