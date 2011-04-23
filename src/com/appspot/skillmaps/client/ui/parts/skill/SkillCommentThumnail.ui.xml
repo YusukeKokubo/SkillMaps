@@ -1,0 +1,16 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:style>
+
+		.comment{
+			margin-left: 4px;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:HorizontalPanel>
+			<sm:UserThumnail ui:field="profile" />
+			<g:Label addStyleNames="{style.comment}" ui:field="comment" />
+		</g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>
