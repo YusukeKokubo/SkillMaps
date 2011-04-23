@@ -12,11 +12,7 @@
 		}
 
 		.button {
-			margin-top: 20px;
-			background-color: #DDDDDD;
-			padding: 5px;
-			border: 1px solid #A2BBDD;
-			color: #333333;
+			margin: 2px;
 		}
 
 		.skills {
@@ -33,9 +29,13 @@
 			float: left;
 			text-align: left;
 		}
+
+		.userUiPanel{
+			background-color: white;
+		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:VerticalPanel>
+	<g:HTMLPanel addStyleNames="{style.userUiPanel}" width="100%">
+		<g:VerticalPanel width="100%">
 			<g:HorizontalPanel>
 				<g:Image ui:field="icon" />
 				<g:VerticalPanel>
@@ -52,7 +52,13 @@
 						<g:Anchor ui:field="profileUrl2" target="_blank" />
 				</g:VerticalPanel>
 			</g:HorizontalPanel>
-			<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
+			<g:HorizontalPanel width="100%">
+
+				<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
+				<g:cell horizontalAlignment="ALIGN_RIGHT">
+					<g:Button ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
+				</g:cell>
+			</g:HorizontalPanel>
 			<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}" />
 		</g:VerticalPanel>
 		<hr />
@@ -64,7 +70,5 @@
 				</center>
 			</g:HTMLPanel>
 		</g:DisclosurePanel>
-		<hr />
-		<g:Anchor ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
 	</g:HTMLPanel>
 </ui:UiBinder>

@@ -6,7 +6,7 @@
 			<div class="customScrollBox">
 				<div class="in-container">
 					<div class="in-content">
-						<g:VerticalPanel ui:field="panel">
+						<g:VerticalPanel ui:field="panel" width="100%">
 							<g:SimplePanel ui:field="headerPanel">
 								<g:Anchor ui:field="close">close</g:Anchor>
 							</g:SimplePanel>

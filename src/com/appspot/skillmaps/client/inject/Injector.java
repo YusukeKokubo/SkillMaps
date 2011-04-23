@@ -8,6 +8,10 @@ import com.appspot.skillmaps.client.place.UserListPlace;
 import com.appspot.skillmaps.client.place.UserPlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.ui.ContentsPanel;
+import com.appspot.skillmaps.client.ui.UserThumnail;
+import com.appspot.skillmaps.client.ui.form.skill.SkillCommentForm;
+import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
+import com.appspot.skillmaps.client.ui.parts.user.UserSkillDetailPanel;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.inject.client.GinModules;
@@ -51,5 +55,13 @@ public interface Injector extends Ginjector {
     UserPlace.Tokenizer getUserPlaceTokenizer();
 
     @Named("appealAnchor") Anchor getAppealAnchor();
+
+    UserSkillDetailPanel getUserSkillDetailPanel();
+
+    UserThumnail getUserThumnail();
+
+    SkillCommentThumnail getSkillCommentThumnail();
+
+    SkillCommentForm getSkillCommentForm();
 
 }

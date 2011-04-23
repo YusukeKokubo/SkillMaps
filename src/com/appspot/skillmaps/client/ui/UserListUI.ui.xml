@@ -43,6 +43,5 @@
 		</div>
 		<g:VerticalPanel ui:field="usersPanel" width="100%">
 		</g:VerticalPanel>
-		<sm:UserDialog ui:field="userDialog" visible="false" animationEnabled="true" />
 	</g:HTMLPanel>
 </ui:UiBinder>
