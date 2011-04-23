@@ -25,6 +25,8 @@ public class SkillRelation implements Serializable {
 
     private ModelRef<Skill> skill = new ModelRef<Skill>(Skill.class);
 
+    private String comment;
+
     private Long point = 10L;
 
     @Attribute(listener=CreationEmail.class)
@@ -142,6 +144,14 @@ public class SkillRelation implements Serializable {
 
     public Profile getProfile() {
         return profile;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
     public void setPoint(Long point) {
