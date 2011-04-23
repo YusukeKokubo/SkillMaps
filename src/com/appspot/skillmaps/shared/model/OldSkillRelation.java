@@ -1,6 +1,5 @@
 package com.appspot.skillmaps.shared.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.slim3.datastore.Attribute;
@@ -12,9 +11,8 @@ import org.slim3.datastore.ModificationDate;
 
 import com.google.appengine.api.datastore.Key;
 
-@Model(schemaVersion = 2)
-public class SkillRelation implements Serializable {
-
+@Model(kind = "SkillRelation", schemaVersion = 1)
+public class OldSkillRelation {
     private static final long serialVersionUID = 1L;
 
     @Attribute(primaryKey = true)
@@ -25,18 +23,20 @@ public class SkillRelation implements Serializable {
 
     private ModelRef<Skill> skill = new ModelRef<Skill>(Skill.class);
 
+    private String comment;
+
     private Long point = 10L;
 
-    @Attribute(listener=CreationEmail.class)
+    @Attribute(listener = CreationEmail.class)
     private String userEmail;
 
-    @Attribute(listener=CreationDate.class)
+    @Attribute(listener = CreationDate.class)
     private Date createdAt;
 
-    @Attribute(listener=ModificationDate.class)
+    @Attribute(listener = ModificationDate.class)
     private Date updatedAt;
 
-    @Attribute(persistent=false)
+    @Attribute(persistent = false)
     private Profile profile;
 
     public String getUserEmail() {
@@ -62,7 +62,6 @@ public class SkillRelation implements Serializable {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 
     /**
      * Returns the key.
@@ -121,7 +120,7 @@ public class SkillRelation implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SkillRelation other = (SkillRelation) obj;
+        OldSkillRelation other = (OldSkillRelation) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -134,6 +133,14 @@ public class SkillRelation implements Serializable {
 
     public ModelRef<Skill> getSkill() {
         return skill;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
     public void setProfile(Profile profile) {
