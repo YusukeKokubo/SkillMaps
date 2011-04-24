@@ -37,4 +37,6 @@ public interface SkillService extends RemoteService {
     SkillComment putComment(Key skillKey , String comment);
 
     SkillComment[] getSkillComments(Key skillKey);
+
+    SkillComment[] getRecentAddedSkillComment();
 }

@@ -37,4 +37,6 @@ public interface SkillServiceAsync {
 
     void getSkillComments(Key skillKey, AsyncCallback<SkillComment[]> callback);
 
+    void getRecentAddedSkillComment(AsyncCallback<SkillComment[]> callback);
+
 }

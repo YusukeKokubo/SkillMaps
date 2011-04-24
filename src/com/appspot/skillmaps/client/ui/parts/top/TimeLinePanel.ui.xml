@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.title{
+			margin-top: 0px !important;
+			margin-bottom: 16px !important;
+		}
+		.panel{
+			padding-top: 4px;
+		}
+	</ui:style>
+	<g:HTMLPanel addStyleNames="{style.panel}">
+		<h2 class="{style.title}">タイムライン</h2>
+		<g:VerticalPanel ui:field="timeLinePanel" spacing="5" />
+	</g:HTMLPanel>
+</ui:UiBinder>

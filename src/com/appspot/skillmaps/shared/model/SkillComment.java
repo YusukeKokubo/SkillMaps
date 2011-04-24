@@ -185,4 +185,25 @@ public class SkillComment implements Serializable {
         return profile;
     }
 
+    @Override
+    public String toString() {
+        return "SkillComment [comment="
+            + comment
+            + ", createdAt="
+            + createdAt
+            + ", createdUserEmail="
+            + createdUserEmail
+            + ", key="
+            + key
+            + ", profile="
+            + profile
+            + ", skill="
+            + skill
+            + ", updatedAt="
+            + updatedAt
+            + ", version="
+            + version
+            + "]";
+    }
+
 }

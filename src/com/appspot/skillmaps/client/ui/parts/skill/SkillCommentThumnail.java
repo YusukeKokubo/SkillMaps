@@ -9,6 +9,7 @@ import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DateLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -29,6 +30,9 @@ public class SkillCommentThumnail extends Composite implements Editor<SkillComme
     @UiField(provided=true)
     @Editor.Ignore
     UserThumnail profile;
+
+    @UiField
+    DateLabel createdAt;
 
     private final Injector injector;
 

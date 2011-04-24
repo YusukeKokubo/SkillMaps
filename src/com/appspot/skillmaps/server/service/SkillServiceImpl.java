@@ -32,6 +32,8 @@ public class SkillServiceImpl implements SkillService {
     SkillRelationMeta rm = SkillRelationMeta.get();
     SkillAppealMeta am = SkillAppealMeta.get();
     ProfileMeta pm = ProfileMeta.get();
+    SkillCommentMeta scm = SkillCommentMeta.get();
+
 
     @Override
     public Skill[] getSkillOwners(Skill skill) {
@@ -93,8 +95,9 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillRelation[] getSkillRelations(Skill skill) {
+        AccountServiceImpl accountService = new AccountServiceImpl();
         for (SkillRelation sr : skill.getRelation().getModelList()) {
-            Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(sr.getUserEmail())).limit(1).asSingle();
+            Profile profile = accountService.getUserByEmail(sr.getUserEmail());
             sr.setProfile(profile);
         }
         return skill.getRelation().getModelList().toArray(new SkillRelation[0]);
@@ -103,8 +106,9 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public SkillAppeal[] getSkillAppeals() {
         List<SkillAppeal> result = Datastore.query(am).sort(am.createdAt.desc).limit(20).asList();
+        AccountServiceImpl accountService = new AccountServiceImpl();
         for (SkillAppeal appeal : result) {
-            Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(appeal.getUserEmail())).limit(1).asSingle();
+            Profile profile = accountService.getUserByEmail(appeal.getUserEmail());
             appeal.setProfile(profile);
         }
         return result.toArray(new SkillAppeal[0]);
@@ -112,8 +116,6 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillComment[] getSkillComments(Key skillKey){
-
-        SkillCommentMeta scm = SkillCommentMeta.get();
 
         List<SkillComment> list = Datastore.query(scm).filter(scm.skill.equal(skillKey)).sort(scm.createdAt.desc).asList();
 
@@ -126,6 +128,23 @@ public class SkillServiceImpl implements SkillService {
         }
 
         return list.toArray(new SkillComment[0]);
+    }
+
+    @Override
+    public SkillComment[] getRecentAddedSkillComment(){
+        List<SkillComment> result = Datastore.query(scm).sort(scm.createdAt.desc).limit(20).asList();
+
+        AccountServiceImpl accountService = new AccountServiceImpl();
+
+        for (SkillComment s : result) {
+            //TODO ここ厳しい。。。
+            s.setProfile(accountService.getUserByEmail(s.getCreatedUserEmail()));
+            s.getSkill().getModel();
+            s.getSkill().getModel().setProfile(accountService.getUserByEmail(s.getSkill().getModel().getOwnerEmail()));
+        }
+
+        return result.toArray(new SkillComment[0]);
+
     }
 
     @Override

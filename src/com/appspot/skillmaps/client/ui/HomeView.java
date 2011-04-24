@@ -7,6 +7,7 @@ import com.appspot.skillmaps.client.presenter.RecentEntriedUsersActivity;
 import com.appspot.skillmaps.client.presenter.SigninGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.SkillAppealFormActivity;
 import com.appspot.skillmaps.client.presenter.SkillAppealTimeLineActivity;
+import com.appspot.skillmaps.client.presenter.TimeLineActivity;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
@@ -39,6 +40,8 @@ public class HomeView extends Composite implements HomeDisplay {
     @UiField
     AcceptsOneWidget homeHeaderPanel;
 
+    SimplePanel timeLine = new SimplePanel();
+
     SimplePanel skillAppealTimeLine = new SimplePanel();
 
     SimplePanel recentEntriedUsers = new SimplePanel();
@@ -55,11 +58,13 @@ public class HomeView extends Composite implements HomeDisplay {
                     SkillAppealTimeLineActivity skillAppealTimeLineActivity,
                     RecentEntriedUsersActivity recentEntriedUsersActivity,
                     RecentAddedSkillsActivity recentAddedSkillsActivity,
+                    TimeLineActivity timeLineActivity,
                     Login login) {
 
         this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
 
+        menuBar.addTab("Skill Commnet");
         menuBar.addTab("Appeal");
         menuBar.addTab("New Users");
         menuBar.addTab("New Skils");
@@ -70,21 +75,25 @@ public class HomeView extends Composite implements HomeDisplay {
                 contentsPanel.clear();
                 switch (event.getSelectedItem()) {
                 case 0:
-                    contentsPanel.setWidget(skillAppealTimeLine);
+                    contentsPanel.setWidget(timeLine);
                     break;
                 case 1:
-                    contentsPanel.setWidget(recentEntriedUsers);
+                    contentsPanel.setWidget(skillAppealTimeLine);
                     break;
                 case 2:
+                    contentsPanel.setWidget(recentEntriedUsers);
+                    break;
+                case 3:
                     contentsPanel.setWidget(recentAddedSkills);
                     break;
                 }
             }
         });
         menuBar.selectTab(0, false);
-        contentsPanel.add(skillAppealTimeLine);
+        contentsPanel.add(timeLine);
 
         contentsPanelProvider.get().start(homeHeaderPanel, eventBus);
+        timeLineActivity.start(timeLine, eventBus);
         skillAppealTimeLineActivity.start(skillAppealTimeLine, eventBus);
         recentEntriedUsersActivity.start(recentEntriedUsers, eventBus);
         recentAddedSkillsActivity.start(recentAddedSkills, eventBus);

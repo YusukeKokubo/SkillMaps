@@ -5,6 +5,10 @@
 		.skillPanel{
 		}
 
+		.name {
+			overflow: hidden;
+		}
+
 		.header{
 			background: #7FB2E3;
 			background: -webkit-gradient(linear, literal('left top'),literal('left bottom'), literal('from(#7FB2E3), color-stop(50% ,#ECF5FE) ,to(#7FB2E3)') );
@@ -63,7 +67,7 @@
 					<g:InlineLabel ui:field="openLabel">[＋]</g:InlineLabel>
 				</g:cell>
 				<g:cell horizontalAlignment="ALIGN_LEFT" width="150px">
-					<g:InlineLabel ui:field="name"/>
+					<g:InlineLabel ui:field="name" addStyleNames="{style.name}"/>
 				</g:cell>
 				<g:HTMLPanel width="100px">
 					<span class="{style.delimiter}">|</span>ポイント :<g:NumberLabel ui:field="point"/>

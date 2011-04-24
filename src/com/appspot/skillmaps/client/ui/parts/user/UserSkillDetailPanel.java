@@ -102,6 +102,13 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     public void setSkill(final Skill skill) {
         addCommentButton.setEnabled(login.isLoggedIn());
         driver.edit(skill);
+
+        if(skill.getName().length() > 10){
+
+            name.setText(skill.getName().substring(0, 10) + "…");
+        }
+        name.setTitle(skill.getName());
+
         key = skill.getKey();
 
         presenter.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
