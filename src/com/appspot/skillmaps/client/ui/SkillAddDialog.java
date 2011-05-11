@@ -83,6 +83,7 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
         eventBus.fireEvent(new SkillAddSubmitEvent());
     }
 
+    @UiHandler("cancel")
     public void clickCancel(ClickEvent e){
         hide();
     }
