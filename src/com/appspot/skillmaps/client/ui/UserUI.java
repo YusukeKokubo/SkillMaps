@@ -7,22 +7,17 @@ import com.appspot.skillmaps.client.ui.parts.user.UserSkillDetailPanel;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
-import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -80,7 +75,7 @@ public class UserUI extends Composite implements UserUIDisplay{
     @UiField
     SimplePanel skillsPanel;
 
-    private final Provider<UserThumnail> utProvider;
+//    private final Provider<UserThumnail> utProvider;
 
     private final Injector injector;
 
@@ -89,7 +84,7 @@ public class UserUI extends Composite implements UserUIDisplay{
                   Provider<UserThumnail> utProvider,
                   Injector injector) {
         this.login = login;
-        this.utProvider = utProvider;
+//        this.utProvider = utProvider;
         this.injector = injector;
         initWidget(uiBinder.createAndBindUi(this));
     }
