@@ -55,7 +55,6 @@ public class AccountServiceImpl implements AccountService {
             login.setProfile(p);
         } else {
             login.setLoggedIn(false);
-            login.setLoginUrl(userService.createLoginURL(requestUri));
         }
 
         return login;
@@ -173,6 +172,12 @@ public class AccountServiceImpl implements AccountService {
         return resultDto;
     }
 
+    @Override
+    public String getSignUrl(String backUrl) {
+        UserService us = UserServiceFactory.getUserService();
+        return us.createLoginURL(backUrl);
+    }
+    
     private UserListResultDto createUserListResultDto(
             S3QueryResultList<Profile> result) {
         UserListResultDto resultDto = new UserListResultDto();
@@ -220,7 +225,6 @@ public class AccountServiceImpl implements AccountService {
 
         }
     }
-
 
 
 }

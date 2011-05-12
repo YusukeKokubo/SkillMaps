@@ -24,4 +24,6 @@ public interface AccountServiceAsync {
 
     void getRecentEntriedUsers(AsyncCallback<Profile[]> callback);
 
+    void getSignUrl(String backUrl, AsyncCallback<String> callback);
+
 }

@@ -6,7 +6,6 @@ import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,7 +23,7 @@ public class SigninGuidance extends Composite implements SigninGuidanceDisplay{
     Label guidance;
 
     @UiField
-    Anchor signin;
+    SigninAnchor signin;
 
     private Presenter presenter;
 
@@ -32,7 +31,6 @@ public class SigninGuidance extends Composite implements SigninGuidanceDisplay{
     public SigninGuidance(Login login) {
         initWidget(uiBinder.createAndBindUi(this));
         guidance.setText("SkillMapsは自分のスキルを他人が評価してくれるソーシャル他人評価サービスです.サインインすれば誰でもすぐに使えます!");
-        signin.setHref(login.getLoginUrl());
     }
 
 

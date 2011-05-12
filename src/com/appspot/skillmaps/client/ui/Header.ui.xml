@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style type="com.appspot.skillmaps.client.ui.Header.Style">
 		.menu {
 			float: left;
@@ -171,8 +172,8 @@
 			<g:HorizontalPanel ui:field="signPanel" styleName="{style.sign}">
 				<g:Label addStyleNames="{style.nickname}" ui:field="nickname"></g:Label>
 				<g:Label styleName="{style.demiliter}">|</g:Label>
-				<g:Anchor addStyleNames="{style.signinlink}" ui:field="signin">Sign
-					In</g:Anchor>
+				<sm:SigninAnchor addStyleNames="{style.signinlink}" ui:field="signin">Sign
+					In</sm:SigninAnchor>
 				<g:Anchor addStyleNames="{style.signoutlink}" ui:field="signout">Sign
 					Out</g:Anchor>
 			</g:HorizontalPanel>

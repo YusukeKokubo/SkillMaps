@@ -28,4 +28,6 @@ public interface AccountService extends RemoteService {
 
     Profile[] getRecentEntriedUsers();
 
+    String getSignUrl(String backUrl);
+
 }

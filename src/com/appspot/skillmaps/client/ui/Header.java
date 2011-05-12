@@ -33,7 +33,7 @@ public class Header extends Composite {
     Label nickname;
 
     @UiField
-    Anchor signin;
+    SigninAnchor signin;
 
     @UiField
     Anchor signout;
@@ -60,8 +60,8 @@ public class Header extends Composite {
             signPanel.addStyleName(style.signIn());
         } else {
             nickname.setText("");
-            signin.setHref(login.getLoginUrl());
             signout.setHref(login.getLogoutUrl());
+            
             signPanel.removeStyleName(style.loading());
             signPanel.addStyleName(style.signOut());
         }

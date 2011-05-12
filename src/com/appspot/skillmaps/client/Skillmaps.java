@@ -38,7 +38,6 @@ public class Skillmaps implements EntryPoint {
                     login.setEmailAddress(result.getEmailAddress());
                     login.setKey(result.getKey());
                     login.setLoggedIn(result.isLoggedIn());
-                    login.setLoginUrl(result.getLoginUrl());
                     login.setLogoutUrl(result.getLogoutUrl());
                     login.setNickname(result.getNickname());
                     login.setProfile(result.getProfile());

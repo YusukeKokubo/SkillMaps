@@ -11,7 +11,6 @@ public class Login implements Serializable {
     private Long version;
 
     private boolean loggedIn = false;
-    private String loginUrl;
     private String logoutUrl;
     private String emailAddress;
     private String nickname;
@@ -71,14 +70,6 @@ public class Login implements Serializable {
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
-    }
-
-    public String getLoginUrl() {
-        return loginUrl;
-    }
-
-    public void setLoginUrl(String loginUrl) {
-        this.loginUrl = loginUrl;
     }
 
     public String getLogoutUrl() {

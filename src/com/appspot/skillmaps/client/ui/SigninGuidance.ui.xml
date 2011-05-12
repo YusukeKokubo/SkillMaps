@@ -1,10 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
 	</ui:style>
 	<g:VerticalPanel>
 		<g:Label ui:field="guidance"></g:Label>
-		<g:Anchor ui:field="signin">Sign in</g:Anchor>
+		<sm:SigninAnchor ui:field="signin">Sign in</sm:SigninAnchor>
 	</g:VerticalPanel>
 </ui:UiBinder>
