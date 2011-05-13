@@ -3,6 +3,7 @@ package com.appspot.skillmaps.client.service;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
+import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface AccountServiceAsync {
@@ -25,5 +26,11 @@ public interface AccountServiceAsync {
     void getRecentEntriedUsers(AsyncCallback<Profile[]> callback);
 
     void getSignUrl(String backUrl, AsyncCallback<String> callback);
+
+    void getFollowing(Key key, AsyncCallback<Profile[]> callback);
+
+    void getFollower(Key key, AsyncCallback<Profile[]> callback);
+
+    void getFriends(Key key, AsyncCallback<Profile[]> callback);
 
 }

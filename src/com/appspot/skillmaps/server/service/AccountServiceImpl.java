@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
@@ -9,12 +10,15 @@ import org.slim3.memcache.Memcache;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.AccountService;
+import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.IconMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
+import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Icon;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -24,6 +28,7 @@ import com.google.common.collect.Lists;
 
 public class AccountServiceImpl implements AccountService {
     private static final int USER_LISE_SIZE = 80;
+    FollowingMeta fm = FollowingMeta.get();
     ProfileMeta pm = ProfileMeta.get();
 
     @Override
@@ -177,6 +182,40 @@ public class AccountServiceImpl implements AccountService {
         UserService us = UserServiceFactory.getUserService();
         return us.createLoginURL(backUrl);
     }
+
+    @Override
+    public Profile[] getFollowing(Key key) {
+        List<Following> following = Datastore.query(fm).filter(fm.following.equal(key)).asList();
+        List<Key> keys = new ArrayList<Key>();
+        for (Following f : following) {
+            keys.add(f.getFollower());
+        }
+        return Datastore.get(pm, keys).toArray(new Profile[0]);
+    }
+    
+    @Override
+    public Profile[] getFollower(Key key) {
+        List<Following> follower = Datastore.query(fm).filter(fm.follower.equal(key)).asList();
+        List<Key> keys = new ArrayList<Key>();
+        for (Following f : follower) {
+            keys.add(f.getFollowing());
+        }
+        return Datastore.get(pm, keys).toArray(new Profile[0]);
+    }
+    
+    @Override
+    public Profile[] getFriends(Key key) {
+        List<Following> following = Datastore.query(fm).filter(fm.following.equal(key)).asList();
+        List<Following> follower = Datastore.query(fm).filter(fm.follower.equal(key)).asList();
+        List<Key> keys = new ArrayList<Key>();
+        for (Following f : follower) {
+            if (following.contains(f)){
+                keys.add(f.getFollowing());
+            }
+        }
+        return Datastore.get(pm, keys).toArray(new Profile[0]);
+    }
+
     
     private UserListResultDto createUserListResultDto(
             S3QueryResultList<Profile> result) {
