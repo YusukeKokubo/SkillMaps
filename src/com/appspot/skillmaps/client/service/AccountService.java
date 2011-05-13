@@ -3,7 +3,6 @@ package com.appspot.skillmaps.client.service;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -31,10 +30,10 @@ public interface AccountService extends RemoteService {
 
     String getSignUrl(String backUrl);
 
-    Profile[] getFollowing(Key key);
+    Profile[] getFriends(Profile p);
 
-    Profile[] getFollower(Key key);
+    Profile[] getFollower(Profile p);
 
-    Profile[] getFriends(Key key);
+    Profile[] getFollowing(Profile p);
 
 }

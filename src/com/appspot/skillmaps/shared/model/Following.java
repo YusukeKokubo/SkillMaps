@@ -21,9 +21,9 @@ public class Following implements Serializable {
     @Attribute(version = true)
     private Long version;
     
-    private Key following;
+    private String followingEmail;
     
-    private Key follower;
+    private String followerEmail;
 
     @Attribute(listener=CreationDate.class)
     private Date createdAt;
@@ -115,19 +115,19 @@ public class Following implements Serializable {
         return updatedAt;
     }
 
-    public void setFollowing(Key following) {
-        this.following = following;
+    public void setFollowingEmail(String followingEmail) {
+        this.followingEmail = followingEmail;
     }
 
-    public Key getFollowing() {
-        return following;
+    public String getFollowingEmail() {
+        return followingEmail;
     }
 
-    public void setFollower(Key follower) {
-        this.follower = follower;
+    public void setFollowerEmail(String followerEmail) {
+        this.followerEmail = followerEmail;
     }
 
-    public Key getFollower() {
-        return follower;
+    public String getFollowerEmail() {
+        return followerEmail;
     }
 }

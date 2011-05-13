@@ -18,7 +18,6 @@ import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Icon;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -184,36 +183,36 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Profile[] getFollowing(Key key) {
-        List<Following> following = Datastore.query(fm).filter(fm.following.equal(key)).asList();
-        List<Key> keys = new ArrayList<Key>();
+    public Profile[] getFollowing(Profile p) {
+        List<Following> following = Datastore.query(fm).filter(fm.followingEmail.equal(p.getUserEmail())).asList();
+        List<String> keys = new ArrayList<String>();
         for (Following f : following) {
-            keys.add(f.getFollower());
+            keys.add(f.getFollowerEmail());
         }
-        return Datastore.get(pm, keys).toArray(new Profile[0]);
+        return getUsersByEmail(keys.toArray(new String[0]));
     }
     
     @Override
-    public Profile[] getFollower(Key key) {
-        List<Following> follower = Datastore.query(fm).filter(fm.follower.equal(key)).asList();
-        List<Key> keys = new ArrayList<Key>();
+    public Profile[] getFollower(Profile p) {
+        List<Following> follower = Datastore.query(fm).filter(fm.followerEmail.equal(p.getUserEmail())).asList();
+        List<String> keys = new ArrayList<String>();
         for (Following f : follower) {
-            keys.add(f.getFollowing());
+            keys.add(f.getFollowingEmail());
         }
-        return Datastore.get(pm, keys).toArray(new Profile[0]);
+        return getUsersByEmail(keys.toArray(new String[0]));
     }
     
     @Override
-    public Profile[] getFriends(Key key) {
-        List<Following> following = Datastore.query(fm).filter(fm.following.equal(key)).asList();
-        List<Following> follower = Datastore.query(fm).filter(fm.follower.equal(key)).asList();
-        List<Key> keys = new ArrayList<Key>();
+    public Profile[] getFriends(Profile p) {
+        List<Following> following = Datastore.query(fm).filter(fm.followingEmail.equal(p.getUserEmail())).asList();
+        List<Following> follower = Datastore.query(fm).filter(fm.followerEmail.equal(p.getUserEmail())).asList();
+        List<String> keys = new ArrayList<String>();
         for (Following f : follower) {
             if (following.contains(f)){
-                keys.add(f.getFollowing());
+                keys.add(f.getFollowingEmail());
             }
         }
-        return Datastore.get(pm, keys).toArray(new Profile[0]);
+        return getUsersByEmail(keys.toArray(new String[0]));
     }
 
     

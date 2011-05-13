@@ -26,8 +26,8 @@ public class CreateFollowingController extends Controller {
             Profile following = rel.getSkill().getModel().getProfile();
             
             Following f = new Following();
-            f.setFollowing(following.getKey());
-            f.setFollower(follower.getKey());
+            f.setFollowingEmail(following.getUserEmail());
+            f.setFollowerEmail(follower.getUserEmail());
             
             Datastore.put(f);
         }
