@@ -22,7 +22,7 @@ public class AccountServiceImplTest extends ServletTestCase {
     
     ProfileMeta pm = ProfileMeta.get();
     FollowingMeta fm = FollowingMeta.get();
-
+    
     @Test
     public void test() throws Exception {
         assertThat(service, is(notNullValue()));
@@ -30,19 +30,24 @@ public class AccountServiceImplTest extends ServletTestCase {
     
     @Test
     public void followingが1人いる() throws Exception {
-        Profile follower = new Profile();
-        Profile following = new Profile();
+        Profile a = new Profile();
+        a.setName("follower");
+        a.setUserEmail("follower@test.com");
+        Profile b = new Profile();
+        b.setUserEmail("following@test.com");
+        b.setName("following");
         
-        List<Key> keys = Datastore.put(follower, following);
+        List<Key> keys = Datastore.put(a, b);
         List<Profile> ps = Datastore.get(pm, keys);
         
         Following f = new Following();
-        f.setFollowerEmail(ps.get(0).getUserEmail());
-        f.setFollowingEmail(ps.get(1).getUserEmail());
+        f.setFromEmail(ps.get(0).getUserEmail());
+        f.setToEmail(ps.get(1).getUserEmail());
+        Datastore.put(f);
         
-        Profile[] fw = service.getFollower(ps.get(0));
-        assertThat(fw, is(notNullValue()));
+        Profile[] fw = service.getFollowingBy(ps.get(0));
         assertThat(fw.length, is(1));
         assertThat(fw[0], is(ps.get(1)));
     }
+    
 }

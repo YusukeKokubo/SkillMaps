@@ -183,33 +183,33 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Profile[] getFollowing(Profile p) {
-        List<Following> following = Datastore.query(fm).filter(fm.followingEmail.equal(p.getUserEmail())).asList();
+    public Profile[] getFollowerTo(Profile p) {
+        List<Following> following = Datastore.query(fm).filter(fm.toEmail.equal(p.getUserEmail())).asList();
         List<String> keys = new ArrayList<String>();
         for (Following f : following) {
-            keys.add(f.getFollowerEmail());
+            keys.add(f.getFromEmail());
         }
         return getUsersByEmail(keys.toArray(new String[0]));
     }
     
     @Override
-    public Profile[] getFollower(Profile p) {
-        List<Following> follower = Datastore.query(fm).filter(fm.followerEmail.equal(p.getUserEmail())).asList();
+    public Profile[] getFollowingBy(Profile p) {
+        List<Following> follower = Datastore.query(fm).filter(fm.fromEmail.equal(p.getUserEmail())).asList();
         List<String> keys = new ArrayList<String>();
         for (Following f : follower) {
-            keys.add(f.getFollowingEmail());
+            keys.add(f.getToEmail());
         }
         return getUsersByEmail(keys.toArray(new String[0]));
     }
     
     @Override
     public Profile[] getFriends(Profile p) {
-        List<Following> following = Datastore.query(fm).filter(fm.followingEmail.equal(p.getUserEmail())).asList();
-        List<Following> follower = Datastore.query(fm).filter(fm.followerEmail.equal(p.getUserEmail())).asList();
+        List<Following> following = Datastore.query(fm).filter(fm.toEmail.equal(p.getUserEmail())).asList();
+        List<Following> follower = Datastore.query(fm).filter(fm.fromEmail.equal(p.getUserEmail())).asList();
         List<String> keys = new ArrayList<String>();
         for (Following f : follower) {
             if (following.contains(f)){
-                keys.add(f.getFollowingEmail());
+                keys.add(f.getFromEmail());
             }
         }
         return getUsersByEmail(keys.toArray(new String[0]));

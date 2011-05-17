@@ -26,10 +26,10 @@ public interface AccountServiceAsync {
 
     void getSignUrl(String backUrl, AsyncCallback<String> callback);
 
-    void getFollowing(Profile p, AsyncCallback<Profile[]> callback);
-
-    void getFollower(Profile p, AsyncCallback<Profile[]> callback);
-
     void getFriends(Profile p, AsyncCallback<Profile[]> callback);
+
+    void getFollowingBy(Profile p, AsyncCallback<Profile[]> callback);
+
+    void getFollowerTo(Profile p, AsyncCallback<Profile[]> callback);
 
 }

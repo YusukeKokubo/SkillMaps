@@ -6,10 +6,8 @@ import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.datastore.Datastore;
 
-import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.shared.model.Following;
-import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 
 public class CreateFollowingController extends Controller {
@@ -17,17 +15,15 @@ public class CreateFollowingController extends Controller {
     @Override
     public Navigation run() throws Exception {
         SkillRelationMeta m = SkillRelationMeta.get();
-        ProfileMeta pm = ProfileMeta.get();
         
         List<SkillRelation> rels = Datastore.get(m);
-        
         for (SkillRelation rel : rels) {
-            Profile follower = Datastore.query(pm).limit(1).asSingle();
-            Profile following = rel.getSkill().getModel().getProfile();
+            String from = rel.getProfile().getUserEmail();
+            String to = rel.getSkill().getModel().getOwnerEmail();
             
             Following f = new Following();
-            f.setFollowingEmail(following.getUserEmail());
-            f.setFollowerEmail(follower.getUserEmail());
+            f.setToEmail(to);
+            f.setFromEmail(from);
             
             Datastore.put(f);
         }

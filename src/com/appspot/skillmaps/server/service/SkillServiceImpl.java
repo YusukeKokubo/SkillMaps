@@ -9,12 +9,14 @@ import org.slim3.datastore.GlobalTransaction;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.SkillService;
+import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillAppealMeta;
 import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.server.util.TwitterUtil;
+import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
@@ -33,6 +35,7 @@ public class SkillServiceImpl implements SkillService {
     SkillAppealMeta am = SkillAppealMeta.get();
     ProfileMeta pm = ProfileMeta.get();
     SkillCommentMeta scm = SkillCommentMeta.get();
+    FollowingMeta fm = FollowingMeta.get();
 
 
     @Override
@@ -169,8 +172,8 @@ public class SkillServiceImpl implements SkillService {
     public void putSkill(Skill skill, SkillRelation rel, String comment, boolean sendTwitter) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
+        
         if (user == null) throw new IllegalArgumentException("the user is null");
-
         if (StringUtil.isEmpty(skill.getName())) throw new IllegalArgumentException("skill name is null");
 
         GlobalTransaction gtx = Datastore.beginGlobalTransaction();
@@ -201,8 +204,18 @@ public class SkillServiceImpl implements SkillService {
                     skillComment.getSkill().setModel(putSkill);
                     gtx.put(putSkill, rel , skillComment);
                 } else {
-
                     gtx.put(putSkill, rel);
+                }
+                
+                // follow
+                Following follow = Datastore.query(fm)
+                             .filter(fm.fromEmail.equal(user.getEmail()))
+                             .filter(fm.toEmail.equal(skill.getOwnerEmail())).limit(1).asSingle();
+                if (follow == null) {
+                    follow = new Following();
+                    follow.setFromEmail(user.getEmail());
+                    follow.setToEmail(skill.getOwnerEmail());
+                    gtx.put(follow);
                 }
 
                 gtx.commit();
@@ -214,7 +227,6 @@ public class SkillServiceImpl implements SkillService {
             }catch(ConcurrentModificationException cme){
             }
         }
-
     }
 
     public SkillComment putComment(Key skillKey , String comment){
