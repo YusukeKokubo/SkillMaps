@@ -185,15 +185,32 @@ public class AccountServiceImpl implements AccountService {
     }
     
     @Override
+    public Profile[] getFriends() {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (userService.isUserLoggedIn() == false) throw new IllegalArgumentException("the user is null.");
+        Profile p = new Profile();
+        p.setUserEmail(user.getEmail());
+        return getFriends(p);
+    }
+    
+    @Override
     public Profile[] getFriends(Profile p) {
         List<Following> following = Datastore.query(fm).filter(fm.toEmail.equal(p.getUserEmail())).asList();
         List<Following> follower = Datastore.query(fm).filter(fm.fromEmail.equal(p.getUserEmail())).asList();
+        
+        List<String> followingEmails = new ArrayList<String>();
+        for (Following f : following) {
+            followingEmails.add(f.getFromEmail());
+        }
+        
         List<String> keys = new ArrayList<String>();
         for (Following f : follower) {
-            if (following.contains(f)){
-                keys.add(f.getFromEmail());
+            if (followingEmails.contains(f.getToEmail())){
+                keys.add(f.getToEmail());
             }
         }
+        if (keys.isEmpty()) return new Profile[0];
         return getUsersByEmail(keys.toArray(new String[0]));
     }
 
