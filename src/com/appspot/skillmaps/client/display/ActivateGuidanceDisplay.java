@@ -9,5 +9,4 @@ public interface ActivateGuidanceDisplay extends IsWidget {
 
     public static interface Presenter extends DisplayPresenter<ActivateGuidanceDisplay>{
     }
-
 }

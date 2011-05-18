@@ -10,5 +10,4 @@ public interface SigninGuidanceDisplay extends IsWidget {
     public static interface Presenter extends DisplayPresenter<SigninGuidanceDisplay>{
 
     }
-
 }

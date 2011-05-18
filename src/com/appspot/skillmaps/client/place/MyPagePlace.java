@@ -8,6 +8,5 @@ public class MyPagePlace extends ActivityPlace<MyPageActivity> {
 
     @Prefix("!myPage")
     public static class Tokenizer extends ActivityPlace.Tokenizer<MyPagePlace> implements PlaceTokenizer<MyPagePlace>{
-
     }
 }

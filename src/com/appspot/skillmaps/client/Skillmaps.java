@@ -49,7 +49,6 @@ public class Skillmaps implements EntryPoint {
                     RootPanel.get("header").add(new Header(login));
 
                     injector.getHistoryHandler().handleCurrentHistory();
-
                 }
 
                 @Override
@@ -57,7 +56,5 @@ public class Skillmaps implements EntryPoint {
                     Window.alert("初期処理に失敗しました。再表示してください。");
                 }
         });
-
     }
-
 }

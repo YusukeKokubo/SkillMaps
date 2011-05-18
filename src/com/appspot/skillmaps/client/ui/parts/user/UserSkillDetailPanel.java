@@ -102,17 +102,12 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     public void setSkill(final Skill skill) {
         addCommentButton.setEnabled(login.isLoggedIn());
         driver.edit(skill);
-
         if(skill.getName().length() > 10){
-
             name.setText(skill.getName().substring(0, 10) + "…");
         }
         name.setTitle(skill.getName());
-
         key = skill.getKey();
-
         presenter.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
-
             @Override
             public void onSuccess(SkillRelation[] result) {
                 agreedActionPanel.setWidget(makeAgreedButton(skill , result));
@@ -120,7 +115,6 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
     }
@@ -150,7 +144,6 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     }
 
     private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
-
         if (!login.isLoggedIn()
                 || !login.getProfile().isActivate()
                 || login.getEmailAddress().equals(skill.getProfile().getUserEmail())) {
@@ -174,11 +167,9 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
                         presenter.showAgreedDialog(skill, rel);
                     }
                 });
-
                 return addButton;
             }
         }
-
         Button agreedButton = new Button("賛同する");
         agreedButton.addStyleName(style.button());
         agreedButton.setTitle("このスキルに賛同します");
@@ -188,8 +179,6 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
                 presenter.showAgreedDialog(skill, new SkillRelation());
             }
         });
-
         return agreedButton;
     }
-
 }

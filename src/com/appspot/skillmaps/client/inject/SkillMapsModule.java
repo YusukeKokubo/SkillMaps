@@ -28,10 +28,8 @@ public class SkillMapsModule extends AbstractGinModule {
         //Display Module
         install(new DisplayModule());
 
-
         //MVP modules
         install(new MvpModule());
-
     }
 
     @Provides
@@ -40,13 +38,11 @@ public class SkillMapsModule extends AbstractGinModule {
                              final PlaceController placeController){
         final Anchor anchor = new Anchor("マイページへ進む");
         anchor.addClickHandler(new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 placeController.goTo(placeProvider.get());
             }
         });
-
         return anchor;
     }
 
@@ -54,11 +50,8 @@ public class SkillMapsModule extends AbstractGinModule {
     @Named("skillOwnersPermalink")
     public Anchor makePermalink(final Provider<SkillOwnersPlace> placeProvider,
                                 final PlaceController placeController){
-
         final Anchor anchor = new Anchor("permalink");
-
         anchor.addClickHandler( new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 SkillOwnersPlace place = placeProvider.get();
@@ -72,11 +65,8 @@ public class SkillMapsModule extends AbstractGinModule {
     @Provides
     @Named("appealAnchor")
     public Anchor makeAppealAnchor(final Provider<SkillAppealForm> saf){
-
         Anchor appealAnchor = new Anchor("アピールする");
-
         appealAnchor.addClickHandler(new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 SkillMapPopupPanel panel = new SkillMapPopupPanel();
@@ -88,8 +78,6 @@ public class SkillMapsModule extends AbstractGinModule {
                 panel.center();
             }
         });
-
         return appealAnchor;
     }
-
 }

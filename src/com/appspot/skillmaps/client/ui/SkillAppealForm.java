@@ -59,7 +59,6 @@ public class SkillAppealForm extends Composite implements
     @Inject
     public SkillAppealForm(Login login) {
         initWidget(uiBinder.createAndBindUi(this));
-
         if (!login.isLoggedIn() || login.getProfile().getId() == null) {
             form.setVisible(false);
         } else {
@@ -93,5 +92,4 @@ public class SkillAppealForm extends Composite implements
     public void initPresenter() {
         presenter.setupDisplay(this);
     }
-
 }

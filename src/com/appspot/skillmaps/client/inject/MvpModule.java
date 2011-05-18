@@ -67,7 +67,6 @@ public class MvpModule extends AbstractGinModule {
     public PlaceHistoryHandler placeHistoryHandler(
             AppPlaceHistoryMapper mapper, PlaceController placeController,
             EventBus eventBus, HomePlace defaultPlace, Injector injector) {
-
         mapper.setFactory(injector);
         PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(mapper);
         historyHandler.register(placeController, eventBus, defaultPlace);

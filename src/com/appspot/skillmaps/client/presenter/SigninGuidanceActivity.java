@@ -21,18 +21,15 @@ public class SigninGuidanceActivity extends SkillMapActivity implements SigninGu
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
-
             }
 
             @Override
             public void onFailure(Throwable reason) {
             }
         });
-
     }
 
     private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
@@ -43,7 +40,5 @@ public class SigninGuidanceActivity extends SkillMapActivity implements SigninGu
     @Override
     public void setDisplay(SigninGuidanceDisplay display) {
         this.display = display;
-
     }
-
 }

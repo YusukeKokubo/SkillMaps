@@ -63,5 +63,4 @@ public class SkillCommentTimeLine extends Composite {
             }
         });
     }
-
 }

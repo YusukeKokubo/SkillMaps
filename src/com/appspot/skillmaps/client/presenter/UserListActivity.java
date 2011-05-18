@@ -22,15 +22,10 @@ import com.google.inject.Provider;
 public class UserListActivity extends SkillMapActivity implements UserListDisplay.Presenter {
 
     AccountServiceAsync service = GWT.create(AccountService.class);
-
     private static final Map<Integer , UserListResultDto> pageMap = new HashMap<Integer, UserListResultDto>();
-
     private UserListDisplay display;
-
     private final Provider<UserListDisplay> displayProvider;
-
     private final PlaceController placeController;
-
     private final Provider<UserListPlace> placeProvider;
 
     @Inject
@@ -40,15 +35,12 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
         this.displayProvider = displayProvider;
         this.placeController = placeController;
         this.placeProvider = placeProvider;
-
     }
 
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
@@ -56,14 +48,12 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
 
             @Override
             public void onFailure(Throwable reason) {
-
             }
         });
     }
 
     @Override
     public void loadNextUsers(int pageIndex ,UserListResultDto userListResultDto) {
-
         loadUsers(pageIndex ,0, userListResultDto , true);
     }
 
@@ -77,7 +67,6 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
                         userListResultDto.getEncodedFilter(),
                         userListResultDto.getEncodedSorts(),
                 new AsyncCallback<UserListResultDto>() {
-
                     @Override
                     public void onFailure(Throwable caught) {
                     }
@@ -92,7 +81,6 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
                         }
                     }
             });
-
         } else {
             if(!usePlace){
                 display.setUserList(pageIndex, pageMap.get(pageIndex));
@@ -131,7 +119,5 @@ public class UserListActivity extends SkillMapActivity implements UserListDispla
     @Override
     public void setDisplay(UserListDisplay display) {
         this.display = display;
-
     }
-
 }

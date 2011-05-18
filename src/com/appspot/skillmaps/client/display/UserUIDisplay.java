@@ -18,32 +18,20 @@ public interface UserUIDisplay extends IsWidget {
     public static interface Presenter extends DisplayPresenter<UserUIDisplay>{
 
         void showSkillAddDialog();
-
         void reloadSkills();
-
         void showSkillOwnersPopup(Skill skill);
-
         void getSkillRelations(Skill skill,
                 AsyncCallback<SkillRelation[]> asyncCallback);
-
         void showAgreedDialog(Skill skill, SkillRelation rel);
-
         void setDisplay(UserUIDisplay display);
-
         void setProfile(Profile profile);
-
         void gotoUser(String id);
-
         void reloadDisableSkills();
-
         void getSkillComments(Key key, HasWidgets commentPanel);
-
         void showSkillCommentForm(Key key, VerticalPanel commentsPanel);
     }
 
     void setProfile(Profile profile);
-
     void reloadSkills(Skill[] skills, boolean disableSkill);
-
     SimplePanel getSkillsPanel();
 }

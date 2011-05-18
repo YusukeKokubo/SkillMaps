@@ -21,10 +21,7 @@ public class AppActivityMapper implements ActivityMapper {
 		if (!(place instanceof ActivityPlace<?>)) {
 			return null;
 		}
-
 		ActivityPlace<?> activityPlace = (ActivityPlace<?>)place;
-
 		return activityPlace.getActivity();
 	}
-
 }

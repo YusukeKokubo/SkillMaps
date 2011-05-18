@@ -75,7 +75,6 @@ public class SkillAppealFormActivity extends SkillMapActivity implements
                     UiMessage.severe("アピールの登録に失敗しました。", caught);
                 }
             });
-
     }
 
     private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
@@ -94,5 +93,4 @@ public class SkillAppealFormActivity extends SkillMapActivity implements
     public void setDisplay(SkillAppealFormDisplay display) {
         this.display = display;
     }
-
 }

@@ -30,7 +30,6 @@ public class PresenterModule extends AbstractGinModule {
 
     @Override
     protected void configure() {
-
         //bind presenter modules
         bind(HomeDisplay.Presenter.class).to(HomeActivity.class);
         bind(MyPageDisplay.Presenter.class).to(MyPageActivity.class);
@@ -45,7 +44,5 @@ public class PresenterModule extends AbstractGinModule {
         bind(SkillAppealFormDisplay.Presenter.class).to(SkillAppealFormActivity.class);
         bind(SkillAppealTimeLineDisplay.Presenter.class).to(SkillAppealTimeLineActivity.class);
         bind(SigninGuidanceDisplay.Presenter.class).to(SigninGuidanceActivity.class);
-
     }
-
 }

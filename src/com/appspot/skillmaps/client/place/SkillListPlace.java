@@ -8,6 +8,5 @@ public class SkillListPlace extends ActivityPlace<SkillListActivity> {
 
     @Prefix("!skillList")
     public static class Tokenizer extends ActivityPlace.Tokenizer<SkillListPlace> implements PlaceTokenizer<SkillListPlace>{
-
     }
 }

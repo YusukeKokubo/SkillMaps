@@ -66,5 +66,4 @@ public class Header extends Composite {
             signPanel.addStyleName(style.signOut());
         }
     }
-
 }

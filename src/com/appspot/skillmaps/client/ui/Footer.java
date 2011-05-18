@@ -15,5 +15,4 @@ public class Footer extends Composite {
     public Footer() {
         initWidget(uiBinder.createAndBindUi(this));
     }
-
 }

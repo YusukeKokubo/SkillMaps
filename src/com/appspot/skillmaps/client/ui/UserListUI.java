@@ -74,13 +74,9 @@ public class UserListUI extends Composite implements UserListDisplay{
         this.userListResultDto = userListResultDto;
 
         reloadUsersPanel(userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
-
         nextAnchor.setVisible(userListResultDto.getHasNext());
-
         prevAnchor.setVisible(pageIndex > 0);
-
         nextAnchor.setEnabled(true);
-
         prevAnchor.setEnabled(true);
 
     }
@@ -116,27 +112,20 @@ public class UserListUI extends Composite implements UserListDisplay{
     }
 
     private void reloadUsersPanel(Profile[] users, int viewColumn) {
-
         HorizontalPanel hPanel = null;
         usersPanel.clear();
         int column = 0;
         int thumnailWidth = usersPanel.getOffsetWidth() / viewColumn;
         if(thumnailWidth == 0){
-
             thumnailWidth = usersToolBar.getOffsetWidth() / viewColumn;
-
             if(thumnailWidth == 0){
-
                 thumnailWidth = injector.getContentPanel().getOffsetWidth() / viewColumn;
-
                 if(thumnailWidth == 0){
                     thumnailWidth = 500 / viewColumn;
                 }
             }
-
         }
         for (final Profile user : users) {
-
             if(column == 0){
                 hPanel = new HorizontalPanel();
             }
@@ -157,7 +146,6 @@ public class UserListUI extends Composite implements UserListDisplay{
                 hPanel = null;
             }
         }
-
         if(hPanel != null){
             usersPanel.add(hPanel);
         }
@@ -180,5 +168,4 @@ public class UserListUI extends Composite implements UserListDisplay{
     public HasWidgets getUserListPanel() {
         return usersPanel;
     }
-
 }

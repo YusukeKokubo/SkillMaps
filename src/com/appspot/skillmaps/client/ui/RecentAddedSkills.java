@@ -47,5 +47,4 @@ public class RecentAddedSkills extends Composite implements RecentAddedSkillsDis
         this.presenter = presenter;
         this.presenter.setDisplay(this);
     }
-
 }

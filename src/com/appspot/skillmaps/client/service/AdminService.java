@@ -10,5 +10,4 @@ public interface AdminService extends RemoteService {
     GlobalSetting getGlobalSetting();
 
     void putGlobalSetting(GlobalSetting gs, String notifierId);
-
 }

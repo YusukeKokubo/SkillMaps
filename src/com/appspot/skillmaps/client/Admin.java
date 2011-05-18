@@ -25,7 +25,6 @@ public class Admin implements EntryPoint {
                     if (!login.isLoggedIn() || !login.isAdmin()) {
                         return;
                     }
-
                     RootPanel.get("header").add(new Header(login));
                     RootPanel.get("global-setting").add(new GlobalSettingUI());
                     RootPanel.get("footer").add(new Footer());
@@ -37,5 +36,4 @@ public class Admin implements EntryPoint {
                 }
             });
     }
-
 }

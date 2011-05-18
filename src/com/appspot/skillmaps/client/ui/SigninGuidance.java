@@ -33,12 +33,10 @@ public class SigninGuidance extends Composite implements SigninGuidanceDisplay{
         guidance.setText("SkillMapsは自分のスキルを他人が評価してくれるソーシャル他人評価サービスです.サインインすれば誰でもすぐに使えます!");
     }
 
-
     @Override
     @Inject
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
         this.presenter.setDisplay(this);
     }
-
 }

@@ -13,5 +13,4 @@ public interface RecentEntriedUsersDisplay extends IsWidget {
     }
 
     void setRecentEntriedUsers(Profile[] profiles);
-
 }

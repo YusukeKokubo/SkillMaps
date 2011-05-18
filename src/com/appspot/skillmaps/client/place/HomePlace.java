@@ -8,6 +8,5 @@ public class HomePlace extends ActivityPlace<HomeActivity> {
 
     @Prefix("!home")
     public static class Tokenizer extends ActivityPlace.Tokenizer<HomePlace> implements PlaceTokenizer<HomePlace>{
-
     }
 }

@@ -32,7 +32,6 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
         display.setPresenter(this);
         panel.setWidget(display);
         serviceProvider.get().getSkillNames(new AsyncCallback<SkillMap[]>() {
-
             @Override
             public void onSuccess(SkillMap[] result) {
                 display.setSkillMaps(result);
@@ -40,7 +39,6 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
     }
@@ -49,7 +47,6 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
@@ -58,7 +55,6 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
             @Override
             public void onFailure(Throwable reason) {
                 // TODO 自動生成されたメソッド・スタブ
-
             }
         });
     }
@@ -66,7 +62,5 @@ public class SkillListActivity extends SkillMapActivity implements SkillListDisp
     @Override
     public void setDisplay(SkillListDisplay display) {
         // TODO 自動生成されたメソッド・スタブ
-
     }
-
 }

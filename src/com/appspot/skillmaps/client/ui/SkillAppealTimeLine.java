@@ -18,7 +18,7 @@ public class SkillAppealTimeLine extends Composite implements
         GWT.create(SkillAppealTimeLineUiBinder.class);
 
     interface SkillAppealTimeLineUiBinder extends
-            UiBinder<Widget, SkillAppealTimeLine> {
+        UiBinder<Widget, SkillAppealTimeLine> {
     }
 
     @UiField

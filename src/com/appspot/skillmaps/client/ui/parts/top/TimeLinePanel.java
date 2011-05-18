@@ -50,5 +50,4 @@ public class TimeLinePanel extends Composite {
             timeLinePanel.add(timeLine);
         }
     }
-
 }

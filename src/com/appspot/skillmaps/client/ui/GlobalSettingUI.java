@@ -25,7 +25,6 @@ public class GlobalSettingUI extends Composite {
 
     AdminServiceAsync service = GWT.create(AdminService.class);
 
-
     @UiField
     TextBox twitterConsumerKey;
 
@@ -82,5 +81,4 @@ public class GlobalSettingUI extends Composite {
             }
         });
     }
-
 }

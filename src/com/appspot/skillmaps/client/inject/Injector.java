@@ -27,41 +27,25 @@ import com.google.inject.name.Named;
 public interface Injector extends Ginjector {
 
     PlaceController getPlaceController();
-
     PlaceHistoryHandler getHistoryHandler();
-
     AccountServiceAsync getAccountService();
-
     ActivityManager getActivityManager();
-
     Login getLogin();
 
     @Singleton ContentsPanel getContentsPanel();
-
     @Named("contents") SimplePanel getContentPanel();
-
     @Named("dashboard") SimplePanel getDashboard();
 
     HomePlace.Tokenizer getHomePlaceTokenizer();
-
     MyPagePlace.Tokenizer getMyPagePlaceTokenizer();
-
     SkillListPlace.Tokenizer getSkillListPlaceTokenizer();
-
     UserListPlace.Tokenizer getUserListPlaceTokenizer();
-
     SkillOwnersPlace.Tokenizer getSkillOwnersPlaceTokenizer();
-
     UserPlace.Tokenizer getUserPlaceTokenizer();
-
+    
     @Named("appealAnchor") Anchor getAppealAnchor();
-
     UserSkillDetailPanel getUserSkillDetailPanel();
-
     UserThumnail getUserThumnail();
-
     SkillCommentThumnail getSkillCommentThumnail();
-
     SkillCommentForm getSkillCommentForm();
-
 }

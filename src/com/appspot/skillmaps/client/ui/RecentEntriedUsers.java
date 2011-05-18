@@ -44,7 +44,6 @@ public class RecentEntriedUsers extends Composite implements RecentEntriedUsersD
             userThumnail.setUser(user);
             users.add(userThumnail);
         }
-
     }
 
     @Override
@@ -53,5 +52,4 @@ public class RecentEntriedUsers extends Composite implements RecentEntriedUsersD
         this.presenter = presenter;
         this.presenter.setDisplay(this);
     }
-
 }

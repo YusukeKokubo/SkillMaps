@@ -49,45 +49,29 @@ import com.google.inject.name.Named;
 public class UserUIActivity extends SkillMapActivity implements Presenter {
 
     public interface SkillDriver extends SimpleBeanEditorDriver<Skill, SkillAddDialog>{}
-
     public interface SkillRelDriver extends SimpleBeanEditorDriver<SkillRelation, AgreedForm>{}
 
     SkillDriver skillDriver = GWT.create(SkillDriver.class);
-
     SkillRelDriver skillRelDriver = GWT.create(SkillRelDriver.class);
 
-    private final Provider<UserUIDisplay> displayProvider;
-
-    private final Provider<SkillAddDialog> skillAddDialogProvider;
-
     private Profile profile;
-
     private EventBus eventBus;
-
-    private final Provider<SkillServiceAsync> serviceProvider;
-
-    private UserUIDisplay display;
-
-    private HandlerRegistration hr;
-
-    private HandlerRegistration agreedHr;
-
-    private final Provider<UserThumnail> utProvider;
-
-    private final Provider<Anchor> permalinkProvider;
-
-    private final Provider<AgreedForm> agreedFromProvider;
-
-    private final Provider<AccountServiceAsync> accountServiceProvider;
-
+    private final Injector injector;
     private final PlaceController placeController;
 
-    private final Provider<UserPlace> placeProvider;
-
-    private final Injector injector;
-
+    private UserUIDisplay display;
+    private HandlerRegistration hr;
+    private HandlerRegistration agreedHr;
     private HandlerRegistration commentHr;
 
+    private final Provider<SkillAddDialog> skillAddDialogProvider;
+    private final Provider<UserUIDisplay> displayProvider;
+    private final Provider<SkillServiceAsync> serviceProvider;
+    private final Provider<UserThumnail> utProvider;
+    private final Provider<Anchor> permalinkProvider;
+    private final Provider<AgreedForm> agreedFromProvider;
+    private final Provider<AccountServiceAsync> accountServiceProvider;
+    private final Provider<UserPlace> placeProvider;
 
     @Inject
     public UserUIActivity(Provider<UserUIDisplay> displayProvider,
@@ -123,7 +107,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         this.eventBus = eventBus;
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
         accountServiceProvider.get().getUser(((UserPlace)place).getUserId(), new AsyncCallback<Profile>() {
-
             @Override
             public void onSuccess(Profile result) {
                 setProfile(result);
@@ -134,7 +117,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
     }
@@ -147,7 +129,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
@@ -155,7 +136,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
             @Override
             public void onFailure(Throwable throwable) {
-
             }
         });
     }
@@ -167,14 +147,12 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         skillDriver.edit(new Skill());
         removeEventHandler(hr);
         hr = eventBus.addHandler(SkillAddSubmitEvent.TYPE, new SkillAddSubmitHandler() {
-
             @Override
             public void onSubmit(SkillAddSubmitEvent e) {
                 Skill skill = skillDriver.flush();
                 skill.setOwnerEmail(profile.getUserEmail());
                 SkillRelation skillRelation = new SkillRelation();
                 serviceProvider.get().putSkill(skill, skillRelation ,skillAddDialog.getComment().getValue() , true, new AsyncCallback<Void>() {
-
                     @Override
                     public void onSuccess(Void arg0) {
                         reloadSkills();
@@ -188,13 +166,10 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     public void onFailure(Throwable throwable) {
                     }
                 });
-
-
             }
         });
 
         serviceProvider.get().getSkillNames(new AsyncCallback<SkillMap[]>() {
-
             @Override
             public void onSuccess(SkillMap[] result) {
                 skillAddDialog.setSkillNames(result);
@@ -202,7 +177,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
         skillAddDialog.center();
@@ -219,7 +193,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         SimplePanel panel = display.getSkillsPanel();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
         serviceProvider.get().getEnabledSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
-
             @Override
             public void onSuccess(Skill[] result) {
                 display.reloadSkills(result , false);
@@ -235,7 +208,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     @Override
     public void reloadDisableSkills() {
         serviceProvider.get().getDisabledSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
-
             @Override
             public void onSuccess(Skill[] result) {
                 display.reloadSkills(result , true);
@@ -246,10 +218,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 UiMessage.severe(caught.getMessage(), caught);
             }
         });
-
     }
-
-
 
     @Override
     public void showSkillOwnersPopup(final Skill skill) {
@@ -283,12 +252,10 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             public void onFailure(Throwable caught) {
             }
         });
-
     }
 
     @Override
     public void getSkillRelations(Skill skill,AsyncCallback<SkillRelation[]> asyncCallback) {
-
         serviceProvider.get().getSkillRelations(skill, asyncCallback);
     }
 
@@ -331,22 +298,18 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     @Override
     public void getSkillComments(Key key,final HasWidgets commentPanel) {
         serviceProvider.get().getSkillComments(key, new AsyncCallback<SkillComment[]>() {
-
             @Override
             public void onSuccess(SkillComment[] result) {
-
                 commentPanel.clear();
                 for (SkillComment comment : result) {
                     SkillCommentThumnail thumnail = injector.getSkillCommentThumnail();
                     thumnail.setSkillComment(comment);
-
                     commentPanel.add(thumnail);
                 }
             }
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
     }
@@ -354,21 +317,16 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     @Override
     public void showSkillCommentForm(final Key key,final VerticalPanel commentsPanel) {
         final SkillCommentForm skillCommentForm = injector.getSkillCommentForm();
-
         skillCommentForm.setSkillComment(key, new SkillComment());
         commentHr = eventBus.addHandler(SkillCommentAddSubmitEvent.TYPE, new SkillCommentAddSubmitHandler() {
-
             @Override
             public void onSubmit(SkillCommentAddSubmitEvent e) {
                 SkillComment sc = skillCommentForm.getComment();
-
                 if(Strings.isNullOrEmpty(sc.getComment())){
                     UiMessage.info("コメント欄が空です。");
                     return;
                 }
-
                 serviceProvider.get().putComment(key, sc.getComment(), new AsyncCallback<SkillComment>() {
-
                     @Override
                     public void onSuccess(SkillComment result) {
                         UiMessage.info("更新しました");
@@ -382,13 +340,10 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
                     @Override
                     public void onFailure(Throwable caught) {
-
                     }
                 });
             }
         });
-
         skillCommentForm.center();
     }
-
 }

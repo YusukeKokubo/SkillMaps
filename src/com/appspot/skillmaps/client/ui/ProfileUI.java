@@ -30,7 +30,6 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-
 public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profile>{
 
     private static AccountConfigUiBinder uiBinder = GWT
@@ -111,7 +110,6 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
             lblTwitterEnabled.setText("有効");
             profileTwitter.setVisible(true);
         }
-
         if (p.getIconKey() != null) icon.setUrl("/images/icon/" + p.getIconKeyString());
         form.setEncoding(FormPanel.ENCODING_MULTIPART);
         form.setMethod(FormPanel.METHOD_POST);
@@ -127,7 +125,6 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
     @UiHandler("iconUploder")
     public void onIconUploderChange(ChangeEvent e){
         form.setAction("/IconUpload?file=" + iconUploder.getFilename());
-
     }
 
     @UiHandler("iconSubmit")
@@ -158,5 +155,4 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
         this.presenter = presenter;
         this.presenter.setDisplay(this);
     }
-
 }

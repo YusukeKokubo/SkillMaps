@@ -134,7 +134,6 @@ public class UserUI extends Composite implements UserUIDisplay{
             disableSkillPanel.clear();
             disableSkillPanel.add(panel);
         } else {
-
             skillsPanel.setWidget(panel);
         }
         panel.setWidth("100%");
@@ -146,18 +145,14 @@ public class UserUI extends Composite implements UserUIDisplay{
             userSkillDetailPanel.setSkill(skill);
             panel.add(userSkillDetailPanel);
         }
-
     }
-
 
     @UiHandler("disableSkillPanel")
     public void onDisableSkillPanelOpen(OpenEvent<DisclosurePanel> event){
         event.getTarget().setOpen(true);
-
         if(disableSkillsBox == null){
             return;
         }
-
         presenter.reloadDisableSkills();
 
     }
@@ -167,7 +162,6 @@ public class UserUI extends Composite implements UserUIDisplay{
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
         this.presenter.setDisplay(this);
-
     }
 
     @Override

@@ -10,7 +10,6 @@ public abstract class ActivityPlace<T extends SkillMapActivity> extends Place {
 
     @Inject
     protected Provider<T> provider;
-
     protected String token;
 
     public void init(String token) {
@@ -29,7 +28,6 @@ public abstract class ActivityPlace<T extends SkillMapActivity> extends Place {
 
     abstract public static class Tokenizer<E extends ActivityPlace<?>>
             implements PlaceTokenizer<E> {
-
         @Inject
         Provider<E> provider;
 
@@ -44,6 +42,5 @@ public abstract class ActivityPlace<T extends SkillMapActivity> extends Place {
         public String getToken(E place) {
             return place.getToken();
         }
-
     }
 }

@@ -60,7 +60,6 @@ public class HomeView extends Composite implements HomeDisplay {
                     RecentAddedSkillsActivity recentAddedSkillsActivity,
                     TimeLineActivity timeLineActivity,
                     Login login) {
-
         this.login = login;
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -69,7 +68,6 @@ public class HomeView extends Composite implements HomeDisplay {
         menuBar.addTab("New Users");
         menuBar.addTab("New Skils");
         menuBar.addSelectionHandler(new SelectionHandler<Integer>() {
-
             @Override
             public void onSelection(SelectionEvent<Integer> event) {
                 contentsPanel.clear();
@@ -97,11 +95,9 @@ public class HomeView extends Composite implements HomeDisplay {
         skillAppealTimeLineActivity.start(skillAppealTimeLine, eventBus);
         recentEntriedUsersActivity.start(recentEntriedUsers, eventBus);
         recentAddedSkillsActivity.start(recentAddedSkills, eventBus);
-
     }
 
     public static class ContentsPanelProvider implements Provider<AbstractActivity>{
-
         private final SkillAppealFormActivity skillAppealFormActivity;
         private final SigninGuidanceActivity signinGuidanceActivity;
         private final ActivateGuidanceActivity activateGuidanceActivity;
@@ -115,23 +111,18 @@ public class HomeView extends Composite implements HomeDisplay {
             this.skillAppealFormActivity = skillAppealFormActivity;
             this.signinGuidanceActivity = signinGuidanceActivity;
             this.activateGuidanceActivity = activateGuidanceActivity;
-
         }
 
         @Override
         public AbstractActivity get() {
-
             if(!login.isLoggedIn()){
                 return signinGuidanceActivity;
             }
-
             if(!login.getProfile().isActivate()){
                 return activateGuidanceActivity;
             }
-
             return skillAppealFormActivity;
         }
-
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.google.gwt.place.shared.Prefix;
 
 public class UserPlace extends ActivityPlace<UserUIActivity> {
 
-
     private String userid;
 
     @Override
@@ -30,6 +29,5 @@ public class UserPlace extends ActivityPlace<UserUIActivity> {
 
     @Prefix("!user")
     public static class Tokenizer extends ActivityPlace.Tokenizer<UserPlace> implements PlaceTokenizer<UserPlace>{
-
     }
 }

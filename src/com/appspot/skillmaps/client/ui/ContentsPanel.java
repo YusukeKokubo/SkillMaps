@@ -35,5 +35,4 @@ public class ContentsPanel extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
         dashboard.getElement().setId("dashboard");
     }
-
 }

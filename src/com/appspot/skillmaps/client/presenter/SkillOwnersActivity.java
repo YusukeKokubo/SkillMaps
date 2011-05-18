@@ -33,7 +33,6 @@ public class SkillOwnersActivity extends SkillMapActivity implements SkillOwners
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
@@ -42,32 +41,24 @@ public class SkillOwnersActivity extends SkillMapActivity implements SkillOwners
             @Override
             public void onFailure(Throwable reason) {
                 // TODO 自動生成されたメソッド・スタブ
-
             }
         });
     }
 
     private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         setDisplay(displayProvider.get());
-
         display.setPresenter(this);
-
-
         serviceProvider.get().getSkillOwners(skillName, new AsyncCallback<Skill[]>() {
-
             @Override
             public void onSuccess(Skill[] result) {
                 display.setSkills(result);
-
             }
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
         panel.setWidget(display);
-
     }
 
     @Override
@@ -87,7 +78,5 @@ public class SkillOwnersActivity extends SkillMapActivity implements SkillOwners
     @Override
     public void setDisplay(SkillOwnersDisplay display) {
         this.display = display;
-
     }
-
 }

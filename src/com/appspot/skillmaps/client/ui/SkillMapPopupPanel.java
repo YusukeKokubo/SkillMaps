@@ -31,7 +31,6 @@ public class SkillMapPopupPanel extends Composite {
     @UiField
     protected Anchor close;
 
-
     private static SkillMapPopupPanelUiBinder uiBinder =
         GWT.create(SkillMapPopupPanelUiBinder.class);
 
@@ -90,13 +89,11 @@ public class SkillMapPopupPanel extends Composite {
         RootPanel.get("dashboard").add(this);
         setScrollbar();
         timer = new Timer() {
-
             @Override
             public void run() {
                 setScrollbar();
             }
         };
-
         //TODO あまりいい方法じゃない
         timer.scheduleRepeating(1000);
     }
@@ -119,5 +116,4 @@ public class SkillMapPopupPanel extends Composite {
         timer.cancel();
         super.onDetach();
     }
-
 }

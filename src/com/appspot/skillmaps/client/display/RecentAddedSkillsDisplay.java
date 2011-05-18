@@ -13,5 +13,4 @@ public interface RecentAddedSkillsDisplay extends IsWidget {
     }
 
     void setRecentAddedSkills(Skill[] result);
-
 }

@@ -61,7 +61,6 @@ public class MessageController extends Composite implements HasWidgets {
     @Override
     public boolean remove(Widget w) {
         boolean ret = panel.remove(w) && widgets.remove(w);
-
         if(widgets.isEmpty()){
             setVisible(false);
         }
@@ -69,13 +68,10 @@ public class MessageController extends Composite implements HasWidgets {
     }
 
     private class Open extends Animation{
-
         private final MessageWidget mw;
-
         private static final int WIDGET_HEIGHT = 50;
 
         private Timer closeTimer = new Timer() {
-
             @Override
             public void run() {
                 new Close(mw).run(3000);
@@ -87,10 +83,8 @@ public class MessageController extends Composite implements HasWidgets {
             this.mw = mw;
             mw.setHeight("0px");
             mw.getElement().getStyle().setTop((widgets.size() - 1) * WIDGET_HEIGHT , Unit.PX);
-
             mw.addDomHandler(
                 new MouseOverHandler() {
-
                 @Override
                 public void onMouseOver(MouseOverEvent event) {
                     closeTimer.cancel();
@@ -99,13 +93,11 @@ public class MessageController extends Composite implements HasWidgets {
 
             mw.addDomHandler(
                 new MouseOutHandler() {
-
                 @Override
                 public void onMouseOut(MouseOutEvent event) {
                     onComplete();
                 }
             },MouseOutEvent.getType());
-
         }
         @Override
         protected void onUpdate(double progress) {
@@ -123,13 +115,10 @@ public class MessageController extends Composite implements HasWidgets {
             super.onComplete();
             closeTimer.schedule(3000);
         }
-
     }
 
     private class Close extends Animation{
-
         private final MessageWidget mw;
-
         public Close(MessageWidget mw) {
             this.mw = mw;
         }

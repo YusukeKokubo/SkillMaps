@@ -50,7 +50,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     private static SkillAddDialogUiBinder uiBinder =
         GWT.create(SkillAddDialogUiBinder.class);
 
-
     private final EventBus eventBus;
 
     interface SkillAddDialogUiBinder extends UiBinder<Widget, SkillAddDialog> {
@@ -74,7 +73,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
         for (SkillMap skillMap : result) {
             skillNames.add(skillMap.getSkillName());
         }
-
     }
 
     @UiHandler("submit")
@@ -91,5 +89,4 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     public HasValue<String> getComment(){
         return comment;
     }
-
 }

@@ -42,10 +42,8 @@ public class SkillCommentForm extends DialogBox implements Editor<SkillComment> 
     @Inject
     EventBus eventBus;
 
-
     @Inject
     public SkillCommentForm() {
-
         add(uiBinder.createAndBindUi(this));
         this.setAnimationEnabled(true);
         this.setText("コメントを追加します。");
@@ -54,14 +52,11 @@ public class SkillCommentForm extends DialogBox implements Editor<SkillComment> 
 
     public void setSkillComment(Key skillKey, SkillComment skillComment){
         this.skillKey = skillKey;
-
         if(skillComment == null){
             skillComment = new SkillComment();
             skillComment.getSkill().setKey(skillKey);
         }
-
         driver.edit(skillComment);
-
     }
 
     @UiHandler("submit")
@@ -84,5 +79,4 @@ public class SkillCommentForm extends DialogBox implements Editor<SkillComment> 
     public SkillComment getComment(){
         return driver.flush();
     }
-
 }

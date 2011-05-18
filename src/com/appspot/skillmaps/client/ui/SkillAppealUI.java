@@ -47,5 +47,4 @@ public class SkillAppealUI extends Composite {
             url.setText("link");
         }
     }
-
 }

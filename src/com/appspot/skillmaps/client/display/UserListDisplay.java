@@ -9,15 +9,10 @@ public interface UserListDisplay extends IsWidget {
     void setPresenter(Presenter presenter);
 
     public static interface Presenter extends DisplayPresenter<UserListDisplay>{
-
         void loadNextUsers(int pageIndex, UserListResultDto userListResultDto);
-
         void loadPrevUsers(int pageIndex, UserListResultDto userListResultDto);
-
     }
 
     void setUserList(int pn, UserListResultDto userListResultDto);
-
     HasWidgets getUserListPanel();
-
 }

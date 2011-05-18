@@ -21,7 +21,6 @@ public class HomeActivity extends SkillMapActivity implements
         this.displayProvider = displayProvider;
     }
 
-
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
@@ -34,7 +33,6 @@ public class HomeActivity extends SkillMapActivity implements
 
             @Override
             public void onFailure(Throwable reason) {
-
             }
         });
     }
@@ -48,7 +46,5 @@ public class HomeActivity extends SkillMapActivity implements
     @Override
     public void setDisplay(HomeDisplay display) {
         this.display = display;
-
     }
-
 }

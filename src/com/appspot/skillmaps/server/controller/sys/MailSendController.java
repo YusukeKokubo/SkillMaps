@@ -45,7 +45,6 @@ public class MailSendController extends Controller {
                 QueueFactory.getDefaultQueue().add(Builder.withUrl("/sys/mailSend").countdownMillis(1000 * 60));
             }
         }
-
         return null;
     }
 }

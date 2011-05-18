@@ -34,7 +34,6 @@ public class SkillOwners extends Composite implements SkillOwnersDisplay{
 
     @Override
     public void setSkills(Skill[] result){
-
         table.removeAllRows();
 
         table.setText(0, 0, "スキル");
@@ -54,7 +53,6 @@ public class SkillOwners extends Composite implements SkillOwnersDisplay{
             table.setWidget(i + 1, 3, uT);
             table.setText(i + 1, 4, s.getDescription());
         }
-
     }
 
     @Override

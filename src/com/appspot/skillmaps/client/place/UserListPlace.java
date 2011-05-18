@@ -6,15 +6,12 @@ import com.google.gwt.place.shared.Prefix;
 
 public class UserListPlace extends ActivityPlace<UserListActivity> {
 
-
     private int pageNumber;
-
 
     @Override
     public void init(String token) {
         pageNumber = 0;
         try{
-
             pageNumber = Integer.parseInt(token);
         }catch(Exception e){
 
@@ -38,6 +35,5 @@ public class UserListPlace extends ActivityPlace<UserListActivity> {
 
     @Prefix("!userList")
     public static class Tokenizer extends ActivityPlace.Tokenizer<UserListPlace> implements PlaceTokenizer<UserListPlace>{
-
     }
 }

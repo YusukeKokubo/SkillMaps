@@ -12,7 +12,5 @@ public class SkillOwnersPlace extends ActivityPlace<SkillOwnersActivity> {
 
     @Prefix("!skill")
     public static class Tokenizer extends ActivityPlace.Tokenizer<SkillOwnersPlace> implements PlaceTokenizer<SkillOwnersPlace>{
-
     }
-
 }

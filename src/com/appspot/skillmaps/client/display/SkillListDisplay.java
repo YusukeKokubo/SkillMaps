@@ -8,9 +8,7 @@ public interface SkillListDisplay extends IsWidget {
     void setPresenter(Presenter presenter);
 
     public static interface Presenter extends DisplayPresenter<SkillListDisplay>{
-
     }
 
     void setSkillMaps(SkillMap[] skillMaps);
-
 }

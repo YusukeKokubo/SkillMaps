@@ -27,7 +27,6 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
@@ -36,7 +35,6 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
             @Override
             public void onFailure(Throwable reason) {
                 // TODO 自動生成されたメソッド・スタブ
-
             }
         });
     }
@@ -45,12 +43,10 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
         setDisplay(displayProvider.get());
         display.setPresenter(this);
         serviceProvider.get().getRecentEntriedUsers(new AsyncCallback<Profile[]>() {
-
             @Override
             public void onSuccess(Profile[] result) {
                 display.setRecentEntriedUsers(result);
             }
-
             @Override
             public void onFailure(Throwable caught) {
 
@@ -63,6 +59,5 @@ public class RecentEntriedUsersActivity extends SkillMapActivity implements Rece
     public void setDisplay(RecentEntriedUsersDisplay display) {
         this.display = display;
     }
-
 }
 

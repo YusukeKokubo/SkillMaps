@@ -31,17 +31,14 @@ public class SkillAppealTimeLineActivity extends SkillMapActivity implements
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
-
             }
 
             @Override
             public void onFailure(Throwable reason) {
                 // TODO 自動生成されたメソッド・スタブ
-
             }
         });
     }
@@ -52,7 +49,6 @@ public class SkillAppealTimeLineActivity extends SkillMapActivity implements
         panel.setWidget(display);
         serviceProvider.get().getSkillAppeals(
             new AsyncCallback<SkillAppeal[]>() {
-
                 @Override
                 public void onSuccess(SkillAppeal[] as) {
                     display.setSkillAppeals(as);
@@ -70,7 +66,5 @@ public class SkillAppealTimeLineActivity extends SkillMapActivity implements
     @Override
     public void setDisplay(SkillAppealTimeLineDisplay display) {
         this.display = display;
-
     }
-
 }

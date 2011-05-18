@@ -31,7 +31,6 @@ public class DisplayModule extends AbstractGinModule {
 
     @Override
     protected void configure() {
-
         //bind display modules
         bind(HomeDisplay.class).to(HomeView.class);
         bind(MyPageDisplay.class).to(ProfileUI.class);
@@ -46,7 +45,5 @@ public class DisplayModule extends AbstractGinModule {
         bind(SkillAppealFormDisplay.class).to(SkillAppealForm.class).in(Singleton.class);
         bind(SkillAppealTimeLineDisplay.class).to(SkillAppealTimeLine.class);
         bind(SigninGuidanceDisplay.class).to(SigninGuidance.class);
-
     }
-
 }

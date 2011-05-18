@@ -36,7 +36,6 @@ public class TimeLineActivity extends SkillMapActivity {
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         panel.setWidget(new Image(res.loader()));
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initPresenter(panel, eventBus);
@@ -44,28 +43,22 @@ public class TimeLineActivity extends SkillMapActivity {
 
             @Override
             public void onFailure(Throwable reason) {
-
             }
         });
     }
 
     public void initPresenter(final AcceptsOneWidget panel,final EventBus eventBus) {
         skillService.getRecentAddedSkillComment(new AsyncCallback<SkillComment[]>() {
-
             @Override
             public void onSuccess(SkillComment[] result) {
                 TimeLinePanel timeLinePanel = timeLineProvider.get();
-
                 timeLinePanel.setSkillComments(result);
-
                 panel.setWidget(timeLinePanel);
             }
 
             @Override
             public void onFailure(Throwable caught) {
-
             }
         });
     }
-
 }

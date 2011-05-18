@@ -37,7 +37,6 @@ public class SkillServiceImpl implements SkillService {
     SkillCommentMeta scm = SkillCommentMeta.get();
     FollowingMeta fm = FollowingMeta.get();
 
-
     @Override
     public Skill[] getSkillOwners(Skill skill) {
         List<Skill> skills = Datastore.query(sm).filter(sm.name.equal(skill.getName())).asList();
@@ -78,7 +77,6 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public SkillMap[] getSkillNames() {
         List<Skill> list = Datastore.query(sm).sortInMemory(sm.name.asc).asList();
-
         HashMap<String, SkillMap> skillNames = new HashMap<String, SkillMap>();
         for (Skill skill : list) {
             SkillMap sm = null;
@@ -92,7 +90,6 @@ public class SkillServiceImpl implements SkillService {
             }
             skillNames.put(skill.getName(), sm);
         }
-
         return skillNames.values().toArray(new SkillMap[skillNames.size()]);
     }
 
@@ -119,35 +116,26 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillComment[] getSkillComments(Key skillKey){
-
         List<SkillComment> list = Datastore.query(scm).filter(scm.skill.equal(skillKey)).sort(scm.createdAt.desc).asList();
-
         AccountServiceImpl accountService = new AccountServiceImpl();
-
         for (SkillComment skillComment : list) {
             Profile profile = accountService.getUserByEmail(skillComment.getCreatedUserEmail());
-
             skillComment.setProfile(profile);
         }
-
         return list.toArray(new SkillComment[0]);
     }
 
     @Override
     public SkillComment[] getRecentAddedSkillComment(){
         List<SkillComment> result = Datastore.query(scm).sort(scm.createdAt.desc).limit(20).asList();
-
         AccountServiceImpl accountService = new AccountServiceImpl();
-
         for (SkillComment s : result) {
             //TODO ここ厳しい。。。
             s.setProfile(accountService.getUserByEmail(s.getCreatedUserEmail()));
             s.getSkill().getModel();
             s.getSkill().getModel().setProfile(accountService.getUserByEmail(s.getSkill().getModel().getOwnerEmail()));
         }
-
         return result.toArray(new SkillComment[0]);
-
     }
 
     @Override
@@ -155,7 +143,6 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
-
         Datastore.put(skillAppeal);
         // Twitterに送信
         if(sendTwitter){
@@ -246,11 +233,8 @@ public class SkillServiceImpl implements SkillService {
         SkillComment skillComment = new SkillComment();
         skillComment.setComment(comment);
         skillComment.getSkill().setKey(skillKey);
-
         Datastore.put(skillComment);
-
         skillComment.setProfile(new AccountServiceImpl().getUserByEmail(userService.getCurrentUser().getEmail()));
-
         return skillComment;
     }
 }

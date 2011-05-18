@@ -23,28 +23,20 @@ public class SeparateSkillCommentController extends Controller {
     @Override
     public Navigation run() throws Exception {
         List<OldSkillRelation> oldList = Datastore.query(om).filter(om.getSchemaVersionName() , FilterOperator.EQUAL , 2).asList();
-
         System.out.println(oldList);
 
         for (OldSkillRelation oldSkillRelation : oldList) {
-
             Key key = oldSkillRelation.getSkill().getKey();
             if(!Strings.isNullOrEmpty(oldSkillRelation.getComment())){
                 SkillComment sc = new SkillComment();
-
                 BeanUtil.copy(oldSkillRelation, sc);
-
                 sc.setKey(null);
-
                 sc.getSkill().setKey(key);
-
                 Datastore.putAsync(sc);
             }
 
             SkillRelation skillRelation = new SkillRelation();
-
             BeanUtil.copy(oldSkillRelation, skillRelation);
-
             skillRelation.getSkill().setKey(key);
 
             //かなりな回数putするのでAsyncで skillRelationのバージョンが上がるのでやり直しても2回目は取得しない

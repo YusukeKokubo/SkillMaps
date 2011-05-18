@@ -6,7 +6,6 @@ public class SkillCommentAddSubmitEvent extends GwtEvent<SkillCommentAddSubmitHa
 
     public static final Type<SkillCommentAddSubmitHandler> TYPE = new Type<SkillCommentAddSubmitHandler>();
 
-
     @Override
     protected void dispatch(SkillCommentAddSubmitHandler arg0) {
         arg0.onSubmit(this);
@@ -16,5 +15,4 @@ public class SkillCommentAddSubmitEvent extends GwtEvent<SkillCommentAddSubmitHa
     public com.google.gwt.event.shared.GwtEvent.Type<SkillCommentAddSubmitHandler> getAssociatedType() {
         return TYPE;
     }
-
 }

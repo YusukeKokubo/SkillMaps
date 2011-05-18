@@ -28,7 +28,6 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
     @Override
     public void start(final AcceptsOneWidget panel,final EventBus eventBus) {
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
@@ -39,14 +38,11 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
                 UiMessage.info("画面表示に失敗しました。");
             }
         });
-
     }
 
     private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         setDisplay(displayProvider.get());
-
         display.setPresenter(this);
-
         serviceProvider.get().getRecentAddedSkills(new AsyncCallback<Skill[]>() {
             @Override
             public void onSuccess(Skill[] result) {
@@ -64,7 +60,5 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
     @Override
     public void setDisplay(RecentAddedSkillsDisplay display) {
         this.display = display;
-
     }
-
 }

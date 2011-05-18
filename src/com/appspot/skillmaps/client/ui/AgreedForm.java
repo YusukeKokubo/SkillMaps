@@ -59,5 +59,4 @@ public class AgreedForm extends DialogBox implements Editor<SkillRelation>{
     public HasText getComment(){
         return comment;
     }
-
 }

@@ -88,7 +88,6 @@ public class SkillListUI extends Composite implements SkillListDisplay{
             li.setWidget(skill);
             skillsPanel.add(li);
         }
-
     }
 
     private String makeStyleForSkillName(long point) {

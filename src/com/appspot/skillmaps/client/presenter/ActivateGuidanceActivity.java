@@ -10,7 +10,6 @@ import com.google.inject.Provider;
 
 public class ActivateGuidanceActivity extends SkillMapActivity implements ActivateGuidanceDisplay.Presenter{
 
-
     private final Provider<ActivateGuidanceDisplay> displayProvider;
     private ActivateGuidanceDisplay display;
 
@@ -31,7 +30,6 @@ public class ActivateGuidanceActivity extends SkillMapActivity implements Activa
             @Override
             public void onFailure(Throwable reason) {
                 // TODO 自動生成されたメソッド・スタブ
-
             }
         });
     }
@@ -46,5 +44,4 @@ public class ActivateGuidanceActivity extends SkillMapActivity implements Activa
     public void setDisplay(ActivateGuidanceDisplay display) {
         this.display = display;
     }
-
 }

@@ -60,7 +60,6 @@ public class AccountServiceImpl implements AccountService {
         } else {
             login.setLoggedIn(false);
         }
-
         return login;
     }
 
@@ -70,45 +69,34 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public Profile getUserByEmail(String email){
-
         Profile p = Memcache.get(email);
-
         if(p != null){
             return p;
         }
-
         p = Datastore.query(pm).filter(pm.userEmail.equal(email)).limit(1).asSingle();
         if(p != null){
-
             putMemcache(email, p);
         }
-
         return p;
     }
 
     @Override
     public Profile[] getUsersByEmail(String[] emails) {
-
         List<String> nonMemcached = Lists.newArrayListWithCapacity(emails.length);
         List<Profile> profiles = Lists.newArrayListWithCapacity(emails.length);
         for (String email : nonMemcached) {
             Profile p = Memcache.get(email);
-
             if(p != null){
                 profiles.add(p);
             } else {
                 nonMemcached.add(email);
             }
         }
-
         List<Profile> list = Datastore.query(pm).filter(pm.userEmail.in(emails)).asList();
-
         for (Profile profile : list) {
             putMemcache(profile.getUserEmail(), profile);
         }
-
         profiles.addAll(list);
-
         return profiles.toArray(new Profile[0]);
     }
 
@@ -121,11 +109,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Profile[] getRecentEntriedUsers() {
         List<Profile> result = Datastore.query(pm).sort(pm.createdAt.desc).filterInMemory(pm.id.isNotNull()).limit(25).asList();
-
         for (Profile profile : result) {
             putMemcache(profile.getUserEmail(), profile);
         }
-
         return result.toArray(new Profile[0]);
     }
 
@@ -152,9 +138,7 @@ public class AccountServiceImpl implements AccountService {
             UserListResultDto resultDto = createUserListResultDto(result);
             return resultDto;
         }
-
         ModelQuery<Profile> mq = Datastore.query(pm).prefetchSize(USER_LISE_SIZE);
-
         if(pageNum < 0){
             mq = mq.encodedEndCursor(encodedCursor)
                     .encodedFilters(encodedFilter)
@@ -164,13 +148,11 @@ public class AccountServiceImpl implements AccountService {
                     .encodedFilters(encodedFilter)
                     .encodedSorts(encodedSorts);
         }
-
         if(pageNum >= 1){
             mq = mq.offset(USER_LISE_SIZE * pageNum);
         }else if(pageNum < 0){
             mq = mq.offset(USER_LISE_SIZE * pageNum * -1);
         }
-
         S3QueryResultList<Profile> result = mq.limit(USER_LISE_SIZE).asQueryResultList();
         UserListResultDto resultDto = createUserListResultDto(result);
         return resultDto;
@@ -256,13 +238,8 @@ public class AccountServiceImpl implements AccountService {
 
     private void putMemcache(String email, Profile p) {
         try{
-
             Memcache.put(email, p);
-
         } catch(Exception e){
-
         }
     }
-
-
 }

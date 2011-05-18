@@ -27,19 +27,13 @@ public class MyPageActivity extends SkillMapActivity implements
     interface Driver extends SimpleBeanEditorDriver<Profile, ProfileUI>{}
 
     private Driver driver = GWT.create(Driver.class);
-
     private final Login login;
     private final Provider<SigninGuidanceActivity> signinGuidanceProvider;
     private final Provider<MyPageDisplay> displayProvier;
-
     private final Provider<AccountServiceAsync> serviceProvider;
-
     private final Provider<PlaceController> placeControllerProvier;
-
     private final Provider<MyPagePlace> pageProvier;
-
     private AcceptsOneWidget panel;
-
     private MyPageDisplay display;
 
     @Inject
@@ -60,38 +54,29 @@ public class MyPageActivity extends SkillMapActivity implements
     @Override
     public void start(final AcceptsOneWidget panel, final EventBus eventBus) {
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-
         GWT.runAsync(new RunAsyncCallback() {
-
             @Override
             public void onSuccess() {
                 initDisplay(panel, eventBus);
             }
-
+            
             @Override
             public void onFailure(Throwable reason) {
-
             }
         });
-
     }
 
     private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         this.panel = panel;
         if (login.isLoggedIn()) {
             setDisplay(displayProvier.get());
-
             display.setPresenter(this);
-
             driver.initialize((ProfileUI)display);
-
             driver.edit(login.getProfile());
-
             panel.setWidget(display);
         } else {
             signinGuidanceProvider.get().start(panel, eventBus);
         }
-
     }
 
     @Override
@@ -99,12 +84,10 @@ public class MyPageActivity extends SkillMapActivity implements
         Profile p = driver.flush();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
         serviceProvider.get().putProfile(p, new AsyncCallback<Void>() {
-
             @Override
             public void onSuccess(Void result) {
                 Window.alert("更新しました!!");
                 placeControllerProvier.get().goTo(pageProvier.get());
-
             }
 
             @Override
@@ -112,14 +95,10 @@ public class MyPageActivity extends SkillMapActivity implements
                 Window.alert(caught.getMessage() + "\n" + Arrays.toString(caught.getStackTrace()));
             }
         });
-
     }
 
     @Override
     public void setDisplay(MyPageDisplay display) {
         this.display = display;
-
     }
-
-
 }
