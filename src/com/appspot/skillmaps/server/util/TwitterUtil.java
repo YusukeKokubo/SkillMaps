@@ -101,7 +101,7 @@ public class TwitterUtil {
                 return;
             }
             Profile notifier = gs.getTwitterNotifier().getModel();
-            if (!notifier.isEnabledTwitter()) {
+            if (notifier == null || !notifier.isEnabledTwitter()) {
                 System.err.println("Twitter notifier not configured.");
                 return;
             }
