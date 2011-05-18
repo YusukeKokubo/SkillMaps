@@ -1,6 +1,7 @@
 package com.appspot.skillmaps.client.inject;
 
 import com.appspot.skillmaps.client.display.ActivateGuidanceDisplay;
+import com.appspot.skillmaps.client.display.FriendsDisplay;
 import com.appspot.skillmaps.client.display.HomeDisplay;
 import com.appspot.skillmaps.client.display.MyPageDisplay;
 import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
@@ -13,6 +14,7 @@ import com.appspot.skillmaps.client.display.SkillOwnersDisplay;
 import com.appspot.skillmaps.client.display.UserListDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.presenter.ActivateGuidanceActivity;
+import com.appspot.skillmaps.client.presenter.FriendsActivity;
 import com.appspot.skillmaps.client.presenter.HomeActivity;
 import com.appspot.skillmaps.client.presenter.MyPageActivity;
 import com.appspot.skillmaps.client.presenter.RecentAddedSkillsActivity;
@@ -37,6 +39,7 @@ public class PresenterModule extends AbstractGinModule {
         bind(SkillOwnersDisplay.Presenter.class).to(SkillOwnersActivity.class);
         bind(UserListDisplay.Presenter.class).to(UserListActivity.class);
         bind(UserUIDisplay.Presenter.class).to(UserUIActivity.class);
+        bind(FriendsDisplay.Presenter.class).to(FriendsActivity.class);
 
         bind(ActivateGuidanceDisplay.Presenter.class).to(ActivateGuidanceActivity.class);
         bind(RecentAddedSkillsDisplay.Presenter.class).to(RecentAddedSkillsActivity.class);

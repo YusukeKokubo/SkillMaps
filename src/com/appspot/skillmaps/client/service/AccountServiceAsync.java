@@ -31,4 +31,6 @@ public interface AccountServiceAsync {
     void getFollowingBy(Profile p, AsyncCallback<Profile[]> callback);
 
     void getFollowerTo(Profile p, AsyncCallback<Profile[]> callback);
+
+    void getFriends(AsyncCallback<Profile[]> callback);
 }

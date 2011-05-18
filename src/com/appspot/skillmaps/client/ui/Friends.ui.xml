@@ -1,0 +1,11 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:style>
+	</ui:style>
+	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="usersPanel" width="100%">
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

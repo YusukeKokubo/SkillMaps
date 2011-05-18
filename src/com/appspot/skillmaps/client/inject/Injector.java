@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.inject;
 
+import com.appspot.skillmaps.client.place.FriendsPlace;
 import com.appspot.skillmaps.client.place.HomePlace;
 import com.appspot.skillmaps.client.place.MyPagePlace;
 import com.appspot.skillmaps.client.place.SkillListPlace;
@@ -42,6 +43,7 @@ public interface Injector extends Ginjector {
     UserListPlace.Tokenizer getUserListPlaceTokenizer();
     SkillOwnersPlace.Tokenizer getSkillOwnersPlaceTokenizer();
     UserPlace.Tokenizer getUserPlaceTokenizer();
+    FriendsPlace.Tokenizer getFriendsPlaceTokenizer();
     
     @Named("appealAnchor") Anchor getAppealAnchor();
     UserSkillDetailPanel getUserSkillDetailPanel();

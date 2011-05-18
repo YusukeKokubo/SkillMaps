@@ -35,4 +35,6 @@ public interface AccountService extends RemoteService {
     Profile[] getFollowingBy(Profile p);
 
     Profile[] getFollowerTo(Profile p);
+
+    Profile[] getFriends();
 }

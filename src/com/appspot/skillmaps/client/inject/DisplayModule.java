@@ -1,6 +1,7 @@
 package com.appspot.skillmaps.client.inject;
 
 import com.appspot.skillmaps.client.display.ActivateGuidanceDisplay;
+import com.appspot.skillmaps.client.display.FriendsDisplay;
 import com.appspot.skillmaps.client.display.HomeDisplay;
 import com.appspot.skillmaps.client.display.MyPageDisplay;
 import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
@@ -13,6 +14,7 @@ import com.appspot.skillmaps.client.display.SkillOwnersDisplay;
 import com.appspot.skillmaps.client.display.UserListDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.ui.ActivateGuidance;
+import com.appspot.skillmaps.client.ui.Friends;
 import com.appspot.skillmaps.client.ui.HomeView;
 import com.appspot.skillmaps.client.ui.ProfileUI;
 import com.appspot.skillmaps.client.ui.RecentAddedSkills;
@@ -38,6 +40,7 @@ public class DisplayModule extends AbstractGinModule {
         bind(SkillOwnersDisplay.class).to(SkillOwners.class);
         bind(UserListDisplay.class).to(UserListUI.class).in(Singleton.class);
         bind(UserUIDisplay.class).to(UserUI.class);
+        bind(FriendsDisplay.class).to(Friends.class);
 
         bind(ActivateGuidanceDisplay.class).to(ActivateGuidance.class);
         bind(RecentAddedSkillsDisplay.class).to(RecentAddedSkills.class);

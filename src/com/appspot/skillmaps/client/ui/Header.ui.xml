@@ -168,6 +168,8 @@
 				<g:Hyperlink targetHistoryToken="!userList:0">Users</g:Hyperlink>
 				<g:Label styleName="{style.demiliter}">|</g:Label>
 				<g:Hyperlink targetHistoryToken="!skillList:">Skills</g:Hyperlink>
+				<g:Label styleName="{style.demiliter}">|</g:Label>
+				<g:Hyperlink targetHistoryToken="!friends:">Friends</g:Hyperlink>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel ui:field="signPanel" styleName="{style.sign}">
 				<g:Label addStyleNames="{style.nickname}" ui:field="nickname"></g:Label>
