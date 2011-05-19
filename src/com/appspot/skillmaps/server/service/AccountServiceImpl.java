@@ -188,7 +188,8 @@ public class AccountServiceImpl implements AccountService {
     public Profile[] getFriends() {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        if (userService.isUserLoggedIn() == false) throw new IllegalArgumentException("the user is null.");
+        if (userService.isUserLoggedIn() == false) 
+            return new Profile[0];
         Profile p = new Profile();
         p.setUserEmail(user.getEmail());
         return getFriends(p);
