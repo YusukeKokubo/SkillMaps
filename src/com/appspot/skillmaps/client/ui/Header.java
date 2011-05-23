@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,6 +34,18 @@ public class Header extends Composite {
     Label nickname;
 
     @UiField
+    Label myPageDelimiter;
+
+    @UiField
+    Label friendsDelimiter;
+
+    @UiField
+    Hyperlink myPageLink;
+
+    @UiField
+    Hyperlink friendsLink;
+
+    @UiField
     SigninAnchor signin;
 
     @UiField
@@ -56,12 +69,23 @@ public class Header extends Composite {
         if (login.isLoggedIn()) {
             nickname.setText(login.getNickname());
             signout.setHref(login.getLogoutUrl());
+
+            friendsLink.setVisible(true);
+            myPageLink.setVisible(true);
+            friendsDelimiter.setVisible(true);
+            myPageDelimiter.setVisible(true);
+
             signPanel.removeStyleName(style.loading());
             signPanel.addStyleName(style.signIn());
         } else {
             nickname.setText("");
             signout.setHref(login.getLogoutUrl());
-            
+
+            friendsLink.setVisible(false);
+            myPageLink.setVisible(false);
+            friendsDelimiter.setVisible(false);
+            myPageDelimiter.setVisible(false);
+
             signPanel.removeStyleName(style.loading());
             signPanel.addStyleName(style.signOut());
         }

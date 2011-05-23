@@ -3,9 +3,35 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
+		.homeHeader{
+			margin-bottom: 10px;
+		}
+
+
+		.contentsPanelBack{
+			padding :3px;
+			background-color: #92C1F0;
+			height: 100%;
+			border-radius: 0 5px 5px 5px;
+			-webkit-border-radius: 0 5px 5px 5px;
+			-moz-border-radius:  0 5px 5px 5px;
+		}
+
+		.contentsPanel{
+			background-color: white;
+			padding: 3px;
+			border-radius: 0 5px 5px 5px;
+			-webkit-border-radius: 0 5px 5px 5px;
+			-moz-border-radius:  0 5px 5px 5px;
+		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:VerticalPanel ui:field="usersPanel" width="100%">
-		</g:VerticalPanel>
+		<g:DecoratedTabBar ui:field="menuBar"/>
+		<div class="{style.contentsPanelBack}">
+			<g:SimplePanel addStyleNames="{style.contentsPanel}" ui:field="contentsPanel">
+				<g:VerticalPanel ui:field="usersPanel" width="100%">
+				</g:VerticalPanel>
+			</g:SimplePanel>
+		</div>
 	</g:HTMLPanel>
 </ui:UiBinder>

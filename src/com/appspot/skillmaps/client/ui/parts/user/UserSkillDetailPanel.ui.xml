@@ -88,13 +88,11 @@
 					<hr/>
 					<g:Button ui:field="addCommentButton" title="このスキルにコメントを追加します。">コメントする</g:Button>
 					<hr/>
-					<g:DisclosurePanel ui:field="commentsDisclosurePanel" animationEnabled="true">
-						<g:header>コメントを見る</g:header>
-						<g:VerticalPanel ui:field="commentsPanel">
-							<g:Image resource="{res.loader}"/>
-						</g:VerticalPanel>
-					</g:DisclosurePanel>
 				</g:HTMLPanel>
+				<g:Label>■コメント一覧</g:Label>
+				<g:VerticalPanel spacing="3" ui:field="commentsPanel">
+					<g:Image resource="{res.loader}"/>
+				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:HTMLPanel>
 	</g:DisclosurePanel>

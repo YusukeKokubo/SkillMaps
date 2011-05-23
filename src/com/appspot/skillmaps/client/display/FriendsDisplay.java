@@ -9,6 +9,12 @@ public interface FriendsDisplay extends IsWidget {
     void setPresenter(Presenter presenter);
 
     public static interface Presenter extends DisplayPresenter<FriendsDisplay>{
+
+        void reloadFriends();
+
+        void reloadFollowerTo();
+
+        void reloadFollowing();
     }
 
     void reloadUsersPanel(Profile[] users);

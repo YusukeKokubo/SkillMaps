@@ -92,11 +92,14 @@ public class AccountServiceImpl implements AccountService {
                 nonMemcached.add(email);
             }
         }
-        List<Profile> list = Datastore.query(pm).filter(pm.userEmail.in(emails)).asList();
-        for (Profile profile : list) {
-            putMemcache(profile.getUserEmail(), profile);
+        if(emails.length != 0){
+            List<Profile> list = Datastore.query(pm).filter(pm.userEmail.in(emails)).asList();
+
+            for (Profile profile : list) {
+                putMemcache(profile.getUserEmail(), profile);
+            }
+            profiles.addAll(list);
         }
-        profiles.addAll(list);
         return profiles.toArray(new Profile[0]);
     }
 
@@ -173,7 +176,7 @@ public class AccountServiceImpl implements AccountService {
         }
         return getUsersByEmail(keys.toArray(new String[0]));
     }
-    
+
     @Override
     public Profile[] getFollowingBy(Profile p) {
         List<Following> follower = Datastore.query(fm).filter(fm.fromEmail.equal(p.getUserEmail())).asList();
@@ -181,30 +184,35 @@ public class AccountServiceImpl implements AccountService {
         for (Following f : follower) {
             keys.add(f.getToEmail());
         }
+
+        if(keys.isEmpty()) {
+            return new Profile[0];
+        }
+
         return getUsersByEmail(keys.toArray(new String[0]));
     }
-    
+
     @Override
     public Profile[] getFriends() {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        if (userService.isUserLoggedIn() == false) 
+        if (userService.isUserLoggedIn() == false)
             return new Profile[0];
         Profile p = new Profile();
         p.setUserEmail(user.getEmail());
         return getFriends(p);
     }
-    
+
     @Override
     public Profile[] getFriends(Profile p) {
         List<Following> following = Datastore.query(fm).filter(fm.toEmail.equal(p.getUserEmail())).asList();
         List<Following> follower = Datastore.query(fm).filter(fm.fromEmail.equal(p.getUserEmail())).asList();
-        
+
         List<String> followingEmails = new ArrayList<String>();
         for (Following f : following) {
             followingEmails.add(f.getFromEmail());
         }
-        
+
         List<String> keys = new ArrayList<String>();
         for (Following f : follower) {
             if (followingEmails.contains(f.getToEmail())){
@@ -215,7 +223,7 @@ public class AccountServiceImpl implements AccountService {
         return getUsersByEmail(keys.toArray(new String[0]));
     }
 
-    
+
     private UserListResultDto createUserListResultDto(
             S3QueryResultList<Profile> result) {
         UserListResultDto resultDto = new UserListResultDto();

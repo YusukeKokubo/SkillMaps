@@ -87,7 +87,7 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
 
     Key key;
 
-    boolean openComment = false;
+    private boolean isGotComment;
 
     @Inject
     public UserSkillDetailPanel() {
@@ -124,18 +124,14 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
         presenter.showSkillCommentForm(key , commentsPanel);
     }
 
-    @UiHandler("commentsDisclosurePanel")
-    public void onOpenShowCommentButton(OpenEvent<DisclosurePanel> e){
-        if(openComment){
-            return;
-        }
-        presenter.getSkillComments(key , commentsPanel);
-        openComment = true;
-    }
-
     @UiHandler("skillPanel")
     public void onOpenSkillPanel(OpenEvent<DisclosurePanel> openEvent) {
         openLabel.setText("[－]");
+
+        if(!isGotComment) {
+            isGotComment = true;
+            presenter.getSkillComments(key , commentsPanel);
+        }
     }
 
     @UiHandler("skillPanel")

@@ -5,6 +5,7 @@ import com.appspot.skillmaps.client.display.FriendsDisplay;
 import com.appspot.skillmaps.client.place.FriendsPlace;
 import com.appspot.skillmaps.client.service.AccountService;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
+import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -23,11 +24,13 @@ public class FriendsActivity extends SkillMapActivity implements FriendsDisplay.
     private final Provider<FriendsDisplay> displayProvider;
 //    private final PlaceController placeController;
 //    private final Provider<FriendsPlace> placeProvider;
+    private final Login login;
 
     @Inject
-    public FriendsActivity(Provider<FriendsDisplay> displayProvider,
+    public FriendsActivity(Login login,Provider<FriendsDisplay> displayProvider,
                             PlaceController placeController,
                             Provider<FriendsPlace> placeProvider) {
+        this.login = login;
         this.displayProvider = displayProvider;
 //        this.placeController = placeController;
 //        this.placeProvider = placeProvider;
@@ -54,18 +57,55 @@ public class FriendsActivity extends SkillMapActivity implements FriendsDisplay.
             display.setPresenter(this);
         }
 
+        if(login.isLoggedIn()) {
+
+            reloadFriends();
+        }
+        panel.setWidget(display);
+    }
+
+    @Override
+    public void reloadFriends() {
         service.getFriends(new AsyncCallback<Profile[]>() {
             @Override
             public void onSuccess(Profile[] result) {
                 display.reloadUsersPanel(result);
             }
-            
+
             @Override
             public void onFailure(Throwable caught) {
             }
         });
-        panel.setWidget(display);
     }
+
+    @Override
+    public void reloadFollowerTo() {
+        service.getFollowerTo(login.getProfile() ,new AsyncCallback<Profile[]>() {
+            @Override
+            public void onSuccess(Profile[] result) {
+                display.reloadUsersPanel(result);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+        });
+    }
+
+    @Override
+    public void reloadFollowing() {
+        service.getFollowingBy(login.getProfile() ,new AsyncCallback<Profile[]>() {
+            @Override
+            public void onSuccess(Profile[] result) {
+                display.reloadUsersPanel(result);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+        });
+    }
+
 
     @Override
     public void setDisplay(FriendsDisplay display) {

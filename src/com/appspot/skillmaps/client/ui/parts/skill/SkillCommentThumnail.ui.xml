@@ -4,20 +4,21 @@
 	<ui:style>
 
 		.comment{
-			margin-left: 4px;
 			overflow: auto;
-			width:330px;
+			width:450px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel>
-			<sm:UserThumnail ui:field="profile" />
-			<g:VerticalPanel width="330px">
-				<g:cell horizontalAlignment="ALIGN_RIGHT">
-					<g:DateLabel customFormat="yyyy/MM/dd HH:mm:ss" ui:field="createdAt"/>
+		<g:VerticalPanel>
+			<g:HorizontalPanel width="450px">
+				<g:cell width="300px" horizontalAlignment="ALIGN_LEFT">
+					<sm:UserThumnail ui:field="profile" />
 				</g:cell>
-				<g:Label addStyleNames="{style.comment}" ui:field="comment" />
-			</g:VerticalPanel>
-		</g:HorizontalPanel>
+				<g:cell width="150px" horizontalAlignment="ALIGN_RIGHT">
+						<g:DateLabel customFormat="yyyy/MM/dd HH:mm:ss" ui:field="createdAt"/>
+				</g:cell>
+			</g:HorizontalPanel>
+			<g:Label addStyleNames="{style.comment}" ui:field="comment" />
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder>
