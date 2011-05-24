@@ -346,4 +346,5 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         });
         skillCommentForm.center();
     }
+
 }

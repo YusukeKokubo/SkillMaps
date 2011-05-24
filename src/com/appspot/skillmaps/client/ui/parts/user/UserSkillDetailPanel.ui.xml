@@ -89,6 +89,12 @@
 					<g:Button ui:field="addCommentButton" title="このスキルにコメントを追加します。">コメントする</g:Button>
 					<hr/>
 				</g:HTMLPanel>
+				<g:DisclosurePanel ui:field="skillRelationPanel" width="100%">
+					<g:header>賛同者</g:header>
+					<g:VerticalPanel ui:field="skillRelationList" width="100%">
+						<g:Image resource="{res.loader}"/>
+					</g:VerticalPanel>
+				</g:DisclosurePanel>
 				<g:Label>■コメント一覧</g:Label>
 				<g:VerticalPanel spacing="3" ui:field="commentsPanel">
 					<g:Image resource="{res.loader}"/>

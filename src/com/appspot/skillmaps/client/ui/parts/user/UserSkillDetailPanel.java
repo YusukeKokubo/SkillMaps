@@ -1,6 +1,8 @@
 package com.appspot.skillmaps.client.ui.parts.user;
 
+import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
+import com.appspot.skillmaps.client.ui.UserThumnail;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -20,12 +22,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.NumberLabel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
 
@@ -74,20 +80,26 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     @UiField
     SimplePanel agreedActionPanel;
 
-    @Inject
-    Login login;
-
     @UiField
     Button addCommentButton;
 
     @UiField
     VerticalPanel commentsPanel;
 
+    @UiField
+    VerticalPanel skillRelationList;
+
     UserUIDisplay.Presenter presenter;
 
     Key key;
 
     private boolean isGotComment;
+
+    @Inject
+    Login login;
+
+    @Inject
+    Provider<UserThumnail> utProvider;
 
     @Inject
     public UserSkillDetailPanel() {
@@ -115,6 +127,36 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
 
             @Override
             public void onFailure(Throwable caught) {
+            }
+        });
+    }
+
+    @UiHandler("skillRelationPanel")
+    public void onOpenSkillOwnersPanel(OpenEvent<DisclosurePanel> e) {
+        skillRelationList.clear();
+        skillRelationList.add(new Image(Resources.INSTANCE.loader()));
+
+        presenter.getSkillRelations(driver.flush()
+            , new AsyncCallback<SkillRelation[]>() {
+
+            @Override
+            public void onSuccess(SkillRelation[] result) {
+
+                skillRelationList.clear();
+
+                for (SkillRelation skillRelation : result) {
+                    FocusPanel panel = new FocusPanel();
+                    UserThumnail userThumnail = utProvider.get();
+                    userThumnail.setUser(skillRelation.getProfile());
+                    panel.add(userThumnail);
+
+                    skillRelationList.add(panel);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+
             }
         });
     }

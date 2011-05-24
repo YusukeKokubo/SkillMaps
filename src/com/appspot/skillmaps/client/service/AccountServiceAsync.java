@@ -15,8 +15,6 @@ public interface AccountServiceAsync {
 
     void getUser(String id, AsyncCallback<Profile> callback);
 
-    void getUsersByEmail(String[] emails, AsyncCallback<Profile[]> callback);
-
     void getUsers(int pn, String encodedCursor, String encodedFilter,
             String encodedSorts, AsyncCallback<UserListResultDto> callback);
 

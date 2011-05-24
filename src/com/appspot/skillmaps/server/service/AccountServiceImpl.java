@@ -80,7 +80,6 @@ public class AccountServiceImpl implements AccountService {
         return p;
     }
 
-    @Override
     public Profile[] getUsersByEmail(String[] emails) {
         List<String> nonMemcached = Lists.newArrayListWithCapacity(emails.length);
         List<Profile> profiles = Lists.newArrayListWithCapacity(emails.length);
