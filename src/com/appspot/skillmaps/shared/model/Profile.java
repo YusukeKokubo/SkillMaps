@@ -36,10 +36,8 @@ public class Profile implements Serializable {
 
     private String profileUrl2;
 
-    @GwtTransient
     private String twitterToken;
 
-    @GwtTransient
     private String twitterTokenSecret;
 
     private String twitterScreenName;
@@ -51,7 +49,6 @@ public class Profile implements Serializable {
     private Boolean hasIcon;
 
     @Attribute(listener=CreationEmail.class)
-    @GwtTransient
     private String userEmail;
 
     @Attribute(listener=CreationDate.class)

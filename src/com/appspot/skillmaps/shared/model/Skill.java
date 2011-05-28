@@ -42,11 +42,9 @@ public class Skill implements Serializable {
     @Attribute(persistent=false)
     private InverseModelListRef<SkillComment, Skill> commentRel = new InverseModelListRef<SkillComment, Skill>(SkillComment.class, "skill", this , new Sort("createdAt", SortDirection.DESCENDING));
 
-    @GwtTransient
     private String ownerEmail;
 
     @Attribute(listener=CreationEmail.class)
-    @GwtTransient
     private String createdUserEmail;
 
     @Attribute(listener=CreationDate.class)
