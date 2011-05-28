@@ -2,15 +2,20 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
+	<ui:with type="com.appspot.skillmaps.client.bundle.Resources" field="res"/>
 	<ui:style>
 		.tool-bar {
-			height:24px;
-			background-color: #E5ECF9;
-			margin: 0 0 8px;
+			height:2.5em;
+			background-color: #D0E4F6;
+			border: solid #92C1F0 3px;
+			border-bottom-width:0px;
+			border-radius:5px 5px 0 0;
+			-webkit-border-radius:5px 5px 0 0;
+			-moz-border-radius:5px 5px 0 0;
+			padding: 2px;
 		}
 		.tool-bar-right{
 			margin: 0 0 8px;
-			padding-top:4px;
 			text-align: right;
 			float: right;
 		}
@@ -25,23 +30,79 @@
 			margin-right: 2px;
 			display: inline;
 		}
+		.contentsPanelBack{
+			padding :3px;
+			background-color: #92C1F0;
+			height: 100%;
+			border-radius: 0 0 5px 5px;
+			-webkit-border-radius: 0 0 5px 5px;
+			-moz-border-radius: 0 0 5px 5px;
+		}
+
+		.contentsPanel{
+			background-color: white;
+			padding: 3px;
+			border-radius: 0 0 5px 5px;
+			-webkit-border-radius: 0 0 5px 5px;
+			-moz-border-radius:  0 0 5px 5px;
+		}
+
+		@if !user.agent ie6 ie8 {
+			.addUserPanelBg {
+				width: 100%;
+				text-align:center;
+				padding:3px 0;
+				background: #F5F5F5;
+				background: -webkit-gradient(linear, literal('left top'),literal('left bottom'), from(#F5F5F5), to(#FFFFFF) );
+				background: -moz-linear-gradient(top, #F5F5F5, #FFFFFF);
+				background: transparent 9;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+				-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+				-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+			}
+		} @else {
+			.addUserPanelBg {
+				width: 100%;
+				padding:3px 0;
+				text-align:center;
+				left: 0;
+				filter: literal("progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF5F5F5',endColorstr='#FFFFFFFF')");
+			}
+		}
+
+
 	</ui:style>
 	<g:HTMLPanel>
 		<div ui:field="usersToolBar" class="{style.tool-bar}">
-			<div id="usersToolBar-left" class="{style.tool-bar-left}">
-				<g:ListBox ui:field="layoutSelect">
-					<g:item value="1">1</g:item>
-					<g:item value="2">2</g:item>
-				</g:ListBox>列で表示
-			</div>
-			<div id="usersToolBar-right" class="{style.tool-bar-right}">
-				<g:InlineLabel ui:field="page">1</g:InlineLabel>ページ目
-				<div class="{style.delimita}">|</div>
-				<g:Anchor ui:field="prevAnchor"  href="javascript:void(0)" addStyleNames="link" visible="false">前へ</g:Anchor>
-				<g:Anchor ui:field="nextAnchor" href="javascript:void(0)"  addStyleNames="link" >次へ</g:Anchor>
-			</div>
+			<g:HorizontalPanel width="100%">
+				<g:cell horizontalAlignment="ALIGN_LEFT" verticalAlignment="ALIGN_MIDDLE">
+					<g:HTMLPanel>
+						<g:ListBox ui:field="layoutSelect">
+							<g:item value="1">1</g:item>
+							<g:item value="2">2</g:item>
+						</g:ListBox>列表示
+					</g:HTMLPanel>
+				</g:cell>
+				<g:cell horizontalAlignment="ALIGN_RIGHT" verticalAlignment="ALIGN_MIDDLE">
+					<g:HTMLPanel>
+						<g:InlineLabel>ID検索(前方一致)：</g:InlineLabel><g:TextBox ui:field="id"/><g:Button ui:field="searchButton">検索</g:Button>
+					</g:HTMLPanel>
+				</g:cell>
+			</g:HorizontalPanel>
+			<div style="clear:both"></div>
 		</div>
-		<g:VerticalPanel ui:field="usersPanel" width="100%">
-		</g:VerticalPanel>
+		<div class="{style.contentsPanelBack}">
+			<g:SimplePanel addStyleNames="{style.contentsPanel}" ui:field="contentsPanel">
+				<g:VerticalPanel width="100%">
+					<g:VerticalPanel ui:field="usersPanel" width="100%">
+						<g:Image resource="{res.loader}"/>
+					</g:VerticalPanel>
+					<g:Image ui:field="loaderImage" resource="{res.loader}" visible="false"/>
+					<g:FocusPanel addStyleNames="{style.addUserPanelBg}" ui:field="addUserPanel" width="100%"><g:Label>さらユーザを表示する</g:Label></g:FocusPanel>
+					<g:Anchor ui:field="return2List" visible="false">一覧に戻る</g:Anchor>
+				</g:VerticalPanel>
+			</g:SimplePanel>
+		</div>
+
 	</g:HTMLPanel>
 </ui:UiBinder>

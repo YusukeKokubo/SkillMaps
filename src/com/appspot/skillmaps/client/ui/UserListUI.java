@@ -1,10 +1,15 @@
 package com.appspot.skillmaps.client.ui;
 
-import com.appspot.skillmaps.client.bundle.Resources;
+import java.util.Arrays;
+import java.util.List;
+
 import com.appspot.skillmaps.client.display.UserListDisplay;
 import com.appspot.skillmaps.client.inject.Injector;
+import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Profile;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -13,13 +18,15 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -39,18 +46,22 @@ public class UserListUI extends Composite implements UserListDisplay{
     ListBox layoutSelect;
 
     @UiField
-    Anchor nextAnchor;
-
-    @UiField
-    Anchor prevAnchor;
-
-    @UiField
-    InlineLabel page;
-
-    @UiField
     DivElement usersToolBar;
 
-    private int pageIndex = 0;
+    @UiField
+    FocusPanel addUserPanel;
+
+    @UiField
+    Image loaderImage;
+
+    @UiField
+    Button searchButton;
+
+    @UiField
+    TextBox id;
+
+    @UiField
+    Anchor return2List;
 
     private UserListResultDto userListResultDto;
 
@@ -69,49 +80,38 @@ public class UserListUI extends Composite implements UserListDisplay{
     }
 
     @Override
-    public void setUserList(int pn ,UserListResultDto userListResultDto){
-        pageIndex = pn;
-        this.userListResultDto = userListResultDto;
+    public void setUserList(UserListResultDto userListResultDto){
+        if(this.userListResultDto == null) {
+            this.userListResultDto = userListResultDto;
 
-        reloadUsersPanel(userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
-        nextAnchor.setVisible(userListResultDto.getHasNext());
-        prevAnchor.setVisible(pageIndex > 0);
-        nextAnchor.setEnabled(true);
-        prevAnchor.setEnabled(true);
+        } else {
+            List<Profile> list = Lists.newArrayList(this.userListResultDto.getUsers());
+            list.addAll(Arrays.asList(userListResultDto.getUsers()));
 
-    }
-
-    @UiHandler("nextAnchor")
-    void onNextAnchorClick(ClickEvent e){
-        if(!nextAnchor.isEnabled()){
-            return;
+            this.userListResultDto.setUsers(list.toArray(new Profile[0]));
+            this.userListResultDto.setEncodedCursor(userListResultDto.getEncodedCursor());
+            this.userListResultDto.setEncodedFilter(userListResultDto.getEncodedFilter());
+            this.userListResultDto.setEncodedSorts(userListResultDto.getEncodedSorts());
+            this.userListResultDto.setEncodedUnit(userListResultDto.getEncodedUnit());
+            this.userListResultDto.setHasNext(userListResultDto.getHasNext());
         }
-        prevAnchor.setVisible(true);
-        pageIndex++;
-        setupUsersLoad();
-        presenter.loadNextUsers(pageIndex ,userListResultDto);
-    }
 
-    @UiHandler("prevAnchor")
-    void onPrevAnchorClick(ClickEvent e){
-        if(!nextAnchor.isEnabled()){
-            return;
+        reloadUsersPanel(this.userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
+
+        if(!userListResultDto.getHasNext()) {
+            addUserPanel.setVisible(false);
+        } else {
+            addUserPanel.setVisible(true);
         }
-        nextAnchor.setVisible(true);
-        pageIndex--;
-        setupUsersLoad();
-        presenter.loadPrevUsers(pageIndex,userListResultDto);
     }
 
-    private void setupUsersLoad() {
-        nextAnchor.setEnabled(false);
-        prevAnchor.setEnabled(false);
-        usersPanel.clear();
-        usersPanel.add(new Image(Resources.INSTANCE.loader()));
-        page.setText(String.valueOf(pageIndex + 1));
+    @Override
+    public void setUserList(Profile[] users) {
+        reloadUsersPanel(users,  layoutSelect.getSelectedIndex() + 1);
     }
 
     private void reloadUsersPanel(Profile[] users, int viewColumn) {
+
         HorizontalPanel hPanel = null;
         usersPanel.clear();
         int column = 0;
@@ -149,12 +149,50 @@ public class UserListUI extends Composite implements UserListDisplay{
         if(hPanel != null){
             usersPanel.add(hPanel);
         }
+
+        if(users.length == 0) {
+            usersPanel.add(new Label("ユーザが見つかりませんでした。"));
+        }
+
+        loaderImage.setVisible(false);
+
     }
 
     @UiHandler("layoutSelect")
     void onLayoutSelectChange(ChangeEvent ce){
         usersPanel.clear();
-        reloadUsersPanel(userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
+        reloadUsersPanel(this.userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
+    }
+
+    @UiHandler("addUserPanel")
+    void onAddUserPanelClick(ClickEvent e) {
+        addUserPanel.setVisible(false);
+        loaderImage.setVisible(true);
+        presenter.loadNextUsers(userListResultDto);
+    }
+
+    @UiHandler("searchButton")
+    void onSearchButtonClick(ClickEvent e) {
+
+        if(Strings.isNullOrEmpty(id.getText())) {
+            UiMessage.info("検索するIDを入力してください。");
+            return;
+        }
+
+        usersPanel.clear();
+        addUserPanel.setVisible(false);
+        loaderImage.setVisible(true);
+        return2List.setVisible(true);
+
+        presenter.findUsers(id.getText());
+    }
+
+    @UiHandler("return2List")
+    void onReturn2ListClick(ClickEvent e) {
+        return2List.setVisible(false);
+        UserListResultDto ulrd = this.userListResultDto;
+        this.userListResultDto = null;
+        setUserList(ulrd);
     }
 
     @Override
@@ -167,5 +205,10 @@ public class UserListUI extends Composite implements UserListDisplay{
     @Override
     public HasWidgets getUserListPanel() {
         return usersPanel;
+    }
+
+    @Override
+    public void clearData() {
+        userListResultDto = null;
     }
 }

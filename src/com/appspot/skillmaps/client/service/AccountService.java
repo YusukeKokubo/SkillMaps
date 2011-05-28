@@ -17,8 +17,7 @@ public interface AccountService extends RemoteService {
 
     Profile getUser(String id);
 
-    UserListResultDto getUsers(int pn,
-                                String encodedCursor,
+    UserListResultDto getUsers(String encodedCursor,
                                 String encodedFilter,
                                 String encodedSorts);
 
@@ -35,4 +34,8 @@ public interface AccountService extends RemoteService {
     Profile[] getFollowerTo(Profile p);
 
     Profile[] getFriends();
+
+    Profile[] getRecentEntriedUsersWithCursor(int pageNum);
+
+    Profile[] findUsers(String id);
 }

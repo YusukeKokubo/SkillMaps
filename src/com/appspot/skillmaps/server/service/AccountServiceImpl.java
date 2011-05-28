@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
-import org.slim3.datastore.ModelQuery;
 import org.slim3.datastore.S3QueryResultList;
 import org.slim3.memcache.Memcache;
 import org.slim3.util.StringUtil;
@@ -26,7 +25,7 @@ import com.google.common.collect.Lists;
 
 
 public class AccountServiceImpl implements AccountService {
-    private static final int USER_LISE_SIZE = 80;
+    private static final int USER_LISE_SIZE = 20;
     FollowingMeta fm = FollowingMeta.get();
     ProfileMeta pm = ProfileMeta.get();
 
@@ -61,6 +60,11 @@ public class AccountServiceImpl implements AccountService {
             login.setLoggedIn(false);
         }
         return login;
+    }
+
+    @Override
+    public Profile[] findUsers(String id) {
+        return Datastore.query(pm).filter(pm.id.startsWith(id)).asList().toArray(new Profile[0]);
     }
 
     @Override
@@ -118,15 +122,31 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UserListResultDto getUserList(){
-        return getUsers(0, null, null, null);
+    public Profile[] getRecentEntriedUsersWithCursor(int pageNum) {
+
+        List<Profile> result = Datastore.query(pm)
+                                            .sort(pm.createdAt.desc)
+                                            .filterInMemory(pm.id.isNotNull())
+                                            .offset(USER_LISE_SIZE * pageNum)
+                                            .limit(USER_LISE_SIZE)
+                                            .asList();
+
+        for (Profile profile : result) {
+            putMemcache(profile.getUserEmail(), profile);
+        }
+
+        return result.toArray(new Profile[0]);
     }
 
     @Override
-    public UserListResultDto getUsers(int pageNum,
-                                        String encodedCursor,
-                                        String encodedFilter,
-                                        String encodedSorts){
+    public UserListResultDto getUserList(){
+        return getUsers(null, null, null);
+    }
+
+    @Override
+    public UserListResultDto getUsers(String encodedCursor,
+                                      String encodedFilter,
+                                      String encodedSorts){
         if(StringUtil.isEmpty(encodedCursor)
                 || StringUtil.isEmpty(encodedFilter)
                 || StringUtil.isEmpty(encodedSorts)){
@@ -134,28 +154,20 @@ public class AccountServiceImpl implements AccountService {
             S3QueryResultList<Profile> result = Datastore.query(pm)
                                                             .filter(pm.id.isNotNull())
                                                             .prefetchSize(USER_LISE_SIZE)
-                                                            .offset(USER_LISE_SIZE * pageNum)
+                                                            .offset(0)
                                                             .limit(USER_LISE_SIZE)
                                                             .asQueryResultList();
             UserListResultDto resultDto = createUserListResultDto(result);
             return resultDto;
         }
-        ModelQuery<Profile> mq = Datastore.query(pm).prefetchSize(USER_LISE_SIZE);
-        if(pageNum < 0){
-            mq = mq.encodedEndCursor(encodedCursor)
-                    .encodedFilters(encodedFilter)
-                    .encodedSorts(encodedSorts);
-        }else{
-            mq = mq.encodedStartCursor(encodedCursor)
-                    .encodedFilters(encodedFilter)
-                    .encodedSorts(encodedSorts);
-        }
-        if(pageNum >= 1){
-            mq = mq.offset(USER_LISE_SIZE * pageNum);
-        }else if(pageNum < 0){
-            mq = mq.offset(USER_LISE_SIZE * pageNum * -1);
-        }
-        S3QueryResultList<Profile> result = mq.limit(USER_LISE_SIZE).asQueryResultList();
+        S3QueryResultList<Profile> result = Datastore.query(pm).prefetchSize(USER_LISE_SIZE)
+                                                    .encodedStartCursor(encodedCursor)
+                                                    .encodedFilters(encodedFilter)
+                                                    .encodedSorts(encodedSorts)
+                                                    .offset(0)
+                                                    .limit(USER_LISE_SIZE)
+                                                    .asQueryResultList();
+
         UserListResultDto resultDto = createUserListResultDto(result);
         return resultDto;
     }

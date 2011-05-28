@@ -15,7 +15,7 @@ public interface AccountServiceAsync {
 
     void getUser(String id, AsyncCallback<Profile> callback);
 
-    void getUsers(int pn, String encodedCursor, String encodedFilter,
+    void getUsers(String encodedCursor, String encodedFilter,
             String encodedSorts, AsyncCallback<UserListResultDto> callback);
 
     void getUserList(AsyncCallback<UserListResultDto> callback);
@@ -31,4 +31,9 @@ public interface AccountServiceAsync {
     void getFollowerTo(Profile p, AsyncCallback<Profile[]> callback);
 
     void getFriends(AsyncCallback<Profile[]> callback);
+
+    void getRecentEntriedUsersWithCursor(int pageNum,
+            AsyncCallback<Profile[]> callback);
+
+    void findUsers(String id, AsyncCallback<Profile[]> callback);
 }

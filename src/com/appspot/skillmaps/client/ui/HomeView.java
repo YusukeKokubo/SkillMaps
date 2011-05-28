@@ -3,7 +3,6 @@ package com.appspot.skillmaps.client.ui;
 import com.appspot.skillmaps.client.display.HomeDisplay;
 import com.appspot.skillmaps.client.presenter.ActivateGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.RecentAddedSkillsActivity;
-import com.appspot.skillmaps.client.presenter.RecentEntriedUsersActivity;
 import com.appspot.skillmaps.client.presenter.SigninGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.SkillAppealFormActivity;
 import com.appspot.skillmaps.client.presenter.SkillAppealTimeLineActivity;
@@ -44,8 +43,6 @@ public class HomeView extends Composite implements HomeDisplay {
 
     SimplePanel skillAppealTimeLine = new SimplePanel();
 
-    SimplePanel recentEntriedUsers = new SimplePanel();
-
     SimplePanel recentAddedSkills = new SimplePanel();
 
     private Presenter presenter;
@@ -56,7 +53,6 @@ public class HomeView extends Composite implements HomeDisplay {
     public HomeView(ContentsPanelProvider contentsPanelProvider,
                     EventBus eventBus,
                     SkillAppealTimeLineActivity skillAppealTimeLineActivity,
-                    RecentEntriedUsersActivity recentEntriedUsersActivity,
                     RecentAddedSkillsActivity recentAddedSkillsActivity,
                     TimeLineActivity timeLineActivity,
                     Login login) {
@@ -65,7 +61,6 @@ public class HomeView extends Composite implements HomeDisplay {
 
         menuBar.addTab("Skill Commnet");
         menuBar.addTab("Appeal");
-        menuBar.addTab("New Users");
         menuBar.addTab("New Skils");
         menuBar.addSelectionHandler(new SelectionHandler<Integer>() {
             @Override
@@ -79,9 +74,6 @@ public class HomeView extends Composite implements HomeDisplay {
                     contentsPanel.setWidget(skillAppealTimeLine);
                     break;
                 case 2:
-                    contentsPanel.setWidget(recentEntriedUsers);
-                    break;
-                case 3:
                     contentsPanel.setWidget(recentAddedSkills);
                     break;
                 }
@@ -93,7 +85,6 @@ public class HomeView extends Composite implements HomeDisplay {
         contentsPanelProvider.get().start(homeHeaderPanel, eventBus);
         timeLineActivity.start(timeLine, eventBus);
         skillAppealTimeLineActivity.start(skillAppealTimeLine, eventBus);
-        recentEntriedUsersActivity.start(recentEntriedUsers, eventBus);
         recentAddedSkillsActivity.start(recentAddedSkills, eventBus);
     }
 
