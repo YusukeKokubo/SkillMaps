@@ -17,10 +17,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -63,6 +65,9 @@ public class UserListUI extends Composite implements UserListDisplay{
     @UiField
     Anchor return2List;
 
+    @UiField
+    HTMLPanel layout;
+
     private UserListResultDto userListResultDto;
 
     private final Provider<UserThumnail> utProvier;
@@ -96,7 +101,7 @@ public class UserListUI extends Composite implements UserListDisplay{
             this.userListResultDto.setHasNext(userListResultDto.getHasNext());
         }
 
-        reloadUsersPanel(this.userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
+        addUsers(userListResultDto.getUsers(), layoutSelect.getSelectedIndex() + 1);
 
         if(!userListResultDto.getHasNext()) {
             addUserPanel.setVisible(false);
@@ -112,8 +117,18 @@ public class UserListUI extends Composite implements UserListDisplay{
 
     private void reloadUsersPanel(Profile[] users, int viewColumn) {
 
-        HorizontalPanel hPanel = null;
+        int scrollTop = Window.getScrollTop();
         usersPanel.clear();
+
+        addUsers(users, viewColumn);
+
+        Window.scrollTo(0, scrollTop);
+
+    }
+
+    private void addUsers(Profile[] users, int viewColumn) {
+        loaderImage.setVisible(true);
+        HorizontalPanel hPanel = null;
         int column = 0;
         int thumnailWidth = usersPanel.getOffsetWidth() / viewColumn;
         if(thumnailWidth == 0){
@@ -155,7 +170,6 @@ public class UserListUI extends Composite implements UserListDisplay{
         }
 
         loaderImage.setVisible(false);
-
     }
 
     @UiHandler("layoutSelect")
@@ -178,7 +192,7 @@ public class UserListUI extends Composite implements UserListDisplay{
             UiMessage.info("検索するIDを入力してください。");
             return;
         }
-
+        layout.setVisible(false);
         usersPanel.clear();
         addUserPanel.setVisible(false);
         loaderImage.setVisible(true);
@@ -190,6 +204,8 @@ public class UserListUI extends Composite implements UserListDisplay{
     @UiHandler("return2List")
     void onReturn2ListClick(ClickEvent e) {
         return2List.setVisible(false);
+        layout.setVisible(true);
+        usersPanel.clear();
         UserListResultDto ulrd = this.userListResultDto;
         this.userListResultDto = null;
         setUserList(ulrd);

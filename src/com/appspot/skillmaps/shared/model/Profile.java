@@ -10,6 +10,7 @@ import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Model(schemaVersion = 1)
 public class Profile implements Serializable {
@@ -35,19 +36,22 @@ public class Profile implements Serializable {
 
     private String profileUrl2;
 
+    @GwtTransient
     private String twitterToken;
 
+    @GwtTransient
     private String twitterTokenSecret;
 
     private String twitterScreenName;
 
     private Boolean allowFromTwitterNotifier;
-    
+
     private Boolean allowFromMailNotifier;
 
     private Boolean hasIcon;
 
     @Attribute(listener=CreationEmail.class)
+    @GwtTransient
     private String userEmail;
 
     @Attribute(listener=CreationDate.class)

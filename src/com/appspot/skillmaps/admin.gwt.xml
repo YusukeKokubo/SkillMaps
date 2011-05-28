@@ -7,6 +7,7 @@
 	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name="org.slim3.gwt.emul.S3Emulation" />
 	<inherits name="com.google.gwt.user.theme.standard.Standard" />
+	<inherits name="com.google.common.collect.Collect"/>
 	<inherits name="com.google.gwt.http.HTTP"/>
 	<set-property name="gwt.logging.consoleHandler" value="DISABLED"/>
 	<set-property name="gwt.logging.popupHandler" value="DISABLED"/>

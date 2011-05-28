@@ -150,14 +150,18 @@ public class AccountServiceImpl implements AccountService {
         if(StringUtil.isEmpty(encodedCursor)
                 || StringUtil.isEmpty(encodedFilter)
                 || StringUtil.isEmpty(encodedSorts)){
+
             //空は初回
             S3QueryResultList<Profile> result = Datastore.query(pm)
-                                                            .filter(pm.id.isNotNull())
+                                                            .sort(pm.createdAt.desc)
                                                             .prefetchSize(USER_LISE_SIZE)
                                                             .offset(0)
                                                             .limit(USER_LISE_SIZE)
                                                             .asQueryResultList();
+
+
             UserListResultDto resultDto = createUserListResultDto(result);
+
             return resultDto;
         }
         S3QueryResultList<Profile> result = Datastore.query(pm).prefetchSize(USER_LISE_SIZE)
@@ -238,7 +242,9 @@ public class AccountServiceImpl implements AccountService {
     private UserListResultDto createUserListResultDto(
             S3QueryResultList<Profile> result) {
         UserListResultDto resultDto = new UserListResultDto();
-        resultDto.setUsers(result.toArray(new Profile[0]));
+        List<Profile> list = Datastore.filterInMemory(result, pm.id.isNotNull());
+
+        resultDto.setUsers(list.toArray(new Profile[0]));
         resultDto.setEncodedCursor(result.getEncodedCursor());
         resultDto.setEncodedFilter(result.getEncodedFilters());
         resultDto.setEncodedSorts(result.getEncodedSorts());

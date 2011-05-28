@@ -13,6 +13,7 @@ import org.slim3.datastore.Sort;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Model(schemaVersion = 1)
 public class Skill implements Serializable {
@@ -41,9 +42,11 @@ public class Skill implements Serializable {
     @Attribute(persistent=false)
     private InverseModelListRef<SkillComment, Skill> commentRel = new InverseModelListRef<SkillComment, Skill>(SkillComment.class, "skill", this , new Sort("createdAt", SortDirection.DESCENDING));
 
+    @GwtTransient
     private String ownerEmail;
 
     @Attribute(listener=CreationEmail.class)
+    @GwtTransient
     private String createdUserEmail;
 
     @Attribute(listener=CreationDate.class)
