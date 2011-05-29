@@ -7,13 +7,20 @@
 	<g:HTMLPanel>
 		<g:FormPanel>
 			<g:VerticalPanel>
+			    <g:HTML><h2>Twitter</h2></g:HTML>
 				<g:Label>ConsumerKey</g:Label>
-				<g:TextBox ui:field="twitterConsumerKey" visibleLength="80" />
+				<g:TextBox ui:field="twitterConsumerKey" visibleLength="40" />
 				<g:Label>ConsumerSecret</g:Label>
-				<g:TextBox ui:field="twitterConsumerSecret" visibleLength="80" />
-
+				<g:TextBox ui:field="twitterConsumerSecret" visibleLength="40" />
 				<g:Label>NotifierId</g:Label>
-				<g:TextBox ui:field="twitterNotifierId" visibleLength="80" />
+				<g:TextBox ui:field="twitterNotifierId" visibleLength="20" />
+				
+			    <g:HTML><h2>GitHub</h2></g:HTML>
+				<g:Label>client id</g:Label>
+				<g:TextBox ui:field="githubClientId" visibleLength="40" />
+				<g:Label>client secret</g:Label>
+				<g:TextBox ui:field="githubClientSecret" visibleLength="40" />
+
 				<g:Button ui:field="submit" text="submit" />
 			</g:VerticalPanel>
 		</g:FormPanel>

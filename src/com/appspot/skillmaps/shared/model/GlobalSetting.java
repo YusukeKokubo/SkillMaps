@@ -30,6 +30,9 @@ public class GlobalSetting implements Serializable {
 
     private ModelRef<Profile> twitterNotifier = new ModelRef<Profile>(Profile.class);
 
+    private String githubClientId;
+    
+    private String githubClientSecret;
 
     @Attribute(listener=CreationEmail.class)
     private String createdUserEmail;
@@ -141,6 +144,22 @@ public class GlobalSetting implements Serializable {
 
     public String getModificatedUserEmail() {
         return modificatedUserEmail;
+    }
+
+    public void setGithubClientId(String githubClientId) {
+        this.githubClientId = githubClientId;
+    }
+
+    public String getGithubClientId() {
+        return githubClientId;
+    }
+
+    public void setGithubClientSecret(String githubClientSecret) {
+        this.githubClientSecret = githubClientSecret;
+    }
+
+    public String getGithubClientSecret() {
+        return githubClientSecret;
     }
 
 }

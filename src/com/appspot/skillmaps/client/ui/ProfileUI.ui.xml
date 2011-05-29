@@ -58,6 +58,15 @@
 			</g:VerticalPanel>
 		</g:tab>
 		<g:tab>
+		    <g:header>GitHub</g:header>
+		    <g:VerticalPanel>
+		        <g:HorizontalPanel>
+		            <g:Anchor href="/github/auth" target="_blank">GitHubと連携する</g:Anchor>
+		            <g:Label text="状態:" /><g:Label ui:field="lblGitHubEnabled" text="無効" />
+		        </g:HorizontalPanel>
+		    </g:VerticalPanel>
+		</g:tab>
+		<g:tab>
 			<g:header>メール通知</g:header>
 			<g:VerticalPanel>
 				<g:VerticalPanel>

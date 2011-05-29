@@ -47,6 +47,7 @@
 						</g:HTMLPanel>
 						<g:Label></g:Label>
 						<g:Anchor ui:field="twitterLink" target="_blank" />
+						<g:Anchor ui:field="githubLink" target="_blank" />
 						<g:Label ui:field="selfIntroduction" />
 						<g:Anchor ui:field="profileUrl1" target="_blank" />
 						<g:Anchor ui:field="profileUrl2" target="_blank" />

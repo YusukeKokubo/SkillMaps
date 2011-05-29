@@ -33,6 +33,12 @@ public class GlobalSettingUI extends Composite {
 
     @UiField
     TextBox twitterNotifierId;
+    
+    @UiField
+    TextBox githubClientId;
+    
+    @UiField
+    TextBox githubClientSecret;
 
     @UiField
     Button submit;
@@ -51,6 +57,8 @@ public class GlobalSettingUI extends Composite {
                 } else {
                     twitterConsumerKey.setText(setting.getTwitterConsumerKey());
                     twitterConsumerSecret.setText(setting.getTwitterConsumerSecret());
+                    githubClientId.setText(setting.getGithubClientId());
+                    githubClientSecret.setText(setting.getGithubClientSecret());
                     if (setting.getTwitterNotifier().getModel() != null) {
                         twitterNotifierId.setText(setting.getTwitterNotifier().getModel().getId());
                     }
@@ -67,6 +75,8 @@ public class GlobalSettingUI extends Composite {
             public void onClick(ClickEvent event) {
                 gs.setTwitterConsumerKey(twitterConsumerKey.getText());
                 gs.setTwitterConsumerSecret(twitterConsumerSecret.getText());
+                gs.setGithubClientId(githubClientId.getText());
+                gs.setGithubClientSecret(githubClientSecret.getText());
                 service.putGlobalSetting(gs, twitterNotifierId.getText(), new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {

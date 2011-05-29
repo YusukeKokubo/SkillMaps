@@ -56,6 +56,10 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
     @UiField
     @Editor.Ignore
     Label lblTwitterEnabled;
+    
+    @UiField
+    @Editor.Ignore
+    Label lblGitHubEnabled;
 
     @UiField
     Image icon;
@@ -109,6 +113,9 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
         if (p.isEnabledTwitter()){
             lblTwitterEnabled.setText("有効");
             profileTwitter.setVisible(true);
+        }
+        if (p.isEnabledGitHub()){
+            lblGitHubEnabled.setText("有効");
         }
         if (p.getIconKey() != null) icon.setUrl("/images/icon/" + p.getIconKeyString());
         form.setEncoding(FormPanel.ENCODING_MULTIPART);

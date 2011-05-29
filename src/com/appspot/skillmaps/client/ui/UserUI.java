@@ -44,6 +44,9 @@ public class UserUI extends Composite implements UserUIDisplay{
 
     @UiField
     Anchor twitterLink;
+    
+    @UiField
+    Anchor githubLink;
 
     @UiField
     Label selfIntroduction;
@@ -108,7 +111,11 @@ public class UserUI extends Composite implements UserUIDisplay{
         profileUrl2.setText(profile.getProfileUrl2());
         if (profile.isEnabledTwitter()) {
             twitterLink.setText("Twitter : @" + profile.getTwitterScreenName());
-            twitterLink.setHref("http://twitter.com/" + profile.getTwitterScreenName());
+            twitterLink.setHref("https://twitter.com/" + profile.getTwitterScreenName());
+        }
+        if (profile.isEnabledGitHub()) {
+            githubLink.setText("github : " + profile.getGithubLogin());
+            githubLink.setHref("https://github.com/" + profile.getGithubLogin());
         }
 
         if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
