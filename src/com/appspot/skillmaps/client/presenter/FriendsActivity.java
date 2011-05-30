@@ -80,7 +80,7 @@ public class FriendsActivity extends SkillMapActivity implements FriendsDisplay.
 
     @Override
     public void reloadFollowerTo() {
-        service.getFollowerTo(login.getProfile() ,new AsyncCallback<Profile[]>() {
+        service.getFollowerTo(new AsyncCallback<Profile[]>() {
             @Override
             public void onSuccess(Profile[] result) {
                 display.reloadUsersPanel(result);
@@ -94,7 +94,7 @@ public class FriendsActivity extends SkillMapActivity implements FriendsDisplay.
 
     @Override
     public void reloadFollowing() {
-        service.getFollowingBy(login.getProfile() ,new AsyncCallback<Profile[]>() {
+        service.getFollowingBy(new AsyncCallback<Profile[]>() {
             @Override
             public void onSuccess(Profile[] result) {
                 display.reloadUsersPanel(result);

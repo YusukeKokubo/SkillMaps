@@ -183,6 +183,36 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Profile[] getFollowerTo() {
+        Profile p = getCurrentUser();
+
+        if(p == null) {
+
+            return new Profile[0];
+        }
+
+        return getFollowerTo(p);
+    }
+
+    public Profile getCurrentUser() {
+        UserService userService = UserServiceFactory.getUserService();
+
+        if(!userService.isUserLoggedIn()) {
+            return null;
+        }
+
+        User user = userService.getCurrentUser();
+
+        Profile p = Memcache.get(user.getEmail());
+
+        if(p == null) {
+            p = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+
+        }
+        return p;
+    }
+
+    @Override
     public Profile[] getFollowerTo(Profile p) {
         List<Following> following = Datastore.query(fm).filter(fm.toEmail.equal(p.getUserEmail())).asList();
         List<String> keys = new ArrayList<String>();
@@ -190,6 +220,18 @@ public class AccountServiceImpl implements AccountService {
             keys.add(f.getFromEmail());
         }
         return getUsersByEmail(keys.toArray(new String[0]));
+    }
+
+    @Override
+    public Profile[] getFollowingBy() {
+        Profile p = getCurrentUser();
+
+        if(p == null) {
+
+            return new Profile[0];
+        }
+
+        return getFollowingBy(p);
     }
 
     @Override
@@ -279,7 +321,7 @@ public class AccountServiceImpl implements AccountService {
         Datastore.put(act);
     }
 
-    private void putMemcache(String email, Profile p) {
+    public static void putMemcache(String email, Profile p) {
         try{
             Memcache.put(email, p);
         } catch(Exception e){

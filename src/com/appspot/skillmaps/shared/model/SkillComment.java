@@ -11,6 +11,7 @@ import org.slim3.datastore.ModelRef;
 import org.slim3.datastore.ModificationDate;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Model(schemaVersion = 2)
 public class SkillComment implements Serializable {
@@ -29,6 +30,7 @@ public class SkillComment implements Serializable {
     private ModelRef<Skill> skill = new ModelRef<Skill>(Skill.class);
 
     @Attribute(listener=CreationEmail.class)
+    @GwtTransient
     private String createdUserEmail;
 
     @Attribute(listener=CreationDate.class)

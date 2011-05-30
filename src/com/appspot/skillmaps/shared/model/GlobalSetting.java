@@ -3,8 +3,6 @@ package com.appspot.skillmaps.shared.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.google.appengine.api.datastore.Key;
-
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
 import org.slim3.datastore.CreationEmail;
@@ -12,6 +10,8 @@ import org.slim3.datastore.Model;
 import org.slim3.datastore.ModelRef;
 import org.slim3.datastore.ModificationDate;
 import org.slim3.datastore.ModificationEmail;
+
+import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
 public class GlobalSetting implements Serializable {

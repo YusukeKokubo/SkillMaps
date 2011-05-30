@@ -157,6 +157,7 @@ h1 {
 
 .gwt-SuggestBoxPopup {
 	margin-left: 3px;
+	z-index: 1000;
 }
 
 .gwt-SuggestBoxPopup .item {

@@ -37,6 +37,7 @@ public class RegistrationController extends Controller {
         profile.setTwitterToken(accessToken.getToken());
         profile.setTwitterTokenSecret(accessToken.getTokenSecret());
         profile.setTwitterScreenName(twitter.getScreenName());
+        profile.setEnabledTwitter(true);
         Datastore.put(profile);
 
         return redirect("/#!myPage:");

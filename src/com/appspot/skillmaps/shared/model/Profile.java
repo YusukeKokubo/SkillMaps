@@ -36,10 +36,13 @@ public class Profile implements Serializable {
 
     private String profileUrl2;
 
+    @GwtTransient
     private String twitterToken;
 
+    @GwtTransient
     private String twitterTokenSecret;
 
+    @GwtTransient
     private String twitterScreenName;
 
     private Boolean allowFromTwitterNotifier;
@@ -48,7 +51,10 @@ public class Profile implements Serializable {
 
     private Boolean hasIcon;
 
+    private Boolean enabledTwitter;
+
     @Attribute(listener=CreationEmail.class)
+    @GwtTransient
     private String userEmail;
 
     @Attribute(listener=CreationDate.class)
@@ -62,6 +68,11 @@ public class Profile implements Serializable {
     }
 
     public boolean isEnabledTwitter(){
+
+        if(enabledTwitter != null && enabledTwitter) {
+            return enabledTwitter;
+        }
+
         return twitterToken != null && !twitterToken.isEmpty()
                     && twitterTokenSecret != null && !twitterTokenSecret.isEmpty();
     }
@@ -281,6 +292,20 @@ public class Profile implements Serializable {
 
     public Boolean getAllowFromMailNotifier() {
         return allowFromMailNotifier;
+    }
+
+    /**
+     * @param enabledTwitter セットする enabledTwitter
+     */
+    public void setEnabledTwitter(Boolean enabledTwitter) {
+        this.enabledTwitter = enabledTwitter;
+    }
+
+    /**
+     * @return enabledTwitter
+     */
+    public Boolean getEnabledTwitter() {
+        return enabledTwitter;
     }
 
 }

@@ -226,5 +226,7 @@ public class UserListUI extends Composite implements UserListDisplay{
     @Override
     public void clearData() {
         userListResultDto = null;
+        usersPanel.clear();
+
     }
 }

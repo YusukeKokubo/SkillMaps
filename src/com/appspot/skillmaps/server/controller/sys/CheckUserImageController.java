@@ -14,9 +14,9 @@ import com.appspot.skillmaps.server.meta.IconMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.shared.model.Icon;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.google.appengine.api.taskqueue.TaskOptions.Builder;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions.Builder;
 
 public class CheckUserImageController extends Controller {
 

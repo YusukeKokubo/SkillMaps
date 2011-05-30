@@ -151,6 +151,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             public void onSubmit(SkillAddSubmitEvent e) {
                 Skill skill = skillDriver.flush();
                 skill.setOwnerEmail(profile.getUserEmail());
+                skill.setProfile(profile);
                 SkillRelation skillRelation = new SkillRelation();
                 serviceProvider.get().putSkill(skill, skillRelation ,skillAddDialog.getComment().getValue() , true, new AsyncCallback<Void>() {
                     @Override
@@ -192,7 +193,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void reloadSkills() {
         SimplePanel panel = display.getSkillsPanel();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-        serviceProvider.get().getEnabledSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
+        serviceProvider.get().getEnabledSkills(profile, new AsyncCallback<Skill[]>() {
             @Override
             public void onSuccess(Skill[] result) {
                 display.reloadSkills(result , false);
@@ -207,7 +208,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
     @Override
     public void reloadDisableSkills() {
-        serviceProvider.get().getDisabledSkills(profile.getUserEmail(), new AsyncCallback<Skill[]>() {
+        serviceProvider.get().getDisabledSkills(profile, new AsyncCallback<Skill[]>() {
             @Override
             public void onSuccess(Skill[] result) {
                 display.reloadSkills(result , true);

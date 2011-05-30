@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.service;
 
+import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillComment;
@@ -10,9 +11,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface SkillServiceAsync {
 
-    void getEnabledSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
+    void getEnabledSkills(Profile profile, AsyncCallback<Skill[]> callback);
 
-    void getDisabledSkills(String ownerEmail, AsyncCallback<Skill[]> callback);
+    void getDisabledSkills(Profile profile, AsyncCallback<Skill[]> callback);
 
     void putSkill(Skill skill, SkillRelation rel, String comment, boolean sendTwitter,
             AsyncCallback<Void> callback);

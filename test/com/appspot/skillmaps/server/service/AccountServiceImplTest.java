@@ -1,5 +1,9 @@
 package com.appspot.skillmaps.server.service;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -11,10 +15,6 @@ import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.google.appengine.api.datastore.Key;
-
-import static org.hamcrest.CoreMatchers.*;
-
-import static org.junit.Assert.*;
 
 public class AccountServiceImplTest extends ServletTestCase {
 

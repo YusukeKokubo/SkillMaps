@@ -90,7 +90,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillRelation skillRelation = new SkillRelation();
 
         service.putSkill(skill, skillRelation , "コメント", false);
-        skill = service.getEnabledSkills("test@admin.com")[0];
+        skill = service.getEnabledSkills(Datastore.query(pm).filter(pm.userEmail.equal("test@admin.com")).asSingle())[0];
         service.putComment(skill.getKey(), "コメント2");
         service.putComment(null, "コメント3");
         service.putComment(skill.getKey(), "");
@@ -107,7 +107,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(modelList.get(1).getSkill().getModel(), equalTo(skill));
         assertThat(Datastore.query(SkillCommentMeta.get()).asList().size(), is(2));
     }
-    
+
 
     @Test
     public void putSkillすればfollowしたことになる() throws Exception {
@@ -117,17 +117,17 @@ public class SkillServiceImplTest extends ServletTestCase {
         Profile b = new Profile();
         b.setUserEmail("B@test.com");
         b.setName("B");
-        tester.environment.setEmail("A@test.com"); 
-        
+        tester.environment.setEmail("A@test.com");
+
         List<Key> keys = Datastore.put(a, b);
         Datastore.get(pm, keys);
-        
+
         Skill skill = new Skill();
         skill.setName("hogeSkill");
         skill.setOwnerEmail("B@test.com");
         SkillRelation rel = new SkillRelation();
         service.putSkill(skill, rel, false);
-        
+
         List<Following> fw = Datastore.query(fm).asList();
         // なぜかDatastoreに1件不明なデータが入っているのでへんな参照になっている
         assertThat(fw.get(1).getFromEmail(), is("A@test.com"));

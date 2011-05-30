@@ -54,14 +54,19 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Skill[] getEnabledSkills(String ownerEmail) {
-        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).filter(sm.enable.equal(true)).asList();
+    public Skill[] getEnabledSkills(Profile profile) {
+
+        profile = Datastore.get(pm, profile.getKey());
+
+        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(profile.getUserEmail())).filter(sm.enable.equal(true)).asList();
         return result.toArray(new Skill[0]);
     }
 
     @Override
-    public Skill[] getDisabledSkills(String ownerEmail) {
-        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(ownerEmail)).filter(sm.enable.equal(false)).asList();
+    public Skill[] getDisabledSkills(Profile profile) {
+        profile = Datastore.get(pm, profile.getKey());
+
+        List<Skill> result = Datastore.query(sm).filter(sm.ownerEmail.equal(profile.getUserEmail())).filter(sm.enable.equal(false)).asList();
         return result.toArray(new Skill[0]);
     }
 
@@ -159,7 +164,7 @@ public class SkillServiceImpl implements SkillService {
     public void putSkill(Skill skill, SkillRelation rel, String comment, boolean sendTwitter) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        
+
         if (user == null) throw new IllegalArgumentException("the user is null");
         if (StringUtil.isEmpty(skill.getName())) throw new IllegalArgumentException("skill name is null");
 
@@ -172,6 +177,18 @@ public class SkillServiceImpl implements SkillService {
                     putSkill = gtx.get(sm , skill.getKey());
                 }else{
                     putSkill = skill;
+
+                    if(putSkill.getOwnerEmail() == null) {
+                        Profile profile = putSkill.getProfile();
+
+                        if(profile == null) {
+                            throw new IllegalArgumentException("データの状態に問題があります。");
+                        }
+
+                        profile = gtx.get(pm,profile.getKey());
+
+                        putSkill.setOwnerEmail(profile.getUserEmail());
+                    }
                 }
                 putSkill.setEnable(true);
                 if (rel.getKey() == null) {
@@ -182,6 +199,8 @@ public class SkillServiceImpl implements SkillService {
                     putSkill.getRelation().getModelList().remove(rel);
                     putSkill.getRelation().getModelList().add(rel);
                 }
+
+                putSkill.setProfile(null);
                 putSkill.calcPoint();
                 putSkill.setAgreedCount((long) putSkill.getRelation().getModelList().size());
 
@@ -193,15 +212,15 @@ public class SkillServiceImpl implements SkillService {
                 } else {
                     gtx.put(putSkill, rel);
                 }
-                
+
                 // follow
                 Following follow = Datastore.query(fm)
                              .filter(fm.fromEmail.equal(user.getEmail()))
-                             .filter(fm.toEmail.equal(skill.getOwnerEmail())).limit(1).asSingle();
+                             .filter(fm.toEmail.equal(putSkill.getOwnerEmail())).limit(1).asSingle();
                 if (follow == null) {
                     follow = new Following();
                     follow.setFromEmail(user.getEmail());
-                    follow.setToEmail(skill.getOwnerEmail());
+                    follow.setToEmail(putSkill.getOwnerEmail());
                     gtx.put(follow);
                 }
 

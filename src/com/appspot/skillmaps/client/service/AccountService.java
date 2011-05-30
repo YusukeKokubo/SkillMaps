@@ -38,4 +38,8 @@ public interface AccountService extends RemoteService {
     Profile[] getRecentEntriedUsersWithCursor(int pageNum);
 
     Profile[] findUsers(String id);
+
+    Profile[] getFollowerTo();
+
+    Profile[] getFollowingBy();
 }

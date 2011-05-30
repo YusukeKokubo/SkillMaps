@@ -1,11 +1,12 @@
 package com.appspot.skillmaps.server.controller;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 import org.slim3.tester.ControllerTestCase;
-
-import static org.hamcrest.CoreMatchers.*;
-
-import static org.junit.Assert.*;
 
 public class IconUploadControllerTest extends ControllerTestCase {
 

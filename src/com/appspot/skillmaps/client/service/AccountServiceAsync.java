@@ -36,4 +36,8 @@ public interface AccountServiceAsync {
             AsyncCallback<Profile[]> callback);
 
     void findUsers(String id, AsyncCallback<Profile[]> callback);
+
+    void getFollowerTo(AsyncCallback<Profile[]> callback);
+
+    void getFollowingBy(AsyncCallback<Profile[]> callback);
 }

@@ -96,7 +96,7 @@
 				<g:VerticalPanel width="100%">
 					<g:VerticalPanel ui:field="usersPanel" width="100%"/>
 					<g:Image ui:field="loaderImage" resource="{res.loader}"/>
-					<g:FocusPanel addStyleNames="{style.addUserPanelBg}" ui:field="addUserPanel" width="100%"><g:Label>さらユーザを表示する</g:Label></g:FocusPanel>
+					<g:FocusPanel addStyleNames="{style.addUserPanelBg}" ui:field="addUserPanel" width="100%"><g:Label>さらにユーザを表示する</g:Label></g:FocusPanel>
 					<g:Anchor ui:field="return2List" visible="false">一覧に戻る</g:Anchor>
 				</g:VerticalPanel>
 			</g:SimplePanel>

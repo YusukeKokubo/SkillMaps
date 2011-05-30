@@ -13,7 +13,6 @@ import org.slim3.datastore.Sort;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Model(schemaVersion = 1)
 public class Skill implements Serializable {

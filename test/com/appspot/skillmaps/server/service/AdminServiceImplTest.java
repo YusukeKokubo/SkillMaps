@@ -1,9 +1,11 @@
 package com.appspot.skillmaps.server.service;
 
-import org.slim3.tester.ServletTestCase;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import org.slim3.tester.ServletTestCase;
 
 public class AdminServiceImplTest extends ServletTestCase {
 
