@@ -42,7 +42,6 @@ public class Profile implements Serializable {
     @GwtTransient
     private String twitterTokenSecret;
 
-    @GwtTransient
     private String twitterScreenName;
 
     private Boolean allowFromTwitterNotifier;
@@ -55,8 +54,6 @@ public class Profile implements Serializable {
     private String githubLogin;
 
     private Boolean hasIcon;
-
-    private Boolean enabledTwitter;
 
     @Attribute(listener=CreationEmail.class)
     @GwtTransient
@@ -73,13 +70,7 @@ public class Profile implements Serializable {
     }
 
     public boolean isEnabledTwitter(){
-
-        if(enabledTwitter != null && enabledTwitter) {
-            return enabledTwitter;
-        }
-
-        return twitterToken != null && !twitterToken.isEmpty()
-                    && twitterTokenSecret != null && !twitterTokenSecret.isEmpty();
+        return twitterScreenName != null && !twitterScreenName.isEmpty();
     }
 
     public boolean isEnabledGitHub() {
@@ -302,21 +293,6 @@ public class Profile implements Serializable {
     public Boolean getAllowFromMailNotifier() {
         return allowFromMailNotifier;
     }
-
-    /**
-     * @param enabledTwitter セットする enabledTwitter
-     */
-    public void setEnabledTwitter(Boolean enabledTwitter) {
-        this.enabledTwitter = enabledTwitter;
-    }
-
-    /**
-     * @return enabledTwitter
-     */
-    public Boolean getEnabledTwitter() {
-        return enabledTwitter;
-    }
-
 
     public void setGithubToken(String githubToken) {
         this.githubToken = githubToken;
