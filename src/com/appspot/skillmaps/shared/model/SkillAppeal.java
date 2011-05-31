@@ -10,6 +10,7 @@ import org.slim3.datastore.Model;
 import org.slim3.datastore.ModificationDate;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Model(schemaVersion = 1)
 public class SkillAppeal implements Serializable {
@@ -32,6 +33,7 @@ public class SkillAppeal implements Serializable {
     private Profile profile;
 
     @Attribute(listener=CreationEmail.class)
+    @GwtTransient
     private String userEmail;
 
     @Attribute(listener=CreationDate.class)

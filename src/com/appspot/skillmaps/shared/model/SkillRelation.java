@@ -11,6 +11,7 @@ import org.slim3.datastore.ModelRef;
 import org.slim3.datastore.ModificationDate;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Model(schemaVersion = 2)
 public class SkillRelation implements Serializable {
@@ -30,6 +31,7 @@ public class SkillRelation implements Serializable {
     private Long point = 10L;
 
     @Attribute(listener=CreationEmail.class)
+    @GwtTransient
     private String userEmail;
 
     @Attribute(listener=CreationDate.class)
