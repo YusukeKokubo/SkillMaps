@@ -150,7 +150,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             @Override
             public void onSubmit(SkillAddSubmitEvent e) {
                 Skill skill = skillDriver.flush();
-                skill.setOwnerEmail(profile.getUserEmail());
                 skill.setProfile(profile);
                 SkillRelation skillRelation = new SkillRelation();
                 serviceProvider.get().putSkill(skill, skillRelation ,skillAddDialog.getComment().getValue() , true, new AsyncCallback<Void>() {
