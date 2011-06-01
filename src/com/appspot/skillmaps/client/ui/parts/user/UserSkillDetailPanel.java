@@ -183,12 +183,12 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     private Widget makeAgreedButton(final Skill skill, SkillRelation[] rs) {
         if (!login.isLoggedIn()
                 || !login.getProfile().isActivate()
-                || login.getEmailAddress().equals(skill.getProfile().getUserEmail())) {
+                || login.getProfile().equals(skill.getProfile())) {
             return null;
         }
 
         for (final SkillRelation rel : rs) {
-            if (rel.getUserEmail().equals(login.getEmailAddress())) {
+            if (rel.getProfile().equals(login.getProfile())) {
                 if (rel.getPoint() != null && rel.getPoint() >= 10L) {         // ここはアドホックにマジックリテラルしてるけど本当はもっとやり方を考えたい
                     Label label = new Label("賛同済み");
                     label.addStyleName(style.button());

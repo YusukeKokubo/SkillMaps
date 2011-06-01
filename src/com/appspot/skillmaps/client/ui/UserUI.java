@@ -118,7 +118,7 @@ public class UserUI extends Composite implements UserUIDisplay{
             githubLink.setHref("https://github.com/" + profile.getGithubLogin());
         }
 
-        if (!login.isLoggedIn() || login.getProfile().getId() == null || login.getEmailAddress().equals(profile.getUserEmail())) {
+        if (!login.isLoggedIn() || login.getProfile().equals(profile)) {
             addSkill.setVisible(false);
         }
         presenter.reloadSkills();
