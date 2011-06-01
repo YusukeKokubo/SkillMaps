@@ -35,13 +35,12 @@ public class Skillmaps implements EntryPoint {
                 public void onSuccess(Login result) {
                     Login login = injector.getLogin();
                     login.setAdmin(result.isAdmin());
-                    login.setEmailAddress(result.getEmailAddress());
+                    login.setEmail(result.getEmail());
                     login.setKey(result.getKey());
                     login.setLoggedIn(result.isLoggedIn());
                     login.setLogoutUrl(result.getLogoutUrl());
                     login.setNickname(result.getNickname());
                     login.setProfile(result.getProfile());
-                    login.setReceiveEmail(result.getReceiveEmail());
                     login.setVersion(result.getVersion());
 
                     //TODO headerもdisplay化？

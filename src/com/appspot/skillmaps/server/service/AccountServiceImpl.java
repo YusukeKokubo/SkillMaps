@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
         if (user != null) {
             login.setLoggedIn(true);
             login.setAdmin(userService.isUserAdmin());
-            login.setEmailAddress(user.getEmail());
+            login.setEmail(user.getEmail());
             login.setNickname(user.getNickname());
             login.setLogoutUrl(userService.createLogoutURL(requestUri));
             Profile p = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();

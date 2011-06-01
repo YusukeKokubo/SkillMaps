@@ -12,9 +12,8 @@ public class Login implements Serializable {
 
     private boolean loggedIn = false;
     private String logoutUrl;
-    private String emailAddress;
+    private String email;
     private String nickname;
-    private String receiveEmail;
     private boolean admin;
     private Profile profile;
 
@@ -88,20 +87,12 @@ public class Login implements Serializable {
         this.nickname = nickname;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email= email;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setReceiveEmail(String receiveEmail) {
-        this.receiveEmail = receiveEmail;
-    }
-
-    public String getReceiveEmail() {
-        return receiveEmail;
+    public String getEmail() {
+        return email;
     }
 
     public void setProfile(Profile profile) {
