@@ -15,9 +15,6 @@
 						</g:VerticalPanel>
 					</div>
 				</div>
-				<div class="dragger_container">
-					<div class="dragger"></div>
-				</div>
 			</div>
 		</div>
 	</g:HTMLPanel>

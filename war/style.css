@@ -19,7 +19,6 @@ body {
 }
 div#contents {
 	height: 100%;
-	overflow: auto;
 	margin: 0 100px;
 	position: relative;
 }

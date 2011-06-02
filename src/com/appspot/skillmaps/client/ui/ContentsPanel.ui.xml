@@ -18,13 +18,10 @@
 		}
 
 		.dashboard{
-			padding:10px 8px;
-			margin:0 10px 5px 0;
 			position: fixed !important;
 			_position: relative;
 			z-index: 50;
-			overflow: hidden;
-			width: 500px;
+			width: 100%;
 		}
 
 		.layout{
@@ -41,7 +38,7 @@
 		<g:cell width="540px">
 			<g:SimplePanel addStyleNames="{style.contentsPanel}" ui:field="mainPanel"/>
 		</g:cell>
-		<g:cell width="500px">
+		<g:cell width="100%">
 			<g:SimplePanel addStyleNames="{style.dashboard}" ui:field="dashboard"/>
 		</g:cell>
 	</g:HorizontalPanel>
