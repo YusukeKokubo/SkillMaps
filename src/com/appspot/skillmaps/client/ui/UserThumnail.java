@@ -43,8 +43,9 @@ public class UserThumnail extends Composite {
     public void setUser(final Profile user){
         id.setText(user.getId());
         name.setText(user.getName());
-        if(user.getHasIcon() != null && user.getHasIcon()){
-            icon.setUrl("/images/icon/" + user.getIconKeyString());
+        String iconUrl = user.getIconUrl();
+        if (iconUrl != null) {
+            icon.setUrl(iconUrl);
         } else {
             icon.setResource(Resources.INSTANCE.noimage());
         }

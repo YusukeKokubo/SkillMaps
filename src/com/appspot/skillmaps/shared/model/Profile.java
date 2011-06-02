@@ -76,6 +76,13 @@ public class Profile implements Serializable {
     public boolean isEnabledGitHub() {
         return githubLogin != null && !githubLogin.isEmpty();
     }
+    
+    public String getIconUrl() {
+        if(getHasIcon() != null && getHasIcon()){
+            return "/images/icon/" + getIconKeyString();
+        }
+        return null;
+    }
 
     /**
      * Returns the key.
