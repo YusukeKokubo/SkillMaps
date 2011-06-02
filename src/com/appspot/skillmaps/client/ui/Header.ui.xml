@@ -172,7 +172,7 @@
 				<g:Hyperlink ui:field="friendsLink" targetHistoryToken="!friends:">Friends</g:Hyperlink>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel ui:field="signPanel" styleName="{style.sign}">
-				<g:Image ui:field="icon" height="30px" width="30px"></g:Image>
+				<g:Image ui:field="icon" stylePrimaryName="icon"></g:Image>
 				<g:Label addStyleNames="{style.nickname}" ui:field="nickname"></g:Label>
 				<g:Label styleName="{style.demiliter}">|</g:Label>
 				<sm:SigninAnchor addStyleNames="{style.signinlink}" ui:field="signin">Sign

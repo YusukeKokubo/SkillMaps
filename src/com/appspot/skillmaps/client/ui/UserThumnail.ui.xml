@@ -11,7 +11,7 @@
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
 				<g:HorizontalPanel>
-					<g:Image ui:field="icon" width="48px" height="48px" />
+					<g:Image ui:field="icon" stylePrimaryName="icon" />
 					<g:Anchor ui:field="id" styleName="{style.anchor}" />
 					<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 				</g:HorizontalPanel>
