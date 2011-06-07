@@ -3,8 +3,6 @@ package com.appspot.skillmaps.client.presenter;
 import com.appspot.skillmaps.client.bundle.Resources;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay.Presenter;
-import com.appspot.skillmaps.client.event.AgreedSubmitEvent;
-import com.appspot.skillmaps.client.event.AgreedSubmitHandler;
 import com.appspot.skillmaps.client.event.SkillAddSubmitEvent;
 import com.appspot.skillmaps.client.event.SkillAddSubmitHandler;
 import com.appspot.skillmaps.client.event.SkillCommentAddSubmitEvent;
@@ -13,7 +11,6 @@ import com.appspot.skillmaps.client.inject.Injector;
 import com.appspot.skillmaps.client.place.UserPlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
-import com.appspot.skillmaps.client.ui.AgreedForm;
 import com.appspot.skillmaps.client.ui.SkillAddDialog;
 import com.appspot.skillmaps.client.ui.SkillMapPopupPanel;
 import com.appspot.skillmaps.client.ui.UserThumnail;
@@ -30,6 +27,8 @@ import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.place.shared.PlaceController;
@@ -49,10 +48,8 @@ import com.google.inject.name.Named;
 public class UserUIActivity extends SkillMapActivity implements Presenter {
 
     public interface SkillDriver extends SimpleBeanEditorDriver<Skill, SkillAddDialog>{}
-    public interface SkillRelDriver extends SimpleBeanEditorDriver<SkillRelation, AgreedForm>{}
 
     SkillDriver skillDriver = GWT.create(SkillDriver.class);
-    SkillRelDriver skillRelDriver = GWT.create(SkillRelDriver.class);
 
     private Profile profile;
     private EventBus eventBus;
@@ -61,7 +58,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
     private UserUIDisplay display;
     private HandlerRegistration hr;
-    private HandlerRegistration agreedHr;
     private HandlerRegistration commentHr;
 
     private final Provider<SkillAddDialog> skillAddDialogProvider;
@@ -69,7 +65,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     private final Provider<SkillServiceAsync> serviceProvider;
     private final Provider<UserThumnail> utProvider;
     private final Provider<Anchor> permalinkProvider;
-    private final Provider<AgreedForm> agreedFromProvider;
     private final Provider<AccountServiceAsync> accountServiceProvider;
     private final Provider<UserPlace> placeProvider;
 
@@ -79,7 +74,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                           Provider<SkillServiceAsync> serviceProvider,
                           Provider<AccountServiceAsync> accountServiceProvider,
                           Provider<UserThumnail> utProvider,
-                          Provider<AgreedForm> agreedFromProvider,
                           @Named("skillOwnersPermalink") Provider<Anchor> permalinkProvider,
                           PlaceController placeController,
                           Provider<UserPlace> placeProvider,
@@ -90,7 +84,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         this.serviceProvider = serviceProvider;
         this.accountServiceProvider = accountServiceProvider;
         this.utProvider = utProvider;
-        this.agreedFromProvider = agreedFromProvider;
         this.permalinkProvider = permalinkProvider;
         this.placeController = placeController;
         this.placeProvider = placeProvider;
@@ -152,7 +145,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 Skill skill = skillDriver.flush();
                 skill.setProfile(profile);
                 SkillRelation skillRelation = new SkillRelation();
-                serviceProvider.get().putSkill(skill, skillRelation ,skillAddDialog.getComment().getValue() , true, new AsyncCallback<Void>() {
+                serviceProvider.get().putSkill(skill, skillRelation, new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void arg0) {
                         reloadSkills();
@@ -260,34 +253,26 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     }
 
     @Override
-    public void showAgreedDialog(final Skill skill, final SkillRelation rel) {
-        final AgreedForm agreedForm = agreedFromProvider.get();
-        skillRelDriver.initialize(agreedForm);
-        skillRelDriver.edit(rel);
-        removeEventHandler(agreedHr);
-        agreedHr = eventBus.addHandler(AgreedSubmitEvent.TYPE, new AgreedSubmitHandler() {
+    public void showAgreedDialog(final Anchor agreedForm, final Skill skill, final SkillRelation rel) {
+        agreedForm.addClickHandler(new ClickHandler() {
             @Override
-            public void onSubmit(AgreedSubmitEvent e) {
-                SkillRelation rel = skillRelDriver.flush();
-                serviceProvider.get().putSkill(skill, rel, agreedForm.getComment().getText(), true, new AsyncCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void result) {
-                        UiMessage.info("更新しました");
-                        agreedForm.hide();
-                        removeEventHandler(agreedHr);
-                        reloadSkills();
-                        reloadDisableSkills();
-                    }
+            public void onClick(ClickEvent event) {
+                agreedForm.setEnabled(false);
+                serviceProvider.get().putSkill(skill, rel, new AsyncCallback<Void>() {
+                @Override
+                public void onSuccess(Void result) {
+                    UiMessage.info("だよね！しました！");
+                    reloadSkills();
+                    reloadDisableSkills();
+                }
 
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-                        agreedForm.center();
-                    }
-                });
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
+                }
+            });
             }
         });
-        agreedForm.center();
     }
 
     @Override

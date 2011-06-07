@@ -11,7 +11,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.resources.client.CssResource;
@@ -19,6 +18,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -194,28 +194,19 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
                     label.addStyleName(style.button());
                     return label;
                 }
-                Button addButton = new Button("ポイント加算");
+                final Anchor addButton = new Anchor("さらにだよね！");
                 addButton.setTitle("このスキルにポイントを加算します");
                 addButton.addStyleName(style.button());
-                addButton.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        rel.setPoint(10L);
-                        presenter.showAgreedDialog(skill, rel);
-                    }
-                });
+                rel.setPoint(10L);
+                presenter.showAgreedDialog(addButton, skill, rel);
                 return addButton;
             }
         }
-        Button agreedButton = new Button("賛同する");
+        final Anchor agreedButton = new Anchor("だよね！");
         agreedButton.addStyleName(style.button());
         agreedButton.setTitle("このスキルに賛同します");
-        agreedButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                presenter.showAgreedDialog(skill, new SkillRelation());
-            }
-        });
+        presenter.showAgreedDialog(agreedButton, skill, new SkillRelation());
+
         return agreedButton;
     }
 }

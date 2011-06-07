@@ -31,13 +31,11 @@ public interface SkillService extends RemoteService {
 
     Skill[] getRecentAddedSkills();
 
-    void putSkill(Skill skill, SkillRelation rel, String comment,boolean sendTwitter);
-
-    void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter);
-
     SkillComment putComment(Key skillKey , String comment);
 
     SkillComment[] getSkillComments(Key skillKey);
 
     SkillComment[] getRecentAddedSkillComment();
+
+    void putSkill(Skill skill, SkillRelation rel);
 }

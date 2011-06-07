@@ -44,7 +44,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         skill.setOwnerEmail("test@admin.com");
         SkillRelation skillRelation = new SkillRelation();
 
-        service.putSkill(skill, skillRelation, false);
+        service.putSkill(skill, skillRelation);
         Skill resultSkill = Datastore.getOrNull(Skill.class ,skill.getKey());
         assertThat(resultSkill, notNullValue());
         List<SkillRelation> relList = resultSkill.getRelation().getModelList();
@@ -64,7 +64,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         skill.setOwnerEmail("test@admin.com");
         SkillRelation skillRelation = new SkillRelation();
 
-        service.putSkill(skill, skillRelation , "コメント", false);
+        service.putSkill(skill, skillRelation );
         Skill resultSkill = Datastore.getOrNull(Skill.class ,skill.getKey());
         assertThat(resultSkill, notNullValue());
         List<SkillRelation> relList = resultSkill.getRelation().getModelList();
@@ -75,7 +75,6 @@ public class SkillServiceImplTest extends ServletTestCase {
         List<SkillComment> commentList = skill.getCommentRel().getModelList();
 
         assertThat(commentList, notNullValue());
-        assertThat(commentList.get(0).getComment(), is("コメント"));
         assertThat(commentList.get(0).getSkill().getModel(), is(equalTo(skill)));
     }
 
@@ -89,7 +88,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         skill.setOwnerEmail("test@admin.com");
         SkillRelation skillRelation = new SkillRelation();
 
-        service.putSkill(skill, skillRelation , "コメント", false);
+        service.putSkill(skill, skillRelation);
         skill = service.getEnabledSkills(Datastore.query(pm).filter(pm.userEmail.equal("test@admin.com")).asSingle())[0];
         service.putComment(skill.getKey(), "コメント2");
         service.putComment(null, "コメント3");
@@ -126,7 +125,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         skill.setName("hogeSkill");
         skill.setOwnerEmail("B@test.com");
         SkillRelation rel = new SkillRelation();
-        service.putSkill(skill, rel, false);
+        service.putSkill(skill, rel);
 
         List<Following> fw = Datastore.query(fm).asList();
         // なぜかDatastoreに1件不明なデータが入っているのでへんな参照になっている

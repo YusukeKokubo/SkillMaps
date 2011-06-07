@@ -156,12 +156,7 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public void putSkill(Skill skill, SkillRelation rel, boolean sendTwitter) {
-        putSkill(skill, rel, null, sendTwitter);
-    }
-
-    @Override
-    public void putSkill(Skill skill, SkillRelation rel, String comment, boolean sendTwitter) {
+    public void putSkill(Skill skill, SkillRelation rel) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
 
@@ -204,14 +199,7 @@ public class SkillServiceImpl implements SkillService {
                 putSkill.calcPoint();
                 putSkill.setAgreedCount((long) putSkill.getRelation().getModelList().size());
 
-                if(!Strings.isNullOrEmpty(comment)){
-                    SkillComment skillComment = new SkillComment();
-                    skillComment.setComment(comment);
-                    skillComment.getSkill().setModel(putSkill);
-                    gtx.put(putSkill, rel , skillComment);
-                } else {
-                    gtx.put(putSkill, rel);
-                }
+                gtx.put(putSkill, rel);
 
                 // follow
                 Following follow = Datastore.query(fm)
@@ -227,9 +215,6 @@ public class SkillServiceImpl implements SkillService {
                 gtx.commit();
                 complete = true;
 
-                if (sendTwitter) {
-                    TwitterUtil.tweetSkillAppended(putSkill);
-                }
             }catch(ConcurrentModificationException cme){
             }
         }

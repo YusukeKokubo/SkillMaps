@@ -6,6 +6,7 @@ import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -22,13 +23,13 @@ public interface UserUIDisplay extends IsWidget {
         void showSkillOwnersPopup(Skill skill);
         void getSkillRelations(Skill skill,
                 AsyncCallback<SkillRelation[]> asyncCallback);
-        void showAgreedDialog(Skill skill, SkillRelation rel);
         void setDisplay(UserUIDisplay display);
         void setProfile(Profile profile);
         void gotoUser(String id);
         void reloadDisableSkills();
         void getSkillComments(Key key, HasWidgets commentPanel);
         void showSkillCommentForm(Key key, VerticalPanel commentsPanel);
+        void showAgreedDialog(Anchor agreedForm, Skill skill, SkillRelation rel);
     }
 
     void setProfile(Profile profile);

@@ -13,7 +13,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -36,10 +35,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
 
     @UiField
     TextArea description;
-
-    @UiField
-    @Editor.Ignore
-    TextArea comment;
 
     @UiField
     Button submit;
@@ -86,7 +81,4 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
         hide();
     }
 
-    public HasValue<String> getComment(){
-        return comment;
-    }
 }
