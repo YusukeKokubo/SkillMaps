@@ -14,6 +14,7 @@ import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.shared.model.MailQueue;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions.Builder;
 
@@ -57,14 +58,20 @@ public class SkillNotificationController extends Controller {
             body.append(String.format("%s(%s)さんの今日のスキルレポートです。\n\n", profile.getName(), profile.getId()));
             List<Skill> updatedSkills = notifMap.get(user);
             for (Skill skill : updatedSkills) {
+                body.append(String.format("■ [%s] %dポイント %d人がだよね！と言っています. <-  ", skill.getName(), skill.getPoint(), skill.getAgreedCount()));
                 if (!skill.getEnable()) {
-                    body.append("消失しました。 ");
+                    body.append("ポイントが0になったためこのスキルを消失しました。 ");
                 } else if (skill.getCreatedAt().after(h24ago)) {
                     body.append("追加されました。 ");
                 } else {
                     body.append("更新されました。 ");
                 }
-                body.append(String.format("[%s] : 賛同者[%d] : ポイント[%d]\n", skill.getName(), skill.getAgreedCount(), skill.getPoint()));
+                body.append("\n");
+                for (SkillRelation rel : skill.getRelation().getModelList()) {
+                    Profile p = Datastore.query(pm).filter(pm.userEmail.equal(rel.getUserEmail())).limit(1).asSingle();
+                    body.append(String.format("%s(%s) : %dポイント \n", p.getName(), p.getId(), rel.getPoint()));
+                }
+                body.append("\n\n");
             }
             body.append("\n");
             body.append(String.format("http://skillmaps.appspot.com/index.html#!user:%s", profile.getId()));
