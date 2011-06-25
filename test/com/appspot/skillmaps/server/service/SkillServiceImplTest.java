@@ -1,25 +1,24 @@
 package com.appspot.skillmaps.server.service;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.slim3.datastore.Datastore;
 import org.slim3.tester.ServletTestCase;
 
 import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
-import com.appspot.skillmaps.server.meta.SkillCommentMeta;
+import com.appspot.skillmaps.server.meta.SkillAssertionMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
-import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.appspot.skillmaps.shared.model.Skill;
-import com.appspot.skillmaps.shared.model.SkillComment;
-import com.appspot.skillmaps.shared.model.SkillRelation;
+import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAgree;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.appengine.api.datastore.Key;
 
 public class SkillServiceImplTest extends ServletTestCase {
@@ -28,6 +27,32 @@ public class SkillServiceImplTest extends ServletTestCase {
     ProfileMeta pm = ProfileMeta.get();
     FollowingMeta fm = FollowingMeta.get();
     SkillMeta sm = SkillMeta.get();
+    SkillAssertionMeta am = SkillAssertionMeta.get();
+    
+    Profile a;
+    Profile b;
+    Profile c;
+    
+    @Before
+    public void setup() {
+        a = new Profile();
+        a.setName("A");
+        a.setUserEmail("A@test.com");
+        b = new Profile();
+        b.setUserEmail("B@test.com");
+        b.setName("B");
+        c = new Profile();
+        c.setUserEmail("C@test.com");
+        c.setName("C");
+        tester.environment.setEmail("A@test.com");
+
+        List<Key> keys = Datastore.put(a, b, c);
+        List<Profile> list = Datastore.get(pm, keys);
+        
+        a = list.get(0);
+        b = list.get(1);
+        c = list.get(2);
+    }
 
     @Test
     public void test() throws Exception {
@@ -35,102 +60,63 @@ public class SkillServiceImplTest extends ServletTestCase {
     }
 
     @Test
-    public void putSkill_コメントなし(){
-        tester.environment.setEmail("keisuke.oohashi@gmail.com");
-
-        Skill skill = new Skill();
-        skill.setName("test");
-        skill.setDescription("test2");
-        skill.setOwnerEmail("test@admin.com");
-        SkillRelation skillRelation = new SkillRelation();
-
-        service.putSkill(skill, skillRelation);
-        Skill resultSkill = Datastore.getOrNull(Skill.class ,skill.getKey());
-        assertThat(resultSkill, notNullValue());
-        List<SkillRelation> relList = resultSkill.getRelation().getModelList();
-        assertThat(relList , notNullValue());
-        assertThat(relList.size() ,is(1));
-        assertThat(relList.get(0).getKey(), is(skillRelation.getKey()));
-        assertThat(Datastore.query(SkillComment.class).asList().size(), is(0));
+    public void Skillの表明をできること() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setDescription("hogehoge");
+        assertion.setUrl("http://localhost/hoge");
+        
+        Key key = service.putSkillAssertion(skill, assertion);
+        
+        SkillAssertion iedAssertion = Datastore.get(am, key);
+        
+        assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
+        assertThat(iedAssertion.getDescription(), is("hogehoge"));
+        assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
+        assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
+        assertThat(iedAssertion.getSkill().getModel().getPoint(), is(1L));
+        assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(b));
+        assertThat(iedAssertion.getAgrees().getModelList().get(0).getProfile().getModel(), is(a));
     }
 
     @Test
-    public void putSkill_コメントあり(){
-        tester.environment.setEmail("test@gmail.com");
-
-        Skill skill = new Skill();
-        skill.setName("test");
-        skill.setDescription("test2");
-        skill.setOwnerEmail("test@admin.com");
-        SkillRelation skillRelation = new SkillRelation();
-
-        service.putSkill(skill, skillRelation );
-        Skill resultSkill = Datastore.getOrNull(Skill.class ,skill.getKey());
-        assertThat(resultSkill, notNullValue());
-        List<SkillRelation> relList = resultSkill.getRelation().getModelList();
-        assertThat(relList , notNullValue());
-        assertThat(relList.size() ,is(1));
-        assertThat(relList.get(0).getKey(), is(skillRelation.getKey()));
-        assertThat(Datastore.query(SkillComment.class).asList().size(), is(1));
-        List<SkillComment> commentList = skill.getCommentRel().getModelList();
-
-        assertThat(commentList, notNullValue());
-        assertThat(commentList.get(0).getSkill().getModel(), is(equalTo(skill)));
+    public void 自分でSkillを表明した場合はagreesには入らない() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(a);
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setDescription("hogehoge");
+        assertion.setUrl("http://localhost/hoge");
+        
+        Key key = service.putSkillAssertion(skill, assertion);
+        SkillAssertion iedAssertion = Datastore.get(am, key);
+        
+        assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
+        assertThat(iedAssertion.getDescription(), is("hogehoge"));
+        assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
+        assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
+        assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(a));
+        assertThat(iedAssertion.getAgrees().getModelList().size(), is(0));
     }
 
     @Test
-    public void putComment(){
-        tester.environment.setEmail("test@gmail.com");
+    public void Skillの表明に賛同できること() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setDescription("hogehoge");
+        assertion.setUrl("http://localhost/hoge");
+        
+        Key key = service.putSkillAssertion(skill, assertion);
+        SkillAssertion iedAssertion = Datastore.get(am, key);
 
-        Skill skill = new Skill();
-        skill.setName("test");
-        skill.setDescription("test2");
-        skill.setOwnerEmail("test@admin.com");
-        SkillRelation skillRelation = new SkillRelation();
-
-        service.putSkill(skill, skillRelation);
-        skill = service.getEnabledSkills(Datastore.query(pm).filter(pm.userEmail.equal("test@admin.com")).asSingle())[0];
-        service.putComment(skill.getKey(), "コメント2");
-        service.putComment(null, "コメント3");
-        service.putComment(skill.getKey(), "");
-        service.putComment(skill.getKey(), null);
-        tester.environment.setEmail("");
-        service.putComment(skill.getKey(), "コメント4");
-
-        List<SkillComment> modelList = skill.getCommentRel().getModelList();
-        assertThat(modelList , notNullValue());
-        assertThat(modelList.size(), is(2));
-        assertThat(modelList.get(0).getComment(), is("コメント2"));
-        assertThat(modelList.get(0).getSkill().getModel(), equalTo(skill));
-        assertThat(modelList.get(1).getComment(), is("コメント"));
-        assertThat(modelList.get(1).getSkill().getModel(), equalTo(skill));
-        assertThat(Datastore.query(SkillCommentMeta.get()).asList().size(), is(2));
+        tester.environment.setEmail("C@test.com");
+        SkillAgree agree = new SkillAgree();
+        service.agree(iedAssertion, agree);
+        
+        assertThat(iedAssertion.getSkill().getModel().getPoint(), is(2L));
     }
-
-
-    @Test
-    public void putSkillすればfollowしたことになる() throws Exception {
-        Profile a = new Profile();
-        a.setName("A");
-        a.setUserEmail("A@test.com");
-        Profile b = new Profile();
-        b.setUserEmail("B@test.com");
-        b.setName("B");
-        tester.environment.setEmail("A@test.com");
-
-        List<Key> keys = Datastore.put(a, b);
-        Datastore.get(pm, keys);
-
-        Skill skill = new Skill();
-        skill.setName("hogeSkill");
-        skill.setOwnerEmail("B@test.com");
-        SkillRelation rel = new SkillRelation();
-        service.putSkill(skill, rel);
-
-        List<Following> fw = Datastore.query(fm).asList();
-        // なぜかDatastoreに1件不明なデータが入っているのでへんな参照になっている
-        assertThat(fw.get(1).getFromEmail(), is("A@test.com"));
-        assertThat(fw.get(1).getToEmail(), is("B@test.com"));
-    }
-
 }

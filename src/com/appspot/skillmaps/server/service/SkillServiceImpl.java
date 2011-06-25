@@ -19,7 +19,10 @@ import com.appspot.skillmaps.server.util.TwitterUtil;
 import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAgree;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -240,5 +243,54 @@ public class SkillServiceImpl implements SkillService {
         Datastore.put(skillComment);
         skillComment.setProfile(new AccountServiceImpl().getUserByEmail(userService.getCurrentUser().getEmail()));
         return skillComment;
+    }
+
+    
+    /**
+     * @param assertion
+     */
+    public Key putSkillAssertion(SkillA skill, SkillAssertion assertion) {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new IllegalArgumentException("the user is null");
+        
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        assertion.getCreatedBy().setModel(profile);
+        
+        if (!assertion.getCreatedBy().getKey().equals(skill.getHolder().getKey())) {
+            SkillAgree agree = new SkillAgree();
+            agree.getAssertion().setModel(assertion);
+            agree.getProfile().setModel(profile);
+            Datastore.put(agree);
+            skill.setPoint(1L);
+        }
+        
+        if (skill.getKey() == null) {
+            Datastore.put(skill);
+        }
+        assertion.getSkill().setModel(skill);
+
+        return Datastore.put(assertion);
+    }
+    
+    public void agree(SkillAssertion assertion, SkillAgree agree) {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new IllegalArgumentException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        agree.getProfile().setModel(profile);
+        
+        agree.getAssertion().setModel(assertion);
+        Datastore.put(agree);
+        
+        SkillA skill = assertion.getSkill().getModel();
+        long point = 0;
+        for (SkillAssertion a : skill.getAssertions().getModelList()) {
+            point += a.getAgrees().getModelList().size();
+        }
+        skill.setPoint(point);
+        
+        Datastore.put(skill);
     }
 }

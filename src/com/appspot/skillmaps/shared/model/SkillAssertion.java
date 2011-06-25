@@ -23,7 +23,7 @@ public class SkillAssertion implements Serializable {
     @Attribute(version = true)
     private Long version;
 
-    private ModelRef<Skill> skill = new ModelRef<Skill>(Skill.class);
+    private ModelRef<SkillA> skill = new ModelRef<SkillA>(SkillA.class);
 
     private String description;
 
@@ -141,7 +141,7 @@ public class SkillAssertion implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public ModelRef<Skill> getSkill() {
+    public ModelRef<SkillA> getSkill() {
         return skill;
     }
 
