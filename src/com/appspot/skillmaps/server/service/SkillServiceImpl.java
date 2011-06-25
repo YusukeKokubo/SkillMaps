@@ -20,7 +20,6 @@ import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
-import com.appspot.skillmaps.shared.model.SkillAgree;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillComment;
@@ -249,7 +248,7 @@ public class SkillServiceImpl implements SkillService {
     /**
      * @param assertion
      */
-    public Key putSkillAssertion(SkillA skill, SkillAssertion assertion) {
+    public Key assertSkill(SkillA skill, SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
@@ -258,10 +257,7 @@ public class SkillServiceImpl implements SkillService {
         assertion.getCreatedBy().setModel(profile);
         
         if (!assertion.getCreatedBy().getKey().equals(skill.getHolder().getKey())) {
-            SkillAgree agree = new SkillAgree();
-            agree.getAssertion().setModel(assertion);
-            agree.getProfile().setModel(profile);
-            Datastore.put(agree);
+            assertion.getAgrees().add(profile.getKey());
             skill.setPoint(1L);
         }
         
@@ -273,24 +269,23 @@ public class SkillServiceImpl implements SkillService {
         return Datastore.put(assertion);
     }
     
-    public void agree(SkillAssertion assertion, SkillAgree agree) {
+    public Key agree(SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
-        agree.getProfile().setModel(profile);
-        
-        agree.getAssertion().setModel(assertion);
-        Datastore.put(agree);
+        assertion.getAgrees().add(profile.getKey());
+        Key result = Datastore.put(assertion);
         
         SkillA skill = assertion.getSkill().getModel();
         long point = 0;
         for (SkillAssertion a : skill.getAssertions().getModelList()) {
-            point += a.getAgrees().getModelList().size();
+            point += a.getAgrees().size();
         }
         skill.setPoint(point);
-        
         Datastore.put(skill);
+        
+        return result;
     }
 }

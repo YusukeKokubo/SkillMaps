@@ -17,7 +17,6 @@ import com.appspot.skillmaps.server.meta.SkillAssertionMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillA;
-import com.appspot.skillmaps.shared.model.SkillAgree;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.appengine.api.datastore.Key;
 
@@ -73,7 +72,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         
-        Key key = service.putSkillAssertion(skill, assertion);
+        Key key = service.assertSkill(skill, assertion);
         
         SkillAssertion iedAssertion = Datastore.get(am, key);
         
@@ -83,7 +82,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
         assertThat(iedAssertion.getSkill().getModel().getPoint(), is(1L));
         assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(b));
-        assertThat(iedAssertion.getAgrees().getModelList().get(0).getProfile().getModel(), is(a));
+        assertThat(iedAssertion.getAgrees().get(0), is(a.getKey()));
     }
 
     @Test
@@ -95,7 +94,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         
-        Key key = service.putSkillAssertion(skill, assertion);
+        Key key = service.assertSkill(skill, assertion);
         SkillAssertion iedAssertion = Datastore.get(am, key);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
@@ -103,7 +102,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
         assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(a));
-        assertThat(iedAssertion.getAgrees().getModelList().size(), is(0));
+        assertThat(iedAssertion.getAgrees().size(), is(0));
     }
 
     @Test
@@ -115,18 +114,20 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         
-        Key key = service.putSkillAssertion(skill, assertion);
+        Key key = service.assertSkill(skill, assertion);
 
         SkillAssertion iedAssertion = Datastore.get(am, key);
         tester.environment.setEmail("C@test.com");
-        SkillAgree agree = new SkillAgree();
-        service.agree(iedAssertion, agree);
+        Key iedKey = service.agree(iedAssertion);
+        iedAssertion = Datastore.get(am, iedKey);
         assertThat(iedAssertion.getSkill().getModel().getPoint(), is(2L));
+        assertThat(iedAssertion.getAgrees().get(1), is(c.getKey()));
 
         SkillAssertion iedAssertionD = Datastore.get(am, key);
         tester.environment.setEmail("D@test.com");
-        SkillAgree agreeD = new SkillAgree();
-        service.agree(iedAssertionD, agreeD);
+        Key iedKeyD = service.agree(iedAssertionD);
+        iedAssertionD = Datastore.get(am, iedKeyD);
         assertThat(iedAssertionD.getSkill().getModel().getPoint(), is(3L));
+        assertThat(iedAssertionD.getAgrees().get(2), is(d.getKey()));
     }
 }

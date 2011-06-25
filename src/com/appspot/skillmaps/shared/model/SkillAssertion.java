@@ -1,11 +1,12 @@
 package com.appspot.skillmaps.shared.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
-import org.slim3.datastore.InverseModelListRef;
 import org.slim3.datastore.Model;
 import org.slim3.datastore.ModelRef;
 import org.slim3.datastore.ModificationDate;
@@ -29,9 +30,7 @@ public class SkillAssertion implements Serializable {
 
     private String url;
     
-    @Attribute(persistent=false)
-    private InverseModelListRef<SkillAgree, SkillAssertion> agrees =
-        new InverseModelListRef<SkillAgree, SkillAssertion>(SkillAgree.class, "assertion", this);
+    private List<Key> agrees = new ArrayList<Key>();
 
     private ModelRef<Profile> createdBy = new ModelRef<Profile>(Profile.class);
 
@@ -149,7 +148,12 @@ public class SkillAssertion implements Serializable {
         return createdBy;
     }
 
-    public InverseModelListRef<SkillAgree, SkillAssertion> getAgrees() {
+    public void setAgrees(List<Key> agrees) {
+        this.agrees = agrees;
+    }
+
+    public List<Key> getAgrees() {
         return agrees;
     }
+
 }
