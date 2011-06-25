@@ -32,26 +32,31 @@ public class SkillServiceImplTest extends ServletTestCase {
     Profile a;
     Profile b;
     Profile c;
+    Profile d;
     
     @Before
     public void setup() {
         a = new Profile();
-        a.setName("A");
         a.setUserEmail("A@test.com");
+        a.setName("A");
         b = new Profile();
         b.setUserEmail("B@test.com");
         b.setName("B");
         c = new Profile();
         c.setUserEmail("C@test.com");
         c.setName("C");
+        d = new Profile();
+        d.setUserEmail("D@test.com");
+        d.setName("D");
         tester.environment.setEmail("A@test.com");
 
-        List<Key> keys = Datastore.put(a, b, c);
+        List<Key> keys = Datastore.put(a, b, c, d);
         List<Profile> list = Datastore.get(pm, keys);
         
         a = list.get(0);
         b = list.get(1);
         c = list.get(2);
+        d = list.get(3);
     }
 
     @Test
@@ -111,12 +116,17 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setUrl("http://localhost/hoge");
         
         Key key = service.putSkillAssertion(skill, assertion);
-        SkillAssertion iedAssertion = Datastore.get(am, key);
 
+        SkillAssertion iedAssertion = Datastore.get(am, key);
         tester.environment.setEmail("C@test.com");
         SkillAgree agree = new SkillAgree();
         service.agree(iedAssertion, agree);
-        
         assertThat(iedAssertion.getSkill().getModel().getPoint(), is(2L));
+
+        SkillAssertion iedAssertionD = Datastore.get(am, key);
+        tester.environment.setEmail("D@test.com");
+        SkillAgree agreeD = new SkillAgree();
+        service.agree(iedAssertionD, agreeD);
+        assertThat(iedAssertionD.getSkill().getModel().getPoint(), is(3L));
     }
 }
