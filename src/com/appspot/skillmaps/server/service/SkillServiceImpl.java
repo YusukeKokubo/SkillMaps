@@ -248,7 +248,7 @@ public class SkillServiceImpl implements SkillService {
     /**
      * @param assertion
      */
-    public Key assertSkill(SkillA skill, SkillAssertion assertion) {
+    public Key doAssert(SkillA skill, SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");

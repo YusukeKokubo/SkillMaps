@@ -72,7 +72,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         
-        Key key = service.assertSkill(skill, assertion);
+        Key key = service.doAssert(skill, assertion);
         
         SkillAssertion iedAssertion = Datastore.get(am, key);
         
@@ -94,7 +94,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         
-        Key key = service.assertSkill(skill, assertion);
+        Key key = service.doAssert(skill, assertion);
         SkillAssertion iedAssertion = Datastore.get(am, key);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
@@ -114,7 +114,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         
-        Key key = service.assertSkill(skill, assertion);
+        Key key = service.doAssert(skill, assertion);
 
         SkillAssertion iedAssertion = Datastore.get(am, key);
         tester.environment.setEmail("C@test.com");
