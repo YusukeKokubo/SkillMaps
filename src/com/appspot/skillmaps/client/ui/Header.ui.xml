@@ -166,10 +166,10 @@
 				<g:Hyperlink ui:field="myPageLink" targetHistoryToken="!myPage:">MyPage</g:Hyperlink>
 				<g:Label styleName="{style.demiliter}">|</g:Label>
 				<g:Hyperlink targetHistoryToken="!userList:0">Users</g:Hyperlink>
-				<g:Label styleName="{style.demiliter}">|</g:Label>
+<!-- 				<g:Label styleName="{style.demiliter}">|</g:Label>
 				<g:Hyperlink targetHistoryToken="!skillList:">Skills</g:Hyperlink>
 				<g:Label ui:field="friendsDelimiter" styleName="{style.demiliter}">|</g:Label>
-				<g:Hyperlink ui:field="friendsLink" targetHistoryToken="!friends:">Friends</g:Hyperlink>
+				<g:Hyperlink ui:field="friendsLink" targetHistoryToken="!friends:">Friends</g:Hyperlink> -->
 			</g:HorizontalPanel>
 			<g:HorizontalPanel ui:field="signPanel" styleName="{style.sign}">
 				<g:Image ui:field="icon" stylePrimaryName="icon"></g:Image>
