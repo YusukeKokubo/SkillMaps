@@ -1,13 +1,10 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.display.HomeDisplay;
-import com.appspot.skillmaps.client.presenter.ActivateGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.RecentAddedSkillsActivity;
-import com.appspot.skillmaps.client.presenter.SigninGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.SkillAppealTimeLineActivity;
 import com.appspot.skillmaps.client.presenter.TimeLineActivity;
 import com.appspot.skillmaps.shared.model.Login;
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -20,7 +17,6 @@ import com.google.gwt.user.client.ui.DecoratedTabBar;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class HomeView extends Composite implements HomeDisplay {
 
