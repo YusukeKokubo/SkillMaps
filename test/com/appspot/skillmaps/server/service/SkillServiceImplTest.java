@@ -62,6 +62,20 @@ public class SkillServiceImplTest extends ServletTestCase {
     public void test() throws Exception {
         assertThat(service, is(notNullValue()));
     }
+    
+    @Test
+    public void Skillを追加できること() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
+        assertThat(iedSkill.getName(), is("Java"));
+        assertThat(iedSkill.getAssertions().getModelList().isEmpty(), is(true));
+        assertThat(iedSkill.getCreatedBy().getModel(), is(a));
+        assertThat(iedSkill.getHolder().getModel(), is(b));
+        assertThat(iedSkill.getPoint(), is(0L));
+    }
 
     @Test
     public void Skillの表明をできること() throws Exception {
