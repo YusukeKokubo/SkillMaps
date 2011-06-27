@@ -248,6 +248,7 @@ public class SkillServiceImpl implements SkillService {
         return skillComment;
     }
 
+    @Override
     public SkillA addSkill(SkillA skill) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
@@ -260,6 +261,7 @@ public class SkillServiceImpl implements SkillService {
         return Datastore.get(sma, Datastore.put(skill));
     }
     
+    @Override
     public SkillAssertion addAssert(SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
@@ -274,7 +276,8 @@ public class SkillServiceImpl implements SkillService {
         
         return Datastore.get(sam, Datastore.put(assertion));
     }
-    
+
+    @Override
     public SkillAssertion agree(SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
@@ -290,11 +293,13 @@ public class SkillServiceImpl implements SkillService {
         
         return Datastore.get(sam, result);
     }
-    
+
+    @Override
     public SkillA[] getSkill(Profile profile) {
         return Datastore.query(sma).filter(sma.holder.equal(profile.getKey())).asList().toArray(new SkillA[0]);
     }
-    
+
+    @Override
     public SkillAssertion[] getAssertion(SkillA skill) {
         return skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
     }

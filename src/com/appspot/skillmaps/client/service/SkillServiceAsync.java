@@ -2,7 +2,9 @@ package com.appspot.skillmaps.client.service;
 
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -36,5 +38,16 @@ public interface SkillServiceAsync {
     void getRecentAddedSkillComment(AsyncCallback<SkillComment[]> callback);
 
     void putSkill(Skill skill, SkillRelation rel, AsyncCallback<Void> callback);
+
+    void addSkill(SkillA skill, AsyncCallback<SkillA> callback);
+
+    void addAssert(SkillAssertion assertion,
+            AsyncCallback<SkillAssertion> callback);
+
+    void agree(SkillAssertion assertion, AsyncCallback<SkillAssertion> callback);
+
+    void getSkill(Profile profile, AsyncCallback<SkillA[]> callback);
+
+    void getAssertion(SkillA skill, AsyncCallback<SkillAssertion[]> callback);
 
 }
