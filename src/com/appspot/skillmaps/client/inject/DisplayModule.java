@@ -7,7 +7,6 @@ import com.appspot.skillmaps.client.display.MyPageDisplay;
 import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
 import com.appspot.skillmaps.client.display.RecentEntriedUsersDisplay;
 import com.appspot.skillmaps.client.display.SigninGuidanceDisplay;
-import com.appspot.skillmaps.client.display.SkillAppealFormDisplay;
 import com.appspot.skillmaps.client.display.SkillAppealTimeLineDisplay;
 import com.appspot.skillmaps.client.display.SkillListDisplay;
 import com.appspot.skillmaps.client.display.SkillOwnersDisplay;
@@ -20,7 +19,6 @@ import com.appspot.skillmaps.client.ui.ProfileUI;
 import com.appspot.skillmaps.client.ui.RecentAddedSkills;
 import com.appspot.skillmaps.client.ui.RecentEntriedUsers;
 import com.appspot.skillmaps.client.ui.SigninGuidance;
-import com.appspot.skillmaps.client.ui.SkillAppealForm;
 import com.appspot.skillmaps.client.ui.SkillAppealTimeLine;
 import com.appspot.skillmaps.client.ui.SkillListUI;
 import com.appspot.skillmaps.client.ui.SkillOwners;
@@ -45,7 +43,6 @@ public class DisplayModule extends AbstractGinModule {
         bind(ActivateGuidanceDisplay.class).to(ActivateGuidance.class);
         bind(RecentAddedSkillsDisplay.class).to(RecentAddedSkills.class);
         bind(RecentEntriedUsersDisplay.class).to(RecentEntriedUsers.class);
-        bind(SkillAppealFormDisplay.class).to(SkillAppealForm.class).in(Singleton.class);
         bind(SkillAppealTimeLineDisplay.class).to(SkillAppealTimeLine.class);
         bind(SigninGuidanceDisplay.class).to(SigninGuidance.class);
     }

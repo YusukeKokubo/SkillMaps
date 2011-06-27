@@ -45,7 +45,6 @@ public interface Injector extends Ginjector {
     UserPlace.Tokenizer getUserPlaceTokenizer();
     FriendsPlace.Tokenizer getFriendsPlaceTokenizer();
     
-    @Named("appealAnchor") Anchor getAppealAnchor();
     UserSkillDetailPanel getUserSkillDetailPanel();
     UserThumnail getUserThumnail();
     SkillCommentThumnail getSkillCommentThumnail();

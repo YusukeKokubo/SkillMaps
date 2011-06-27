@@ -2,8 +2,6 @@ package com.appspot.skillmaps.client.inject;
 
 import com.appspot.skillmaps.client.place.MyPagePlace;
 import com.appspot.skillmaps.client.place.SkillOwnersPlace;
-import com.appspot.skillmaps.client.ui.SkillAppealForm;
-import com.appspot.skillmaps.client.ui.SkillMapPopupPanel;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -62,22 +60,4 @@ public class SkillMapsModule extends AbstractGinModule {
         return anchor;
     }
 
-    @Provides
-    @Named("appealAnchor")
-    public Anchor makeAppealAnchor(final Provider<SkillAppealForm> saf){
-        Anchor appealAnchor = new Anchor("アピールする");
-        appealAnchor.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                SkillMapPopupPanel panel = new SkillMapPopupPanel();
-
-                SkillAppealForm skillAppealForm = saf.get();
-                skillAppealForm.initPresenter();
-                panel.setContents(skillAppealForm);
-
-                panel.center();
-            }
-        });
-        return appealAnchor;
-    }
 }
