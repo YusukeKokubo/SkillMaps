@@ -255,6 +255,7 @@ public class SkillServiceImpl implements SkillService {
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         skill.getCreatedBy().setModel(profile);
+        skill.setPoint(0L);
         
         return Datastore.get(sma, Datastore.put(skill));
     }
@@ -284,13 +285,17 @@ public class SkillServiceImpl implements SkillService {
         Key result = Datastore.put(assertion);
         
         SkillA skill = assertion.getSkill().getModel();
-        long point = 0;
-        for (SkillAssertion a : skill.getAssertions().getModelList()) {
-            point += a.getAgrees().size();
-        }
-        skill.setPoint(point);
+        skill.setPoint(skill.calcPoint());
         Datastore.put(skill);
         
         return Datastore.get(sam, result);
+    }
+    
+    public SkillA[] getSkill(Profile profile) {
+        return Datastore.query(sma).filter(sma.holder.equal(profile.getKey())).asList().toArray(new SkillA[0]);
+    }
+    
+    public SkillAssertion[] getAssertion(SkillA skill) {
+        return skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
     }
 }

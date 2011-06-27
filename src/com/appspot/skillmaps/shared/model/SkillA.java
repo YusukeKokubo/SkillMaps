@@ -41,6 +41,14 @@ public class SkillA implements Serializable {
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
     
+    public long calcPoint() {
+        long point = 0;
+        for (SkillAssertion a : getAssertions().getModelList()) {
+            point += a.getAgrees().size();
+        }
+        return point;
+    }
+    
     /**
      * Returns the key.
      *
