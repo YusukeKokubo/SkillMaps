@@ -32,6 +32,8 @@ public class SkillA implements Serializable {
         new InverseModelListRef<SkillAssertion, SkillA>(SkillAssertion.class, "skill", this);
 
     private ModelRef<Profile> holder = new ModelRef<Profile>(Profile.class);
+
+    private ModelRef<Profile> createdBy = new ModelRef<Profile>(Profile.class);
     
     @Attribute(listener=CreationDate.class)
     private Date createdAt;
@@ -145,5 +147,9 @@ public class SkillA implements Serializable {
 
     public InverseModelListRef<SkillAssertion, SkillA> getAssertions() {
         return assertions;
+    }
+
+    public ModelRef<Profile> getCreatedBy() {
+        return createdBy;
     }
 }

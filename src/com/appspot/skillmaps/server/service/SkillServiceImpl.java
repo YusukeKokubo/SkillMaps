@@ -11,7 +11,9 @@ import org.slim3.util.StringUtil;
 import com.appspot.skillmaps.client.service.SkillService;
 import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
+import com.appspot.skillmaps.server.meta.SkillAMeta;
 import com.appspot.skillmaps.server.meta.SkillAppealMeta;
+import com.appspot.skillmaps.server.meta.SkillAssertionMeta;
 import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
@@ -38,6 +40,8 @@ public class SkillServiceImpl implements SkillService {
     ProfileMeta pm = ProfileMeta.get();
     SkillCommentMeta scm = SkillCommentMeta.get();
     FollowingMeta fm = FollowingMeta.get();
+    SkillAMeta sma = SkillAMeta.get();
+    SkillAssertionMeta sam = SkillAssertionMeta.get();
 
     @Override
     public Skill[] getSkillOwners(Skill skill) {
@@ -244,11 +248,18 @@ public class SkillServiceImpl implements SkillService {
         return skillComment;
     }
 
+    public SkillA addSkill(SkillA skill) {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new IllegalArgumentException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        skill.getCreatedBy().setModel(profile);
+        
+        return Datastore.get(sma, Datastore.put(skill));
+    }
     
-    /**
-     * @param assertion
-     */
-    public Key doAssert(SkillA skill, SkillAssertion assertion) {
+    public SkillAssertion addAssert(SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
@@ -256,20 +267,14 @@ public class SkillServiceImpl implements SkillService {
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         assertion.getCreatedBy().setModel(profile);
         
-        if (!assertion.getCreatedBy().getKey().equals(skill.getHolder().getKey())) {
-            assertion.getAgrees().add(profile.getKey());
-            skill.setPoint(1L);
+        if (!assertion.isCreatedByOwn()) {
+            agree(assertion);
         }
         
-        if (skill.getKey() == null) {
-            Datastore.put(skill);
-        }
-        assertion.getSkill().setModel(skill);
-
-        return Datastore.put(assertion);
+        return Datastore.get(sam, Datastore.put(assertion));
     }
     
-    public Key agree(SkillAssertion assertion) {
+    public SkillAssertion agree(SkillAssertion assertion) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
@@ -286,6 +291,6 @@ public class SkillServiceImpl implements SkillService {
         skill.setPoint(point);
         Datastore.put(skill);
         
-        return result;
+        return Datastore.get(sam, result);
     }
 }

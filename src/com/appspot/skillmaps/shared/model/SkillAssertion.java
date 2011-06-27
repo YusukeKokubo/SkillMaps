@@ -39,6 +39,11 @@ public class SkillAssertion implements Serializable {
 
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
+    
+    public boolean isCreatedByOwn() {
+        SkillA skill = getSkill().getModel();
+        return getCreatedBy().getKey().equals(skill.getHolder().getKey());
+    }
 
     /**
      * Returns the key.

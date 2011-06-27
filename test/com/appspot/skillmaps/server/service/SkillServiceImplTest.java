@@ -68,13 +68,13 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA skill = new SkillA();
         skill.setName("Java");
         skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
         SkillAssertion assertion = new SkillAssertion();
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
-        
-        Key key = service.doAssert(skill, assertion);
-        
-        SkillAssertion iedAssertion = Datastore.get(am, key);
+        assertion.getSkill().setModel(iedSkill);
+        SkillAssertion iedAssertion = service.addAssert(assertion);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
         assertThat(iedAssertion.getDescription(), is("hogehoge"));
@@ -90,12 +90,13 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA skill = new SkillA();
         skill.setName("Java");
         skill.getHolder().setModel(a);
+        SkillA iedSkill = service.addSkill(skill);
+        
         SkillAssertion assertion = new SkillAssertion();
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
-        
-        Key key = service.doAssert(skill, assertion);
-        SkillAssertion iedAssertion = Datastore.get(am, key);
+        assertion.getSkill().setModel(iedSkill);
+        SkillAssertion iedAssertion = service.addAssert(assertion);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
         assertThat(iedAssertion.getDescription(), is("hogehoge"));
@@ -110,23 +111,21 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA skill = new SkillA();
         skill.setName("Java");
         skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
         SkillAssertion assertion = new SkillAssertion();
         assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
-        
-        Key key = service.doAssert(skill, assertion);
+        assertion.getSkill().setModel(iedSkill);
+        SkillAssertion iedAssertion = service.addAssert(assertion);
 
-        SkillAssertion iedAssertion = Datastore.get(am, key);
         tester.environment.setEmail("C@test.com");
-        Key iedKey = service.agree(iedAssertion);
-        iedAssertion = Datastore.get(am, iedKey);
-        assertThat(iedAssertion.getSkill().getModel().getPoint(), is(2L));
-        assertThat(iedAssertion.getAgrees().get(1), is(c.getKey()));
+        SkillAssertion iedAssertionC = service.agree(iedAssertion);
+        assertThat(iedAssertionC.getSkill().getModel().getPoint(), is(2L));
+        assertThat(iedAssertionC.getAgrees().get(1), is(c.getKey()));
 
-        SkillAssertion iedAssertionD = Datastore.get(am, key);
         tester.environment.setEmail("D@test.com");
-        Key iedKeyD = service.agree(iedAssertionD);
-        iedAssertionD = Datastore.get(am, iedKeyD);
+        SkillAssertion iedAssertionD = service.agree(iedAssertionC);
         assertThat(iedAssertionD.getSkill().getModel().getPoint(), is(3L));
         assertThat(iedAssertionD.getAgrees().get(2), is(d.getKey()));
     }
