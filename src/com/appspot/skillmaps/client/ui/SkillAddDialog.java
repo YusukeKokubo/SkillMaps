@@ -1,7 +1,7 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.event.SkillAddSubmitEvent;
-import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
@@ -15,11 +15,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-public class SkillAddDialog extends DialogBox implements Editor<Skill> {
+public class SkillAddDialog extends DialogBox implements Editor<SkillA> {
 
     interface SkillAddStyle extends CssResource{
         String form();
@@ -32,9 +31,6 @@ public class SkillAddDialog extends DialogBox implements Editor<Skill> {
     SuggestBox skillName;
 
     MultiWordSuggestOracle skillNames = new MultiWordSuggestOracle();
-
-    @UiField
-    TextArea description;
 
     @UiField
     Button submit;

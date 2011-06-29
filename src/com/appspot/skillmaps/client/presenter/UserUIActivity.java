@@ -19,6 +19,7 @@ import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -47,7 +48,7 @@ import com.google.inject.name.Named;
 
 public class UserUIActivity extends SkillMapActivity implements Presenter {
 
-    public interface SkillDriver extends SimpleBeanEditorDriver<Skill, SkillAddDialog>{}
+    public interface SkillDriver extends SimpleBeanEditorDriver<SkillA, SkillAddDialog>{}
 
     SkillDriver skillDriver = GWT.create(SkillDriver.class);
 
@@ -137,17 +138,16 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void showSkillAddDialog() {
         final SkillAddDialog skillAddDialog = skillAddDialogProvider.get();
         skillDriver.initialize(skillAddDialog);
-        skillDriver.edit(new Skill());
+        skillDriver.edit(new SkillA());
         removeEventHandler(hr);
         hr = eventBus.addHandler(SkillAddSubmitEvent.TYPE, new SkillAddSubmitHandler() {
             @Override
             public void onSubmit(SkillAddSubmitEvent e) {
-                Skill skill = skillDriver.flush();
-                skill.setProfile(profile);
-                SkillRelation skillRelation = new SkillRelation();
-                serviceProvider.get().putSkill(skill, skillRelation, new AsyncCallback<Void>() {
+                SkillA skill = skillDriver.flush();
+                skill.getHolder().setModel(profile);
+                serviceProvider.get().addSkill(skill, new AsyncCallback<SkillA>() {
                     @Override
-                    public void onSuccess(Void arg0) {
+                    public void onSuccess(SkillA arg0) {
                         reloadSkills();
                         Window.alert("追加しました");
                         skillAddDialog.hide();
@@ -185,9 +185,9 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void reloadSkills() {
         SimplePanel panel = display.getSkillsPanel();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-        serviceProvider.get().getEnabledSkills(profile, new AsyncCallback<Skill[]>() {
+        serviceProvider.get().getSkill(profile, new AsyncCallback<SkillA[]>() {
             @Override
-            public void onSuccess(Skill[] result) {
+            public void onSuccess(SkillA[] result) {
                 display.reloadSkills(result , false);
             }
 
@@ -200,17 +200,17 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
     @Override
     public void reloadDisableSkills() {
-        serviceProvider.get().getDisabledSkills(profile, new AsyncCallback<Skill[]>() {
-            @Override
-            public void onSuccess(Skill[] result) {
-                display.reloadSkills(result , true);
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                UiMessage.severe(caught.getMessage(), caught);
-            }
-        });
+//        serviceProvider.get().getDisabledSkills(profile, new AsyncCallback<Skill[]>() {
+//            @Override
+//            public void onSuccess(Skill[] result) {
+//                display.reloadSkills(result , true);
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                UiMessage.severe(caught.getMessage(), caught);
+//            }
+//        });
     }
 
     @Override

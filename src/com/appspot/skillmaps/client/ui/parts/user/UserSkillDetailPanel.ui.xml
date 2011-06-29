@@ -73,9 +73,6 @@
 					<g:HTMLPanel width="100px">
 						<span class="{style.delimiter}">|</span>ポイント :<g:NumberLabel ui:field="point"/>
 					</g:HTMLPanel>
-					<g:HTMLPanel width="100px">
-						<span class="{style.delimiter}">|</span>賛同者数 :<g:NumberLabel ui:field="agreedCount"/>
-					</g:HTMLPanel>
 				</g:HorizontalPanel>
 			</g:customHeader>
 			<g:HTMLPanel addStyleNames="{style.detailPanel}">

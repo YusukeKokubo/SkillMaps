@@ -7,6 +7,7 @@ import com.appspot.skillmaps.client.ui.parts.user.UserSkillDetailPanel;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -118,7 +119,7 @@ public class UserUI extends Composite implements UserUIDisplay{
             githubLink.setHref("https://github.com/" + profile.getGithubLogin());
         }
 
-        if (!login.isLoggedIn() || login.getProfile().equals(profile)) {
+        if (!login.isLoggedIn()) {
             addSkill.setVisible(false);
         }
         presenter.reloadSkills();
@@ -135,7 +136,7 @@ public class UserUI extends Composite implements UserUIDisplay{
     }
 
     @Override
-    public void reloadSkills(Skill[] skillList , boolean disableSkill) {
+    public void reloadSkills(SkillA[] skillList , boolean disableSkill) {
         VerticalPanel panel = new VerticalPanel();
         if(disableSkill){
             disableSkillPanel.clear();
@@ -145,10 +146,10 @@ public class UserUI extends Composite implements UserUIDisplay{
         }
         panel.setWidth("100%");
 
-        for (Skill skill : skillList) {
+        for (SkillA skill : skillList) {
             UserSkillDetailPanel userSkillDetailPanel = injector.getUserSkillDetailPanel();
             userSkillDetailPanel.setPresenter(presenter);
-            skill.setProfile(profile);
+            skill.getHolder().setModel(profile);
             userSkillDetailPanel.setSkill(skill);
             panel.add(userSkillDetailPanel);
         }

@@ -5,6 +5,7 @@ import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.ui.UserThumnail;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.core.client.GWT;
@@ -32,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
+public class UserSkillDetailPanel extends Composite implements Editor<SkillA> {
 
     public interface Css extends CssResource {
         String button();
@@ -50,7 +51,7 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     }
 
     interface Driver extends
-            SimpleBeanEditorDriver<Skill, UserSkillDetailPanel> {
+            SimpleBeanEditorDriver<SkillA, UserSkillDetailPanel> {
     }
 
     Driver driver = GWT.create(Driver.class);
@@ -66,11 +67,11 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
     @UiField
     NumberLabel<Long> point;
 
-    @UiField
-    NumberLabel<Long> agreedCount;
+//    @UiField
+//    NumberLabel<Long> agreedCount;
 
-    @UiField
-    Label description;
+//    @UiField
+//    Label description;
 
     @UiField
     @Editor.Ignore
@@ -110,7 +111,7 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
         this.presenter = presenter;
     }
 
-    public void setSkill(final Skill skill) {
+    public void setSkill(final SkillA skill) {
         addCommentButton.setEnabled(login.isLoggedIn());
         driver.edit(skill);
         if(skill.getName().length() > 10){
@@ -118,16 +119,16 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
         }
         name.setTitle(skill.getName());
         key = skill.getKey();
-        presenter.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
-            @Override
-            public void onSuccess(SkillRelation[] result) {
-                agreedActionPanel.setWidget(makeAgreedButton(skill , result));
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-        });
+//        presenter.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
+//            @Override
+//            public void onSuccess(SkillRelation[] result) {
+//                agreedActionPanel.setWidget(makeAgreedButton(skill , result));
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//            }
+//        });
     }
 
     @UiHandler("skillRelationPanel")
@@ -135,29 +136,29 @@ public class UserSkillDetailPanel extends Composite implements Editor<Skill> {
         skillRelationList.clear();
         skillRelationList.add(new Image(Resources.INSTANCE.loader()));
 
-        presenter.getSkillRelations(driver.flush()
-            , new AsyncCallback<SkillRelation[]>() {
-
-            @Override
-            public void onSuccess(SkillRelation[] result) {
-
-                skillRelationList.clear();
-
-                for (SkillRelation skillRelation : result) {
-                    FocusPanel panel = new FocusPanel();
-                    UserThumnail userThumnail = utProvider.get();
-                    userThumnail.setUser(skillRelation.getProfile());
-                    panel.add(userThumnail);
-
-                    skillRelationList.add(panel);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-
-            }
-        });
+//        presenter.getSkillRelations(driver.flush()
+//            , new AsyncCallback<SkillRelation[]>() {
+//
+//            @Override
+//            public void onSuccess(SkillRelation[] result) {
+//
+//                skillRelationList.clear();
+//
+//                for (SkillRelation skillRelation : result) {
+//                    FocusPanel panel = new FocusPanel();
+//                    UserThumnail userThumnail = utProvider.get();
+//                    userThumnail.setUser(skillRelation.getProfile());
+//                    panel.add(userThumnail);
+//
+//                    skillRelationList.add(panel);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//
+//            }
+//        });
     }
 
     @UiHandler("addCommentButton")
