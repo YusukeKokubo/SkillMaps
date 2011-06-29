@@ -4,6 +4,7 @@ import com.appspot.skillmaps.client.presenter.DisplayPresenter;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -30,6 +31,7 @@ public interface UserUIDisplay extends IsWidget {
         void getSkillComments(Key key, HasWidgets commentPanel);
         void showSkillCommentForm(Key key, VerticalPanel commentsPanel);
         void showAgreedDialog(Anchor agreedForm, Skill skill, SkillRelation rel);
+        void addAssertion(SkillAssertion assertion);
     }
 
     void setProfile(Profile profile);

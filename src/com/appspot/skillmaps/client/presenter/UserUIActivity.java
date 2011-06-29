@@ -20,6 +20,7 @@ import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -314,6 +315,20 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             }
         });
         skillCommentForm.center();
+    }
+
+    @Override
+    public void addAssertion(SkillAssertion assertion) {
+        serviceProvider.get().addAssert(assertion, new AsyncCallback<SkillAssertion>() {
+            @Override
+            public void onSuccess(SkillAssertion result) {
+                reloadSkills();
+            }
+            
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+        });
     }
 
 }

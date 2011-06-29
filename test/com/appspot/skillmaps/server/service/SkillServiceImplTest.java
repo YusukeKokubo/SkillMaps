@@ -85,13 +85,11 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA iedSkill = service.addSkill(skill);
         
         SkillAssertion assertion = new SkillAssertion();
-        assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
-        assertThat(iedAssertion.getDescription(), is("hogehoge"));
         assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
         assertThat(iedAssertion.getSkill().getModel().getPoint(), is(1L));
@@ -107,13 +105,11 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA iedSkill = service.addSkill(skill);
         
         SkillAssertion assertion = new SkillAssertion();
-        assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
-        assertThat(iedAssertion.getDescription(), is("hogehoge"));
         assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
         assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(a));
@@ -128,7 +124,6 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA iedSkill = service.addSkill(skill);
         
         SkillAssertion assertion = new SkillAssertion();
-        assertion.setDescription("hogehoge");
         assertion.setUrl("http://localhost/hoge");
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);

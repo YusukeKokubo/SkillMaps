@@ -25,9 +25,7 @@ public class SkillAssertion implements Serializable {
     private Long version;
 
     private ModelRef<SkillA> skill = new ModelRef<SkillA>(SkillA.class);
-
-    private String description;
-
+    
     private String url;
     
     private List<Key> agrees = new ArrayList<Key>();
@@ -111,14 +109,6 @@ public class SkillAssertion implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getUrl() {

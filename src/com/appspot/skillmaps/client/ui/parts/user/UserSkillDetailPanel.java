@@ -6,6 +6,7 @@ import com.appspot.skillmaps.client.ui.UserThumnail;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.core.client.GWT;
@@ -26,6 +27,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.NumberLabel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -80,6 +82,13 @@ public class UserSkillDetailPanel extends Composite implements Editor<SkillA> {
 
     @UiField
     VerticalPanel skillRelationList;
+    
+    @UiField
+    @Editor.Ignore
+    TextBox url;
+    
+    @UiField
+    Button addAssertion;
 
     UserUIDisplay.Presenter presenter;
 
@@ -156,6 +165,14 @@ public class UserSkillDetailPanel extends Composite implements Editor<SkillA> {
     @UiHandler("addCommentButton")
     public void onClickAddCommentButton(ClickEvent e){
         presenter.showSkillCommentForm(key , commentsPanel);
+    }
+    
+    @UiHandler("addAssertion")
+    public void onClickAddAssertion(ClickEvent e) {
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setUrl(url.getValue());
+        assertion.getSkill().setModel(driver.flush());
+        presenter.addAssertion(assertion );
     }
 
     @UiHandler("skillPanel")

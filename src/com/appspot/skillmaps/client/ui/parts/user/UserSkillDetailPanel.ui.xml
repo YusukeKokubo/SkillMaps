@@ -95,6 +95,8 @@
 					<g:VerticalPanel spacing="3" ui:field="commentsPanel">
 						<g:Image resource="{res.loader}"/>
 					</g:VerticalPanel>
+					<g:TextBox ui:field="url" />
+					<g:Button ui:field="addAssertion" text="ネタを投下" />
 				</g:VerticalPanel>
 			</g:HTMLPanel>
 		</g:DisclosurePanel>
