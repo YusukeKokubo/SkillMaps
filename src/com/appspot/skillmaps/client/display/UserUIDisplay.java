@@ -27,13 +27,12 @@ public interface UserUIDisplay extends IsWidget {
         void setDisplay(UserUIDisplay display);
         void setProfile(Profile profile);
         void gotoUser(String id);
-        void reloadDisableSkills();
         void getSkillComments(Key key, HasWidgets commentPanel);
         void showSkillCommentForm(Key key, VerticalPanel commentsPanel);
         void showAgreedDialog(Anchor agreedForm, Skill skill, SkillRelation rel);
     }
 
     void setProfile(Profile profile);
-    void reloadSkills(SkillA[] skills, boolean disableSkill);
+    void reloadSkills(SkillA[] skills);
     SimplePanel getSkillsPanel();
 }

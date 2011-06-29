@@ -61,14 +61,5 @@
 			</g:HorizontalPanel>
 			<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}" />
 		</g:VerticalPanel>
-		<hr />
-		<g:DisclosurePanel ui:field="disableSkillPanel">
-			<g:header>無効となったスキル</g:header>
-			<g:HTMLPanel ui:field="disableSkillsBox">
-				<center>
-					<g:Image resource="{res.loader}" />
-				</center>
-			</g:HTMLPanel>
-		</g:DisclosurePanel>
 	</g:HTMLPanel>
 </ui:UiBinder>

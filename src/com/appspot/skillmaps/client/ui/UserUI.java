@@ -6,19 +6,15 @@ import com.appspot.skillmaps.client.inject.Injector;
 import com.appspot.skillmaps.client.ui.parts.user.UserSkillDetailPanel;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -63,12 +59,6 @@ public class UserUI extends Composite implements UserUIDisplay{
 
     @UiField
     Button addSkill;
-
-    @UiField
-    DisclosurePanel disableSkillPanel;
-
-    @UiField
-    HTMLPanel disableSkillsBox;
 
     Login login;
 
@@ -136,14 +126,9 @@ public class UserUI extends Composite implements UserUIDisplay{
     }
 
     @Override
-    public void reloadSkills(SkillA[] skillList , boolean disableSkill) {
+    public void reloadSkills(SkillA[] skillList) {
         VerticalPanel panel = new VerticalPanel();
-        if(disableSkill){
-            disableSkillPanel.clear();
-            disableSkillPanel.add(panel);
-        } else {
-            skillsPanel.setWidget(panel);
-        }
+        skillsPanel.setWidget(panel);
         panel.setWidth("100%");
 
         for (SkillA skill : skillList) {
@@ -153,16 +138,6 @@ public class UserUI extends Composite implements UserUIDisplay{
             userSkillDetailPanel.setSkill(skill);
             panel.add(userSkillDetailPanel);
         }
-    }
-
-    @UiHandler("disableSkillPanel")
-    public void onDisableSkillPanelOpen(OpenEvent<DisclosurePanel> event){
-        event.getTarget().setOpen(true);
-        if(disableSkillsBox == null){
-            return;
-        }
-        presenter.reloadDisableSkills();
-
     }
 
     @Override

@@ -188,7 +188,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         serviceProvider.get().getSkill(profile, new AsyncCallback<SkillA[]>() {
             @Override
             public void onSuccess(SkillA[] result) {
-                display.reloadSkills(result , false);
+                display.reloadSkills(result);
             }
 
             @Override
@@ -196,21 +196,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 UiMessage.severe(caught.getMessage(), caught);
             }
         });
-    }
-
-    @Override
-    public void reloadDisableSkills() {
-//        serviceProvider.get().getDisabledSkills(profile, new AsyncCallback<Skill[]>() {
-//            @Override
-//            public void onSuccess(Skill[] result) {
-//                display.reloadSkills(result , true);
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                UiMessage.severe(caught.getMessage(), caught);
-//            }
-//        });
     }
 
     @Override
@@ -263,7 +248,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 public void onSuccess(Void result) {
                     UiMessage.info("だよね！しました！");
                     reloadSkills();
-                    reloadDisableSkills();
                 }
 
                 @Override

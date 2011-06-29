@@ -18,12 +18,10 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.NumberLabel;
@@ -66,12 +64,6 @@ public class UserSkillDetailPanel extends Composite implements Editor<SkillA> {
 
     @UiField
     NumberLabel<Long> point;
-
-//    @UiField
-//    NumberLabel<Long> agreedCount;
-
-//    @UiField
-//    Label description;
 
     @UiField
     @Editor.Ignore
