@@ -76,25 +76,56 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(iedSkill.getHolder().getModel(), is(b));
         assertThat(iedSkill.getPoint(), is(0L));
     }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void 同じ名前のSkillは追加できないこと() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        service.addSkill(skill);
+        
+        SkillA skill2 = new SkillA();
+        skill2.setName("Java");
+        skill2.getHolder().setModel(b);
+        service.addSkill(skill2);
+    }
 
     @Test
-    public void Skillの表明をできること() throws Exception {
+    public void SkillAssertionを追加できること() throws Exception {
         SkillA skill = new SkillA();
         skill.setName("Java");
         skill.getHolder().setModel(b);
         SkillA iedSkill = service.addSkill(skill);
         
         SkillAssertion assertion = new SkillAssertion();
-        assertion.setUrl("http://localhost/hoge");
+        assertion.setUrl("http://yahoo.com");
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
-        assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
+        assertThat(iedAssertion.getUrl(), is("http://yahoo.com"));
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
         assertThat(iedAssertion.getSkill().getModel().getPoint(), is(1L));
         assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(b));
         assertThat(iedAssertion.getAgrees().get(0), is(a.getKey()));
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void 同じURLのSkillAssertionは追加できないこと() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setUrl("http://yahoo.com");
+        assertion.getSkill().setModel(iedSkill);
+        service.addAssert(assertion);
+
+        SkillAssertion assertion2 = new SkillAssertion();
+        assertion2.setUrl("http://yahoo.com");
+        assertion2.getSkill().setModel(iedSkill);
+        service.addAssert(assertion2);
     }
 
     @Test
@@ -105,26 +136,26 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillA iedSkill = service.addSkill(skill);
         
         SkillAssertion assertion = new SkillAssertion();
-        assertion.setUrl("http://localhost/hoge");
+        assertion.setUrl("http://yahoo.com");
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);
         
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
-        assertThat(iedAssertion.getUrl(), is("http://localhost/hoge"));
+        assertThat(iedAssertion.getUrl(), is("http://yahoo.com"));
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));
         assertThat(iedAssertion.getSkill().getModel().getHolder().getModel(), is(a));
         assertThat(iedAssertion.getAgrees().size(), is(0));
     }
 
     @Test
-    public void Skillの表明に賛同できること() throws Exception {
+    public void SkillAssertionにagreeできること() throws Exception {
         SkillA skill = new SkillA();
         skill.setName("Java");
         skill.getHolder().setModel(b);
         SkillA iedSkill = service.addSkill(skill);
         
         SkillAssertion assertion = new SkillAssertion();
-        assertion.setUrl("http://localhost/hoge");
+        assertion.setUrl("http://yahoo.com");
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);
 
@@ -137,5 +168,21 @@ public class SkillServiceImplTest extends ServletTestCase {
         SkillAssertion iedAssertionD = service.agree(iedAssertionC);
         assertThat(iedAssertionD.getSkill().getModel().getPoint(), is(3L));
         assertThat(iedAssertionD.getAgrees().get(2), is(d.getKey()));
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void agreeは複数回できないこと() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setUrl("http://yahoo.com");
+        assertion.getSkill().setModel(iedSkill);
+        SkillAssertion iedAssertion = service.addAssert(assertion);
+
+        tester.environment.setEmail("C@test.com");
+        service.agree(service.agree(iedAssertion));
     }
 }
