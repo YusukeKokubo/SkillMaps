@@ -17,6 +17,7 @@ import com.appspot.skillmaps.client.ui.UserThumnail;
 import com.appspot.skillmaps.client.ui.form.skill.SkillCommentForm;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
+import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
@@ -40,7 +41,9 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
@@ -70,6 +73,9 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     private final Provider<AccountServiceAsync> accountServiceProvider;
     private final Provider<UserPlace> placeProvider;
 
+    @Inject
+    Login login;
+    
     @Inject
     public UserUIActivity(Provider<UserUIDisplay> displayProvider,
                           Provider<SkillAddDialog> skillAddDialogProvider,
@@ -331,4 +337,47 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         });
     }
 
+    @Override
+    public void getAssertions(final SkillA skill, final VerticalPanel assertions) {
+        serviceProvider.get().getAssertion(skill, new AsyncCallback<SkillAssertion[]>() {
+            @Override
+            public void onSuccess(SkillAssertion[] result) {
+                assertions.clear();
+                for (final SkillAssertion sassertion : result) {
+                    VerticalPanel vpanel = new VerticalPanel();
+                    HorizontalPanel panel = new HorizontalPanel();
+                    Anchor sa = new Anchor(sassertion.getUrl());
+                    Label count = new Label(sassertion.getAgrees().size() + "人がだよね！と言っています.");
+                    Anchor agreedButton = new Anchor("だよね！");
+                    vpanel.add(sa);
+                    panel.add(count);
+                    panel.add(agreedButton);
+                    vpanel.add(panel);
+                    assertions.add(vpanel);
+                    
+                    agreedButton.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            serviceProvider.get().agree(sassertion, new AsyncCallback<SkillAssertion>() {
+                                @Override
+                                public void onSuccess(SkillAssertion result) {
+                                    UiMessage.info("だよね！");
+                                    assertions.clear();
+                                    getAssertions(skill, assertions);
+                                }
+                                
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+        });
+    }
 }

@@ -31,6 +31,7 @@ public interface UserUIDisplay extends IsWidget {
         void getSkillComments(Key key, HasWidgets commentPanel);
         void showSkillCommentForm(Key key, VerticalPanel commentsPanel);
         void showAgreedDialog(Anchor agreedForm, Skill skill, SkillRelation rel);
+        void getAssertions(SkillA skill, VerticalPanel assertions);
         void addAssertion(SkillAssertion assertion);
     }
 
