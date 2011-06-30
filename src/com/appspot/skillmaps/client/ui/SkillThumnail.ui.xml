@@ -3,12 +3,29 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:sm="urn:import:com.appspot.skillmaps.client.ui">
 	<ui:style>
+		.assertion {
+			margin-bottom: 25px;
+		}
+		.skillname {
+			font-size: 32px;
+	    }
+		.skillpoint {
+			font-size: 24px;
+	    }
 	</ui:style>
-	<g:HTMLPanel>
-		<g:HorizontalPanel>
-			<g:Anchor ui:field="skillName" styleName="skill" />
-			<g:HTMLPanel> -> </g:HTMLPanel>
-			<sm:UserThumnail ui:field="profile" />
-		</g:HorizontalPanel>
+	<g:HTMLPanel styleName="{style.assertion}">
+		<g:VerticalPanel>
+			<g:HorizontalPanel>
+				<sm:UserThumnail ui:field="profile" />
+				<g:Label ui:field="skillName" styleName="{style.skillname}" />
+				<g:Label ui:field="skillPoint" styleName="{style.skillpoint}" />
+			</g:HorizontalPanel>
+			<g:Anchor ui:field="assertion" target="_blank" />
+			<g:Label ui:field="description" />
+			<g:HorizontalPanel ui:field="panel">
+				<g:Label ui:field="count" />
+				<g:SimplePanel ui:field="agreeButton" />
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder>

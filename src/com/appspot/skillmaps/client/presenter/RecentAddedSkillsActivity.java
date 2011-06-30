@@ -3,7 +3,7 @@ package com.appspot.skillmaps.client.presenter;
 import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
-import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.shared.EventBus;
@@ -43,9 +43,9 @@ public class RecentAddedSkillsActivity extends SkillMapActivity implements Recen
     private void initDisplay(AcceptsOneWidget panel, EventBus eventBus) {
         setDisplay(displayProvider.get());
         display.setPresenter(this);
-        serviceProvider.get().getRecentAddedSkills(new AsyncCallback<Skill[]>() {
+        serviceProvider.get().getTimeLine(new AsyncCallback<SkillAssertion[]>() {
             @Override
-            public void onSuccess(Skill[] result) {
+            public void onSuccess(SkillAssertion[] result) {
                 display.setRecentAddedSkills(result);
             }
 

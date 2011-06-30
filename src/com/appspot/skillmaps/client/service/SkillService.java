@@ -52,4 +52,6 @@ public interface SkillService extends RemoteService {
     SkillAssertion[] getAssertion(SkillA skill);
 
     SkillAssertion disagree(SkillAssertion sassertion);
+
+    SkillAssertion[] getTimeLine();
 }

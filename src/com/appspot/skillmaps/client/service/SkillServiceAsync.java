@@ -53,4 +53,6 @@ public interface SkillServiceAsync {
     void disagree(SkillAssertion sassertion,
             AsyncCallback<SkillAssertion> asyncCallback);
 
+    void getTimeLine(AsyncCallback<SkillAssertion[]> asyncCallback);
+
 }

@@ -337,4 +337,13 @@ public class SkillServiceImpl implements SkillService {
         
         return Datastore.get(sam, Datastore.put(sassertion));
     }
+
+    @Override
+    public SkillAssertion[] getTimeLine() {
+        List<SkillAssertion> assertions = Datastore.query(sam).limit(10).sort(sam.updatedAt.desc).asList();
+        for (SkillAssertion sa : assertions) {
+            sa.getSkill().getModel().getHolder().getModel();
+        }
+        return assertions.toArray(new SkillAssertion[0]);
+    }
 }
