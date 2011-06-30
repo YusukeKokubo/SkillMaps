@@ -49,6 +49,10 @@ public class SkillA implements Serializable {
         return point;
     }
     
+    public boolean isOwnBy(Profile profile) {
+        return getHolder().getKey().equals(profile.getKey());
+    }
+    
     /**
      * Returns the key.
      *

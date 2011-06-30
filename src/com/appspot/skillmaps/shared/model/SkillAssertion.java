@@ -41,8 +41,15 @@ public class SkillAssertion implements Serializable {
     private Date updatedAt;
     
     public boolean isCreatedByOwn() {
-        SkillA skill = getSkill().getModel();
+        return isCreatedByOwn(getSkill().getModel());
+    }
+    
+    public boolean isCreatedByOwn(SkillA skill) {
         return getCreatedBy().getKey().equals(skill.getHolder().getKey());
+    }
+    
+    public boolean isAgreedBy(Profile profile) {
+        return getAgrees().indexOf(profile.getKey()) > -1;
     }
 
     /**
