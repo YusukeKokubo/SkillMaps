@@ -50,4 +50,6 @@ public interface SkillService extends RemoteService {
     SkillA[] getSkill(Profile profile);
 
     SkillAssertion[] getAssertion(SkillA skill);
+
+    SkillAssertion disagree(SkillAssertion sassertion);
 }

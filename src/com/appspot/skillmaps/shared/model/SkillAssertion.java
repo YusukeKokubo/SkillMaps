@@ -28,6 +28,8 @@ public class SkillAssertion implements Serializable {
     
     private String url;
     
+    private String description;
+    
     private List<Key> agrees = new ArrayList<Key>();
 
     private ModelRef<Profile> createdBy = new ModelRef<Profile>(Profile.class);
@@ -149,6 +151,14 @@ public class SkillAssertion implements Serializable {
 
     public List<Key> getAgrees() {
         return agrees;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

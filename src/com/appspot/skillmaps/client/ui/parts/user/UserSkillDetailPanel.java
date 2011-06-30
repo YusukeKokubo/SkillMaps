@@ -2,11 +2,8 @@ package com.appspot.skillmaps.client.ui.parts.user;
 
 import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.ui.UserThumnail;
-import com.appspot.skillmaps.shared.model.Login;
-import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
-import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
@@ -18,7 +15,6 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -104,16 +100,6 @@ public class UserSkillDetailPanel extends Composite implements Editor<SkillA> {
         }
         name.setTitle(skill.getName());
         key = skill.getKey();
-//        presenter.getSkillRelations(skill, new AsyncCallback<SkillRelation[]>() {
-//            @Override
-//            public void onSuccess(SkillRelation[] result) {
-//                agreedActionPanel.setWidget(makeAgreedButton(skill , result));
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//            }
-//        });
     }
     
     @UiHandler("addAssertion")

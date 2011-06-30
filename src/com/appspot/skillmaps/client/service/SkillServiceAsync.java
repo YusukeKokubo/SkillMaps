@@ -50,4 +50,7 @@ public interface SkillServiceAsync {
 
     void getAssertion(SkillA skill, AsyncCallback<SkillAssertion[]> callback);
 
+    void disagree(SkillAssertion sassertion,
+            AsyncCallback<SkillAssertion> asyncCallback);
+
 }

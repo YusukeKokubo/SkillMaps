@@ -1,8 +1,16 @@
 package com.appspot.skillmaps.server.service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
+
+import net.htmlparser.jericho.CharacterReference;
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.GlobalTransaction;
@@ -266,6 +274,20 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
+
+        // validation url
+        try {
+            Source source = new Source(new URL(assertion.getUrl()));
+            Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
+            if (titleElement == null) return null;
+            assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
         
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         assertion.getCreatedBy().setModel(profile);
@@ -302,5 +324,17 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public SkillAssertion[] getAssertion(SkillA skill) {
         return skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
+    }
+
+    @Override
+    public SkillAssertion disagree(SkillAssertion sassertion) {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new IllegalArgumentException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        sassertion.getAgrees().remove(profile.getKey());
+        
+        return Datastore.get(sam, Datastore.put(sassertion));
     }
 }

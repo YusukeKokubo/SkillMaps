@@ -345,38 +345,70 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 assertions.clear();
                 for (final SkillAssertion sassertion : result) {
                     VerticalPanel vpanel = new VerticalPanel();
+                    vpanel.setSpacing(5);
                     HorizontalPanel panel = new HorizontalPanel();
-                    Anchor sa = new Anchor(sassertion.getUrl());
-                    Label count = new Label(sassertion.getAgrees().size() + "人がだよね！と言っています.");
-                    Anchor agreedButton = new Anchor("だよね！");
+                    Anchor sa = new Anchor(sassertion.getUrl(), sassertion.getUrl(), "_blank");
+                    Label desc = new Label(sassertion.getDescription());
+                    Label count = new Label(sassertion.getAgrees().size() + "人がやるね！と言っています.");
                     vpanel.add(sa);
+                    vpanel.add(desc);
                     panel.add(count);
-                    panel.add(agreedButton);
+                    if (sassertion.getAgrees().indexOf(profile.getKey()) > -1) {
+                        panel.add(makeDisagreeButton(sassertion));
+                    } else {
+                        panel.add(makeAgreeButton(sassertion));
+                    }
                     vpanel.add(panel);
                     assertions.add(vpanel);
-                    
-                    agreedButton.addClickHandler(new ClickHandler() {
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            serviceProvider.get().agree(sassertion, new AsyncCallback<SkillAssertion>() {
-                                @Override
-                                public void onSuccess(SkillAssertion result) {
-                                    UiMessage.info("だよね！");
-                                    assertions.clear();
-                                    getAssertions(skill, assertions);
-                                }
-                                
-                                @Override
-                                public void onFailure(Throwable caught) {
-                                }
-                            });
-                        }
-                    });
                 }
             }
             
             @Override
             public void onFailure(Throwable caught) {
+            }
+            
+            private Anchor makeAgreeButton(final SkillAssertion sassertion) {
+                Anchor agreedButton = new Anchor("やるね！");
+                agreedButton.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        serviceProvider.get().agree(sassertion, new AsyncCallback<SkillAssertion>() {
+                            @Override
+                            public void onSuccess(SkillAssertion result) {
+                                UiMessage.info("やるね！");
+                                assertions.clear();
+                                getAssertions(skill, assertions);
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                            }
+                        });
+                    }
+                });
+                return agreedButton;
+            }
+
+            private Anchor makeDisagreeButton(final SkillAssertion sassertion) {
+                Anchor agreedButton = new Anchor("やるね！を取り消す.");
+                agreedButton.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        serviceProvider.get().disagree(sassertion, new AsyncCallback<SkillAssertion>() {
+                            @Override
+                            public void onSuccess(SkillAssertion result) {
+                                UiMessage.info("やるね！を取消しました.");
+                                assertions.clear();
+                                getAssertions(skill, assertions);
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                            }
+                        });
+                    }
+                });
+                return agreedButton;
             }
         });
     }
