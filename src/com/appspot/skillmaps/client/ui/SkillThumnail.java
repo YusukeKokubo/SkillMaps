@@ -136,7 +136,7 @@ public class SkillThumnail extends Composite {
                 commentsPanel.clear();
                 for (Comment comment : result) {
                     commentsPanel.add(makeCommentWidget(comment));
-                    if (comment.getCreatedBy().getKey().equals(login.getProfile().getKey())) {
+                    if (login.isLoggedIn() && comment.isOwnBy(login.getProfile())) {
                         commentButton.setVisible(false);
                         commentBox.setVisible(true);
                     }

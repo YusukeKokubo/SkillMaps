@@ -33,6 +33,11 @@ public class Comment implements Serializable {
 
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
+    
+    public boolean isOwnBy(Profile profile) {
+        if (profile == null || profile.getKey() == null) return false;
+        return getCreatedBy().getKey().equals(profile.getKey());
+    }
 
     /**
      * Returns the key.
