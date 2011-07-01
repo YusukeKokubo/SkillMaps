@@ -100,7 +100,7 @@ public class SkillThumnail extends Composite {
         assertion.setText(sa.getUrl());
         description.setText(sa.getDescription());
         count.setWidget(makeAgreeCount(sa));
-        if (!sa.getSkill().getModel().isOwnBy(login.getProfile())) {
+        if (login.isLoggedIn() && login.getProfile().isActivate() && !sa.getSkill().getModel().isOwnBy(login.getProfile())) {
             if (sa.isAgreedBy(login.getProfile())) {
                 agreeButton.setWidget(makeDisagreeButton(sa));
             } else {
@@ -135,6 +135,7 @@ public class SkillThumnail extends Composite {
                     
                     @Override
                     public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }
@@ -158,6 +159,7 @@ public class SkillThumnail extends Composite {
                     
                     @Override
                     public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }
@@ -180,6 +182,7 @@ public class SkillThumnail extends Composite {
                     
                     @Override
                     public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }

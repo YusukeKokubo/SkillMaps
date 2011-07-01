@@ -358,7 +358,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     vpanel.add(desc);
                     panel.add(makeAgreeCount(sassertion));
                     panel.add(msg);
-                    if (!skill.isOwnBy(login.getProfile())) {
+                    if (login.isLoggedIn() && login.getProfile().isActivate() && !skill.isOwnBy(login.getProfile())) {
                         if (sassertion.isAgreedBy(login.getProfile())) {
                             panel.add(makeDisagreeButton(sassertion));
                         } else {
