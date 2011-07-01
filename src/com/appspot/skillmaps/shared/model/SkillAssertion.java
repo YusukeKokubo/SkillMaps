@@ -49,6 +49,8 @@ public class SkillAssertion implements Serializable {
     }
     
     public boolean isAgreedBy(Profile profile) {
+        if (profile == null || profile.getKey() == null) return false;
+        if (getAgrees() == null) return false;
         return getAgrees().indexOf(profile.getKey()) > -1;
     }
 

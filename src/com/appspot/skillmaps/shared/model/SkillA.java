@@ -50,6 +50,8 @@ public class SkillA implements Serializable {
     }
     
     public boolean isOwnBy(Profile profile) {
+        if (profile == null || profile.getKey() == null) return false;
+        if (getHolder() == null || getHolder().getKey() == null) return false;
         return getHolder().getKey().equals(profile.getKey());
     }
     
