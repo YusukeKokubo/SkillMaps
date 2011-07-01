@@ -13,7 +13,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
@@ -108,6 +107,10 @@ public class SkillThumnail extends Composite {
         this.displayProvider = displayProvider;
         this.accountServiceProvider = accountServiceProvider;
         initWidget(uiBinder.createAndBindUi(this));
+        
+        if (!login.isLoggedIn() || !login.getProfile().isActivate()) {
+            commentButton.setVisible(false);
+        }
     }
 
     public void setSkill(final SkillAssertion sa){
