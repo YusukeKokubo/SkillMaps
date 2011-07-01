@@ -331,6 +331,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         serviceProvider.get().addAssert(assertion, new AsyncCallback<SkillAssertion>() {
             @Override
             public void onSuccess(SkillAssertion result) {
+                UiMessage.info("投下完了!");
                 reloadSkills();
             }
             
