@@ -1,9 +1,12 @@
 package com.appspot.skillmaps.client.ui;
 
+import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.presenter.SkillOwnersActivity;
+import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.Login;
+import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,6 +21,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,7 +54,7 @@ public class SkillThumnail extends Composite {
     HorizontalPanel panel;
     
     @UiField
-    Label count;
+    SimplePanel count;
     
     @UiField
     SimplePanel agreeButton;
@@ -60,14 +64,12 @@ public class SkillThumnail extends Composite {
     SkillMapPopupPanel skillOwners;
 
     private final Provider<SkillOwnersActivity> skillOwnersProvider;
-
     private final EventBus eventBus;
-
     private final Provider<Anchor> permalinkProvider;
-
     private final Provider<UserThumnail> utProvider;
-
     private final Provider<SkillServiceAsync> serviceProvider;
+    private final Provider<UserUIDisplay> displayProvider;
+    private final Provider<AccountServiceAsync> accountServiceProvider;
 
     @Inject
     public SkillThumnail(Login login,
@@ -75,6 +77,8 @@ public class SkillThumnail extends Composite {
                          Provider<SkillServiceAsync> serviceProvider,
                          Provider<UserThumnail> utProvider,
                          @Named("skillOwnersPermalink") Provider<Anchor>  permalinkProvider,
+                         Provider<AccountServiceAsync> accountServiceProvider,
+                         Provider<UserUIDisplay> displayProvider,
                          EventBus eventBus) {
         this.login = login;
         this.skillOwnersProvider = skillOwnersProvider;
@@ -83,6 +87,8 @@ public class SkillThumnail extends Composite {
         this.eventBus = eventBus;
         this.skillOwners = new SkillMapPopupPanel();
         this.serviceProvider = serviceProvider;
+        this.displayProvider = displayProvider;
+        this.accountServiceProvider = accountServiceProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
@@ -93,7 +99,7 @@ public class SkillThumnail extends Composite {
         assertion.setHref(sa.getUrl());
         assertion.setText(sa.getUrl());
         description.setText(sa.getDescription());
-        count.setText(sa.getAgrees().size() + "人がやるね！と言っています.");
+        count.setWidget(makeAgreeCount(sa));
         if (!sa.getSkill().getModel().isOwnBy(login.getProfile())) {
             if (sa.isAgreedBy(login.getProfile())) {
                 agreeButton.setWidget(makeDisagreeButton(sa));
@@ -107,6 +113,34 @@ public class SkillThumnail extends Composite {
     @UiFactory
     UserThumnail makeProfile() {
         return utProvider.get();
+    }
+
+    private SimplePanel makeAgreeCount(final SkillAssertion sassertion) {
+        final SimplePanel panel = new SimplePanel();
+        Anchor count = new Anchor(sassertion.getAgrees().size() + "人");
+        count.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                accountServiceProvider.get().getUsers(sassertion, new AsyncCallback<Profile[]>() {
+                    @Override
+                    public void onSuccess(Profile[] result) {
+                        VerticalPanel vpanel = new VerticalPanel();
+                        for (Profile p : result) {
+                            UserThumnail tm = new UserThumnail(displayProvider);
+                            tm.setUser(p);
+                            vpanel.add(tm);
+                        }
+                        panel.setWidget(vpanel);
+                    }
+                    
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    }
+                });
+            }
+        });
+        panel.add(count);
+        return panel;
     }
 
     private Anchor makeAgreeButton(final SkillAssertion sassertion) {

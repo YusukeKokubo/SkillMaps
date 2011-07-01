@@ -3,6 +3,7 @@ package com.appspot.skillmaps.client.service;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -42,4 +43,6 @@ public interface AccountService extends RemoteService {
     Profile[] getFollowerTo();
 
     Profile[] getFollowingBy();
+
+    Profile[] getUsers(SkillAssertion assertion);
 }

@@ -17,6 +17,7 @@ import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Icon;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -326,5 +327,10 @@ public class AccountServiceImpl implements AccountService {
             Memcache.put(email, p);
         } catch(Exception e){
         }
+    }
+
+    @Override
+    public Profile[] getUsers(SkillAssertion assertion) {
+        return Datastore.get(pm, assertion.getAgrees()).toArray(new Profile[0]);
     }
 }

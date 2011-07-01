@@ -353,11 +353,10 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     HorizontalPanel panel = new HorizontalPanel();
                     Anchor sa = new Anchor(sassertion.getUrl(), sassertion.getUrl(), "_blank");
                     Label desc = new Label(sassertion.getDescription());
-                    Anchor count = new Anchor(sassertion.getAgrees().size() + "人");
                     Label msg = new Label("がやるね！と言っています.");
                     vpanel.add(sa);
                     vpanel.add(desc);
-                    panel.add(count);
+                    panel.add(makeAgreeCount(sassertion));
                     panel.add(msg);
                     if (!skill.isOwnBy(login.getProfile())) {
                         if (sassertion.isAgreedBy(login.getProfile())) {
@@ -374,6 +373,34 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             @Override
             public void onFailure(Throwable caught) {
                 UiMessage.info(caught.getMessage());
+            }
+            
+            private SimplePanel makeAgreeCount(final SkillAssertion sassertion) {
+                final SimplePanel panel = new SimplePanel();
+                Anchor count = new Anchor(sassertion.getAgrees().size() + "人");
+                count.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        accountServiceProvider.get().getUsers(sassertion, new AsyncCallback<Profile[]>() {
+                            @Override
+                            public void onSuccess(Profile[] result) {
+                                VerticalPanel vpanel = new VerticalPanel();
+                                for (Profile p : result) {
+                                    UserThumnail tm = new UserThumnail(displayProvider);
+                                    tm.setUser(p);
+                                    vpanel.add(tm);
+                                }
+                                panel.setWidget(vpanel);
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                            }
+                        });
+                    }
+                });
+                panel.add(count);
+                return panel;
             }
             
             private Anchor makeAgreeButton(final SkillAssertion sassertion) {

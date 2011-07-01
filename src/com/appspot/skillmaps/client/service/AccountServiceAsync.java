@@ -3,6 +3,7 @@ package com.appspot.skillmaps.client.service;
 import com.appspot.skillmaps.shared.dto.UserListResultDto;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface AccountServiceAsync {
@@ -40,4 +41,6 @@ public interface AccountServiceAsync {
     void getFollowerTo(AsyncCallback<Profile[]> callback);
 
     void getFollowingBy(AsyncCallback<Profile[]> callback);
+
+    void getUsers(SkillAssertion assertion, AsyncCallback<Profile[]> callback);
 }

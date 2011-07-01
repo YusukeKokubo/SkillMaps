@@ -23,7 +23,8 @@
 			<g:Anchor ui:field="assertion" target="_blank" />
 			<g:Label ui:field="description" />
 			<g:HorizontalPanel ui:field="panel">
-				<g:Label ui:field="count" />
+				<g:SimplePanel ui:field="count" />
+				<g:Label text="がやるね!と言っています." />
 				<g:SimplePanel ui:field="agreeButton" />
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
