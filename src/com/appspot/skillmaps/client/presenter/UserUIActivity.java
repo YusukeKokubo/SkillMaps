@@ -163,7 +163,8 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     }
 
                     @Override
-                    public void onFailure(Throwable throwable) {
+                    public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }
@@ -286,6 +287,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
             @Override
             public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
             }
         });
     }
@@ -316,6 +318,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
                     @Override
                     public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }
@@ -333,6 +336,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             
             @Override
             public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
             }
         });
     }
@@ -349,10 +353,12 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     HorizontalPanel panel = new HorizontalPanel();
                     Anchor sa = new Anchor(sassertion.getUrl(), sassertion.getUrl(), "_blank");
                     Label desc = new Label(sassertion.getDescription());
-                    Label count = new Label(sassertion.getAgrees().size() + "人がやるね！と言っています.");
+                    Anchor count = new Anchor(sassertion.getAgrees().size() + "人");
+                    Label msg = new Label("がやるね！と言っています.");
                     vpanel.add(sa);
                     vpanel.add(desc);
                     panel.add(count);
+                    panel.add(msg);
                     if (!skill.isOwnBy(login.getProfile())) {
                         if (sassertion.isAgreedBy(login.getProfile())) {
                             panel.add(makeDisagreeButton(sassertion));
@@ -367,6 +373,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
             
             @Override
             public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
             }
             
             private Anchor makeAgreeButton(final SkillAssertion sassertion) {
@@ -384,6 +391,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                             
                             @Override
                             public void onFailure(Throwable caught) {
+                                UiMessage.info(caught.getMessage());
                             }
                         });
                     }
@@ -406,6 +414,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                             
                             @Override
                             public void onFailure(Throwable caught) {
+                                UiMessage.info(caught.getMessage());
                             }
                         });
                     }

@@ -40,6 +40,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.common.base.Strings;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 public class SkillServiceImpl implements SkillService {
     SkillMeta sm = SkillMeta.get();
@@ -257,15 +258,15 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public SkillA addSkill(SkillA skill) {
+    public SkillA addSkill(SkillA skill) throws SerializationException {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        if (user == null) throw new IllegalArgumentException("the user is null");
+        if (user == null) throw new SerializationException("the user is null");
         
         if (Datastore.query(sma)
                 .filter(sma.holder.equal(skill.getHolder().getKey()))
                 .filter(sma.name.equal(skill.getName())).count() > 0) {
-            throw new IllegalArgumentException(String.format("the skill [%s] is already added.", skill.getName()));
+            throw new SerializationException(String.format("the skill [%s] is already added.", skill.getName()));
         }
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
@@ -276,16 +277,16 @@ public class SkillServiceImpl implements SkillService {
     }
     
     @Override
-    public SkillAssertion addAssert(SkillAssertion assertion) {
+    public SkillAssertion addAssert(SkillAssertion assertion) throws SerializationException {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        if (user == null) throw new IllegalArgumentException("the user is null");
+        if (user == null) throw new SerializationException("the user is null");
 
         // validation distinct url
         if (Datastore.query(sam)
                 .filter(sam.skill.equal(assertion.getSkill().getKey()))
                 .filter(sam.url.equal(assertion.getUrl())).count() > 0) {
-            throw new IllegalArgumentException(
+            throw new SerializationException(
                 String.format("the url [%s] to skill [%s] is already added."
                     , assertion.getUrl()
                     , assertion.getSkill().getModel().getName()));
@@ -316,14 +317,14 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public SkillAssertion agree(SkillAssertion assertion) {
+    public SkillAssertion agree(SkillAssertion assertion) throws SerializationException {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        if (user == null) throw new IllegalArgumentException("the user is null");
+        if (user == null) throw new SerializationException("the user is null");
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         if (assertion.getAgrees().indexOf(profile.getKey()) > -1) {
-            throw new IllegalArgumentException("the user is already agreed");
+            throw new SerializationException("the user is already agreed");
         }
         assertion.getAgrees().add(profile.getKey());
         Key result = Datastore.put(assertion);

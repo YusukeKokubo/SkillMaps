@@ -11,6 +11,7 @@ import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 @RemoteServiceRelativePath("service.s3gwt")
 public interface SkillService extends RemoteService {
@@ -41,11 +42,11 @@ public interface SkillService extends RemoteService {
 
     void putSkill(Skill skill, SkillRelation rel);
 
-    SkillA addSkill(SkillA skill);
+    SkillA addSkill(SkillA skill) throws SerializationException;
 
-    SkillAssertion addAssert(SkillAssertion assertion);
+    SkillAssertion addAssert(SkillAssertion assertion) throws SerializationException;
 
-    SkillAssertion agree(SkillAssertion assertion);
+    SkillAssertion agree(SkillAssertion assertion) throws SerializationException;
 
     SkillA[] getSkill(Profile profile);
 
