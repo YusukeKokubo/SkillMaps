@@ -106,7 +106,6 @@ public class SkillThumnail extends Composite {
             } else {
                 agreeButton.setWidget(makeAgreeButton(sa));
             }
-            panel.add(agreeButton);
         }
     }
 
