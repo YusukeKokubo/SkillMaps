@@ -204,5 +204,6 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(comment.getAssertion().getModel(), is(iedAssertion));
         assertThat(comment.getComment(), is("hogehoge"));
         assertThat(comment.getCreatedBy().getModel(), is(a));
+        assertThat(comment.getAssertion().getModel().getComments().get(0), is(comment.getKey()));
     }
 }

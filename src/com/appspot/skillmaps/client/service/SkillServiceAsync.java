@@ -59,4 +59,6 @@ public interface SkillServiceAsync {
     void addComment(SkillAssertion assertion, String body,
             AsyncCallback<Comment> callback);
 
+    void getComments(SkillAssertion sa, AsyncCallback<Comment[]> callback);
+
 }

@@ -59,4 +59,6 @@ public interface SkillService extends RemoteService {
 
     Comment addComment(SkillAssertion assertion, String body)
             throws SerializationException;
+
+    Comment[] getComments(SkillAssertion sa);
 }

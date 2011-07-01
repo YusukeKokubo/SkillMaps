@@ -353,6 +353,8 @@ public class SkillServiceImpl implements SkillService {
         Key key = Datastore.put(comment);
         
         assertion.getComments().add(comment.getKey());
+        Datastore.put(assertion);
+        
         return Datastore.get(cm, key);
     }
 
@@ -385,5 +387,14 @@ public class SkillServiceImpl implements SkillService {
             sa.getSkill().getModel().getHolder().getModel();
         }
         return assertions.toArray(new SkillAssertion[0]);
+    }
+    
+    @Override
+    public Comment[] getComments(SkillAssertion sa) {
+        Comment[] comments = Datastore.get(cm, sa.getComments()).toArray(new Comment[0]);
+        for (Comment c : comments) {
+            c.getCreatedBy().getModel();
+        }
+        return comments;
     }
 }

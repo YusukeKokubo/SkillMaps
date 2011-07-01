@@ -25,11 +25,14 @@
 			</g:HorizontalPanel>
 			<g:Anchor ui:field="assertion" target="_blank" />
 			<g:Label ui:field="description" />
-			<g:HorizontalPanel ui:field="panel">
+			<g:HorizontalPanel ui:field="panel" spacing="5">
 				<g:SimplePanel ui:field="count" />
 				<g:Label text="がやるね!と言っています." />
 				<g:SimplePanel ui:field="agreeButton" />
+				<g:Anchor ui:field="commentButton" text="コメントする." />
 			</g:HorizontalPanel>
+			<g:VerticalPanel ui:field="commentsPanel" />
+			<g:TextBox ui:field="commentBox" visible="false" />
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder>

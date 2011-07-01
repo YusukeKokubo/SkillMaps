@@ -5,22 +5,29 @@ import com.appspot.skillmaps.client.presenter.SkillOwnersActivity;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
+import com.appspot.skillmaps.shared.model.Comment;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -58,8 +65,19 @@ public class SkillThumnail extends Composite {
     
     @UiField
     SimplePanel agreeButton;
+    
+    @UiField
+    VerticalPanel commentsPanel;
+    
+    @UiField
+    Anchor commentButton;
+    
+    @UiField
+    TextBox commentBox;
 
     Login login;
+    
+    SkillAssertion skillAssertion;
 
     SkillMapPopupPanel skillOwners;
 
@@ -93,6 +111,7 @@ public class SkillThumnail extends Composite {
     }
 
     public void setSkill(final SkillAssertion sa){
+        skillAssertion = sa;
         skillName.setText(sa.getSkill().getModel().getName());
         skillPoint.setText("(" + sa.getSkill().getModel().getPoint().toString() + ")");
         profile.setUser(sa.getSkill().getModel().getHolder().getModel());
@@ -107,11 +126,65 @@ public class SkillThumnail extends Composite {
                 agreeButton.setWidget(makeAgreeButton(sa));
             }
         }
+        
+        serviceProvider.get().getComments(sa, new AsyncCallback<Comment[]>() {
+            @Override
+            public void onSuccess(Comment[] result) {
+                commentsPanel.clear();
+                for (Comment comment : result) {
+                    commentsPanel.add(makeCommentWidget(comment));
+                    if (comment.getCreatedBy().getKey().equals(login.getProfile().getKey())) {
+                        commentButton.setVisible(false);
+                        commentBox.setVisible(true);
+                    }
+                }
+            }
+            
+            @Override
+            public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
+            }
+        });
     }
 
     @UiFactory
     UserThumnail makeProfile() {
         return utProvider.get();
+    }
+    
+    @UiHandler("commentButton")
+    public void onCommentButton(ClickEvent ev) {
+        commentBox.setVisible(true);
+    }
+    
+    @UiHandler("commentBox")
+    public void onCommentBox(KeyDownEvent ev) {
+        if (ev.getNativeKeyCode() != 13) return;
+        
+        serviceProvider.get().addComment(skillAssertion, commentBox.getValue(), new AsyncCallback<Comment>() {
+            @Override
+            public void onSuccess(Comment result) {
+                commentBox.setValue("");
+                result.getCreatedBy().setModel(login.getProfile());
+                commentsPanel.add(makeCommentWidget(result));
+            }
+            
+            @Override
+            public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
+            }
+        });
+    }
+    
+    private HorizontalPanel makeCommentWidget(Comment comment) {
+        HorizontalPanel p = new HorizontalPanel();
+        UserThumnail ut = new UserThumnail(displayProvider);
+        ut.setUser(comment.getCreatedBy().getModel());
+        p.add(ut);
+        p.add(new Label(comment.getComment()));
+        Label datetime = new Label(DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_SHORT).format(comment.getCreatedAt()));
+        p.add(datetime);
+        return p;
     }
 
     private SimplePanel makeAgreeCount(final SkillAssertion sassertion) {
