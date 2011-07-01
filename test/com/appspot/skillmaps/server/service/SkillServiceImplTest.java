@@ -20,6 +20,7 @@ import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.appengine.api.datastore.Key;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 public class SkillServiceImplTest extends ServletTestCase {
 
@@ -78,7 +79,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(iedSkill.getPoint(), is(0L));
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=SerializationException.class)
     public void 同じ名前のSkillは追加できないこと() throws Exception {
         SkillA skill = new SkillA();
         skill.setName("Java");
@@ -111,7 +112,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(iedAssertion.getAgrees().get(0), is(a.getKey()));
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=SerializationException.class)
     public void 同じURLのSkillAssertionは追加できないこと() throws Exception {
         SkillA skill = new SkillA();
         skill.setName("Java");
@@ -171,7 +172,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(iedAssertionD.getAgrees().get(2), is(d.getKey()));
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=SerializationException.class)
     public void agreeは複数回できないこと() throws Exception {
         SkillA skill = new SkillA();
         skill.setName("Java");
