@@ -261,6 +261,12 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
+        
+        if (Datastore.query(sma)
+                .filter(sma.holder.equal(skill.getHolder().getKey()))
+                .filter(sma.name.equal(skill.getName())).count() > 0) {
+            throw new IllegalArgumentException(String.format("the skill [%s] is already added.", skill.getName()));
+        }
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         skill.getCreatedBy().setModel(profile);
@@ -275,7 +281,17 @@ public class SkillServiceImpl implements SkillService {
         User user = userService.getCurrentUser();
         if (user == null) throw new IllegalArgumentException("the user is null");
 
-        // validation url
+        // validation distinct url
+        if (Datastore.query(sam)
+                .filter(sam.skill.equal(assertion.getSkill().getKey()))
+                .filter(sam.url.equal(assertion.getUrl())).count() > 0) {
+            throw new IllegalArgumentException(
+                String.format("the url [%s] to skill [%s] is already added."
+                    , assertion.getUrl()
+                    , assertion.getSkill().getModel().getName()));
+        }
+        
+        // validation correct url
         try {
             Source source = new Source(new URL(assertion.getUrl()));
             Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
@@ -306,6 +322,9 @@ public class SkillServiceImpl implements SkillService {
         if (user == null) throw new IllegalArgumentException("the user is null");
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        if (assertion.getAgrees().indexOf(profile.getKey()) > -1) {
+            throw new IllegalArgumentException("the user is already agreed");
+        }
         assertion.getAgrees().add(profile.getKey());
         Key result = Datastore.put(assertion);
         
