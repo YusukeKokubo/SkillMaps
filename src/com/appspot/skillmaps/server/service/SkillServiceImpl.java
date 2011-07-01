@@ -17,6 +17,7 @@ import org.slim3.datastore.GlobalTransaction;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.SkillService;
+import com.appspot.skillmaps.server.meta.CommentMeta;
 import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillAMeta;
@@ -26,6 +27,7 @@ import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.server.util.TwitterUtil;
+import com.appspot.skillmaps.shared.model.Comment;
 import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
@@ -51,6 +53,7 @@ public class SkillServiceImpl implements SkillService {
     FollowingMeta fm = FollowingMeta.get();
     SkillAMeta sma = SkillAMeta.get();
     SkillAssertionMeta sam = SkillAssertionMeta.get();
+    CommentMeta cm = CommentMeta.get();
 
     @Override
     public Skill[] getSkillOwners(Skill skill) {
@@ -334,6 +337,23 @@ public class SkillServiceImpl implements SkillService {
         Datastore.put(skill);
         
         return Datastore.get(sam, result);
+    }
+    
+    @Override
+    public Comment addComment(SkillAssertion assertion, String body) throws SerializationException {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new SerializationException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        Comment comment = new Comment();
+        comment.setComment(body);
+        comment.getCreatedBy().setModel(profile);
+        comment.getAssertion().setModel(assertion);
+        Key key = Datastore.put(comment);
+        
+        assertion.getComments().add(comment.getKey());
+        return Datastore.get(cm, key);
     }
 
     @Override

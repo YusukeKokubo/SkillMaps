@@ -15,6 +15,7 @@ import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
 import com.appspot.skillmaps.server.meta.SkillAssertionMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
+import com.appspot.skillmaps.shared.model.Comment;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
@@ -184,5 +185,23 @@ public class SkillServiceImplTest extends ServletTestCase {
 
         tester.environment.setEmail("C@test.com");
         service.agree(service.agree(iedAssertion));
+    }
+    
+    @Test
+    public void commentできること() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setUrl("http://yahoo.com");
+        assertion.getSkill().setModel(iedSkill);
+        SkillAssertion iedAssertion = service.addAssert(assertion);
+
+        Comment comment = service.addComment(iedAssertion, "hogehoge");
+        assertThat(comment.getAssertion().getModel(), is(iedAssertion));
+        assertThat(comment.getComment(), is("hogehoge"));
+        assertThat(comment.getCreatedBy().getModel(), is(a));
     }
 }

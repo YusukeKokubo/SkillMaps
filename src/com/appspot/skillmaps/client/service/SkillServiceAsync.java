@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.service;
 
+import com.appspot.skillmaps.shared.model.Comment;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
@@ -54,5 +55,8 @@ public interface SkillServiceAsync {
             AsyncCallback<SkillAssertion> asyncCallback);
 
     void getTimeLine(AsyncCallback<SkillAssertion[]> asyncCallback);
+
+    void addComment(SkillAssertion assertion, String body,
+            AsyncCallback<Comment> callback);
 
 }

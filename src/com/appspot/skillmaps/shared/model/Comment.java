@@ -1,9 +1,9 @@
 package com.appspot.skillmaps.shared.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import com.google.appengine.api.datastore.Key;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
@@ -11,10 +11,8 @@ import org.slim3.datastore.Model;
 import org.slim3.datastore.ModelRef;
 import org.slim3.datastore.ModificationDate;
 
-import com.google.appengine.api.datastore.Key;
-
 @Model(schemaVersion = 1)
-public class SkillAssertion implements Serializable {
+public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,38 +21,18 @@ public class SkillAssertion implements Serializable {
 
     @Attribute(version = true)
     private Long version;
-
-    private ModelRef<SkillA> skill = new ModelRef<SkillA>(SkillA.class);
     
-    private String url;
+    private String comment;
     
-    private String description;
-    
-    private List<Key> agrees = new ArrayList<Key>();
+    private ModelRef<SkillAssertion> assertion = new ModelRef<SkillAssertion>(SkillAssertion.class);
 
     private ModelRef<Profile> createdBy = new ModelRef<Profile>(Profile.class);
-    
-    private List<Key> comments = new ArrayList<Key>();
 
     @Attribute(listener=CreationDate.class)
     private Date createdAt;
 
     @Attribute(listener=ModificationDate.class)
     private Date updatedAt;
-    
-    public boolean isCreatedByOwn() {
-        return isCreatedByOwn(getSkill().getModel());
-    }
-    
-    public boolean isCreatedByOwn(SkillA skill) {
-        return getCreatedBy().getKey().equals(skill.getHolder().getKey());
-    }
-    
-    public boolean isAgreedBy(Profile profile) {
-        if (profile == null || profile.getKey() == null) return false;
-        if (getAgrees() == null) return false;
-        return getAgrees().indexOf(profile.getKey()) > -1;
-    }
 
     /**
      * Returns the key.
@@ -113,7 +91,7 @@ public class SkillAssertion implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SkillAssertion other = (SkillAssertion) obj;
+        Comment other = (Comment) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -124,12 +102,16 @@ public class SkillAssertion implements Serializable {
         return true;
     }
 
-    public String getUrl() {
-        return url;
+    public String getComment() {
+        return comment;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public ModelRef<Profile> getCreatedBy() {
+        return createdBy;
     }
 
     public Date getCreatedAt() {
@@ -148,36 +130,8 @@ public class SkillAssertion implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public ModelRef<SkillA> getSkill() {
-        return skill;
-    }
-
-    public ModelRef<Profile> getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setAgrees(List<Key> agrees) {
-        this.agrees = agrees;
-    }
-
-    public List<Key> getAgrees() {
-        return agrees;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Key> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Key> comments) {
-        this.comments = comments;
+    public ModelRef<SkillAssertion> getAssertion() {
+        return assertion;
     }
 
 }

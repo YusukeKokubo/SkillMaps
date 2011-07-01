@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.service;
 
+import com.appspot.skillmaps.shared.model.Comment;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
@@ -55,4 +56,7 @@ public interface SkillService extends RemoteService {
     SkillAssertion disagree(SkillAssertion sassertion);
 
     SkillAssertion[] getTimeLine();
+
+    Comment addComment(SkillAssertion assertion, String body)
+            throws SerializationException;
 }
