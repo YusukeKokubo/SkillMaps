@@ -5,6 +5,9 @@
 	<ui:style>
 		.assertion {
 			margin-bottom: 25px;
+			background-color: white;
+			border: solid #92C1F0 1px;
+			padding: 10px;
 		}
 		.skillname {
 			font-size: 32px;
