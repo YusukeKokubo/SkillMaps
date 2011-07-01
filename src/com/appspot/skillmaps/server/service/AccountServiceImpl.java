@@ -23,6 +23,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.common.collect.Lists;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 
 public class AccountServiceImpl implements AccountService {
@@ -296,26 +297,26 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void putProfile(Profile act) {
+    public void putProfile(Profile act) throws SerializationException {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        if (user == null) throw new IllegalArgumentException("the user is null");
+        if (user == null) throw new SerializationException("the user is null");
 
         if (StringUtil.isEmpty(act.getId())) {
-            throw new IllegalArgumentException("[ID] は必ず入力してください");
+            throw new SerializationException("[ID] は必ず入力してください");
         }
 
         if (!act.getId().matches("[\\w\\-]+")) {
-            throw new IllegalArgumentException("[ID] は英数字とハイフンのみ入力可能です");
+            throw new SerializationException("[ID] は英数字とハイフンのみ入力可能です");
         }
 
         Profile p = Datastore.query(pm).filter(pm.id.equal(act.getId())).asSingle();
         if (p != null && !p.getKey().equals(act.getKey())) {
-            throw new IllegalArgumentException("この [ID] は既に登録済みです");
+            throw new SerializationException("この [ID] は既に登録済みです");
         }
 
         if (StringUtil.isEmpty(act.getName())) {
-            throw new IllegalArgumentException("[おなまえ] は必ず入力してください");
+            throw new SerializationException("[おなまえ] は必ず入力してください");
         }
         putMemcache(act.getUserEmail(), act);
 

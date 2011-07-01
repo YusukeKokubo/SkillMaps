@@ -139,13 +139,8 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
         form.submit();
     }
 
-    @UiHandler({"submit" , "twitterProfileSubmit"})
+    @UiHandler({"submit" , "twitterProfileSubmit", "mailNotifierSubmit"})
     public void onProfileSubmit(ClickEvent e){
-        presenter.registProfile();
-    }
-    
-    @UiHandler({"submit" , "mailNotifierSubmit"})
-    public void onMailNotifierSubmit(ClickEvent e){
         presenter.registProfile();
     }
 

@@ -6,13 +6,14 @@ import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 @RemoteServiceRelativePath("service.s3gwt")
 public interface AccountService extends RemoteService {
 
     Login login(String requestUri);
 
-    void putProfile(Profile act);
+    void putProfile(Profile act) throws SerializationException;
 
     Profile[] getUsers();
 

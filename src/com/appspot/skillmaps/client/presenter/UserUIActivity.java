@@ -156,7 +156,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     @Override
                     public void onSuccess(SkillA arg0) {
                         reloadSkills();
-                        Window.alert("追加しました");
+                        UiMessage.info("追加しました");
                         skillAddDialog.hide();
                         removeEventHandler(hr);
                         hr = null;
