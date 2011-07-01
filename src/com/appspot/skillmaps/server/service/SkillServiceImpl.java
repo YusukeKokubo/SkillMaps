@@ -296,14 +296,14 @@ public class SkillServiceImpl implements SkillService {
         try {
             Source source = new Source(new URL(assertion.getUrl()));
             Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
-            if (titleElement == null) return null;
+            if (titleElement == null) throw new SerializationException("そのURLへはアクセスできないみたいです.");
             assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            throw new SerializationException("そのURLへはアクセスできないみたいです." + e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            throw new SerializationException("そのURLへはアクセスできないみたいです." + e.getMessage());
         }
         
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
