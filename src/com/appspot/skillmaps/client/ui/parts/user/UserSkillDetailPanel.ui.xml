@@ -7,6 +7,7 @@
 
 		.name {
 			overflow: hidden;
+			font-size: 32px;
 		}
 
 		.header{
@@ -39,20 +40,6 @@
 			padding: 0 !important;
 		}
 
-		.descriptionLabel{
-			background: #ECF5FE;
-			vertical-align: middle;
-			padding:2px 4px;
-			font-weight: bold;
-		}
-
-		.description{
-			border-left: 3px solid white !important;
-			border-bottom: 2px solid white !important;
-			border-right: 2px solid white !important;
-			padding:2px 4px;
-		}
-
 		.buttonPanel{
 			text-align: right;
 			padding: 2px 4px;
@@ -73,30 +60,15 @@
 					<g:HTMLPanel width="100px">
 						<span class="{style.delimiter}">|</span>ポイント :<g:NumberLabel ui:field="point"/>
 					</g:HTMLPanel>
-					<g:HTMLPanel width="100px">
-						<span class="{style.delimiter}">|</span>賛同者数 :<g:NumberLabel ui:field="agreedCount"/>
-					</g:HTMLPanel>
 				</g:HorizontalPanel>
 			</g:customHeader>
 			<g:HTMLPanel addStyleNames="{style.detailPanel}">
 				<g:VerticalPanel width="100%">
-					<g:Label addStyleNames="{style.descriptionLabel}">詳細</g:Label>
-					<g:Label addStyleNames="{style.description}" ui:field="description"/>
-					<g:HTMLPanel addStyleNames="{style.buttonPanel}">
-						<hr/>
-						<g:Button ui:field="addCommentButton" title="このスキルにコメントを追加します。">コメントする</g:Button>
-						<hr/>
-					</g:HTMLPanel>
-					<g:DisclosurePanel ui:field="skillRelationPanel" width="100%">
-						<g:header>賛同者</g:header>
-						<g:VerticalPanel ui:field="skillRelationList" width="100%">
-							<g:Image resource="{res.loader}"/>
-						</g:VerticalPanel>
-					</g:DisclosurePanel>
-					<g:Label>■コメント一覧</g:Label>
-					<g:VerticalPanel spacing="3" ui:field="commentsPanel">
-						<g:Image resource="{res.loader}"/>
-					</g:VerticalPanel>
+					<g:VerticalPanel ui:field="assertions" />
+					<g:HorizontalPanel>
+						<g:TextBox ui:field="url" />
+						<g:Button ui:field="addAssertion" text="ネタを投下(URL)" />
+					</g:HorizontalPanel>
 				</g:VerticalPanel>
 			</g:HTMLPanel>
 		</g:DisclosurePanel>

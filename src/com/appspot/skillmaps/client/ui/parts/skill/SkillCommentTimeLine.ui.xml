@@ -16,10 +16,6 @@
 			background-color:#ECF5FE;
 			padding-left: 20px;
 		}
-
-		.white{
-			background-color: white;
-		}
 	</ui:style>
 	<g:VerticalPanel width="100%">
 		<g:HTMLPanel width="100%" addStyleNames="{style.header}">
@@ -28,7 +24,7 @@
 		<g:Label addStyleNames="{style.header}" ui:field="skillName" width="100%"/>
 		<g:HorizontalPanel ui:field="panel">
 			<g:HTMLPanel addStyleNames="{style.left}">
-				<g:HTMLPanel addStyleNames="{style.white}">
+				<g:HTMLPanel>
 					<sm:SkillCommentThumnail ui:field="skillCommentThumnail"/>
 				</g:HTMLPanel>
 			</g:HTMLPanel>

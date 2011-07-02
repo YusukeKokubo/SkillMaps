@@ -12,8 +12,6 @@
 	<g:VerticalPanel>
 		<g:Label text="スキルの名前" />
 		<g:SuggestBox ui:field="skillName" />
-		<g:Label text="説明" />
-		<g:TextArea ui:field="description" />
 		<g:HorizontalPanel>
 			<g:Button ui:field="submit" text="submit" />
 			<g:Button ui:field="cancel" text="cancel" />
