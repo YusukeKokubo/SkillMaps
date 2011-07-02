@@ -1,5 +1,6 @@
 package com.appspot.skillmaps.client.place;
 
+import com.appspot.skillmaps.client.presenter.ActivityProxy;
 import com.appspot.skillmaps.client.presenter.SkillMapActivity;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
@@ -9,7 +10,7 @@ import com.google.inject.Provider;
 public abstract class ActivityPlace<T extends SkillMapActivity> extends Place {
 
     @Inject
-    protected Provider<T> provider;
+    protected Provider<ActivityProxy<T>> provider;
     protected String token;
 
     public void init(String token) {
@@ -20,8 +21,8 @@ public abstract class ActivityPlace<T extends SkillMapActivity> extends Place {
         return this.token != null ? token : "";
     }
 
-    public T getActivity() {
-        T t = provider.get();
+    public ActivityProxy<T> getActivity() {
+        ActivityProxy<T> t = provider.get();
         t.setPlace(this);
         return t;
     }
