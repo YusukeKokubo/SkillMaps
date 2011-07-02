@@ -17,8 +17,11 @@ import com.appspot.skillmaps.client.ui.UserThumnail;
 import com.appspot.skillmaps.client.ui.form.skill.SkillCommentForm;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
+import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -38,7 +41,9 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
@@ -47,7 +52,7 @@ import com.google.inject.name.Named;
 
 public class UserUIActivity extends SkillMapActivity implements Presenter {
 
-    public interface SkillDriver extends SimpleBeanEditorDriver<Skill, SkillAddDialog>{}
+    public interface SkillDriver extends SimpleBeanEditorDriver<SkillA, SkillAddDialog>{}
 
     SkillDriver skillDriver = GWT.create(SkillDriver.class);
 
@@ -68,6 +73,9 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     private final Provider<AccountServiceAsync> accountServiceProvider;
     private final Provider<UserPlace> placeProvider;
 
+    @Inject
+    Login login;
+    
     @Inject
     public UserUIActivity(Provider<UserUIDisplay> displayProvider,
                           Provider<SkillAddDialog> skillAddDialogProvider,
@@ -137,26 +145,26 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void showSkillAddDialog() {
         final SkillAddDialog skillAddDialog = skillAddDialogProvider.get();
         skillDriver.initialize(skillAddDialog);
-        skillDriver.edit(new Skill());
+        skillDriver.edit(new SkillA());
         removeEventHandler(hr);
         hr = eventBus.addHandler(SkillAddSubmitEvent.TYPE, new SkillAddSubmitHandler() {
             @Override
             public void onSubmit(SkillAddSubmitEvent e) {
-                Skill skill = skillDriver.flush();
-                skill.setProfile(profile);
-                SkillRelation skillRelation = new SkillRelation();
-                serviceProvider.get().putSkill(skill, skillRelation, new AsyncCallback<Void>() {
+                SkillA skill = skillDriver.flush();
+                skill.getHolder().setModel(profile);
+                serviceProvider.get().addSkill(skill, new AsyncCallback<SkillA>() {
                     @Override
-                    public void onSuccess(Void arg0) {
+                    public void onSuccess(SkillA arg0) {
                         reloadSkills();
-                        Window.alert("追加しました");
+                        UiMessage.info("追加しました");
                         skillAddDialog.hide();
                         removeEventHandler(hr);
                         hr = null;
                     }
 
                     @Override
-                    public void onFailure(Throwable throwable) {
+                    public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }
@@ -185,25 +193,10 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     public void reloadSkills() {
         SimplePanel panel = display.getSkillsPanel();
         panel.setWidget(new Image(Resources.INSTANCE.loader()));
-        serviceProvider.get().getEnabledSkills(profile, new AsyncCallback<Skill[]>() {
+        serviceProvider.get().getSkill(profile, new AsyncCallback<SkillA[]>() {
             @Override
-            public void onSuccess(Skill[] result) {
-                display.reloadSkills(result , false);
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                UiMessage.severe(caught.getMessage(), caught);
-            }
-        });
-    }
-
-    @Override
-    public void reloadDisableSkills() {
-        serviceProvider.get().getDisabledSkills(profile, new AsyncCallback<Skill[]>() {
-            @Override
-            public void onSuccess(Skill[] result) {
-                display.reloadSkills(result , true);
+            public void onSuccess(SkillA[] result) {
+                display.reloadSkills(result);
             }
 
             @Override
@@ -263,7 +256,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 public void onSuccess(Void result) {
                     UiMessage.info("だよね！しました！");
                     reloadSkills();
-                    reloadDisableSkills();
                 }
 
                 @Override
@@ -295,6 +287,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
             @Override
             public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
             }
         });
     }
@@ -325,6 +318,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
                     @Override
                     public void onFailure(Throwable caught) {
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }
@@ -332,4 +326,129 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
         skillCommentForm.center();
     }
 
+    @Override
+    public void addAssertion(SkillAssertion assertion) {
+        serviceProvider.get().addAssert(assertion, new AsyncCallback<SkillAssertion>() {
+            @Override
+            public void onSuccess(SkillAssertion result) {
+                UiMessage.info("投下完了!");
+                reloadSkills();
+            }
+            
+            @Override
+            public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getAssertions(final SkillA skill, final VerticalPanel assertions) {
+        serviceProvider.get().getAssertion(skill, new AsyncCallback<SkillAssertion[]>() {
+            @Override
+            public void onSuccess(SkillAssertion[] result) {
+                assertions.clear();
+                for (final SkillAssertion sassertion : result) {
+                    VerticalPanel vpanel = new VerticalPanel();
+                    vpanel.setSpacing(5);
+                    HorizontalPanel panel = new HorizontalPanel();
+                    Anchor sa = new Anchor(sassertion.getUrl(), sassertion.getUrl(), "_blank");
+                    Label desc = new Label(sassertion.getDescription());
+                    Label msg = new Label("がやるね！と言っています.");
+                    vpanel.add(sa);
+                    vpanel.add(desc);
+                    panel.add(makeAgreeCount(sassertion));
+                    panel.add(msg);
+                    if (login.isLoggedIn() && login.getProfile().isActivate() && !skill.isOwnBy(login.getProfile())) {
+                        if (sassertion.isAgreedBy(login.getProfile())) {
+                            panel.add(makeDisagreeButton(sassertion));
+                        } else {
+                            panel.add(makeAgreeButton(sassertion));
+                        }
+                    }
+                    vpanel.add(panel);
+                    assertions.add(vpanel);
+                }
+            }
+            
+            @Override
+            public void onFailure(Throwable caught) {
+                UiMessage.info(caught.getMessage());
+            }
+            
+            private SimplePanel makeAgreeCount(final SkillAssertion sassertion) {
+                final SimplePanel panel = new SimplePanel();
+                Anchor count = new Anchor(sassertion.getAgrees().size() + "人");
+                count.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        accountServiceProvider.get().getUsers(sassertion, new AsyncCallback<Profile[]>() {
+                            @Override
+                            public void onSuccess(Profile[] result) {
+                                VerticalPanel vpanel = new VerticalPanel();
+                                for (Profile p : result) {
+                                    UserThumnail tm = new UserThumnail(displayProvider);
+                                    tm.setUser(p);
+                                    vpanel.add(tm);
+                                }
+                                panel.setWidget(vpanel);
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                            }
+                        });
+                    }
+                });
+                panel.add(count);
+                return panel;
+            }
+            
+            private Anchor makeAgreeButton(final SkillAssertion sassertion) {
+                Anchor agreedButton = new Anchor("やるね！");
+                agreedButton.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        serviceProvider.get().agree(sassertion, new AsyncCallback<SkillAssertion>() {
+                            @Override
+                            public void onSuccess(SkillAssertion result) {
+                                UiMessage.info("やるね！");
+                                assertions.clear();
+                                getAssertions(skill, assertions);
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                UiMessage.info(caught.getMessage());
+                            }
+                        });
+                    }
+                });
+                return agreedButton;
+            }
+
+            private Anchor makeDisagreeButton(final SkillAssertion sassertion) {
+                Anchor agreedButton = new Anchor("やるね！を取り消す.");
+                agreedButton.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        serviceProvider.get().disagree(sassertion, new AsyncCallback<SkillAssertion>() {
+                            @Override
+                            public void onSuccess(SkillAssertion result) {
+                                UiMessage.info("やるね！を取消しました.");
+                                assertions.clear();
+                                getAssertions(skill, assertions);
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                UiMessage.info(caught.getMessage());
+                            }
+                        });
+                    }
+                });
+                return agreedButton;
+            }
+        });
+    }
 }

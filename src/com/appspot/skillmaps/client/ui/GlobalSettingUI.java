@@ -2,6 +2,7 @@ package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.service.AdminService;
 import com.appspot.skillmaps.client.service.AdminServiceAsync;
+import com.appspot.skillmaps.client.ui.message.UiMessage;
 import com.appspot.skillmaps.shared.model.GlobalSetting;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -80,12 +81,12 @@ public class GlobalSettingUI extends Composite {
                 service.putGlobalSetting(gs, twitterNotifierId.getText(), new AsyncCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
-                        Window.alert("更新しました!");
+                        UiMessage.info("更新しました!");
                     }
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
+                        UiMessage.info(caught.getMessage());
                     }
                 });
             }

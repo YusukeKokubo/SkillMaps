@@ -1,7 +1,7 @@
 package com.appspot.skillmaps.client.display;
 
 import com.appspot.skillmaps.client.presenter.DisplayPresenter;
-import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.user.client.ui.IsWidget;
 
 public interface RecentAddedSkillsDisplay extends IsWidget {
@@ -12,5 +12,5 @@ public interface RecentAddedSkillsDisplay extends IsWidget {
 
     }
 
-    void setRecentAddedSkills(Skill[] result);
+    void setRecentAddedSkills(SkillAssertion[] result);
 }

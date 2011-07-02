@@ -41,14 +41,14 @@ public class Header extends Composite {
     @UiField
     Label myPageDelimiter;
 
-    @UiField
-    Label friendsDelimiter;
+//    @UiField
+//    Label friendsDelimiter;
 
     @UiField
     Hyperlink myPageLink;
 
-    @UiField
-    Hyperlink friendsLink;
+//    @UiField
+//    Hyperlink friendsLink;
 
     @UiField
     SigninAnchor signin;
@@ -81,9 +81,9 @@ public class Header extends Composite {
                 icon.setResource(Resources.INSTANCE.noimage());
             }
 
-            friendsLink.setVisible(true);
+//            friendsLink.setVisible(true);
             myPageLink.setVisible(true);
-            friendsDelimiter.setVisible(true);
+//            friendsDelimiter.setVisible(true);
             myPageDelimiter.setVisible(true);
 
             signPanel.removeStyleName(style.loading());
@@ -92,9 +92,9 @@ public class Header extends Composite {
             nickname.setText("");
             signout.setHref(login.getLogoutUrl());
 
-            friendsLink.setVisible(false);
+//            friendsLink.setVisible(false);
             myPageLink.setVisible(false);
-            friendsDelimiter.setVisible(false);
+//            friendsDelimiter.setVisible(false);
             myPageDelimiter.setVisible(false);
 
             signPanel.removeStyleName(style.loading());

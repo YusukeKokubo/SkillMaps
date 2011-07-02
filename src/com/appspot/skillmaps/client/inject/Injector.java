@@ -19,7 +19,6 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -45,7 +44,6 @@ public interface Injector extends Ginjector {
     UserPlace.Tokenizer getUserPlaceTokenizer();
     FriendsPlace.Tokenizer getFriendsPlaceTokenizer();
     
-    @Named("appealAnchor") Anchor getAppealAnchor();
     UserSkillDetailPanel getUserSkillDetailPanel();
     UserThumnail getUserThumnail();
     SkillCommentThumnail getSkillCommentThumnail();

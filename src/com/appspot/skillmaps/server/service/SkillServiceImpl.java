@@ -1,25 +1,39 @@
 package com.appspot.skillmaps.server.service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
+
+import net.htmlparser.jericho.CharacterReference;
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.GlobalTransaction;
 import org.slim3.util.StringUtil;
 
 import com.appspot.skillmaps.client.service.SkillService;
+import com.appspot.skillmaps.server.meta.CommentMeta;
 import com.appspot.skillmaps.server.meta.FollowingMeta;
 import com.appspot.skillmaps.server.meta.ProfileMeta;
+import com.appspot.skillmaps.server.meta.SkillAMeta;
 import com.appspot.skillmaps.server.meta.SkillAppealMeta;
+import com.appspot.skillmaps.server.meta.SkillAssertionMeta;
 import com.appspot.skillmaps.server.meta.SkillCommentMeta;
 import com.appspot.skillmaps.server.meta.SkillMeta;
 import com.appspot.skillmaps.server.meta.SkillRelationMeta;
 import com.appspot.skillmaps.server.util.TwitterUtil;
+import com.appspot.skillmaps.shared.model.Comment;
 import com.appspot.skillmaps.shared.model.Following;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
+import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAppeal;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
@@ -28,6 +42,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.common.base.Strings;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 public class SkillServiceImpl implements SkillService {
     SkillMeta sm = SkillMeta.get();
@@ -36,6 +51,9 @@ public class SkillServiceImpl implements SkillService {
     ProfileMeta pm = ProfileMeta.get();
     SkillCommentMeta scm = SkillCommentMeta.get();
     FollowingMeta fm = FollowingMeta.get();
+    SkillAMeta sma = SkillAMeta.get();
+    SkillAssertionMeta sam = SkillAssertionMeta.get();
+    CommentMeta cm = CommentMeta.get();
 
     @Override
     public Skill[] getSkillOwners(Skill skill) {
@@ -240,5 +258,149 @@ public class SkillServiceImpl implements SkillService {
         Datastore.put(skillComment);
         skillComment.setProfile(new AccountServiceImpl().getUserByEmail(userService.getCurrentUser().getEmail()));
         return skillComment;
+    }
+
+    @Override
+    public SkillA addSkill(SkillA skill) throws SerializationException {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new SerializationException("the user is null");
+        
+        if (Datastore.query(sma)
+                .filter(sma.holder.equal(skill.getHolder().getKey()))
+                .filter(sma.name.equal(skill.getName())).count() > 0) {
+            throw new SerializationException(String.format("the skill [%s] is already added.", skill.getName()));
+        }
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        skill.getCreatedBy().setModel(profile);
+        skill.setPoint(0L);
+        
+        return Datastore.get(sma, Datastore.put(skill));
+    }
+    
+    @Override
+    public SkillAssertion addAssert(SkillAssertion assertion) throws SerializationException {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new SerializationException("the user is null");
+
+        // validation distinct url
+        if (Datastore.query(sam)
+                .filter(sam.skill.equal(assertion.getSkill().getKey()))
+                .filter(sam.url.equal(assertion.getUrl())).count() > 0) {
+            throw new SerializationException(
+                String.format("the url [%s] to skill [%s] is already added."
+                    , assertion.getUrl()
+                    , assertion.getSkill().getModel().getName()));
+        }
+        
+        // validation correct url
+        try {
+            if(TwitterUtil.isTwitterTimeline(assertion.getUrl())){
+               long statusId = TwitterUtil.getTimelineId(assertion.getUrl());
+               String status = TwitterUtil.getStatus(statusId);
+               assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(status));
+            }else{
+              Source source = new Source(new URL(assertion.getUrl()));
+              Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
+              if (titleElement == null) throw new SerializationException("そのURLへはアクセスできないみたいです.");
+              assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new SerializationException("そのURLへはアクセスできないみたいです." + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SerializationException("そのURLへはアクセスできないみたいです." + e.getMessage());
+        }
+        
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        assertion.getCreatedBy().setModel(profile);
+        
+        if (!assertion.isCreatedByOwn()) {
+            agree(assertion);
+        }
+        
+        return Datastore.get(sam, Datastore.put(assertion));
+    }
+
+    @Override
+    public SkillAssertion agree(SkillAssertion assertion) throws SerializationException {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new SerializationException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        if (assertion.getAgrees().indexOf(profile.getKey()) > -1) {
+            throw new SerializationException("the user is already agreed");
+        }
+        assertion.getAgrees().add(profile.getKey());
+        Key result = Datastore.put(assertion);
+        
+        SkillA skill = assertion.getSkill().getModel();
+        skill.setPoint(skill.calcPoint());
+        Datastore.put(skill);
+        
+        return Datastore.get(sam, result);
+    }
+    
+    @Override
+    public Comment addComment(SkillAssertion assertion, String body) throws SerializationException {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new SerializationException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        Comment comment = new Comment();
+        comment.setComment(body);
+        comment.getCreatedBy().setModel(profile);
+        comment.getAssertion().setModel(assertion);
+        Key key = Datastore.put(comment);
+        
+        assertion.getComments().add(comment.getKey());
+        Datastore.put(assertion);
+        
+        return Datastore.get(cm, key);
+    }
+
+    @Override
+    public SkillA[] getSkill(Profile profile) {
+        return Datastore.query(sma).filter(sma.holder.equal(profile.getKey())).asList().toArray(new SkillA[0]);
+    }
+
+    @Override
+    public SkillAssertion[] getAssertion(SkillA skill) {
+        return skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
+    }
+
+    @Override
+    public SkillAssertion disagree(SkillAssertion sassertion) {
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) throw new IllegalArgumentException("the user is null");
+
+        Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
+        sassertion.getAgrees().remove(profile.getKey());
+        
+        return Datastore.get(sam, Datastore.put(sassertion));
+    }
+
+    @Override
+    public SkillAssertion[] getTimeLine() {
+        List<SkillAssertion> assertions = Datastore.query(sam).limit(10).sort(sam.updatedAt.desc).asList();
+        for (SkillAssertion sa : assertions) {
+            sa.getSkill().getModel().getHolder().getModel();
+        }
+        return assertions.toArray(new SkillAssertion[0]);
+    }
+    
+    @Override
+    public Comment[] getComments(SkillAssertion sa) {
+        Comment[] comments = Datastore.get(cm, sa.getComments()).toArray(new Comment[0]);
+        for (Comment c : comments) {
+            c.getCreatedBy().getModel();
+        }
+        return comments;
     }
 }

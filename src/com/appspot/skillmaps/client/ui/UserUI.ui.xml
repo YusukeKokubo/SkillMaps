@@ -54,22 +54,12 @@
 				</g:VerticalPanel>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel width="100%">
-
 				<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
 				<g:cell horizontalAlignment="ALIGN_RIGHT">
-					<g:Button ui:field="addSkill" text="この人のスキルを追加する" styleName="{style.button}" />
+					<g:Button ui:field="addSkill" text="スキルを追加する" styleName="{style.button}" />
 				</g:cell>
 			</g:HorizontalPanel>
 			<g:SimplePanel ui:field="skillsPanel" addStyleNames="{style.skills}" />
 		</g:VerticalPanel>
-		<hr />
-		<g:DisclosurePanel ui:field="disableSkillPanel">
-			<g:header>無効となったスキル</g:header>
-			<g:HTMLPanel ui:field="disableSkillsBox">
-				<center>
-					<g:Image resource="{res.loader}" />
-				</center>
-			</g:HTMLPanel>
-		</g:DisclosurePanel>
 	</g:HTMLPanel>
 </ui:UiBinder>
