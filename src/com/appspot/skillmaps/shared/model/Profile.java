@@ -27,6 +27,8 @@ public class Profile implements Serializable {
 
     private String name;
 
+    private String address;
+
     private String selfIntroduction;
 
     private Key iconKey;
@@ -47,38 +49,38 @@ public class Profile implements Serializable {
     private Boolean allowFromTwitterNotifier;
 
     private Boolean allowFromMailNotifier;
-    
+
     @GwtTransient
     private String githubToken;
-    
+
     private String githubLogin;
 
     private Boolean hasIcon;
 
-    @Attribute(listener=CreationEmail.class)
+    @Attribute(listener = CreationEmail.class)
     @GwtTransient
     private String userEmail;
 
-    @Attribute(listener=CreationDate.class)
+    @Attribute(listener = CreationDate.class)
     private Date createdAt;
 
-    @Attribute(listener=ModificationDate.class)
+    @Attribute(listener = ModificationDate.class)
     private Date updatedAt;
 
     public boolean isActivate() {
         return id != null && !id.isEmpty();
     }
 
-    public boolean isEnabledTwitter(){
+    public boolean isEnabledTwitter() {
         return twitterScreenName != null && !twitterScreenName.isEmpty();
     }
 
     public boolean isEnabledGitHub() {
         return githubLogin != null && !githubLogin.isEmpty();
     }
-    
+
     public String getIconUrl() {
-        if(getHasIcon() != null && getHasIcon()){
+        if (getHasIcon() != null && getHasIcon()) {
             return "/images/icon/" + getIconKeyString();
         }
         return null;
@@ -86,7 +88,7 @@ public class Profile implements Serializable {
 
     /**
      * Returns the key.
-     *
+     * 
      * @return the key
      */
     public Key getKey() {
@@ -95,7 +97,7 @@ public class Profile implements Serializable {
 
     /**
      * Sets the key.
-     *
+     * 
      * @param key
      *            the key
      */
@@ -105,7 +107,7 @@ public class Profile implements Serializable {
 
     /**
      * Returns the version.
-     *
+     * 
      * @return the version
      */
     public Long getVersion() {
@@ -114,7 +116,7 @@ public class Profile implements Serializable {
 
     /**
      * Sets the version.
-     *
+     * 
      * @param version
      *            the version
      */
@@ -216,7 +218,6 @@ public class Profile implements Serializable {
         return id;
     }
 
-
     public String getProfileUrl1() {
         return profileUrl1;
     }
@@ -235,7 +236,7 @@ public class Profile implements Serializable {
 
     /**
      * Returns the twitterToken.
-     *
+     * 
      * @return the twitterToken
      */
     public String getTwitterToken() {
@@ -244,7 +245,7 @@ public class Profile implements Serializable {
 
     /**
      * Sets the twitter
-     *
+     * 
      * @param twitterToken
      */
     public void setTwitterToken(String twitterToken) {
@@ -253,7 +254,7 @@ public class Profile implements Serializable {
 
     /**
      * Returns the twitterTokenSecret.
-     *
+     * 
      * @return the twitterTokenSecret
      */
     public String getTwitterTokenSecret() {
@@ -262,7 +263,7 @@ public class Profile implements Serializable {
 
     /**
      * Sets the twitterTokenSecret
-     *
+     * 
      * @param twitterTokenSecret
      */
     public void setTwitterTokenSecret(String twitterTokenSecret) {
@@ -315,6 +316,14 @@ public class Profile implements Serializable {
 
     public String getGithubLogin() {
         return githubLogin;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
 }

@@ -22,10 +22,7 @@ import com.google.inject.Provider;
 public class MyPageActivity extends SkillMapActivity implements
         MyPageDisplay.Presenter {
 
-    interface Driver extends SimpleBeanEditorDriver<Profile, ProfileUI>{}
-
-    private Driver driver = GWT.create(Driver.class);
-    private final Login login;
+       private final Login login;
     private final Provider<SigninGuidanceActivity> signinGuidanceProvider;
     private final Provider<MyPageDisplay> displayProvier;
     private final Provider<AccountServiceAsync> serviceProvider;
@@ -68,8 +65,7 @@ public class MyPageActivity extends SkillMapActivity implements
         if (login.isLoggedIn()) {
             setDisplay(displayProvier.get());
             display.setPresenter(this);
-            driver.initialize((ProfileUI)display);
-            driver.edit(login.getProfile());
+            display.setProfile(login.getProfile());
             panel.setWidget(display);
         } else {
             signinGuidanceProvider.get().start(panel, eventBus);
@@ -78,7 +74,7 @@ public class MyPageActivity extends SkillMapActivity implements
 
     @Override
     public void registProfile() {
-        Profile p = driver.flush();
+        Profile p = display.getProfile();
         serviceProvider.get().putProfile(p, new AsyncCallback<Void>() {
             @Override
             public void onSuccess(Void result) {

@@ -297,10 +297,16 @@ public class SkillServiceImpl implements SkillService {
         
         // validation correct url
         try {
-            Source source = new Source(new URL(assertion.getUrl()));
-            Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
-            if (titleElement == null) throw new SerializationException("そのURLへはアクセスできないみたいです.");
-            assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
+            if(TwitterUtil.isTwitterTimeline(assertion.getUrl())){
+               long statusId = TwitterUtil.getTimelineId(assertion.getUrl());
+               String status = TwitterUtil.getStatus(statusId);
+               assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(status));
+            }else{
+              Source source = new Source(new URL(assertion.getUrl()));
+              Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
+              if (titleElement == null) throw new SerializationException("そのURLへはアクセスできないみたいです.");
+              assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
             throw new SerializationException("そのURLへはアクセスできないみたいです." + e.getMessage());
