@@ -265,7 +265,7 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new SerializationException("the user is null");
-        
+
         if (Datastore.query(sma)
                 .filter(sma.holder.equal(skill.getHolder().getKey()))
                 .filter(sma.name.equal(skill.getName())).count() > 0) {
@@ -275,10 +275,10 @@ public class SkillServiceImpl implements SkillService {
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         skill.getCreatedBy().setModel(profile);
         skill.setPoint(0L);
-        
+
         return Datastore.get(sma, Datastore.put(skill));
     }
-    
+
     @Override
     public SkillAssertion addAssert(SkillAssertion assertion) throws SerializationException {
         UserService userService = UserServiceFactory.getUserService();
@@ -294,7 +294,7 @@ public class SkillServiceImpl implements SkillService {
                     , assertion.getUrl()
                     , assertion.getSkill().getModel().getName()));
         }
-        
+
         // validation correct url
         try {
             Source source = new Source(new URL(assertion.getUrl()));
@@ -308,14 +308,14 @@ public class SkillServiceImpl implements SkillService {
             e.printStackTrace();
             throw new SerializationException("そのURLへはアクセスできないみたいです." + e.getMessage());
         }
-        
+
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         assertion.getCreatedBy().setModel(profile);
-        
+
         if (!assertion.isCreatedByOwn()) {
             agree(assertion);
         }
-        
+
         return Datastore.get(sam, Datastore.put(assertion));
     }
 
@@ -331,14 +331,14 @@ public class SkillServiceImpl implements SkillService {
         }
         assertion.getAgrees().add(profile.getKey());
         Key result = Datastore.put(assertion);
-        
+
         SkillA skill = assertion.getSkill().getModel();
         skill.setPoint(skill.calcPoint());
         Datastore.put(skill);
-        
+
         return Datastore.get(sam, result);
     }
-    
+
     @Override
     public Comment addComment(SkillAssertion assertion, String body) throws SerializationException {
         UserService userService = UserServiceFactory.getUserService();
@@ -351,10 +351,10 @@ public class SkillServiceImpl implements SkillService {
         comment.getCreatedBy().setModel(profile);
         comment.getAssertion().setModel(assertion);
         Key key = Datastore.put(comment);
-        
+
         assertion.getComments().add(comment.getKey());
         Datastore.put(assertion);
-        
+
         return Datastore.get(cm, key);
     }
 
@@ -376,7 +376,7 @@ public class SkillServiceImpl implements SkillService {
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         sassertion.getAgrees().remove(profile.getKey());
-        
+
         return Datastore.get(sam, Datastore.put(sassertion));
     }
 
@@ -388,7 +388,7 @@ public class SkillServiceImpl implements SkillService {
         }
         return assertions.toArray(new SkillAssertion[0]);
     }
-    
+
     @Override
     public Comment[] getComments(SkillAssertion sa) {
         Comment[] comments = Datastore.get(cm, sa.getComments()).toArray(new Comment[0]);

@@ -44,10 +44,15 @@
 			text-align: right;
 			padding: 2px 4px;
 		}
+
+		.wrap {
+
+
+		}
 	</ui:style>
 	<ui:with field="res" type="com.appspot.skillmaps.client.bundle.Resources"/>
 
-    <g:HorizontalPanel>
+    <g:HorizontalPanel width="100%">
 		<g:DisclosurePanel ui:field="skillPanel" width="100%" animationEnabled="true" addStyleNames="{style.skillPanel}">
 			<g:customHeader>
 				<g:HorizontalPanel addStyleNames="{style.header}">

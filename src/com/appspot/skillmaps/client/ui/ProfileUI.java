@@ -32,8 +32,7 @@ import com.google.inject.Provider;
 
 public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profile>{
 
-    private static AccountConfigUiBinder uiBinder = GWT
-        .create(AccountConfigUiBinder.class);
+    private static AccountConfigUiBinder uiBinder = GWT.create(AccountConfigUiBinder.class);
 
     @UiField
     Button submit;
@@ -56,7 +55,7 @@ public class ProfileUI extends Composite implements MyPageDisplay , Editor<Profi
     @UiField
     @Editor.Ignore
     Label lblTwitterEnabled;
-    
+
     @UiField
     @Editor.Ignore
     Label lblGitHubEnabled;

@@ -1,6 +1,8 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,6 +31,9 @@ public class SkillMapPopupPanel extends Composite {
     protected SimplePanel contentsPanel;
 
     @UiField
+    protected ScrollPanel scrollPanel;
+
+    @UiField
     protected Anchor close;
 
     private static SkillMapPopupPanelUiBinder uiBinder =
@@ -41,58 +47,69 @@ public class SkillMapPopupPanel extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
-    public SimplePanel getHeader(){
+    public SimplePanel getHeader() {
         return this.headerPanel;
     }
 
-    public void setHeader(IsWidget w){
+    public void setHeader(IsWidget w) {
         setHeader(w.asWidget());
     }
 
-    public void setHeader(Widget w){
+    public void setHeader(Widget w) {
         headerPanel.setWidget(w);
     }
 
-    public SimplePanel getContents(){
+    public SimplePanel getContents() {
         return this.contentsPanel;
     }
 
-    public void setContents(IsWidget w){
+    public void setContents(IsWidget w) {
         setContents(w.asWidget());
     }
 
-    public void setContents(Widget w){
+    public void setContents(Widget w) {
         contentsPanel.setWidget(w);
     }
 
-    public SimplePanel getFooter(){
+    public SimplePanel getFooter() {
         return this.footerPanel;
     }
 
-    public void setFooter(IsWidget w){
+    public void setFooter(IsWidget w) {
         this.setFooter(w.asWidget());
     }
 
-    public void setFooter(Widget w){
+    public void setFooter(Widget w) {
         footerPanel.setWidget(w);
     }
 
-    public void center(){
-        try{
+    public void center() {
+        try {
             RootPanel.get("dashboard").clear();
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         RootPanel.get("dashboard").add(this);
     }
 
-    public void show(){
+    public void show() {
         center();
     }
 
     @UiHandler("close")
-    public void onCloseAnchorClick(ClickEvent e){
+    public void onCloseAnchorClick(ClickEvent e) {
         RootPanel.get("dashboard").clear();
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+        Element parentElement =
+            Document.get().getElementById("dashboard").getParentElement();
+
+        scrollPanel.setWidth(parentElement.getOffsetWidth() + "px");
+        scrollPanel.setHeight(parentElement.getOffsetHeight() + "px");
+
     }
 
 }

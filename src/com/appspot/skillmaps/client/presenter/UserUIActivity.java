@@ -1,3 +1,4 @@
+
 package com.appspot.skillmaps.client.presenter;
 
 import com.appspot.skillmaps.client.bundle.Resources;
@@ -5,28 +6,22 @@ import com.appspot.skillmaps.client.display.UserUIDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay.Presenter;
 import com.appspot.skillmaps.client.event.SkillAddSubmitEvent;
 import com.appspot.skillmaps.client.event.SkillAddSubmitHandler;
-import com.appspot.skillmaps.client.event.SkillCommentAddSubmitEvent;
-import com.appspot.skillmaps.client.event.SkillCommentAddSubmitHandler;
-import com.appspot.skillmaps.client.inject.Injector;
 import com.appspot.skillmaps.client.place.UserPlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.SkillAddDialog;
 import com.appspot.skillmaps.client.ui.SkillMapPopupPanel;
 import com.appspot.skillmaps.client.ui.UserThumnail;
-import com.appspot.skillmaps.client.ui.form.skill.SkillCommentForm;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
-import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
+import com.appspot.skillmaps.client.ui.parts.AgreeAnchor;
+import com.appspot.skillmaps.client.ui.parts.PartsFactory;
 import com.appspot.skillmaps.shared.model.Login;
 import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
-import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
-import com.google.appengine.api.datastore.Key;
-import com.google.common.base.Strings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -35,12 +30,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -48,7 +41,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
 
 public class UserUIActivity extends SkillMapActivity implements Presenter {
 
@@ -57,47 +49,36 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     SkillDriver skillDriver = GWT.create(SkillDriver.class);
 
     private Profile profile;
+
+    @Inject
     private EventBus eventBus;
-    private final Injector injector;
-    private final PlaceController placeController;
+
+    @Inject
+    private PlaceController placeController;
+
+    @Inject
+    private Provider<SkillAddDialog> skillAddDialogProvider;
+    @Inject
+    private Provider<UserUIDisplay> displayProvider;
+    @Inject
+    private Provider<SkillServiceAsync> serviceProvider;
+    @Inject
+    private Provider<UserThumnail> utProvider;
+    @Inject
+    private Provider<Anchor> permalinkProvider;
+    @Inject
+    private Provider<AccountServiceAsync> accountServiceProvider;
+    @Inject
+    private Provider<UserPlace> placeProvider;
+    @Inject
+    private PartsFactory partsFactory;
 
     private UserUIDisplay display;
-    private HandlerRegistration hr;
-    private HandlerRegistration commentHr;
 
-    private final Provider<SkillAddDialog> skillAddDialogProvider;
-    private final Provider<UserUIDisplay> displayProvider;
-    private final Provider<SkillServiceAsync> serviceProvider;
-    private final Provider<UserThumnail> utProvider;
-    private final Provider<Anchor> permalinkProvider;
-    private final Provider<AccountServiceAsync> accountServiceProvider;
-    private final Provider<UserPlace> placeProvider;
+    private HandlerRegistration hr;
 
     @Inject
     Login login;
-    
-    @Inject
-    public UserUIActivity(Provider<UserUIDisplay> displayProvider,
-                          Provider<SkillAddDialog> skillAddDialogProvider,
-                          Provider<SkillServiceAsync> serviceProvider,
-                          Provider<AccountServiceAsync> accountServiceProvider,
-                          Provider<UserThumnail> utProvider,
-                          @Named("skillOwnersPermalink") Provider<Anchor> permalinkProvider,
-                          PlaceController placeController,
-                          Provider<UserPlace> placeProvider,
-                          Injector injector,
-                          EventBus eventBus){
-        this.displayProvider = displayProvider;
-        this.skillAddDialogProvider = skillAddDialogProvider;
-        this.serviceProvider = serviceProvider;
-        this.accountServiceProvider = accountServiceProvider;
-        this.utProvider = utProvider;
-        this.permalinkProvider = permalinkProvider;
-        this.placeController = placeController;
-        this.placeProvider = placeProvider;
-        this.injector = injector;
-        this.eventBus = eventBus;
-    }
 
     @Override
     public void setProfile(Profile profile){
@@ -246,84 +227,8 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     }
 
     @Override
-    public void showAgreedDialog(final Anchor agreedForm, final Skill skill, final SkillRelation rel) {
-        agreedForm.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                agreedForm.setEnabled(false);
-                serviceProvider.get().putSkill(skill, rel, new AsyncCallback<Void>() {
-                @Override
-                public void onSuccess(Void result) {
-                    UiMessage.info("だよね！しました！");
-                    reloadSkills();
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage() + "\n" + caught.getStackTrace());
-                }
-            });
-            }
-        });
-    }
-
-    @Override
     public void gotoUser(String id) {
         placeController.goTo(placeProvider.get().user(id));
-    }
-
-    @Override
-    public void getSkillComments(Key key,final HasWidgets commentPanel) {
-        serviceProvider.get().getSkillComments(key, new AsyncCallback<SkillComment[]>() {
-            @Override
-            public void onSuccess(SkillComment[] result) {
-                commentPanel.clear();
-                for (SkillComment comment : result) {
-                    SkillCommentThumnail thumnail = injector.getSkillCommentThumnail();
-                    thumnail.setSkillComment(comment);
-                    commentPanel.add(thumnail);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                UiMessage.info(caught.getMessage());
-            }
-        });
-    }
-
-    @Override
-    public void showSkillCommentForm(final Key key,final VerticalPanel commentsPanel) {
-        final SkillCommentForm skillCommentForm = injector.getSkillCommentForm();
-        skillCommentForm.setSkillComment(key, new SkillComment());
-        commentHr = eventBus.addHandler(SkillCommentAddSubmitEvent.TYPE, new SkillCommentAddSubmitHandler() {
-            @Override
-            public void onSubmit(SkillCommentAddSubmitEvent e) {
-                SkillComment sc = skillCommentForm.getComment();
-                if(Strings.isNullOrEmpty(sc.getComment())){
-                    UiMessage.info("コメント欄が空です。");
-                    return;
-                }
-                serviceProvider.get().putComment(key, sc.getComment(), new AsyncCallback<SkillComment>() {
-                    @Override
-                    public void onSuccess(SkillComment result) {
-                        UiMessage.info("更新しました");
-                        skillCommentForm.hide();
-                        removeEventHandler(commentHr);
-
-                        SkillCommentThumnail thumnail = injector.getSkillCommentThumnail();
-                        thumnail.setSkillComment(result);
-                        commentsPanel.insert(thumnail, 0);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        UiMessage.info(caught.getMessage());
-                    }
-                });
-            }
-        });
-        skillCommentForm.center();
     }
 
     @Override
@@ -334,7 +239,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 UiMessage.info("投下完了!");
                 reloadSkills();
             }
-            
+
             @Override
             public void onFailure(Throwable caught) {
                 UiMessage.info(caught.getMessage());
@@ -360,22 +265,28 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                     panel.add(makeAgreeCount(sassertion));
                     panel.add(msg);
                     if (login.isLoggedIn() && login.getProfile().isActivate() && !skill.isOwnBy(login.getProfile())) {
-                        if (sassertion.isAgreedBy(login.getProfile())) {
-                            panel.add(makeDisagreeButton(sassertion));
-                        } else {
-                            panel.add(makeAgreeButton(sassertion));
-                        }
+                        AgreeAnchor anchor = partsFactory.createAgreeAnchor(sassertion,
+                            new AgreeAnchor.ActionSuccessHandler() {
+
+                            @Override
+                            public void onSuccess(SkillAssertion result) {
+                                assertions.clear();
+                                getAssertions(skill, assertions);
+                            }
+                        });
+
+                        panel.add(anchor);
                     }
                     vpanel.add(panel);
                     assertions.add(vpanel);
                 }
             }
-            
+
             @Override
             public void onFailure(Throwable caught) {
                 UiMessage.info(caught.getMessage());
             }
-            
+
             private SimplePanel makeAgreeCount(final SkillAssertion sassertion) {
                 final SimplePanel panel = new SimplePanel();
                 Anchor count = new Anchor(sassertion.getAgrees().size() + "人");
@@ -393,7 +304,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                                 }
                                 panel.setWidget(vpanel);
                             }
-                            
+
                             @Override
                             public void onFailure(Throwable caught) {
                             }
@@ -402,52 +313,6 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
                 });
                 panel.add(count);
                 return panel;
-            }
-            
-            private Anchor makeAgreeButton(final SkillAssertion sassertion) {
-                Anchor agreedButton = new Anchor("やるね！");
-                agreedButton.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        serviceProvider.get().agree(sassertion, new AsyncCallback<SkillAssertion>() {
-                            @Override
-                            public void onSuccess(SkillAssertion result) {
-                                UiMessage.info("やるね！");
-                                assertions.clear();
-                                getAssertions(skill, assertions);
-                            }
-                            
-                            @Override
-                            public void onFailure(Throwable caught) {
-                                UiMessage.info(caught.getMessage());
-                            }
-                        });
-                    }
-                });
-                return agreedButton;
-            }
-
-            private Anchor makeDisagreeButton(final SkillAssertion sassertion) {
-                Anchor agreedButton = new Anchor("やるね！を取り消す.");
-                agreedButton.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        serviceProvider.get().disagree(sassertion, new AsyncCallback<SkillAssertion>() {
-                            @Override
-                            public void onSuccess(SkillAssertion result) {
-                                UiMessage.info("やるね！を取消しました.");
-                                assertions.clear();
-                                getAssertions(skill, assertions);
-                            }
-                            
-                            @Override
-                            public void onFailure(Throwable caught) {
-                                UiMessage.info(caught.getMessage());
-                            }
-                        });
-                    }
-                });
-                return agreedButton;
             }
         });
     }
