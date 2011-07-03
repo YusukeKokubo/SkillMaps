@@ -10,11 +10,11 @@ import org.slim3.controller.Navigation;
 import org.slim3.datastore.Datastore;
 
 import com.appspot.skillmaps.server.meta.ProfileMeta;
-import com.appspot.skillmaps.server.meta.SkillMeta;
+import com.appspot.skillmaps.server.meta.SkillAssertionMeta;
 import com.appspot.skillmaps.shared.model.MailQueue;
 import com.appspot.skillmaps.shared.model.Profile;
-import com.appspot.skillmaps.shared.model.Skill;
-import com.appspot.skillmaps.shared.model.SkillRelation;
+import com.appspot.skillmaps.shared.model.SkillA;
+import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions.Builder;
 
@@ -24,52 +24,47 @@ import com.google.appengine.api.taskqueue.TaskOptions.Builder;
  *
  */
 public class SkillNotificationController extends Controller {
-    SkillMeta m = SkillMeta.get();
+    SkillAssertionMeta m = SkillAssertionMeta.get();
     ProfileMeta pm = ProfileMeta.get();
+    
     long day = 1000 * 60 * 60 * 24;
 
     @Override
     public Navigation run() throws Exception {
         // 24時間前以降に更新されているスキルを取得する
         Date h24ago = new Date(new Date().getTime() - day);
-        List<Skill> skills = Datastore.query(m).filter(m.updatedAt.greaterThanOrEqual(h24ago)).asList();
+        List<SkillAssertion> assertions = Datastore.query(m).filter(m.updatedAt.greaterThanOrEqual(h24ago)).asList();
         
         // ユーザーごとに集計
-        HashMap<String, List<Skill>> notifMap = new HashMap<String, List<Skill>>();
-        for (Skill skill : skills) {
-            if (!notifMap.containsKey(skill.getOwnerEmail())) {
-                List<Skill> list = new ArrayList<Skill>();
-                list.add(skill);
-                notifMap.put(skill.getOwnerEmail(), list);
+        HashMap<Profile, List<SkillAssertion>> notifMap = new HashMap<Profile, List<SkillAssertion>>();
+        for (SkillAssertion assertion : assertions) {
+            SkillA skill = assertion.getSkill().getModel();
+            if (!notifMap.containsKey(skill.getHolder().getModel().getUserEmail())) {
+                List<SkillAssertion> list = new ArrayList<SkillAssertion>();
+                list.add(assertion);
+                notifMap.put(skill.getHolder().getModel(), list);
             } else {
-                List<Skill> list = notifMap.get(skill.getOwnerEmail());
-                list.add(skill);
+                List<SkillAssertion> list = notifMap.get(skill.getHolder().getModel());
+                list.add(assertion);
             }
         }
 
         // キューを作成
         List<MailQueue> queues = new ArrayList<MailQueue>();
-        for (String user : notifMap.keySet()) {
-            Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user)).limit(1).asSingle();
+        for (Profile profile : notifMap.keySet()) {
             if (profile.getAllowFromMailNotifier() == null || profile.getAllowFromMailNotifier() == false) {
                 continue;
             }
             StringBuilder body = new StringBuilder();
             body.append(String.format("%s(%s)さんの今日のスキルレポートです。\n\n", profile.getName(), profile.getId()));
-            List<Skill> updatedSkills = notifMap.get(user);
-            for (Skill skill : updatedSkills) {
-                body.append(String.format("■ [%s] %dポイント %d人がだよね！と言っています. <-  ", skill.getName(), skill.getPoint(), skill.getAgreedCount()));
-                if (!skill.getEnable()) {
-                    body.append("ポイントが0になったためこのスキルを消失しました。 ");
-                } else if (skill.getCreatedAt().after(h24ago)) {
-                    body.append("追加されました。 ");
-                } else {
-                    body.append("更新されました。 ");
-                }
-                body.append("\n");
-                for (SkillRelation rel : skill.getRelation().getModelList()) {
-                    Profile p = Datastore.query(pm).filter(pm.userEmail.equal(rel.getUserEmail())).limit(1).asSingle();
-                    body.append(String.format("%s(%s) : %dポイント \n", p.getName(), p.getId(), rel.getPoint()));
+            List<SkillAssertion> updatedSkills = notifMap.get(profile);
+            for (SkillAssertion assertion : updatedSkills) {
+                SkillA skill = assertion.getSkill().getModel();
+                body.append(String.format("■ %s (%dポイント) <- %s (%s)\n", skill.getName(), skill.getPoint(), assertion.getUrl(), assertion.getDescription()));
+                body.append(String.format("%d人がやるね！と言っています.\n", assertion.getAgrees().size()));
+                List<Profile> agrees = Datastore.get(pm, assertion.getAgrees());
+                for (Profile p : agrees) {
+                    body.append(String.format("- %s(%s) \n", p.getName(), p.getId()));
                 }
                 body.append("\n\n");
             }

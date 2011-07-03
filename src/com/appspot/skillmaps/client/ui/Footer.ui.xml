@@ -8,7 +8,10 @@
 		Skill Maps powered by Google App Engine.
 		manage by <a href="http://twitter.com/#!/yusuke_kokubo/">Yusuke Kokubo</a>.
 		<br />
-		contributed by <a href="https://twitter.com/#!/soundTricker318">keisuke oohashi</a> and <a href="http://twitter.com/#!/tan_go238">Go Tanaka</a>.
+		contributed by 
+		<a href="https://twitter.com/#!/soundTricker318">keisuke oohashi</a> , 
+		<a href="https://twitter.com/#!/tan_go238">Go Tanaka</a> , 
+        <a href="https://twitter.com/#!/konkicci">konkicci</a> , .
 		copyright 2010.
 	</g:HTMLPanel>
 </ui:UiBinder>
