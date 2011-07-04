@@ -24,6 +24,7 @@
 				<g:Label ui:field="skillPoint" styleName="{style.skillpoint}" />
 			</g:HorizontalPanel>
 			<g:Anchor ui:field="assertion" target="_blank" />
+			<g:Label ui:field="title" />
 			<g:Label ui:field="description" />
 			<g:HorizontalPanel ui:field="panel" spacing="5">
 				<g:SimplePanel ui:field="count" />

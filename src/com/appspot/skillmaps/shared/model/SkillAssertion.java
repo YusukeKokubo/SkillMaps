@@ -28,6 +28,8 @@ public class SkillAssertion implements Serializable {
     
     private String url;
     
+    private String title;
+    
     private String description;
     
     private List<Key> agrees = new ArrayList<Key>();
@@ -178,6 +180,14 @@ public class SkillAssertion implements Serializable {
 
     public void setComments(List<Key> comments) {
         this.comments = comments;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

@@ -11,6 +11,7 @@ import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
+import net.htmlparser.jericho.StartTag;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.GlobalTransaction;
@@ -300,12 +301,17 @@ public class SkillServiceImpl implements SkillService {
             if(TwitterUtil.isTwitterTimeline(assertion.getUrl())){
                long statusId = TwitterUtil.getTimelineId(assertion.getUrl());
                String status = TwitterUtil.getStatus(statusId);
+               assertion.setTitle("Twitter");
                assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(status));
             }else{
               Source source = new Source(new URL(assertion.getUrl()));
               Element titleElement=source.getFirstElement(HTMLElementName.TITLE);
-              if (titleElement == null) throw new SerializationException("そのURLへはアクセスできないみたいです.");
-              assertion.setDescription(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
+              if (titleElement == null) throw new SerializationException("そのURLの<title>が見つかりません.");
+              assertion.setTitle(CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent()));
+              String description = getMetaValue(source,"description");
+              if (description != null) {
+                  assertion.setDescription(description);
+              }
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -323,6 +329,17 @@ public class SkillServiceImpl implements SkillService {
         }
         
         return Datastore.get(sam, Datastore.put(assertion));
+    }
+    
+    private static String getMetaValue(Source source, String key) {
+        for (int pos=0; pos<source.length();) {
+            StartTag startTag=source.getNextStartTag(pos,"name",key,false);
+            if (startTag==null) return null;
+            if (startTag.getName()==HTMLElementName.META)
+                return startTag.getAttributeValue("content"); // Attribute values are automatically decoded
+            pos=startTag.getEnd();
+        }
+        return null;
     }
 
     @Override

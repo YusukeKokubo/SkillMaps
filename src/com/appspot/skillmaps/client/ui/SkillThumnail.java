@@ -54,6 +54,9 @@ public class SkillThumnail extends Composite {
     Anchor assertion;
     
     @UiField
+    Label title;
+    
+    @UiField
     Label description;
     
     @UiField
@@ -120,6 +123,7 @@ public class SkillThumnail extends Composite {
         profile.setUser(sa.getSkill().getModel().getHolder().getModel());
         assertion.setHref(sa.getUrl());
         assertion.setText(sa.getUrl());
+        title.setText(sa.getTitle());
         description.setText(sa.getDescription());
         count.setWidget(makeAgreeCount(sa));
         if (login.isLoggedIn() && login.getProfile().isActivate() && !sa.getSkill().getModel().isOwnBy(login.getProfile())) {
