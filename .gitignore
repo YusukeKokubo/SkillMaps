@@ -13,3 +13,5 @@ build/
 .externalToolBuilders/
 
 src/com/appspot/skillmaps/server/meta
+
+www-test
