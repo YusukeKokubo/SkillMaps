@@ -98,13 +98,12 @@ public class SkillThumnail extends Composite {
     public SkillThumnail(Provider<UserThumnail> utProvider) {
         this.utProvider = utProvider;
         initWidget(uiBinder.createAndBindUi(this));
-        
-        if (!login.isLoggedIn() || !login.getProfile().isActivate()) {
-            commentButton.setVisible(false);
-        }
     }
 
     public void setSkill(final SkillAssertion sa){
+        if (!login.isLoggedIn() || !login.getProfile().isActivate()) {
+            commentButton.setVisible(false);
+        }
         skillAssertion = sa;
         skillName.setText(sa.getSkill().getModel().getName());
         skillPoint.setText("(" + sa.getSkill().getModel().getPoint().toString() + ")");
