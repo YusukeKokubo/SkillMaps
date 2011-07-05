@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
 public class UserUIActivity extends SkillMapActivity implements Presenter {
 
@@ -65,6 +66,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
     @Inject
     private Provider<UserThumnail> utProvider;
     @Inject
+    @Named("skillOwnersPermalink")
     private Provider<Anchor> permalinkProvider;
     @Inject
     private Provider<AccountServiceAsync> accountServiceProvider;
