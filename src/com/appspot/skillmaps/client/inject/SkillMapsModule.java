@@ -2,10 +2,12 @@ package com.appspot.skillmaps.client.inject;
 
 import com.appspot.skillmaps.client.place.MyPagePlace;
 import com.appspot.skillmaps.client.place.SkillOwnersPlace;
+import com.appspot.skillmaps.client.ui.parts.PartsFactory;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.inject.Provider;
@@ -28,6 +30,9 @@ public class SkillMapsModule extends AbstractGinModule {
 
         //MVP modules
         install(new MvpModule());
+
+        //PartsFactory
+        install(new GinFactoryModuleBuilder().build(PartsFactory.class));
     }
 
     @Provides

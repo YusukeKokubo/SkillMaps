@@ -48,8 +48,7 @@ public class ProfileUI extends Composite implements MyPageDisplay,
     interface AccountConfigUiBinder extends UiBinder<Widget, ProfileUI> {
     }
 
-    private static AccountConfigUiBinder uiBinder = GWT
-        .create(AccountConfigUiBinder.class);
+    private static AccountConfigUiBinder uiBinder = GWT.create(AccountConfigUiBinder.class);
 
     private Driver driver = GWT.create(Driver.class);
 
