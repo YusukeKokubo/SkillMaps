@@ -165,7 +165,8 @@ public class TwitterUtil {
     public static String getStatus(long statusId) {
         Twitter twitter = factory.getInstance();
         // twitter.getUserListStatuses(arg0, arg1, arg2)
-        Paging paging = new Paging(statusId);
+//        Paging paging = new Paging(statusId);
+        new Paging(statusId);
         try {
             return twitter.showStatus(statusId).getText();
         } catch (TwitterException te) {

@@ -1,7 +1,6 @@
 package com.appspot.skillmaps.client.ui;
 
 import com.appspot.skillmaps.client.display.RecentAddedSkillsDisplay;
-import com.appspot.skillmaps.shared.model.Skill;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

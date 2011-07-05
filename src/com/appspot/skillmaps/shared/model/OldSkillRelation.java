@@ -13,7 +13,7 @@ import com.google.appengine.api.datastore.Key;
 
 @Model(kind = "SkillRelation", schemaVersion = 1)
 public class OldSkillRelation {
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
 
     @Attribute(primaryKey = true)
     private Key key;
