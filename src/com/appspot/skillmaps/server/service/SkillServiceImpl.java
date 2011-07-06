@@ -372,6 +372,10 @@ public class SkillServiceImpl implements SkillService {
         User user = userService.getCurrentUser();
         if (user == null) throw new SerializationException("the user is null");
 
+        if (StringUtil.isEmpty(body)) {
+            throw new SerializationException("the comment is empty.");
+        }
+
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         Comment comment = new Comment();
         comment.setComment(body);

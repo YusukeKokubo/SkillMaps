@@ -214,4 +214,19 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertThat(comment.getCreatedBy().getModel(), is(a));
         assertThat(comment.getAssertion().getModel().getComments().get(0), is(comment.getKey()));
     }
+
+    @Test(expected=SerializationException.class)
+    public void 空のコメントは追加できないこと() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("Java");
+        skill.getHolder().setModel(b);
+        SkillA iedSkill = service.addSkill(skill);
+        
+        SkillAssertion assertion = new SkillAssertion();
+        assertion.setUrl("http://yahoo.com");
+        assertion.getSkill().setModel(iedSkill);
+        SkillAssertion iedAssertion = service.addAssert(assertion);
+
+        service.addComment(iedAssertion, "");
+    }
 }
