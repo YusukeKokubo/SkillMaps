@@ -5,6 +5,9 @@ import com.appspot.skillmaps.client.inject.Injector;
 import com.appspot.skillmaps.client.ui.ContentsPanel;
 import com.appspot.skillmaps.client.ui.Footer;
 import com.appspot.skillmaps.client.ui.Header;
+import com.appspot.skillmaps.client.ui.SigninGuidance;
+import com.appspot.skillmaps.client.ui.SkillMapPopupPanel;
+import com.appspot.skillmaps.client.ui.UserUI;
 import com.appspot.skillmaps.shared.model.Login;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -23,7 +26,7 @@ public class Skillmaps implements EntryPoint {
         RootPanel.get("loader").setVisible(false);
         RootPanel.get("header").add(new Header(null));
 
-        ContentsPanel contentsPanel = injector.getContentsPanel();
+        final ContentsPanel contentsPanel = injector.getContentsPanel();
         contentsPanel.init();
         RootPanel.get("contents").add(contentsPanel);
 
@@ -46,6 +49,18 @@ public class Skillmaps implements EntryPoint {
                     //TODO headerもdisplay化？
                     RootPanel.get("header").clear();
                     RootPanel.get("header").add(new Header(login));
+
+                    SkillMapPopupPanel userDialog = new SkillMapPopupPanel();
+                    if (!login.isLoggedIn()) {
+                        userDialog.setContents(new SigninGuidance(result));
+                    } else if (!login.getProfile().isActivate()) {
+                        userDialog.setContents(injector.getActivateGuidance());
+                    } else {
+                        UserUI ut = injector.getUserUI();
+                        ut.setProfile(login.getProfile());
+                        userDialog.setContents(ut);
+                    }
+                    userDialog.center();
 
                     injector.getHistoryHandler().handleCurrentHistory();
                 }

@@ -8,8 +8,10 @@ import com.appspot.skillmaps.client.place.SkillOwnersPlace;
 import com.appspot.skillmaps.client.place.UserListPlace;
 import com.appspot.skillmaps.client.place.UserPlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
+import com.appspot.skillmaps.client.ui.ActivateGuidance;
 import com.appspot.skillmaps.client.ui.ContentsPanel;
 import com.appspot.skillmaps.client.ui.UserThumnail;
+import com.appspot.skillmaps.client.ui.UserUI;
 import com.appspot.skillmaps.client.ui.form.skill.SkillCommentForm;
 import com.appspot.skillmaps.client.ui.parts.skill.SkillCommentThumnail;
 import com.appspot.skillmaps.client.ui.parts.user.UserSkillDetailPanel;
@@ -46,6 +48,8 @@ public interface Injector extends Ginjector {
     
     UserSkillDetailPanel getUserSkillDetailPanel();
     UserThumnail getUserThumnail();
+    UserUI getUserUI();
+    ActivateGuidance getActivateGuidance();
     SkillCommentThumnail getSkillCommentThumnail();
     SkillCommentForm getSkillCommentForm();
 }

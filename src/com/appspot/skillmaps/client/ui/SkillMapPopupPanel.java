@@ -86,7 +86,7 @@ public class SkillMapPopupPanel extends Composite {
     public void center() {
         try {
             RootPanel.get("dashboard").clear();
-        } catch (Exception e) {
+        } catch (Throwable e) {
 
         }
         RootPanel.get("dashboard").add(this);
