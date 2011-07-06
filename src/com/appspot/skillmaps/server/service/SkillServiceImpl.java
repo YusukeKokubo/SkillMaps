@@ -266,6 +266,10 @@ public class SkillServiceImpl implements SkillService {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) throw new SerializationException("the user is null");
+        
+        if (StringUtil.isEmpty(skill.getName())) {
+            throw new SerializationException("the skill name is empty.");
+        }
 
         if (Datastore.query(sma)
                 .filter(sma.holder.equal(skill.getHolder().getKey()))

@@ -129,6 +129,14 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion2.getSkill().setModel(iedSkill);
         service.addAssert(assertion2);
     }
+    
+    @Test(expected=SerializationException.class)
+    public void 空のスキルは追加できないこと() throws Exception {
+        SkillA skill = new SkillA();
+        skill.setName("");
+        skill.getHolder().setModel(b);
+        service.addSkill(skill);
+    }
 
     @Test
     public void 自分でSkillを表明した場合はagreesには入らない() throws Exception {
