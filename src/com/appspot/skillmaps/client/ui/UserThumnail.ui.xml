@@ -9,13 +9,9 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HorizontalPanel>
-			<g:VerticalPanel>
-				<g:HorizontalPanel>
-					<g:Image ui:field="icon" stylePrimaryName="icon" />
-					<g:Anchor ui:field="id" styleName="{style.anchor}" />
-					<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
+			<g:Image ui:field="icon" stylePrimaryName="icon" />
+			<g:Anchor ui:field="id" styleName="{style.anchor}" />
+			<g:HTMLPanel>(</g:HTMLPanel><g:Label ui:field="name" /><g:HTML>)</g:HTML>
 		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder>
