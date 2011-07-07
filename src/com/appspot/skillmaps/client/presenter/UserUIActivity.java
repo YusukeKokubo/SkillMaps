@@ -251,7 +251,7 @@ public class UserUIActivity extends SkillMapActivity implements Presenter {
 
     @Override
     public void getAssertions(final SkillA skill, final VerticalPanel assertions) {
-        serviceProvider.get().getAssertion(skill, new AsyncCallback<SkillAssertion[]>() {
+        serviceProvider.get().getAssertions(skill, new AsyncCallback<SkillAssertion[]>() {
             @Override
             public void onSuccess(SkillAssertion[] result) {
                 assertions.clear();

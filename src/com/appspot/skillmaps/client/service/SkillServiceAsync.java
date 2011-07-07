@@ -49,8 +49,6 @@ public interface SkillServiceAsync {
 
     void getSkill(Profile profile, AsyncCallback<SkillA[]> callback);
 
-    void getAssertion(SkillA skill, AsyncCallback<SkillAssertion[]> callback);
-
     void disagree(SkillAssertion sassertion,
             AsyncCallback<SkillAssertion> asyncCallback);
 
@@ -60,5 +58,7 @@ public interface SkillServiceAsync {
             AsyncCallback<Comment> callback);
 
     void getComments(SkillAssertion sa, AsyncCallback<Comment[]> callback);
+
+    void getAssertions(SkillA skill, AsyncCallback<SkillAssertion[]> callback);
 
 }

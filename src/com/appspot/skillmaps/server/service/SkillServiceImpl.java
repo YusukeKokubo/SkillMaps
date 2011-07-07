@@ -395,7 +395,7 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public SkillAssertion[] getAssertion(SkillA skill) {
+    public SkillAssertion[] getAssertions(SkillA skill) {
         return skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
     }
 

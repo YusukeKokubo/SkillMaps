@@ -51,8 +51,6 @@ public interface SkillService extends RemoteService {
 
     SkillA[] getSkill(Profile profile);
 
-    SkillAssertion[] getAssertion(SkillA skill);
-
     SkillAssertion disagree(SkillAssertion sassertion);
 
     SkillAssertion[] getTimeLine();
@@ -61,4 +59,6 @@ public interface SkillService extends RemoteService {
             throws SerializationException;
 
     Comment[] getComments(SkillAssertion sa);
+
+    SkillAssertion[] getAssertions(SkillA skill);
 }
