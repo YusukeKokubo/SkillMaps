@@ -32,12 +32,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class SkillThumnail extends Composite {
+public class SkillAssertionUI extends Composite {
 
     private static SkillThumnailUiBinder uiBinder = GWT
         .create(SkillThumnailUiBinder.class);
 
-    interface SkillThumnailUiBinder extends UiBinder<Widget, SkillThumnail> {
+    interface SkillThumnailUiBinder extends UiBinder<Widget, SkillAssertionUI> {
     }
 
     @UiField
@@ -95,7 +95,7 @@ public class SkillThumnail extends Composite {
     private PartsFactory partsFactory;
 
     @Inject
-    public SkillThumnail(Provider<UserThumnail> utProvider) {
+    public SkillAssertionUI(Provider<UserThumnail> utProvider) {
         this.utProvider = utProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }

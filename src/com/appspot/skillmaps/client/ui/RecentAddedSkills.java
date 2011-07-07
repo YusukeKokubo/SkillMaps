@@ -25,10 +25,10 @@ public class RecentAddedSkills extends Composite implements RecentAddedSkillsDis
 
     private Presenter presenter;
 
-    private final Provider<SkillThumnail> skillThumnailProvider;
+    private final Provider<SkillAssertionUI> skillThumnailProvider;
 
     @Inject
-    public RecentAddedSkills(Provider<SkillThumnail> skillThumnailProvider) {
+    public RecentAddedSkills(Provider<SkillAssertionUI> skillThumnailProvider) {
         this.skillThumnailProvider = skillThumnailProvider;
         initWidget(uiBinder.createAndBindUi(this));
     }
@@ -42,7 +42,7 @@ public class RecentAddedSkills extends Composite implements RecentAddedSkillsDis
     @Override
     public void setRecentAddedSkills(SkillAssertion[] result) {
         for (SkillAssertion sa : result) {
-            SkillThumnail skillThumnail = skillThumnailProvider.get();
+            SkillAssertionUI skillThumnail = skillThumnailProvider.get();
             skillThumnail.setSkill(sa);
             skills.add(skillThumnail);
         }
