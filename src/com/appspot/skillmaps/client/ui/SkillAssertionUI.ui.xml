@@ -24,6 +24,10 @@
             cursor: pointer;
             text-decoration: underline;
 	    }
+	    .commentButton {
+            cursor: pointer;
+            text-decoration: underline;
+	    }
 	</ui:style>
 	<g:HTMLPanel styleName="{style.assertion}">
 		<g:VerticalPanel>
@@ -40,7 +44,7 @@
 				<g:SimplePanel ui:field="count" />
 				<g:Label text="がやるね!と言っています." />
 				<g:SimplePanel ui:field="agreeButton" />
-				<g:Anchor ui:field="commentButton" text="コメントする." />
+				<g:Anchor ui:field="commentButton" text="コメントする." styleName="{style.commentButton}" />
 			</g:HorizontalPanel>
 			<g:VerticalPanel ui:field="commentsPanel" />
 			<g:TextBox ui:field="commentBox" visible="false" />
