@@ -61,4 +61,6 @@ public interface SkillServiceAsync {
 
     void getAssertions(SkillA skill, AsyncCallback<SkillAssertion[]> callback);
 
+    void getAssertion(String key, AsyncCallback<SkillAssertion> callback);
+
 }

@@ -11,6 +11,7 @@ import com.appspot.skillmaps.client.display.SkillListDisplay;
 import com.appspot.skillmaps.client.display.SkillOwnersDisplay;
 import com.appspot.skillmaps.client.display.UserListDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
+import com.appspot.skillmaps.client.display.SkillAssertionUIDisplay;
 import com.appspot.skillmaps.client.presenter.ActivateGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.FriendsActivity;
 import com.appspot.skillmaps.client.presenter.HomeActivity;
@@ -20,6 +21,7 @@ import com.appspot.skillmaps.client.presenter.RecentEntriedUsersActivity;
 import com.appspot.skillmaps.client.presenter.SigninGuidanceActivity;
 import com.appspot.skillmaps.client.presenter.SkillListActivity;
 import com.appspot.skillmaps.client.presenter.SkillOwnersActivity;
+import com.appspot.skillmaps.client.presenter.SkillAssertionUIActivity;
 import com.appspot.skillmaps.client.presenter.UserListActivity;
 import com.appspot.skillmaps.client.presenter.UserUIActivity;
 import com.google.gwt.inject.client.AbstractGinModule;
@@ -36,6 +38,7 @@ public class PresenterModule extends AbstractGinModule {
         bind(UserListDisplay.Presenter.class).to(UserListActivity.class);
         bind(UserUIDisplay.Presenter.class).to(UserUIActivity.class);
         bind(FriendsDisplay.Presenter.class).to(FriendsActivity.class);
+        bind(SkillAssertionUIDisplay.Presenter.class).to(SkillAssertionUIActivity.class);
 
         bind(ActivateGuidanceDisplay.Presenter.class).to(ActivateGuidanceActivity.class);
         bind(RecentAddedSkillsDisplay.Presenter.class).to(RecentAddedSkillsActivity.class);

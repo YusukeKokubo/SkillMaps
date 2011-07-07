@@ -3,6 +3,7 @@ package com.appspot.skillmaps.client.inject;
 import com.appspot.skillmaps.client.place.FriendsPlace;
 import com.appspot.skillmaps.client.place.HomePlace;
 import com.appspot.skillmaps.client.place.MyPagePlace;
+import com.appspot.skillmaps.client.place.SkillAssertionPlace;
 import com.appspot.skillmaps.client.place.SkillListPlace;
 import com.appspot.skillmaps.client.place.SkillOwnersPlace;
 import com.appspot.skillmaps.client.place.UserListPlace;
@@ -45,6 +46,7 @@ public interface Injector extends Ginjector {
     SkillOwnersPlace.Tokenizer getSkillOwnersPlaceTokenizer();
     UserPlace.Tokenizer getUserPlaceTokenizer();
     FriendsPlace.Tokenizer getFriendsPlaceTokenizer();
+    SkillAssertionPlace.Tokenizer getSkillAssertionPlaceTokenizer();
     
     UserSkillDetailPanel getUserSkillDetailPanel();
     UserThumnail getUserThumnail();

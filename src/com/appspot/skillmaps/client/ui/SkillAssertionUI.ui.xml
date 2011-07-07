@@ -15,6 +15,15 @@
 		.skillpoint {
 			font-size: 24px;
 	    }
+	    .permalink {
+            color: #999999;
+            cursor: pointer;
+	    }
+	    .permalink:hover {
+            color: #999999;
+            cursor: pointer;
+            text-decoration: underline;
+	    }
 	</ui:style>
 	<g:HTMLPanel styleName="{style.assertion}">
 		<g:VerticalPanel>
@@ -27,6 +36,7 @@
 			<g:Label ui:field="title" />
 			<g:Label ui:field="description" />
 			<g:HorizontalPanel ui:field="panel" spacing="5">
+			    <g:Anchor ui:field="permalink" styleName="{style.permalink}" />
 				<g:SimplePanel ui:field="count" />
 				<g:Label text="がやるね!と言っています." />
 				<g:SimplePanel ui:field="agreeButton" />

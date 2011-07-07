@@ -20,6 +20,7 @@ import com.appspot.skillmaps.shared.model.Profile;
 import com.appspot.skillmaps.shared.model.SkillA;
 import com.appspot.skillmaps.shared.model.SkillAssertion;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gwt.user.client.rpc.SerializationException;
 
 public class SkillServiceImplTest extends ServletTestCase {
@@ -104,6 +105,7 @@ public class SkillServiceImplTest extends ServletTestCase {
         assertion.getSkill().setModel(iedSkill);
         SkillAssertion iedAssertion = service.addAssert(assertion);
         
+        assertThat(iedAssertion.getKeyAsString(), is(KeyFactory.keyToString(iedAssertion.getKey())));
         assertThat(iedAssertion.getCreatedBy().getModel(), is(a));
         assertThat(iedAssertion.getUrl(), is("http://yahoo.com"));
         assertThat(iedAssertion.getSkill().getModel().getName(), is("Java"));

@@ -1,6 +1,10 @@
 package com.appspot.skillmaps.client.ui;
 
+import java.util.Date;
+
+import com.appspot.skillmaps.client.display.SkillAssertionUIDisplay;
 import com.appspot.skillmaps.client.display.UserUIDisplay;
+import com.appspot.skillmaps.client.place.SkillAssertionPlace;
 import com.appspot.skillmaps.client.service.AccountServiceAsync;
 import com.appspot.skillmaps.client.service.SkillServiceAsync;
 import com.appspot.skillmaps.client.ui.message.UiMessage;
@@ -14,8 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
@@ -32,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class SkillAssertionUI extends Composite {
+public class SkillAssertionUI extends Composite implements SkillAssertionUIDisplay {
 
     private static SkillThumnailUiBinder uiBinder = GWT
         .create(SkillThumnailUiBinder.class);
@@ -75,6 +78,9 @@ public class SkillAssertionUI extends Composite {
 
     @UiField
     TextBox commentBox;
+    
+    @UiField
+    Anchor permalink;
 
     @Inject
     Login login;
@@ -93,6 +99,12 @@ public class SkillAssertionUI extends Composite {
     private Provider<AccountServiceAsync> accountServiceProvider;
     @Inject
     private PartsFactory partsFactory;
+    @Inject
+    private PlaceController placeController;
+    @Inject
+    private Provider<SkillAssertionPlace> placeProvider;
+
+    Presenter presenter;
 
     @Inject
     public SkillAssertionUI(Provider<UserThumnail> utProvider) {
@@ -110,13 +122,12 @@ public class SkillAssertionUI extends Composite {
         profile.setUser(sa.getSkill().getModel().getHolder().getModel());
         assertion.setHref(sa.getUrl());
         assertion.setText(sa.getUrl());
+        permalink.setText(makeDatetime(sa.getUpdatedAt()));
         title.setText(sa.getTitle());
         description.setText(sa.getDescription());
         count.setWidget(makeAgreeCount(sa));
         if (login.isLoggedIn() && login.getProfile().isActivate() && !sa.getSkill().getModel().isOwnBy(login.getProfile())) {
-
             AgreeAnchor anchor = partsFactory.createAgreeAnchor(sa, new AgreeAnchor.ActionSuccessHandler() {
-
                 @Override
                 public void onSuccess(SkillAssertion result) {
                     result.getSkill().setModel(sa.getSkill().getModel());
@@ -146,6 +157,18 @@ public class SkillAssertionUI extends Composite {
             }
         });
     }
+    
+    private String makeDatetime(Date date) {
+        Long now = new Date().getTime();
+        if (date.getTime() > (now - 60000)) {
+            return String.valueOf((now - date.getTime()) / 1000) + "秒前";
+        } else if (date.getTime() > now - 60000 * 60) {
+            return String.valueOf((now - date.getTime()) / 1000 / 60) + "分前";
+        } else if (date.getTime() > (now - 60000 * 60 * 24)) {
+            return String.valueOf((now - date.getTime()) / 1000 / 60 / 60) + "時間前";
+        }
+        return String.valueOf((now - date.getTime()) / 1000 / 60 / 60 / 24) + "日前";
+    }
 
     @UiFactory
     UserThumnail makeProfile() {
@@ -174,7 +197,11 @@ public class SkillAssertionUI extends Composite {
                 UiMessage.info(caught.getMessage());
             }
         });
-
+    }
+    
+    @UiHandler("permalink")
+    public void onPermalink(ClickEvent ev) {
+        placeController.goTo(placeProvider.get().key(skillAssertion.getKeyAsString()));
     }
 
     private HorizontalPanel makeCommentWidget(Comment comment) {
@@ -183,7 +210,7 @@ public class SkillAssertionUI extends Composite {
         ut.setUser(comment.getCreatedBy().getModel());
         p.add(ut);
         p.add(new Label(comment.getComment()));
-        Label datetime = new Label(DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_SHORT).format(comment.getCreatedAt()));
+        Label datetime = new Label(makeDatetime(comment.getCreatedAt()));
         p.add(datetime);
         return p;
     }
@@ -215,5 +242,15 @@ public class SkillAssertionUI extends Composite {
         });
         panel.add(count);
         return panel;
+    }
+
+    @Override
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void setAssertion(SkillAssertion assertion) {
+        setSkill(assertion);
     }
 }

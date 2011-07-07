@@ -20,6 +20,8 @@ public class SkillAssertion implements Serializable {
 
     @Attribute(primaryKey = true)
     private Key key;
+    
+    private String keyAsString;
 
     @Attribute(version = true)
     private Long version;
@@ -188,6 +190,14 @@ public class SkillAssertion implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getKeyAsString() {
+        return keyAsString;
+    }
+
+    public void setKeyAsString(String keyAsString) {
+        this.keyAsString = keyAsString;
     }
 
 }

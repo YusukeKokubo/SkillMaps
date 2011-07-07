@@ -61,4 +61,6 @@ public interface SkillService extends RemoteService {
     Comment[] getComments(SkillAssertion sa);
 
     SkillAssertion[] getAssertions(SkillA skill);
+
+    SkillAssertion getAssertion(String key);
 }

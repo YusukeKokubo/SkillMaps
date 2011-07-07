@@ -39,6 +39,7 @@ import com.appspot.skillmaps.shared.model.SkillComment;
 import com.appspot.skillmaps.shared.model.SkillMap;
 import com.appspot.skillmaps.shared.model.SkillRelation;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -327,6 +328,12 @@ public class SkillServiceImpl implements SkillService {
 
         Profile profile = Datastore.query(pm).filter(pm.userEmail.equal(user.getEmail())).limit(1).asSingle();
         assertion.getCreatedBy().setModel(profile);
+        
+        if (assertion.getKey() == null) {
+            Key key = Datastore.allocateId(sam);
+            assertion.setKey(key);
+            assertion.setKeyAsString(KeyFactory.keyToString(key));
+        }
 
         if (!assertion.isCreatedByOwn()) {
             agree(assertion);
@@ -396,7 +403,16 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillAssertion[] getAssertions(SkillA skill) {
-        return skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
+        SkillAssertion[] result = skill.getAssertions().getModelList().toArray(new SkillAssertion[0]);
+        return result;
+    }
+    
+    @Override
+    public SkillAssertion getAssertion(String key) {
+        SkillAssertion result = Datastore.get(sam, KeyFactory.stringToKey(key));
+        result.getSkill().getModel().getHolder().getModel();
+        result.getCreatedBy().getModel();
+        return result;
     }
 
     @Override
