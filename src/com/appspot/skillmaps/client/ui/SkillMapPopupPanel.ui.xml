@@ -1,10 +1,18 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+    .close {
+	  cursor: pointer;
+    }
+    .close:hover {
+	  text-decoration: underline;
+	}
+	</ui:style>
 	<g:ScrollPanel ui:field="scrollPanel">
 		<g:VerticalPanel ui:field="panel" width="100%">
 			<g:SimplePanel ui:field="headerPanel">
-				<g:Anchor ui:field="close">close</g:Anchor>
+				<g:Anchor ui:field="close" styleName="{style.close}">close</g:Anchor>
 			</g:SimplePanel>
 			<g:SimplePanel ui:field="contentsPanel" />
 			<g:SimplePanel ui:field="footerPanel" />

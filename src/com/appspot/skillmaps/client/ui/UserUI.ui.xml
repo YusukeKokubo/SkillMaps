@@ -33,6 +33,14 @@
 		.userUiPanel{
 			background-color: white;
 		}
+		
+		.permalink {
+            text-decoration: none;
+	    }
+	    .permalink:hover {
+            text-decoration: underline;
+            cursor: pointer;
+	    }
 	</ui:style>
 	<g:HTMLPanel addStyleNames="{style.userUiPanel}" width="100%">
 		<g:VerticalPanel width="100%">
@@ -54,7 +62,7 @@
 				</g:VerticalPanel>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel width="100%">
-				<g:Anchor ui:field="profileLink" text="プロフィールを見る" />
+				<g:Anchor ui:field="profileLink" text="permalink" styleName="{style.permalink}" />
 				<g:cell horizontalAlignment="ALIGN_RIGHT">
 					<g:Button ui:field="addSkill" text="スキルを追加する" styleName="{style.button}" />
 				</g:cell>

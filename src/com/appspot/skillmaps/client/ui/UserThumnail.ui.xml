@@ -4,6 +4,10 @@
 	<ui:style>
 		.anchor {
 			color: #03f;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.anchor:hover {
 			text-decoration: underline;
 		}
 	</ui:style>
